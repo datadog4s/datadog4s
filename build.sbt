@@ -3,7 +3,7 @@ lazy val scalaSettings = Seq(
   scalacOptions += "-deprecation",
   scalacOptions += "-unchecked",
   scalacOptions += "-feature",
-  crossScalaVersions := Seq("2.12.8", "2.13.0"),
+  crossScalaVersions := Seq("2.12.8"),
   libraryDependencies ++= Seq(
     "org.scalatest" %% "scalatest" % "3.0.8" % "test"
   )
