@@ -10,14 +10,12 @@ cache:
     - $HOME/.ivy2/cache
     - $HOME/.sbt/boot/
 
-env:
-  # This splits the build into two parts
-  matrix:
-    - TEST_COMMAND="scripted sbt-assembly/*"
-    - TEST_COMMAND="scripted merging/* caching/*"
+
+scala:
+  - 2.12.8
 
 script:
-  - sbt -Dfile.encoding=UTF8 -J-XX:ReservedCodeCacheSize=256M "$TEST_COMMAND"
+  - sbt ++$TRAVIS_SCALA_VERSION test
 
 before_cache:
   # Tricks to avoid unnecessary cache updates
