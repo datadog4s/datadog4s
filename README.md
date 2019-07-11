@@ -1,0 +1,1 @@
+[![Build Status](https://travis-ci.org/avast/datadog-scala-metrics.svg?branch=master)](https://travis-ci.org/avast/datadog-scala-metrics)
