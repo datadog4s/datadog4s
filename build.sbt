@@ -26,7 +26,7 @@ pomExtra := (
     <developers>
       <developer>
         <id>avast</id>
-        <name>Jan Kolena, Avast Software s.r.o.</name>
+        <name>Tomas Herman, Avast Software s.r.o.</name>
         <url>https://www.avast.com</url>
       </developer>
     </developers>
