@@ -1,0 +1,26 @@
+sudo: false
+
+language: scala
+
+jdk: openjdk8
+
+# These directories are cached to S3 at the end of the build
+cache:
+  directories:
+    - $HOME/.ivy2/cache
+    - $HOME/.sbt/boot/
+
+env:
+  # This splits the build into two parts
+  matrix:
+    - TEST_COMMAND="scripted sbt-assembly/*"
+    - TEST_COMMAND="scripted merging/* caching/*"
+
+script:
+  - sbt -Dfile.encoding=UTF8 -J-XX:ReservedCodeCacheSize=256M "$TEST_COMMAND"
+
+before_cache:
+  # Tricks to avoid unnecessary cache updates
+  - find $HOME/.sbt -name "*.lock" | xargs rm
+  - find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
+  - rm -f $HOME/.ivy2/.sbt.ivy.lock
