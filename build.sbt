@@ -13,7 +13,7 @@ version := sys.env.getOrElse("TRAVIS_TAG", "0.1-SNAPSHOT")
 
 publishArtifact in Test := false
 bintrayOrganization := Some("avast")
-bintrayPackage := "cactus"
+bintrayPackage := "datadog-scala-metrics"
 pomExtra := (
   <scm>
     <url>git@github.com:avast/
