@@ -4,6 +4,8 @@ import cats.effect.Sync
 import com.avast.cloud.metrics.datadog.api.{Count, Tag}
 import com.timgroup.statsd.StatsDClient
 
+import scala.language.higherKinds
+
 class CountImpl[F[_]: Sync](statsDClient: StatsDClient, prefix: String, sampleRate: Double) extends Count[F] {
   private [this] val F = Sync[F]
   
