@@ -31,3 +31,4 @@ pomExtra := (
       </developer>
     </developers>
 )
+licenses ++= Seq("MIT" -> url(s"https://github.com/avast/metrics/blob/${version.value}/LICENSE"))
