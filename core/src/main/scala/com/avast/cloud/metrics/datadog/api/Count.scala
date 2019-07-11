@@ -7,5 +7,3 @@ trait Count[F[_]] {
   def modify(delta: Int, tags: Tag*): F[Unit]
   def dec(tags: Tag*): F[Unit]
 }
-
-
