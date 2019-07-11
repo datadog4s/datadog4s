@@ -15,12 +15,12 @@ class MetricFactoryImpl[F[_]: Sync](statsDClient: StatsDClient) extends MetricFa
   override def count(prefix: String, sampleRate: Double = 1.0) =
     new CountImpl[F](statsDClient, prefix, sampleRate)
 
-  override def uniqueSet(aspect: String): UniqueSet[F] = 
+  override def uniqueSet(aspect: String): UniqueSet[F] =
     new UniqueSetImpl[F](statsDClient, aspect)
 
   override def histogram(aspect: String, sampleRate: Double = 1.0): Histogram[F] =
     new HistogramImpl[F](statsDClient, aspect, sampleRate)
-  
+
   override def gauge(aspect: String, sampleRate: Double = 1.0): Gauge[F] =
     new GaugeImpl[F](statsDClient, aspect, sampleRate)
 }
