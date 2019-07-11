@@ -10,9 +10,9 @@ lazy val scalaSettings = Seq(
 )
 
 lazy val commonSettings = Seq(
-  organization := "com.avast.cloud.metrics",
+  organization := "com.avast.cloud",
   version := sys.env.getOrElse("TRAVIS_TAG", "0.1-SNAPSHOT"),
-  description := "Library for datadog app  monitoring",
+  description := "Library for datadog app monitoring",
   licenses ++= Seq("MIT" -> url(
     s"https://github.com/avast/datadog-scala-metrics/blob/${version.value}/LICENSE")),
   publishArtifact in Test := false,
@@ -37,7 +37,7 @@ lazy val commonSettings = Seq(
 
 lazy val global = project
   .in(file("."))
-  .settings(name := "datadog-scala-metrics",
+  .settings(name := "datadog-metrics",
             publish := {},
             publishLocal := {},
             crossScalaVersions := Nil)
@@ -46,7 +46,7 @@ lazy val global = project
   )
 
 lazy val core = project.settings(
-  name := "core",
+  name := "datadog-metrics-core",
   scalaSettings,
   commonSettings,
   libraryDependencies ++= Seq("io.micrometer" % "micrometer-core" % "1.2.0",
