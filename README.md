@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/avast/datadog-scala-metrics.svg?branch=master)](https://travis-ci.org/avast/datadog-scala-metrics)
+[![Build Status](https://travis-ci.org/avast/datadog-scala-metrics.svg?branch=master)](https://travis-ci.org/avast/datadog-scala-metrics) [ ![Download](https://api.bintray.com/packages/avast/maven/datadog-scala-metrics/images/download.svg) ](https://bintray.com/avast/maven/datadog-scala-metrics/_latestVersion)
 
 # Datadog Scala Metrics
 
