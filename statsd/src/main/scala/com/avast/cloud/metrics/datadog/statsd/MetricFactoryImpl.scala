@@ -1,17 +1,9 @@
 package com.avast.cloud.metrics.datadog.statsd
 
-import cats.effect.{ Clock, Sync }
-import com.avast.cloud.metrics.datadog.api.metric.{ Gauge, Histogram, UniqueSet }
-import com.avast.cloud.metrics.datadog.api.{ GaugeFactory, HistogramFactory, MetricFactory }
-import com.avast.cloud.metrics.datadog.statsd.metric.{
-  CountImpl,
-  GaugeDoubleImpl,
-  GaugeLongImpl,
-  HistogramDoubleImpl,
-  HistogramLongImpl,
-  TimerImpl,
-  UniqueSetImpl
-}
+import cats.effect.{Clock, Sync}
+import com.avast.cloud.metrics.datadog.api.metric.{Gauge, Histogram, UniqueSet}
+import com.avast.cloud.metrics.datadog.api.{GaugeFactory, HistogramFactory, MetricFactory, Tag}
+import com.avast.cloud.metrics.datadog.statsd.metric.{CountImpl, GaugeDoubleImpl, GaugeLongImpl, HistogramDoubleImpl, HistogramLongImpl, TimerImpl, UniqueSetImpl}
 import com.timgroup.statsd.StatsDClient
 
 class MetricFactoryImpl[F[_]: Sync](statsDClient: StatsDClient) extends MetricFactory[F] {
@@ -41,5 +33,4 @@ class MetricFactoryImpl[F[_]: Sync](statsDClient: StatsDClient) extends MetricFa
 
   override def uniqueSet(aspect: String): UniqueSet[F] =
     new UniqueSetImpl[F](statsDClient, aspect)
-
 }

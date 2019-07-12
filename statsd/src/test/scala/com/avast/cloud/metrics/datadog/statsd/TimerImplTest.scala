@@ -1,6 +1,5 @@
 package com.avast.cloud.metrics.datadog.statsd
 
-import java.time.Instant
 import java.util.concurrent.TimeUnit
 
 import cats.effect.{Clock, IO}
