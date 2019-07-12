@@ -9,5 +9,5 @@ trait MetricFactory[F[_]] {
   def count(aspect: String, sampleRate: Option[Double] = None): Count[F]
   def uniqueSet(aspect: String): UniqueSet[F]
   
-  def addDefaultTags(tags: Tag*): MetricFactory[F]
+  def withTags(tags: Tag*): MetricFactory[F]
 }

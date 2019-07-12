@@ -10,7 +10,11 @@ import com.avast.cloud.metrics.datadog.api.Tag
 import com.avast.cloud.metrics.datadog.api.metric.Timer
 import com.timgroup.statsd.StatsDClient
 
-class TimerImpl[F[_]: Sync](clock: Clock[F], statsDClient: StatsDClient, aspect: String, sampleRate: Double, defaultTags: Vector[Tag])
+class TimerImpl[F[_]: Sync](clock: Clock[F],
+                            statsDClient: StatsDClient,
+                            aspect: String,
+                            sampleRate: Double,
+                            defaultTags: Vector[Tag])
     extends Timer[F] {
 
   private[this] val F                       = Sync[F]
@@ -19,14 +23,13 @@ class TimerImpl[F[_]: Sync](clock: Clock[F], statsDClient: StatsDClient, aspect:
   private[this] val exceptionTagKey: String = "exception"
 
   override def time[A](value: F[A], tags: Tag*): F[A] =
-    clock.monotonic(TimeUnit.NANOSECONDS).flatMap { start =>
-      for {
-        a    <- F.recoverWith(value)(measureFailed(start))
-        stop <- clock.monotonic(TimeUnit.NANOSECONDS)
-        _    <- record(Duration.ofNanos(stop - start), (tags :+ succeededTag): _*)
-      } yield {
-        a
-      }
+    for {
+      start <- clock.monotonic(TimeUnit.NANOSECONDS)
+      a     <- F.recoverWith(value)(measureFailed(start))
+      stop  <- clock.monotonic(TimeUnit.NANOSECONDS)
+      _     <- record(Duration.ofNanos(stop - start), (tags :+ succeededTag): _*)
+    } yield {
+      a
     }
 
   private def measureFailed[A](startTime: Long, tags: Tag*): PartialFunction[Throwable, F[A]] = {

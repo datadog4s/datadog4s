@@ -34,7 +34,7 @@ class MetricFactoryImpl[F[_]: Sync](statsDClient: StatsDClient, defaultSampleRat
   override def uniqueSet(aspect: String): UniqueSet[F] =
     new UniqueSetImpl[F](statsDClient, aspect, defaultTags)
 
-  override def addDefaultTags(tags: Tag*): MetricFactory[F] = {
+  override def withTags(tags: Tag*): MetricFactory[F] = {
     new MetricFactoryImpl[F](statsDClient, defaultSampleRate, defaultTags ++ tags)
   }
 }
