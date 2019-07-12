@@ -19,11 +19,11 @@ class TimerImpl[F[_]: Sync](clock: Clock[F], statsDClient: StatsDClient, aspect:
   private[this] val exceptionTagKey: String = "exception"
 
   override def time[A](value: F[A], tags: Tag*): F[A] =
-    clock.monotonic(TimeUnit.MILLISECONDS).flatMap { start =>
+    clock.monotonic(TimeUnit.NANOSECONDS).flatMap { start =>
       for {
         a    <- F.recoverWith(value)(measureFailed(start))
         stop <- clock.monotonic(TimeUnit.NANOSECONDS)
-        _    <- F.delay(recordExecutionTime(Duration.ofNanos(stop - start), (tags :+ succeededTag): _*))
+        _    <- recordExecutionTime(Duration.ofNanos(stop - start), (tags :+ succeededTag): _*)
       } yield {
         a
       }
@@ -34,7 +34,7 @@ class TimerImpl[F[_]: Sync](clock: Clock[F], statsDClient: StatsDClient, aspect:
       val computation = for {
         stop    <- clock.monotonic(TimeUnit.NANOSECONDS)
         allTags = tags :+ failedTag :+ Tag.of(exceptionTagKey, thr.getClass.getName)
-        _       <- F.delay(recordExecutionTime(Duration.ofNanos(stop - startTime), allTags: _*))
+        _       <- recordExecutionTime(Duration.ofNanos(stop - startTime), allTags: _*)
       } yield {
         Unit
       }
@@ -42,6 +42,7 @@ class TimerImpl[F[_]: Sync](clock: Clock[F], statsDClient: StatsDClient, aspect:
   }
 
   override def recordExecutionTime(duration: Duration, tags: Tag*): F[Unit] = F.delay {
+    println(">>>>>> argh")
     statsDClient.recordExecutionTime(aspect, duration.toMillis, sampleRate, tags: _*)
   }
 }
