@@ -3,11 +3,12 @@ lazy val scalaSettings = Seq(
   scalacOptions += "-deprecation",
   scalacOptions += "-unchecked",
   scalacOptions += "-feature",
+  scalacOptions += "-language:higherKinds",
   crossScalaVersions := Seq("2.12.8"),
   libraryDependencies ++= Seq(
-    "org.scalatest" %% "scalatest"               % "3.0.8"  % "test",
-    "org.mockito"   %% "mockito-scala"           % "1.5.11" % "test",
-    "org.mockito"   %% "mockito-scala-scalatest" % "1.5.11" % "test"
+    "org.scalatest" %% "scalatest"               % "3.0.8"  % Test,
+    "org.mockito"   %% "mockito-scala"           % "1.5.11" % Test,
+    "org.mockito"   %% "mockito-scala-scalatest" % "1.5.11" % Test
   )
 )
 
@@ -40,14 +41,23 @@ lazy val global = project
   .in(file("."))
   .settings(name := "datadog-metrics", publish := {}, publishLocal := {}, crossScalaVersions := Nil)
   .aggregate(
-    core
+    api,
+    statsd
   )
 
-lazy val core = project.settings(
-  name := "datadog-metrics-core",
+lazy val api = project.settings(
+  name := "datadog-metrics-api",
   scalaSettings,
   commonSettings,
-  libraryDependencies ++= Seq("io.micrometer" % "micrometer-core"       % "1.2.0",
-                              "org.typelevel" %% "cats-effect"          % "1.3.1",
-                              "com.datadoghq" % "java-dogstatsd-client" % "2.8")
+  libraryDependencies ++= Seq("org.typelevel" %% "cats-core" % "1.6.0")
 )
+
+lazy val statsd = project
+  .settings(
+    name := "datadog-metrics-statsd",
+    scalaSettings,
+    commonSettings,
+    libraryDependencies ++= Seq("org.typelevel" %% "cats-effect"          % "1.3.1",
+                                "com.datadoghq" % "java-dogstatsd-client" % "2.8")
+  )
+  .dependsOn(api)
