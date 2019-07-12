@@ -10,12 +10,13 @@ import com.avast.cloud.metrics.datadog.api.Tag
 import com.avast.cloud.metrics.datadog.api.metric.Timer
 import com.timgroup.statsd.StatsDClient
 
-class TimerImpl[F[_]: Sync](clock: Clock[F],
-                            statsDClient: StatsDClient,
-                            aspect: String,
-                            sampleRate: Double,
-                            defaultTags: Vector[Tag])
-    extends Timer[F] {
+class TimerImpl[F[_]: Sync](
+  clock: Clock[F],
+  statsDClient: StatsDClient,
+  aspect: String,
+  sampleRate: Double,
+  defaultTags: Vector[Tag]
+) extends Timer[F] {
 
   private[this] val F                       = Sync[F]
   private[this] val failedTag: Tag          = Tag.of("success", "false")

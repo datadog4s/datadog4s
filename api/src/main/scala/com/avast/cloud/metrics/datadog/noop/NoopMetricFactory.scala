@@ -13,7 +13,8 @@ class NoopMetricFactory[F[_]: Applicative] extends MetricFactory[F] {
   override def histogram: HistogramFactory[F] = new HistogramFactory[F] {
     override def long(aspect: String, sampleRate: Option[Double] = None): Histogram[F, Long] = new NoopHistogramLong[F]
 
-    override def double(aspect: String, sampleRate: Option[Double] = None): Histogram[F, Double] = new NoopHistogramDouble[F]
+    override def double(aspect: String, sampleRate: Option[Double] = None): Histogram[F, Double] =
+      new NoopHistogramDouble[F]
   }
 
   override def gauge: GaugeFactory[F] = new GaugeFactory[F] {

@@ -8,6 +8,6 @@ trait MetricFactory[F[_]] {
   def timer(aspect: String, sampleRate: Option[Double] = None): Timer[F]
   def count(aspect: String, sampleRate: Option[Double] = None): Count[F]
   def uniqueSet(aspect: String): UniqueSet[F]
-  
+
   def withTags(tags: Tag*): MetricFactory[F]
 }

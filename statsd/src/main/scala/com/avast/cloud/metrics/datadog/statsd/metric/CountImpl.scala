@@ -5,7 +5,8 @@ import com.avast.cloud.metrics.datadog.api.Tag
 import com.avast.cloud.metrics.datadog.api.metric.Count
 import com.timgroup.statsd.StatsDClient
 
-class CountImpl[F[_]: Sync](statsDClient: StatsDClient, prefix: String, sampleRate: Double, defaultTags: Vector[Tag]) extends Count[F] {
+class CountImpl[F[_]: Sync](statsDClient: StatsDClient, prefix: String, sampleRate: Double, defaultTags: Vector[Tag])
+    extends Count[F] {
   private[this] val F = Sync[F]
 
   override def modify(delta: Int, tags: Tag*): F[Unit] =

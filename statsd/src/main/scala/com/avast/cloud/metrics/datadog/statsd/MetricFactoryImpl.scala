@@ -1,12 +1,13 @@
 package com.avast.cloud.metrics.datadog.statsd
 
-import cats.effect.{Clock, Sync}
-import com.avast.cloud.metrics.datadog.api.metric.{Gauge, Histogram, UniqueSet}
-import com.avast.cloud.metrics.datadog.api.{GaugeFactory, HistogramFactory, MetricFactory, Tag}
+import cats.effect.{ Clock, Sync }
+import com.avast.cloud.metrics.datadog.api.metric.{ Gauge, Histogram, UniqueSet }
+import com.avast.cloud.metrics.datadog.api.{ GaugeFactory, HistogramFactory, MetricFactory, Tag }
 import com.avast.cloud.metrics.datadog.statsd.metric._
 import com.timgroup.statsd.StatsDClient
 
-class MetricFactoryImpl[F[_]: Sync](statsDClient: StatsDClient, defaultSampleRate: Double, defaultTags: Vector[Tag]) extends MetricFactory[F] {
+class MetricFactoryImpl[F[_]: Sync](statsDClient: StatsDClient, defaultSampleRate: Double, defaultTags: Vector[Tag])
+    extends MetricFactory[F] {
   private[this] val clock = Clock.create[F]
 
   override val histogram: HistogramFactory[F] = new HistogramFactory[F] {
@@ -34,7 +35,6 @@ class MetricFactoryImpl[F[_]: Sync](statsDClient: StatsDClient, defaultSampleRat
   override def uniqueSet(aspect: String): UniqueSet[F] =
     new UniqueSetImpl[F](statsDClient, aspect, defaultTags)
 
-  override def withTags(tags: Tag*): MetricFactory[F] = {
+  override def withTags(tags: Tag*): MetricFactory[F] =
     new MetricFactoryImpl[F](statsDClient, defaultSampleRate, defaultTags ++ tags)
-  }
 }

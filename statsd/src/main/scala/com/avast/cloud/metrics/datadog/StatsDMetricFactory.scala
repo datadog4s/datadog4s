@@ -1,7 +1,7 @@
 package com.avast.cloud.metrics.datadog
 
-import cats.effect.{Resource, Sync}
-import com.avast.cloud.metrics.datadog.api.{MetricFactory, Tag}
+import cats.effect.{ Resource, Sync }
+import com.avast.cloud.metrics.datadog.api.{ MetricFactory, Tag }
 import com.avast.cloud.metrics.datadog.statsd.MetricFactoryImpl
 import com.timgroup.statsd.NonBlockingStatsDClient
 

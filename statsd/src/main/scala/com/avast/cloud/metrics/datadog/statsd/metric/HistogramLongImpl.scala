@@ -5,8 +5,12 @@ import com.avast.cloud.metrics.datadog.api.Tag
 import com.avast.cloud.metrics.datadog.api.metric.Histogram
 import com.timgroup.statsd.StatsDClient
 
-class HistogramLongImpl[F[_]: Sync](statsDClient: StatsDClient, aspect: String, sampleRate: Double, defaultTags: Vector[Tag])
-    extends Histogram[F, Long] {
+class HistogramLongImpl[F[_]: Sync](
+  statsDClient: StatsDClient,
+  aspect: String,
+  sampleRate: Double,
+  defaultTags: Vector[Tag]
+) extends Histogram[F, Long] {
 
   private[this] val F = Sync[F]
 
