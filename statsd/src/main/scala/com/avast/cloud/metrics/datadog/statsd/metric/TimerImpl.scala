@@ -1,5 +1,6 @@
 package com.avast.cloud.metrics.datadog.statsd.metric
 
+import java.time.Duration
 import java.util.concurrent.TimeUnit
 
 import cats.effect.{ Clock, Sync }
@@ -21,8 +22,8 @@ class TimerImpl[F[_]: Sync](clock: Clock[F], statsDClient: StatsDClient, aspect:
     clock.monotonic(TimeUnit.MILLISECONDS).flatMap { start =>
       for {
         a    <- F.recoverWith(value)(measureFailed(start))
-        stop <- clock.monotonic(TimeUnit.MILLISECONDS)
-        _    <- F.delay(statsDClient.recordExecutionTime(aspect, stop - start, sampleRate, (tags :+ succeededTag): _*))
+        stop <- clock.monotonic(TimeUnit.NANOSECONDS)
+        _    <- F.delay(recordExecutionTime(Duration.ofNanos(stop - start), (tags :+ succeededTag): _*))
       } yield {
         a
       }
@@ -31,16 +32,16 @@ class TimerImpl[F[_]: Sync](clock: Clock[F], statsDClient: StatsDClient, aspect:
   private def measureFailed[A](startTime: Long, tags: Tag*): PartialFunction[Throwable, F[A]] = {
     case thr =>
       val computation = for {
-        stop    <- clock.monotonic(TimeUnit.MILLISECONDS)
+        stop    <- clock.monotonic(TimeUnit.NANOSECONDS)
         allTags = tags :+ failedTag :+ Tag.of(exceptionTagKey, thr.getClass.getName)
-        _       <- F.delay(statsDClient.recordExecutionTime(aspect, stop - startTime, sampleRate, allTags: _*))
+        _       <- F.delay(recordExecutionTime(Duration.ofNanos(stop - startTime), allTags: _*))
       } yield {
         Unit
       }
       computation >> F.raiseError(thr)
   }
 
-  override def recordExecutionTime(timeInMs: Long, tags: Tag*): F[Unit] = F.delay {
-    statsDClient.recordExecutionTime(aspect, timeInMs, sampleRate, tags: _*)
+  override def recordExecutionTime(duration: Duration, tags: Tag*): F[Unit] = F.delay {
+    statsDClient.recordExecutionTime(aspect, duration.toMillis, sampleRate, tags: _*)
   }
 }
