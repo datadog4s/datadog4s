@@ -20,14 +20,13 @@ class TimerImplTest extends FlatSpec with MockitoSugar with BeforeAndAfter with 
     val clock: Clock[IO]     = mock[Clock[IO]]
 
     val timer = new TimerImpl[IO](clock, statsD, aspect, sampleRate)
-    val now = Instant.now() 
+
     when(clock.monotonic(TimeUnit.NANOSECONDS)).thenReturn(IO.pure(10* 1000 * 1000), IO.pure(30* 1000 * 1000))
   }
 
   "time F[A]" should "report success with label success:true" in new Fixtures {
     private val res = timer.time(IO.delay("hello world")).unsafeRunSync()
 
-    println(statsD)
     verify(statsD, times(1)).recordExecutionTime(aspect, 20, sampleRate, Tag.of("success", "true"))
     assertResult(res) { "hello world" }
   }

@@ -9,5 +9,5 @@ import com.avast.cloud.metrics.datadog.api.metric.Timer
 class NoopTimer[F[_]: Applicative] extends Timer[F] {
   override def time[A](f: F[A], tags: Tag*): F[A] = f
 
-  override def recordExecutionTime(duration: Duration, tags: Tag*): F[Unit] = Applicative[F].unit
+  override def record(duration: Duration, tags: Tag*): F[Unit] = Applicative[F].unit
 }

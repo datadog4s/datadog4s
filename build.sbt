@@ -6,9 +6,8 @@ lazy val scalaSettings = Seq(
   scalacOptions += "-language:higherKinds",
   crossScalaVersions := Seq("2.12.8"),
   libraryDependencies ++= Seq(
-    "org.scalatest" %% "scalatest"               % "3.0.8"  % Test,
-    "org.mockito"   %% "mockito-scala"           % "1.5.11" % Test,
-    "org.mockito"   %% "mockito-scala-scalatest" % "1.5.11" % Test
+    Dependencies.Testing.scalaTest % Test, 
+    Dependencies.Testing.mockitoScalatest % Test
   )
 )
 
@@ -49,7 +48,9 @@ lazy val api = project.settings(
   name := "datadog-metrics-api",
   scalaSettings,
   commonSettings,
-  libraryDependencies ++= Seq("org.typelevel" %% "cats-core" % "1.6.0")
+  libraryDependencies ++= Seq(
+    Dependencies.Cats.core
+  )
 )
 
 lazy val statsd = project
@@ -57,7 +58,9 @@ lazy val statsd = project
     name := "datadog-metrics-statsd",
     scalaSettings,
     commonSettings,
-    libraryDependencies ++= Seq("org.typelevel" %% "cats-effect"          % "1.3.1",
-                                "com.datadoghq" % "java-dogstatsd-client" % "2.8")
+    libraryDependencies ++= Seq(
+      Dependencies.Cats.effect,
+      Dependencies.Datadog.statsDClient
+    )
   )
   .dependsOn(api)

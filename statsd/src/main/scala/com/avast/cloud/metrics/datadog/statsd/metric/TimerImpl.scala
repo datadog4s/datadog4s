@@ -23,7 +23,7 @@ class TimerImpl[F[_]: Sync](clock: Clock[F], statsDClient: StatsDClient, aspect:
       for {
         a    <- F.recoverWith(value)(measureFailed(start))
         stop <- clock.monotonic(TimeUnit.NANOSECONDS)
-        _    <- recordExecutionTime(Duration.ofNanos(stop - start), (tags :+ succeededTag): _*)
+        _    <- record(Duration.ofNanos(stop - start), (tags :+ succeededTag): _*)
       } yield {
         a
       }
@@ -34,15 +34,14 @@ class TimerImpl[F[_]: Sync](clock: Clock[F], statsDClient: StatsDClient, aspect:
       val computation = for {
         stop    <- clock.monotonic(TimeUnit.NANOSECONDS)
         allTags = tags :+ failedTag :+ Tag.of(exceptionTagKey, thr.getClass.getName)
-        _       <- recordExecutionTime(Duration.ofNanos(stop - startTime), allTags: _*)
+        _       <- record(Duration.ofNanos(stop - startTime), allTags: _*)
       } yield {
         Unit
       }
       computation >> F.raiseError(thr)
   }
 
-  override def recordExecutionTime(duration: Duration, tags: Tag*): F[Unit] = F.delay {
-    println(">>>>>> argh")
+  override def record(duration: Duration, tags: Tag*): F[Unit] = F.delay {
     statsDClient.recordExecutionTime(aspect, duration.toMillis, sampleRate, tags: _*)
   }
 }
