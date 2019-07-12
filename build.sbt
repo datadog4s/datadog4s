@@ -3,9 +3,11 @@ lazy val scalaSettings = Seq(
   scalacOptions += "-deprecation",
   scalacOptions += "-unchecked",
   scalacOptions += "-feature",
+  scalacOptions += "-language:higherKinds",
   crossScalaVersions := Seq("2.12.8"),
   libraryDependencies ++= Seq(
-    "org.scalatest" %% "scalatest" % "3.0.8" % "test"
+    Dependencies.Testing.scalaTest % Test, 
+    Dependencies.Testing.mockitoScalatest % Test
   )
 )
 
@@ -13,8 +15,7 @@ lazy val commonSettings = Seq(
   organization := "com.avast.cloud",
   version := sys.env.getOrElse("TRAVIS_TAG", "0.1-SNAPSHOT"),
   description := "Library for datadog app monitoring",
-  licenses ++= Seq("MIT" -> url(
-    s"https://github.com/avast/datadog-scala-metrics/blob/${version.value}/LICENSE")),
+  licenses ++= Seq("MIT" -> url(s"https://github.com/avast/datadog-scala-metrics/blob/${version.value}/LICENSE")),
   publishArtifact in Test := false,
   bintrayOrganization := Some("avast"),
   bintrayPackage := "datadog-scala-metrics",
@@ -37,19 +38,29 @@ lazy val commonSettings = Seq(
 
 lazy val global = project
   .in(file("."))
-  .settings(name := "datadog-metrics",
-            publish := {},
-            publishLocal := {},
-            crossScalaVersions := Nil)
+  .settings(name := "datadog-metrics", publish := {}, publishLocal := {}, crossScalaVersions := Nil)
   .aggregate(
-    core
+    api,
+    statsd
   )
 
-lazy val core = project.settings(
-  name := "datadog-metrics-core",
+lazy val api = project.settings(
+  name := "datadog-metrics-api",
   scalaSettings,
   commonSettings,
-  libraryDependencies ++= Seq("io.micrometer" % "micrometer-core" % "1.2.0",
-                              "org.typelevel" %% "cats-effect" % "1.3.1",
-                              "com.datadoghq" % "java-dogstatsd-client" % "2.8")
+  libraryDependencies ++= Seq(
+    Dependencies.Cats.core
+  )
 )
+
+lazy val statsd = project
+  .settings(
+    name := "datadog-metrics-statsd",
+    scalaSettings,
+    commonSettings,
+    libraryDependencies ++= Seq(
+      Dependencies.Cats.effect,
+      Dependencies.Datadog.statsDClient
+    )
+  )
+  .dependsOn(api)
