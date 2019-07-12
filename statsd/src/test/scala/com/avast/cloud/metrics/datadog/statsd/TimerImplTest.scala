@@ -18,7 +18,7 @@ class TimerImplTest extends FlatSpec with MockitoSugar with BeforeAndAfter with 
     val statsD: StatsDClient = mock[StatsDClient]
     val clock: Clock[IO]     = mock[Clock[IO]]
 
-    val timer = new TimerImpl[IO](clock, statsD, aspect, sampleRate)
+    val timer = new TimerImpl[IO](clock, statsD, aspect, sampleRate, Vector.empty)
 
     when(clock.monotonic(TimeUnit.NANOSECONDS)).thenReturn(IO.pure(10* 1000 * 1000), IO.pure(30* 1000 * 1000))
   }

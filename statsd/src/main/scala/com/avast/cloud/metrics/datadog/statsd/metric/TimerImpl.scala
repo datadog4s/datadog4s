@@ -10,7 +10,7 @@ import com.avast.cloud.metrics.datadog.api.Tag
 import com.avast.cloud.metrics.datadog.api.metric.Timer
 import com.timgroup.statsd.StatsDClient
 
-class TimerImpl[F[_]: Sync](clock: Clock[F], statsDClient: StatsDClient, aspect: String, sampleRate: Double)
+class TimerImpl[F[_]: Sync](clock: Clock[F], statsDClient: StatsDClient, aspect: String, sampleRate: Double, defaultTags: Vector[Tag])
     extends Timer[F] {
 
   private[this] val F                       = Sync[F]
@@ -42,6 +42,6 @@ class TimerImpl[F[_]: Sync](clock: Clock[F], statsDClient: StatsDClient, aspect:
   }
 
   override def record(duration: Duration, tags: Tag*): F[Unit] = F.delay {
-    statsDClient.recordExecutionTime(aspect, duration.toMillis, sampleRate, tags: _*)
+    statsDClient.recordExecutionTime(aspect, duration.toMillis, sampleRate, (tags ++ defaultTags): _*)
   }
 }

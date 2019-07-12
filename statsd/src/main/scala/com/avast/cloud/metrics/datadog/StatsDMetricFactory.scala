@@ -1,7 +1,7 @@
 package com.avast.cloud.metrics.datadog
 
-import cats.effect.{ Resource, Sync }
-import com.avast.cloud.metrics.datadog.api.MetricFactory
+import cats.effect.{Resource, Sync}
+import com.avast.cloud.metrics.datadog.api.{MetricFactory, Tag}
 import com.avast.cloud.metrics.datadog.statsd.MetricFactoryImpl
 import com.timgroup.statsd.NonBlockingStatsDClient
 
@@ -15,11 +15,10 @@ object StatsDMetricFactory {
           new NonBlockingStatsDClient(
             config.prefix,
             config.statsDServer.getHostName,
-            config.statsDServer.getPort,
-            config.defaultTags.map(p => s"${p._1}:${p._2}").toArray: _*
+            config.statsDServer.getPort
           )
         )
       )
-      .map(new MetricFactoryImpl[F](_))
+      .map(new MetricFactoryImpl[F](_, config.sampleRate, config.defaultTags.map(p => Tag.of(p._1, p._2)).toVector))
   }
 }
