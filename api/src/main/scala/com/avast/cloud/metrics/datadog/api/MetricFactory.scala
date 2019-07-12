@@ -1,6 +1,6 @@
 package com.avast.cloud.metrics.datadog.api
 
-import com.avast.cloud.metrics.datadog.api.metric.{Count, Timer, UniqueSet}
+import com.avast.cloud.metrics.datadog.api.metric.{ Count, Timer, UniqueSet }
 
 trait MetricFactory[F[_]] {
   def histogram: HistogramFactory[F]

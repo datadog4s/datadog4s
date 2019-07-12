@@ -1,12 +1,21 @@
 package com.avast.cloud.metrics.datadog.statsd
 
-import cats.effect.{Clock, Sync}
-import com.avast.cloud.metrics.datadog.api.metric.{Gauge, Histogram, UniqueSet}
-import com.avast.cloud.metrics.datadog.api.{GaugeFactory, HistogramFactory, MetricFactory}
-import com.avast.cloud.metrics.datadog.statsd.metric.{CountImpl, GaugeDoubleImpl, GaugeLongImpl, HistogramDoubleImpl, HistogramLongImpl, TimerImpl, UniqueSetImpl}
+import cats.effect.{ Clock, Sync }
+import com.avast.cloud.metrics.datadog.api.metric.{ Gauge, Histogram, UniqueSet }
+import com.avast.cloud.metrics.datadog.api.{ GaugeFactory, HistogramFactory, MetricFactory }
+import com.avast.cloud.metrics.datadog.statsd.metric.{
+  CountImpl,
+  GaugeDoubleImpl,
+  GaugeLongImpl,
+  HistogramDoubleImpl,
+  HistogramLongImpl,
+  TimerImpl,
+  UniqueSetImpl
+}
 import com.timgroup.statsd.StatsDClient
 
 class MetricFactoryImpl[F[_]: Sync](statsDClient: StatsDClient) extends MetricFactory[F] {
+  private[this] val clock = Clock.create[F]
 
   override val histogram: HistogramFactory[F] = new HistogramFactory[F] {
     override def long(aspect: String, sampleRate: Double): Histogram[F, Long] =
@@ -23,8 +32,6 @@ class MetricFactoryImpl[F[_]: Sync](statsDClient: StatsDClient) extends MetricFa
     override def double(aspect: String, sampleRate: Double): Gauge[F, Double] =
       new GaugeDoubleImpl[F](statsDClient, aspect, sampleRate)
   }
-
-  private[this] val clock = Clock.create[F]
 
   override def timer(prefix: String, sampleRate: Double = 1.0) =
     new TimerImpl[F](clock, statsDClient, prefix, sampleRate)
