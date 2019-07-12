@@ -15,7 +15,8 @@ object StatsDMetricFactory {
           new NonBlockingStatsDClient(
             config.prefix,
             config.statsDServer.getHostName,
-            config.statsDServer.getPort
+            config.statsDServer.getPort,
+            config.queueSize
           )
         )
       )
