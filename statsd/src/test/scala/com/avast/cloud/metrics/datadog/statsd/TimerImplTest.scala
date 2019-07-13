@@ -2,12 +2,12 @@ package com.avast.cloud.metrics.datadog.statsd
 
 import java.util.concurrent.TimeUnit
 
-import cats.effect.{Clock, IO}
+import cats.effect.{ Clock, IO }
 import com.avast.cloud.metrics.datadog.api.Tag
 import com.avast.cloud.metrics.datadog.statsd.metric.TimerImpl
 import com.timgroup.statsd.StatsDClient
 import org.mockito.scalatest.MockitoSugar
-import org.scalatest.{Assertions, BeforeAndAfter, FlatSpec}
+import org.scalatest.{ Assertions, BeforeAndAfter, FlatSpec }
 
 class TimerImplTest extends FlatSpec with MockitoSugar with BeforeAndAfter with Assertions {
 
@@ -18,9 +18,9 @@ class TimerImplTest extends FlatSpec with MockitoSugar with BeforeAndAfter with 
     val statsD: StatsDClient = mock[StatsDClient]
     val clock: Clock[IO]     = mock[Clock[IO]]
 
-    val timer = new TimerImpl[IO](clock, statsD, aspect, sampleRate, Vector.empty)
+    val timer = new TimerImpl[IO](clock, statsD, aspect, sampleRate, Vector.empty, true)
 
-    when(clock.monotonic(TimeUnit.NANOSECONDS)).thenReturn(IO.pure(10* 1000 * 1000), IO.pure(30* 1000 * 1000))
+    when(clock.monotonic(TimeUnit.NANOSECONDS)).thenReturn(IO.pure(10 * 1000 * 1000), IO.pure(30 * 1000 * 1000))
   }
 
   "time F[A]" should "report success with label success:true" in new Fixtures {
@@ -38,8 +38,9 @@ class TimerImplTest extends FlatSpec with MockitoSugar with BeforeAndAfter with 
       .recordExecutionTime(aspect,
                            20,
                            sampleRate,
-                           Tag.of("success", "false"),
-                           Tag.of("exception", "java.util.NoSuchElementException"))
+                           Tag.of("exception", "java.util.NoSuchElementException"),
+                           Tag.of("success", "false")
+      )
   }
 
 }
