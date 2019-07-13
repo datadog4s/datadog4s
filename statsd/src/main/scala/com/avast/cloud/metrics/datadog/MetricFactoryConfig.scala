@@ -6,5 +6,6 @@ case class MetricFactoryConfig(
   prefix: String,
   statsDServer: InetSocketAddress,
   defaultTags: Map[String, String],
-  sampleRate: Double = 1.0
+  sampleRate: Double = 1.0,
+  queueSize: Int = 10000
 )
