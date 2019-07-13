@@ -7,7 +7,7 @@ import com.timgroup.statsd.NonBlockingStatsDClient
 
 object StatsDMetricFactory {
 
-  def make[F[_]: Sync](config: MetricFactoryConfig): Resource[F, MetricFactory[F]] = {
+  def make[F[_]: Sync](config: StatsDMetricFactoryConfig): Resource[F, MetricFactory[F]] = {
     val F = Sync[F]
     Resource
       .fromAutoCloseable(
@@ -20,6 +20,6 @@ object StatsDMetricFactory {
           )
         )
       )
-      .map(new MetricFactoryImpl[F](_, config.sampleRate, config.defaultTags.map(p => Tag.of(p._1, p._2)).toVector))
+      .map(new MetricFactoryImpl[F](_, config))
   }
 }

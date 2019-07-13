@@ -1,13 +1,17 @@
 package com.avast.cloud.metrics.datadog.statsd
 
 import cats.effect.{ Clock, Sync }
+import com.avast.cloud.metrics.datadog.StatsDMetricFactoryConfig
 import com.avast.cloud.metrics.datadog.api.metric.{ Gauge, Histogram, UniqueSet }
 import com.avast.cloud.metrics.datadog.api.{ GaugeFactory, HistogramFactory, MetricFactory, Tag }
 import com.avast.cloud.metrics.datadog.statsd.metric._
 import com.timgroup.statsd.StatsDClient
 
-class MetricFactoryImpl[F[_]: Sync](statsDClient: StatsDClient, defaultSampleRate: Double, defaultTags: Vector[Tag])
+class MetricFactoryImpl[F[_]: Sync](statsDClient: StatsDClient, config: StatsDMetricFactoryConfig)
     extends MetricFactory[F] {
+
+  import config.{ defaultTags, sampleRate => defaultSampleRate }
+
   private[this] val clock = Clock.create[F]
 
   override val histogram: HistogramFactory[F] = new HistogramFactory[F] {
@@ -26,8 +30,15 @@ class MetricFactoryImpl[F[_]: Sync](statsDClient: StatsDClient, defaultSampleRat
       new GaugeDoubleImpl[F](statsDClient, aspect, sampleRate.getOrElse(defaultSampleRate), defaultTags)
   }
 
-  override def timer(prefix: String, sampleRate: Option[Double] = None) =
-    new TimerImpl[F](clock, statsDClient, prefix, sampleRate.getOrElse(defaultSampleRate), defaultTags)
+  override def timer(prefix: String, sampleRate: Option[Double] = None, exceptionTagging: Option[Boolean] = None) =
+    new TimerImpl[F](
+      clock,
+      statsDClient,
+      prefix,
+      sampleRate.getOrElse(defaultSampleRate),
+      defaultTags,
+      exceptionTagging.getOrElse(config.enableExceptionTagging)
+    )
 
   override def count(prefix: String, sampleRate: Option[Double] = None) =
     new CountImpl[F](statsDClient, prefix, sampleRate.getOrElse(defaultSampleRate), defaultTags)
@@ -36,5 +47,5 @@ class MetricFactoryImpl[F[_]: Sync](statsDClient: StatsDClient, defaultSampleRat
     new UniqueSetImpl[F](statsDClient, aspect, defaultTags)
 
   override def withTags(tags: Tag*): MetricFactory[F] =
-    new MetricFactoryImpl[F](statsDClient, defaultSampleRate, defaultTags ++ tags)
+    new MetricFactoryImpl[F](statsDClient, config.copy(defaultTags = config.defaultTags ++ tags))
 }
