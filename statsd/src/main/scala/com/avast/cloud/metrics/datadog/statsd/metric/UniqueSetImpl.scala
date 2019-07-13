@@ -4,8 +4,9 @@ import cats.effect.Sync
 import com.avast.cloud.metrics.datadog.api.Tag
 import com.avast.cloud.metrics.datadog.api.metric.UniqueSet
 import com.timgroup.statsd.StatsDClient
+import scala.collection.immutable.Seq
 
-class UniqueSetImpl[F[_]: Sync](statsDClient: StatsDClient, aspect: String, defaultTags: Vector[Tag])
+class UniqueSetImpl[F[_]: Sync](statsDClient: StatsDClient, aspect: String, defaultTags: Seq[Tag])
     extends UniqueSet[F] {
 
   private[this] val F = Sync[F]

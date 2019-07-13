@@ -4,12 +4,13 @@ import cats.effect.Sync
 import com.avast.cloud.metrics.datadog.api.Tag
 import com.avast.cloud.metrics.datadog.api.metric.Gauge
 import com.timgroup.statsd.StatsDClient
+import scala.collection.immutable.Seq
 
 class GaugeDoubleImpl[F[_]: Sync](
   statsDClient: StatsDClient,
   aspect: String,
   sampleRate: Double,
-  defaultTags: Vector[Tag]
+  defaultTags: Seq[Tag]
 ) extends Gauge[F, Double] {
   private[this] val F = Sync[F]
 

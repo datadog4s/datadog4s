@@ -6,7 +6,11 @@ import com.avast.cloud.metrics.datadog.api.metric._
 import com.avast.cloud.metrics.datadog.noop.metric._
 
 class NoopMetricFactory[F[_]: Applicative] extends MetricFactory[F] {
-  override def timer(prefix: String, sampleRate: Option[Double] = None): Timer[F] = new NoopTimer[F]
+  override def timer(
+    prefix: String,
+    sampleRate: Option[Double] = None,
+    exceptionTagging: Option[Boolean] = None
+  ): Timer[F] = new NoopTimer[F]
 
   override def count(prefix: String, sampleRate: Option[Double] = None): Count[F] = new NoopCount[F]
 
