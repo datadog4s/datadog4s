@@ -30,7 +30,7 @@ class MetricFactoryImpl[F[_]: Sync](statsDClient: StatsDClient, config: StatsDMe
       new GaugeDoubleImpl[F](statsDClient, aspect, sampleRate.getOrElse(defaultSampleRate), defaultTags)
   }
 
-  override def timer(prefix: String, sampleRate: Option[Double] = None, exceptionTagging: Option[Boolean] = None) =
+  override def timer(prefix: String, sampleRate: Option[Double] = None) =
     new TimerImpl[F](
       clock,
       statsDClient,
