@@ -2,7 +2,7 @@ package com.avast.cloud.metrics.datadog
 
 import cats.effect.{ Resource, Sync }
 import com.avast.cloud.metrics.datadog.api.{ MetricFactory, Tag }
-import com.avast.cloud.metrics.datadog.statsd.MetricFactoryImpl
+import com.avast.cloud.metrics.datadog.statsd.StatsDMetricFactory
 import com.timgroup.statsd.NonBlockingStatsDClient
 
 object StatsDMetricFactory {
@@ -20,6 +20,6 @@ object StatsDMetricFactory {
           )
         )
       )
-      .map(new MetricFactoryImpl[F](_, config))
+      .map(new StatsDMetricFactory[F](_, config))
   }
 }
