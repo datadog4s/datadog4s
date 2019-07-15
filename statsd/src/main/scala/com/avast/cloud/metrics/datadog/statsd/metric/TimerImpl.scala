@@ -9,13 +9,14 @@ import cats.syntax.functor._
 import com.avast.cloud.metrics.datadog.api.Tag
 import com.avast.cloud.metrics.datadog.api.metric.Timer
 import com.timgroup.statsd.StatsDClient
+import scala.collection.immutable.Seq
 
 class TimerImpl[F[_]: Sync](
   clock: Clock[F],
   statsDClient: StatsDClient,
   aspect: String,
   sampleRate: Double,
-  defaultTags: Vector[Tag]
+  defaultTags: Seq[Tag]
 ) extends Timer[F] {
 
   private[this] val F                       = Sync[F]
@@ -35,10 +36,10 @@ class TimerImpl[F[_]: Sync](
 
   private def measureFailed[A](startTime: Long, tags: Tag*): PartialFunction[Throwable, F[A]] = {
     case thr =>
+      val finalTags = tags :+ Tag.of(exceptionTagKey, thr.getClass.getName) :+ failedTag
       val computation = for {
-        stop    <- clock.monotonic(TimeUnit.NANOSECONDS)
-        allTags = tags :+ failedTag :+ Tag.of(exceptionTagKey, thr.getClass.getName)
-        _       <- record(Duration.ofNanos(stop - startTime), allTags: _*)
+        stop <- clock.monotonic(TimeUnit.NANOSECONDS)
+        _    <- record(Duration.ofNanos(stop - startTime), finalTags: _*)
       } yield {
         Unit
       }
