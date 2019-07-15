@@ -16,8 +16,7 @@ class TimerImpl[F[_]: Sync](
   statsDClient: StatsDClient,
   aspect: String,
   sampleRate: Double,
-  defaultTags: Seq[Tag],
-  exceptionTagging: Boolean
+  defaultTags: Seq[Tag]
 ) extends Timer[F] {
 
   private[this] val F                       = Sync[F]
@@ -37,11 +36,7 @@ class TimerImpl[F[_]: Sync](
 
   private def measureFailed[A](startTime: Long, tags: Tag*): PartialFunction[Throwable, F[A]] = {
     case thr =>
-      val tagsWithException = exceptionTagging match {
-        case true  => tags :+ Tag.of(exceptionTagKey, thr.getClass.getName)
-        case false => tags
-      }
-      val finalTags = tagsWithException :+ failedTag
+      val finalTags = tags :+ Tag.of(exceptionTagKey, thr.getClass.getName) :+ failedTag
       val computation = for {
         stop <- clock.monotonic(TimeUnit.NANOSECONDS)
         _    <- record(Duration.ofNanos(stop - startTime), finalTags: _*)

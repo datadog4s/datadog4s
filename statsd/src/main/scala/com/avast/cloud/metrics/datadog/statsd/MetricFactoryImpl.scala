@@ -36,8 +36,7 @@ class MetricFactoryImpl[F[_]: Sync](statsDClient: StatsDClient, config: StatsDMe
       statsDClient,
       prefix,
       sampleRate.getOrElse(defaultSampleRate),
-      defaultTags,
-      exceptionTagging.getOrElse(config.enableExceptionTagging)
+      defaultTags
     )
 
   override def count(prefix: String, sampleRate: Option[Double] = None) =
