@@ -13,13 +13,13 @@ object StatsDMetricFactory {
       .fromAutoCloseable(
         F.delay(
           new NonBlockingStatsDClient(
-            config.prefix,
+            "",
             config.statsDServer.getHostName,
             config.statsDServer.getPort,
             config.queueSize
           )
         )
       )
-      .map(new StatsDMetricFactory[F](_, config))
+      .map(new StatsDMetricFactory[F](_, config.basePrefix, config))
   }
 }

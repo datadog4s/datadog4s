@@ -5,7 +5,7 @@ import java.net.InetSocketAddress
 import com.avast.cloud.metrics.datadog.api.Tag
 
 case class StatsDMetricFactoryConfig(
-  prefix: String,
+  basePrefix: String,
   statsDServer: InetSocketAddress,
   defaultTags: scala.collection.immutable.Seq[Tag],
   sampleRate: Double = 1.0,
