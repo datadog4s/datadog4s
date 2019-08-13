@@ -9,6 +9,5 @@ case class StatsDMetricFactoryConfig(
   statsDServer: InetSocketAddress,
   defaultTags: scala.collection.immutable.Seq[Tag],
   sampleRate: Double = 1.0,
-  queueSize: Int = 10000,
-  enableExceptionTagging: Boolean
+  queueSize: Int = 10000
 )
