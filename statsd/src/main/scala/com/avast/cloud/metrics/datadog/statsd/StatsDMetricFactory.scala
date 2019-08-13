@@ -48,6 +48,6 @@ class StatsDMetricFactory[F[_]: Sync](statsDClient: StatsDClient, prefix: String
   override def withTags(tags: Tag*): MetricFactory[F] =
     new StatsDMetricFactory[F](statsDClient, prefix, config.copy(defaultTags = config.defaultTags ++ tags))
 
-  override def prefixed(addPrefix: String): MetricFactory[F] =
-    new StatsDMetricFactory[F](statsDClient, s"$prefix.$addPrefix", config)
+  override def withScope(scope: String): MetricFactory[F] =
+    new StatsDMetricFactory[F](statsDClient, s"$prefix.$scope", config)
 }

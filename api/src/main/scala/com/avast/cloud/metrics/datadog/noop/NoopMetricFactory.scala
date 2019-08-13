@@ -27,5 +27,5 @@ class NoopMetricFactory[F[_]: Applicative] extends MetricFactory[F] {
 
   override def withTags(tags: Tag*): MetricFactory[F] = this
 
-  override def prefixed(prefix: String): MetricFactory[F] = this
+  override def withScope(prefix: String): MetricFactory[F] = this
 }

@@ -10,5 +10,5 @@ trait MetricFactory[F[_]] {
   def uniqueSet(aspect: String): UniqueSet[F]
 
   def withTags(tags: Tag*): MetricFactory[F]
-  def prefixed(prefix: String): MetricFactory[F]
+  def withScope(name: String): MetricFactory[F]
 }
