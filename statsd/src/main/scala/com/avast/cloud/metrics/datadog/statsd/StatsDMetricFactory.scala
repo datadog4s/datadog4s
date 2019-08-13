@@ -7,7 +7,7 @@ import com.avast.cloud.metrics.datadog.api.{ GaugeFactory, HistogramFactory, Met
 import com.avast.cloud.metrics.datadog.statsd.metric._
 import com.timgroup.statsd.StatsDClient
 
-class StatsDMetricFactory[F[_]: Sync](statsDClient: StatsDClient, config: StatsDMetricFactoryConfig)
+class StatsDMetricFactory[F[_]: Sync](statsDClient: StatsDClient, prefix: String, config: StatsDMetricFactoryConfig)
     extends MetricFactory[F] {
 
   import config.{ defaultTags, sampleRate => defaultSampleRate }
@@ -46,5 +46,8 @@ class StatsDMetricFactory[F[_]: Sync](statsDClient: StatsDClient, config: StatsD
     new UniqueSetImpl[F](statsDClient, aspect, defaultTags)
 
   override def withTags(tags: Tag*): MetricFactory[F] =
-    new StatsDMetricFactory[F](statsDClient, config.copy(defaultTags = config.defaultTags ++ tags))
+    new StatsDMetricFactory[F](statsDClient, prefix, config.copy(defaultTags = config.defaultTags ++ tags))
+
+  override def withScope(scope: String): MetricFactory[F] =
+    new StatsDMetricFactory[F](statsDClient, s"$prefix.$scope", config)
 }
