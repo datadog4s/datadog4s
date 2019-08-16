@@ -47,7 +47,7 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   private val bufferBeans = ManagementFactoryHelper.getBufferPoolMXBeans.asScala.toVector
   private val gcBeans     = ManagementFactory.getGarbageCollectorMXBeans.asScala.toVector
 
-  def collect: F[Unit] = Sync[F].delay {
+  def collect: F[Unit] =
     cpuLoad.set(osBean.getProcessCpuLoad) >>
       cpuTime.set(osBean.getProcessCpuTime) >>
       openFds.set(unixBean.getOpenFileDescriptorCount) >>
@@ -63,7 +63,6 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
       classes.set(classBean.getLoadedClassCount) >>
       Traverse[Vector].sequence(buffers) >>
       Traverse[Vector].sequence(gc)
-  }
 
   private def gc: Vector[F[Unit]] =
     gcBeans.map { bean =>
