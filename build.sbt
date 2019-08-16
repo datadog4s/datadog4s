@@ -69,10 +69,6 @@ lazy val jvm = project
   .settings(
     name := "datadog-metrics-jvm",
     scalaSettings,
-    commonSettings,
-    libraryDependencies ++= Seq(
-      Dependencies.Cats.effect,
-      Dependencies.Datadog.statsDClient
-    )
+    commonSettings
   )
   .dependsOn(api)
