@@ -32,7 +32,12 @@ object JvmMonitoring {
   }
 
   private def makeScheduler(config: Config): ScheduledExecutorService =
-    Executors.newScheduledThreadPool(1, (r: Runnable) => new Thread(r, config.schedulerThreadName))
+    Executors.newScheduledThreadPool(1, { r: Runnable =>
+      val thread = new Thread(r)
+      thread.setName(s"${config.schedulerThreadName}-${thread.getId}")
+      thread.setDaemon(true)
+      thread
+    })
 
   private def runnable[F[_]: Effect](reporter: JvmReporter[F], errorHandler: ErrorHandler[IO]): Runnable =
     () => {
