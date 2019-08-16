@@ -8,6 +8,7 @@ import cats.effect.Sync
 import cats.Traverse
 import cats.instances.vector._
 import cats.syntax.flatMap._
+import cats.syntax.functor._
 import com.avast.cloud.metrics.datadog.api.{ MetricFactory, Tag }
 import sun.management.ManagementFactoryHelper
 
@@ -40,7 +41,9 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   private val gcBeans     = ManagementFactory.getGarbageCollectorMXBeans.asScala.toVector
 
   def collect: F[Unit] =
-    cpuLoad.set(osBean.getProcessCpuLoad) >>
+    Traverse[Vector].sequence(buffers) >>
+      Traverse[Vector].sequence(gc) >>
+      cpuLoad.set(osBean.getProcessCpuLoad) >>
       cpuTime.set(osBean.getProcessCpuTime) >>
       openFds.set(unixBean.getOpenFileDescriptorCount) >>
       heapUsed.set(memBean.getHeapMemoryUsage.getUsed) >>
@@ -52,9 +55,7 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
       threadsTotal.set(threadBean.getThreadCount) >>
       threadsDaemon.set(threadBean.getDaemonThreadCount) >>
       threadsStarted.set(threadBean.getTotalStartedThreadCount) >>
-      classes.set(classBean.getLoadedClassCount) >>
-      Traverse[Vector].sequence(buffers) >>
-      Traverse[Vector].sequence(gc)
+      classes.set(classBean.getLoadedClassCount)
 
   private def gc: Vector[F[Unit]] =
     gcBeans.map { bean =>

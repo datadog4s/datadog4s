@@ -5,6 +5,8 @@ import java.util.concurrent.{ Executors, TimeUnit }
 import cats.effect.{ Effect, IO, Resource, Sync }
 import com.avast.cloud.metrics.datadog.api.MetricFactory
 
+import scala.util.Try
+
 object JvmMonitoring {
   def make[F[_]: Effect](factory: MetricFactory[F]): Resource[F, Unit] = {
     val F = Effect[F]
@@ -18,15 +20,9 @@ object JvmMonitoring {
 
   private def runnable[F[_]: Effect](reporter: JvmReporter[F]): Runnable = new Runnable {
     override def run(): Unit =
-      Effect[F]
-        .toIO(reporter.collect)
-        .runAsync {
-          case Left(err) =>
-            IO.delay {
-              println(s"Error during metrics collection: ${err.getMessage}")
-              err.printStackTrace()
-            }
-          case Right(_) => IO.unit
-        }
+      Try(Effect[F].toIO(reporter.collect).unsafeRunSync()).failed.foreach { err =>
+        println(s"Error during metrics collection: ${err.getMessage}")
+        err.printStackTrace()
+      }
   }
 }
