@@ -69,7 +69,6 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
       val gcName = Tag.of("gcName", bean.getName.replace(" ", "_"))
       gcCollections.set(bean.getCollectionCount, gcName)
       gcTime.set(bean.getCollectionTime, gcName)
-
     }
 
   private def buffers: Vector[F[Unit]] = bufferBeans.map { bean =>
