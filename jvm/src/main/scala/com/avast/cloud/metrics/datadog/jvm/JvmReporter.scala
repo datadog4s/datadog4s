@@ -12,31 +12,23 @@ import com.avast.cloud.metrics.datadog.api.{ MetricFactory, Tag }
 import sun.management.ManagementFactoryHelper
 
 class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
-  private val cpuLoad = metricsFactory.gauge.double("jvm.cpu.load")
-  private val cpuTime = metricsFactory.gauge.long("jvm.cpu.time")
-
-  private val openFds = metricsFactory.gauge.double("jvm.filedescriptor.open")
-
-  private val heapUsed      = metricsFactory.gauge.double("jvm.heap.used")
-  private val heapCommitted = metricsFactory.gauge.double("jvm.heap.committed")
-  private val heapMax       = metricsFactory.gauge.double("jvm.heap.max")
-
-  private val nonHeapUsed     = metricsFactory.gauge.double("jvm.nonheap.used")
-  private val nonHeapCommited = metricsFactory.gauge.double("jvm.nonheap.commited")
-
-  private val uptime = metricsFactory.gauge.double("jvm.uptime")
-
-  private val threadsTotal   = metricsFactory.gauge.double("jvm.threads.total")
-  private val threadsDaemon  = metricsFactory.gauge.double("jvm.threads.daemon")
-  private val threadsStarted = metricsFactory.gauge.double("jvm.threads.started")
-
-  private val classes = metricsFactory.gauge.double("jvm.classes.loaded")
-
+  private val cpuLoad              = metricsFactory.gauge.double("jvm.cpu.load")
+  private val cpuTime              = metricsFactory.gauge.long("jvm.cpu.time")
+  private val openFds              = metricsFactory.gauge.double("jvm.filedescriptor.open")
+  private val heapUsed             = metricsFactory.gauge.double("jvm.heap.used")
+  private val heapCommitted        = metricsFactory.gauge.double("jvm.heap.committed")
+  private val heapMax              = metricsFactory.gauge.double("jvm.heap.max")
+  private val nonHeapUsed          = metricsFactory.gauge.double("jvm.nonheap.used")
+  private val nonHeapCommited      = metricsFactory.gauge.double("jvm.nonheap.commited")
+  private val uptime               = metricsFactory.gauge.double("jvm.uptime")
+  private val threadsTotal         = metricsFactory.gauge.double("jvm.threads.total")
+  private val threadsDaemon        = metricsFactory.gauge.double("jvm.threads.daemon")
+  private val threadsStarted       = metricsFactory.gauge.double("jvm.threads.started")
+  private val classes              = metricsFactory.gauge.double("jvm.classes.loaded")
   private val bufferPoolsInstances = metricsFactory.gauge.double("jvm.bufferpool.instances")
   private val bufferPoolsBytes     = metricsFactory.gauge.double("jvm.bufferpool.bytes")
-
-  private val gcCollections = metricsFactory.gauge.double("jvm.gc.collections")
-  private val gcTime        = metricsFactory.gauge.double("jvm.gc.time")
+  private val gcCollections        = metricsFactory.gauge.double("jvm.gc.collections")
+  private val gcTime               = metricsFactory.gauge.double("jvm.gc.time")
 
   private val osBean      = ManagementFactory.getOperatingSystemMXBean.asInstanceOf[OperatingSystemMXBean]
   private val memBean     = ManagementFactory.getMemoryMXBean
