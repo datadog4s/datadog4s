@@ -6,7 +6,7 @@ lazy val scalaSettings = Seq(
   scalacOptions += "-language:higherKinds",
   crossScalaVersions := Seq("2.12.8"),
   libraryDependencies ++= Seq(
-    Dependencies.Testing.scalaTest % Test, 
+    Dependencies.Testing.scalaTest        % Test,
     Dependencies.Testing.mockitoScalatest % Test
   )
 )
@@ -42,6 +42,7 @@ lazy val global = project
   .aggregate(
     api,
     statsd,
+    jvm,
     docs
   )
 
@@ -66,9 +67,19 @@ lazy val statsd = project
   )
   .dependsOn(api)
 
+lazy val jvm = project
+  .settings(
+    name := "datadog-metrics-jvm",
+    scalaSettings,
+    commonSettings,
+    libraryDependencies ++= Seq(
+      Dependencies.Cats.effect
+    )
+  )
+  .dependsOn(api)
 
-
-lazy val docs = project      
-  .in(file("compiled-docs")) 
+lazy val docs = project
+  .in(file("compiled-docs"))
   .dependsOn(statsd)
+  .dependsOn(jvm)
   .enablePlugins(MdocPlugin)
