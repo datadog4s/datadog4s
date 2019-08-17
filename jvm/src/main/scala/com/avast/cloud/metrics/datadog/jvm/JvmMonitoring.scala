@@ -9,24 +9,30 @@ import com.avast.cloud.metrics.datadog.api.MetricFactory
 object JvmMonitoring {
   type ErrorHandler[F[_]] = Throwable => F[Unit]
 
-  case class Config(initialDelay: Duration = Duration.ofMillis(0),
-                    delay: Duration = Duration.ofMinutes(1),
-                    schedulerThreadName: String = "datadog-jvm-reporter")
+  case class Config(
+    initialDelay: Duration = Duration.ofMillis(0),
+    delay: Duration = Duration.ofMinutes(1),
+    schedulerThreadName: String = "datadog-jvm-reporter"
+  )
 
   def default[F[_]: Effect](factory: MetricFactory[F]): Resource[F, Unit] =
     configured(factory, Config(), defaultErrorHandler)
 
-  def configured[F[_]: Effect](factory: MetricFactory[F],
-                               config: Config,
-                               errorHandler: ErrorHandler[F]): Resource[F, Unit] = {
+  def configured[F[_]: Effect](
+    factory: MetricFactory[F],
+    config: Config,
+    errorHandler: ErrorHandler[F]
+  ): Resource[F, Unit] = {
     val F = Effect[F]
     Resource.make(F.delay(makeScheduler(config)))(s => F.delay(s.shutdown())).evalMap { scheduler =>
       F.delay {
         val reporter = new JvmReporter[F](factory)
-        scheduler.scheduleWithFixedDelay(runnable(F.toIO(reporter.collect), errorHandler andThen F.toIO),
-                                         config.initialDelay.toNanos,
-                                         config.delay.toNanos,
-                                         TimeUnit.NANOSECONDS)
+        scheduler.scheduleWithFixedDelay(
+          runnable(F.toIO(reporter.collect), errorHandler andThen F.toIO),
+          config.initialDelay.toNanos,
+          config.delay.toNanos,
+          TimeUnit.NANOSECONDS
+        )
       }
     }
   }
@@ -47,5 +53,5 @@ object JvmMonitoring {
       Sync[F].delay {
         println(s"Error during metrics collection: ${err.getMessage}")
         err.printStackTrace()
-    }
+      }
 }
