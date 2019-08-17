@@ -41,7 +41,8 @@ lazy val global = project
   .settings(name := "datadog-metrics", publish := {}, publishLocal := {}, crossScalaVersions := Nil)
   .aggregate(
     api,
-    statsd
+    statsd,
+    jvm
   )
 
 lazy val api = project.settings(
