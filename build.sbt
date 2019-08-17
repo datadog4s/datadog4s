@@ -41,7 +41,8 @@ lazy val global = project
   .settings(name := "datadog-metrics", publish := {}, publishLocal := {}, crossScalaVersions := Nil)
   .aggregate(
     api,
-    statsd
+    statsd,
+    docs
   )
 
 lazy val api = project.settings(
@@ -64,3 +65,10 @@ lazy val statsd = project
     )
   )
   .dependsOn(api)
+
+
+
+lazy val docs = project      
+  .in(file("compiled-docs")) 
+  .dependsOn(statsd)
+  .enablePlugins(MdocPlugin)
