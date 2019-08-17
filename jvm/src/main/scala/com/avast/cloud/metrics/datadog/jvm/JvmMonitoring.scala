@@ -23,7 +23,7 @@ object JvmMonitoring {
     Resource.make(F.delay(makeScheduler(config)))(s => F.delay(s.shutdown())).evalMap { scheduler =>
       F.delay {
         val reporter = new JvmReporter[F](factory)
-        scheduler.scheduleWithFixedDelay(runnable(reporter, errorHandler andThen F.toIO),
+        scheduler.scheduleWithFixedDelay(runnable(F.toIO(reporter.collect), errorHandler andThen F.toIO),
                                          config.initialDelay.toNanos,
                                          config.delay.toNanos,
                                          TimeUnit.NANOSECONDS)
@@ -39,16 +39,8 @@ object JvmMonitoring {
       thread
     })
 
-  private def runnable[F[_]: Effect](reporter: JvmReporter[F], errorHandler: ErrorHandler[IO]): Runnable =
-    () => {
-      val syncIO = Effect[F].runAsync(reporter.collect) { res =>
-        res.fold(
-          e => errorHandler(e),
-          IO.pure
-        )
-      }
-      syncIO.unsafeRunSync() // this should not throw exception unless something went horribly wrong
-    }
+  private def runnable(reportMetrics: IO[Unit], errorHandler: ErrorHandler[IO]): Runnable =
+    () => reportMetrics.handleErrorWith(errorHandler).unsafeRunSync()
 
   private def defaultErrorHandler[F[_]: Sync]: ErrorHandler[F] =
     err =>
