@@ -1,4 +1,4 @@
-package com.avast.cloud.metrics.datadog.jvm
+package com.avast.cloud.metrics.datadog.extension.jvm
 
 import java.time.Duration
 import java.util.concurrent.{ Executors, ScheduledExecutorService, ThreadFactory, TimeUnit }

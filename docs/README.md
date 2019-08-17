@@ -1,18 +1,17 @@
-[![Build Status](https://travis-ci.org/avast/datadog-scala-metrics.svg?branch=master)](https://travis-ci.org/avast/datadog-scala-metrics) [ ![Download](https://api.bintray.com/packages/avast/maven/datadog-scala-metrics/images/download.svg) ](https://bintray.com/avast/maven/datadog-scala-metrics/_latestVersion)
-
-# Datadog Scala Metrics
-
-Thin wrapper around datadog metrics that aims to provide idiomatic API for purely functional Scala.
+[![Build Status](https://travis-ci.org/avast/datadog-scala-metrics.svg?branch=master)](https://travis-ci.org/avast/datadog-scala-metrics) [ ![Download](https://api.bintray.com/packages/avast/maven/datadog-scala-metrics/images/download.svg) ](https://bintray.com/avast/maven/datadog-scala-metrics/_latestVersion) 
 
 ![Cats Friendly Badge](https://typelevel.org/cats/img/cats-badge-tiny.png) 
 
 
-## Quickstart
-...  
-To create a statsDclient simply use:
-```scala mdoc
-import com.avast.cloud.metrics.datadog._
-import cats.effect.IO
+# Datadog Scala Metrics
 
-val factory = StatsDMetricFactory.make[IO](null)
-```
+Toolkit for monitoring applications written in functional Scala with Datadog.
+
+Goal of this project is to make great monitoring as easy as possible. 
+
+## Quick start
+
+Grab the latest version: [ ![Download](https://api.bintray.com/packages/avast/maven/datadog-scala-metrics/images/download.svg) ](https://bintray.com/avast/maven/datadog-scala-metrics/_latestVersion)
+
+## Documentation
+For documentation, please read our [user guide](./docs/userguide.md).
