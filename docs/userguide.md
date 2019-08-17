@@ -84,5 +84,5 @@ jvmMonitoring.use { _ =>
 }
 ```
 
-[jvm-reporter-class]: ../jvm/src/main/scala/com/avast/cloud/metrics/datadog/jvm/JvmReporter.scala
+[jvm-reporter-class]: ../jvm/src/main/scala/com/avast/cloud/metrics/datadog/extension/jvm/JvmReporter.scala
 
