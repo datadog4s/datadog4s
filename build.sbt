@@ -42,7 +42,8 @@ lazy val global = project
   .aggregate(
     api,
     statsd,
-    jvm
+    jvm,
+    docs
   )
 
 lazy val api = project.settings(
@@ -73,3 +74,9 @@ lazy val jvm = project
     commonSettings
   )
   .dependsOn(api)
+
+lazy val docs = project      
+  .in(file("compiled-docs")) 
+  .dependsOn(statsd)
+  .dependsOn(jvm)
+  .enablePlugins(MdocPlugin)
