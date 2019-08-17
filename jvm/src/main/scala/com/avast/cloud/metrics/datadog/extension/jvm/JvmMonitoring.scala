@@ -53,5 +53,5 @@ object JvmMonitoring {
       Sync[F].delay {
         println(s"Error during metrics collection: ${err.getMessage}")
         err.printStackTrace()
-      }
+    }
 }

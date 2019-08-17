@@ -4,7 +4,6 @@ import java.net.InetSocketAddress
 
 import com.avast.cloud.metrics.datadog.api.Tag
 
-
 case class StatsDMetricFactoryConfig(
   basePrefix: String,
   statsDServer: InetSocketAddress,
