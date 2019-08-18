@@ -3,7 +3,7 @@
 
 
 
-Toolkit for monitoring applications written in functional Scala with Datadog.
+Toolkit for monitoring applications written in functional Scala using Datadog.
 
 Goal of this project is to make great monitoring as easy as possible. 
 
