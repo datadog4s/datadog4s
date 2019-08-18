@@ -39,8 +39,7 @@ class TimerImplTest extends FlatSpec with MockitoSugar with BeforeAndAfter with 
                            20,
                            sampleRate,
                            Tag.of("exception", "java.util.NoSuchElementException"),
-                           Tag.of("success", "false")
-      )
+                           Tag.of("success", "false"))
   }
 
 }
