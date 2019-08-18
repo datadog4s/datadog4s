@@ -1,4 +1,4 @@
-package com.avast.cloud.metrics.datadog.http4s
+package com.avast.cloud.metrics.datadog.extension.http4s
 
 import java.time.Duration
 

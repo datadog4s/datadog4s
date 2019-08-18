@@ -96,5 +96,6 @@ lazy val jvm = project
 lazy val docs = project
   .in(file("compiled-docs"))
   .dependsOn(statsd)
+  .dependsOn(http4s)
   .dependsOn(jvm)
   .enablePlugins(MdocPlugin)
