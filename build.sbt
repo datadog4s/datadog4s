@@ -99,3 +99,5 @@ lazy val docs = project
   .dependsOn(http4s)
   .dependsOn(jvm)
   .enablePlugins(MdocPlugin)
+
+skip in (publish in docs) := true
