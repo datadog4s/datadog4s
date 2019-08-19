@@ -70,6 +70,18 @@ lazy val statsd = project
   )
   .dependsOn(api)
 
+lazy val http4s = project
+  .settings(
+    name := "datadog-metrics-http4s",
+    scalaSettings,
+    commonSettings,
+    libraryDependencies ++= Seq(
+      Dependencies.Cats.effect,
+      Dependencies.Http4s.core
+    )
+  )
+  .dependsOn(api)
+
 lazy val jvm = project
   .settings(
     name := "datadog-metrics-jvm",
@@ -84,5 +96,6 @@ lazy val jvm = project
 lazy val docs = project
   .in(file("compiled-docs"))
   .dependsOn(statsd)
+  .dependsOn(http4s)
   .dependsOn(jvm)
   .enablePlugins(MdocPlugin)
