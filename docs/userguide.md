@@ -7,6 +7,7 @@
     - [Creating metrics](#creating-metrics)
     - [Timers](#timers)
   - [Extensions](#extensions)
+    - [Http4s](#http4s)
     - [Jvm monitoring](#jvm-monitoring)
 
 ## Quick start
@@ -70,7 +71,7 @@ factoryResource.use { factory =>
 Extensions are packages that monitor some functionality for you - without you having to do anything.
 
 ### Http4s
-Http4s package (`datadog-scala-http4s`) provides implementation of [MetricsOps](https://http4s.org/v0.20/api/org/http4s/metrics/metricsops) that is used by [http4s](https://http4s.org) to report both client and server metrics.
+Http4s package (`datadog-scala-http4s`) provides implementation of [MetricsOps](metrics-ops) that is used by [http4s](http4s) to report both client and server metrics.
 
 ```scala mdoc
 import com.avast.cloud.metrics.datadog.extension.http4s._
@@ -97,4 +98,5 @@ jvmMonitoring.use { _ =>
 ```
 
 [jvm-reporter-class]: ../jvm/src/main/scala/com/avast/cloud/metrics/datadog/extension/jvm/JvmReporter.scala
-
+[metrics-ops]: https://http4s.org/v0.20/api/org/http4s/metrics/metricsops
+[http4s]: https://http4s.org
