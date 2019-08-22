@@ -45,6 +45,7 @@ lazy val global = project
   .aggregate(
     api,
     statsd,
+    http4s,
     jvm,
     docs
   )
