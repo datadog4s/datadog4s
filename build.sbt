@@ -50,7 +50,9 @@ lazy val global = project
     docs
   )
 
-lazy val api = project.settings(
+lazy val api = project
+  .in(file("code/api"))
+    .settings(
   name := "datadog4cats-api",
   scalaSettings,
   commonSettings,
@@ -60,6 +62,7 @@ lazy val api = project.settings(
 )
 
 lazy val statsd = project
+  .in(file("code/statsd"))
   .settings(
     name := "datadog4cats-statsd",
     scalaSettings,
@@ -72,6 +75,7 @@ lazy val statsd = project
   .dependsOn(api)
 
 lazy val http4s = project
+  .in(file("code/http4s"))
   .settings(
     name := "datadog4cats-http4s",
     scalaSettings,
@@ -84,6 +88,7 @@ lazy val http4s = project
   .dependsOn(api)
 
 lazy val jvm = project
+  .in(file("code/jvm"))
   .settings(
     name := "datadog4cats-jvm",
     scalaSettings,
