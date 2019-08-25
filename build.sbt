@@ -18,14 +18,14 @@ lazy val commonSettings = Seq(
   organization := "com.avast",
   version := sys.env.getOrElse("TRAVIS_TAG", "0.1-SNAPSHOT"),
   description := "Library for datadog app monitoring",
-  licenses ++= Seq("MIT" -> url(s"https://github.com/avast/datadog4cats/blob/${version.value}/LICENSE")),
+  licenses ++= Seq("MIT" -> url(s"https://github.com/avast/datadog4s/blob/${version.value}/LICENSE")),
   publishArtifact in Test := false,
   bintrayOrganization := Some("avast"),
-  bintrayPackage := "datadog4cats",
+  bintrayPackage := "datadog4s",
   pomExtra := (
     <scm>
-      <url>git@github.com:avast/datadog4cats.git</url>
-      <connection>scm:git:git@github.com:avast/datadog4cats.git</connection>
+      <url>git@github.com:avast/datadog4s.git</url>
+      <connection>scm:git:git@github.com:avast/datadog4s.git</connection>
     </scm>
       <developers>
         <developer>
@@ -41,7 +41,7 @@ lazy val commonSettings = Seq(
 
 lazy val global = project
   .in(file("."))
-  .settings(name := "datadog4cats", publish := {}, publishLocal := {}, crossScalaVersions := Nil)
+  .settings(name := "datadog4s", publish := {}, publishLocal := {}, crossScalaVersions := Nil)
   .aggregate(
     api,
     statsd,
@@ -53,7 +53,7 @@ lazy val global = project
 lazy val api = project
   .in(file("code/api"))
     .settings(
-  name := "datadog4cats-api",
+  name := "datadog4s-api",
   scalaSettings,
   commonSettings,
   libraryDependencies ++= Seq(
@@ -64,7 +64,7 @@ lazy val api = project
 lazy val statsd = project
   .in(file("code/statsd"))
   .settings(
-    name := "datadog4cats-statsd",
+    name := "datadog4s-statsd",
     scalaSettings,
     commonSettings,
     libraryDependencies ++= Seq(
@@ -77,7 +77,7 @@ lazy val statsd = project
 lazy val http4s = project
   .in(file("code/http4s"))
   .settings(
-    name := "datadog4cats-http4s",
+    name := "datadog4s-http4s",
     scalaSettings,
     commonSettings,
     libraryDependencies ++= Seq(
@@ -90,7 +90,7 @@ lazy val http4s = project
 lazy val jvm = project
   .in(file("code/jvm"))
   .settings(
-    name := "datadog4cats-jvm",
+    name := "datadog4s-jvm",
     scalaSettings,
     commonSettings,
     libraryDependencies ++= Seq(
