@@ -10,8 +10,25 @@ In addition to basic monitoring utilities, we also provide bunch of plug-and-pla
 - Http4s monitoring
 
 ## Quick start
+Latest version: [ ![Download](https://api.bintray.com/packages/avast/maven/datadog4s/images/download.svg) ](https://bintray.com/avast/maven/datadog4s/_latestVersion)
 
-Grab the latest version: [ ![Download](https://api.bintray.com/packages/avast/maven/datadog4s/images/download.svg) ](https://bintray.com/avast/maven/datadog4s/_latestVersion)
+To add all packages, add to `build.sbt`:
+```scala mdoc
+libraryDependencies += "com.avast" %% "datadog4s" % "latestVersion" 
+```
+
+Or pick and choose from the available packages:
+
+| dependency name | notes |
+|--------------|-------| 
+| `"com.avast" %% "datadog4s" % "latestVersion"`  | all-you-can-eat ... all the available packages |
+| `"com.avast" %% "datadog4s-api" % "latestVersion"`  | api classes |
+| `"com.avast" %% "datadog4s-statsd" % "latestVersion"`  | statsd implementation of api classes |
+| `"com.avast" %% "datadog4s-jvm" % "latestVersion"`  | support for monitoring JVM itself |
+| `"com.avast" %% "datadog4s-http4s" % "latestVersion"`  | monitoring support for [http4s][http4s] framework |
 
 ## Documentation
 For documentation, please read our [user guide](./docs/userguide.md).
+
+
+[http4s]: https://http4s.org
