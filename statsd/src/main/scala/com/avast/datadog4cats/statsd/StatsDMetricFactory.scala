@@ -1,9 +1,9 @@
 package com.avast.datadog4cats.statsd
 
-import cats.effect.{Clock, Sync}
+import cats.effect.{ Clock, Sync }
 import com.avast.datadog4cats.StatsDMetricFactoryConfig
-import com.avast.datadog4cats.api.metric.{Gauge, Histogram, UniqueSet}
-import com.avast.datadog4cats.api.{GaugeFactory, HistogramFactory, MetricFactory, Tag}
+import com.avast.datadog4cats.api.metric.{ Gauge, Histogram, UniqueSet }
+import com.avast.datadog4cats.api.{ GaugeFactory, HistogramFactory, MetricFactory, Tag }
 import com.avast.datadog4cats.statsd.metric._
 import com.timgroup.statsd.StatsDClient
 
