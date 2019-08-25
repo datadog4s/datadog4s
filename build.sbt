@@ -15,17 +15,17 @@ lazy val scalaSettings = Seq(
 )
 
 lazy val commonSettings = Seq(
-  organization := "com.avast.cloud",
+  organization := "com.avast",
   version := sys.env.getOrElse("TRAVIS_TAG", "0.1-SNAPSHOT"),
   description := "Library for datadog app monitoring",
-  licenses ++= Seq("MIT" -> url(s"https://github.com/avast/datadog-scala-metrics/blob/${version.value}/LICENSE")),
+  licenses ++= Seq("MIT" -> url(s"https://github.com/avast/datadog4s/blob/${version.value}/LICENSE")),
   publishArtifact in Test := false,
   bintrayOrganization := Some("avast"),
-  bintrayPackage := "datadog-scala-metrics",
+  bintrayPackage := "datadog4s",
   pomExtra := (
     <scm>
-      <url>git@github.com:avast/datadog-scala-metrics.git</url>
-      <connection>scm:git:git@github.com:avast/datadog-scala-metrics.git</connection>
+      <url>git@github.com:avast/datadog4s.git</url>
+      <connection>scm:git:git@github.com:avast/datadog4s.git</connection>
     </scm>
       <developers>
         <developer>
@@ -41,7 +41,7 @@ lazy val commonSettings = Seq(
 
 lazy val global = project
   .in(file("."))
-  .settings(name := "datadog-metrics", publish := {}, publishLocal := {}, crossScalaVersions := Nil)
+  .settings(name := "datadog4s", publish := {}, publishLocal := {}, crossScalaVersions := Nil)
   .aggregate(
     api,
     statsd,
@@ -50,8 +50,10 @@ lazy val global = project
     docs
   )
 
-lazy val api = project.settings(
-  name := "datadog-metrics-api",
+lazy val api = project
+  .in(file("code/api"))
+    .settings(
+  name := "datadog4s-api",
   scalaSettings,
   commonSettings,
   libraryDependencies ++= Seq(
@@ -60,8 +62,9 @@ lazy val api = project.settings(
 )
 
 lazy val statsd = project
+  .in(file("code/statsd"))
   .settings(
-    name := "datadog-metrics-statsd",
+    name := "datadog4s-statsd",
     scalaSettings,
     commonSettings,
     libraryDependencies ++= Seq(
@@ -72,8 +75,9 @@ lazy val statsd = project
   .dependsOn(api)
 
 lazy val http4s = project
+  .in(file("code/http4s"))
   .settings(
-    name := "datadog-metrics-http4s",
+    name := "datadog4s-http4s",
     scalaSettings,
     commonSettings,
     libraryDependencies ++= Seq(
@@ -84,8 +88,9 @@ lazy val http4s = project
   .dependsOn(api)
 
 lazy val jvm = project
+  .in(file("code/jvm"))
   .settings(
-    name := "datadog-metrics-jvm",
+    name := "datadog4s-jvm",
     scalaSettings,
     commonSettings,
     libraryDependencies ++= Seq(

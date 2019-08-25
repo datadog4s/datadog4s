@@ -15,10 +15,10 @@
 ### Installation
 To start monitoring your code, first you need to add this library as a dependency to your project. This project is composed of multiple packages to make it easy for you to pick and choose what you require. 
 
-You need to add `datadog-metrics-api` which contains classes defining our API. You also need to add it's implementation. Currently we only support metric delivery using StatsD in package `datadog-metrics-statsd` which already contains `api`. We are going to assume you are using `sbt`:
+You need to add `datadog4s-api` which contains classes defining our API. You also need to add it's implementation. Currently we only support metric delivery using StatsD in package `datadog4s` which already contains `api`. We are going to assume you are using `sbt`:
 
 ```scala
-libraryDependencies += "com.avast.cloud" %% "datadog-metrics-api" % "0.1.2"
+libraryDependencies += "com.avast.cloud" %% "datadog4s-api" % "0.1.2"
 ```
 
 ### Creating metric factory
@@ -31,9 +31,9 @@ The instance is wrapped in `Resource` because of the underlying `StatsD` client.
 ```scala mdoc
 import java.net.InetSocketAddress
 import cats.effect._
-import com.avast.cloud.metrics.datadog.api._
-import com.avast.cloud.metrics.datadog.api.metric._
-import com.avast.cloud.metrics.datadog._
+import com.avast.datadog4s.api._
+import com.avast.datadog4s.api.metric._
+import com.avast.datadog4s._
 
 val statsDServer = InetSocketAddress.createUnresolved("localhost", 8125)
 val config = StatsDMetricFactoryConfig("my-app-name", statsDServer)
@@ -71,10 +71,10 @@ factoryResource.use { factory =>
 Extensions are packages that monitor some functionality for you - without you having to do anything.
 
 ### Http4s
-Http4s package (`datadog-scala-http4s`) provides implementation of [MetricsOps](metrics-ops) that is used by [http4s](http4s) to report both client and server metrics.
+Http4s package (`datadog4s-http4s`) provides implementation of [MetricsOps](metrics-ops) that is used by [http4s](http4s) to report both client and server metrics.
 
 ```scala mdoc
-import com.avast.cloud.metrics.datadog.extension.http4s._
+import com.avast.datadog4s.extension.http4s._
 
 factoryResource.use { metricFactory =>
     val metricsOps = DatadogMetricsOps.make[IO](metricFactory)
@@ -83,12 +83,12 @@ factoryResource.use { metricFactory =>
 ```
 
 ### Jvm monitoring
-JVM monitoring package (`datadog-scala-jvm`) collects bunch of JVM metrics that we found useful over last 5 or so years running JVM apps in Avast. Those metrics can be found in [JvmReporter][jvm-reporter-class] and are hopefully self explenatory. 
+JVM monitoring package (`datadog4s-jvm`) collects bunch of JVM metrics that we found useful over last 5 or so years running JVM apps in Avast. Those metrics can be found in [JvmReporter][jvm-reporter-class] and are hopefully self explenatory. 
 
 Usage can not be simpler (unless you want to configure things like collection-frequency etc.). Simply add following to your initialization code. Resource is returned, because `Scheduler` has to be created which does the actual metric collection.
 
 ```scala mdoc
-import com.avast.cloud.metrics.datadog.extension.jvm._
+import com.avast.datadog4s.extension.jvm._
 
 val jvmMonitoring: Resource[IO, Unit] = factoryResource.flatMap(factory => JvmMonitoring.default[IO](factory))
 jvmMonitoring.use { _ => 
@@ -97,6 +97,6 @@ jvmMonitoring.use { _ =>
 }
 ```
 
-[jvm-reporter-class]: ../jvm/src/main/scala/com/avast/cloud/metrics/datadog/extension/jvm/JvmReporter.scala
+[jvm-reporter-class]: ../jvm/src/main/scala/com/avast/datadog4s/extension/jvm/JvmReporter.scala
 [metrics-ops]: https://http4s.org/v0.20/api/org/http4s/metrics/metricsops
 [http4s]: https://http4s.org
