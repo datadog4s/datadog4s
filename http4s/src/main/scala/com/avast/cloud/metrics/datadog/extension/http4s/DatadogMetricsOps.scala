@@ -1,10 +1,10 @@
-package com.avast.cloud.metrics.datadog.extension.http4s
+package com.avast.datadog4cats.extension.http4s
 
 import java.time.Duration
 
 import cats.syntax.flatMap._
 import cats.effect.Sync
-import com.avast.cloud.metrics.datadog.api.{ MetricFactory, Tag }
+import com.avast.datadog4cats.api.{ MetricFactory, Tag }
 import org.http4s.{ Method, Status }
 import org.http4s.metrics.{ MetricsOps, TerminationType }
 
