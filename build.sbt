@@ -15,7 +15,7 @@ lazy val scalaSettings = Seq(
 )
 
 lazy val commonSettings = Seq(
-  organization := "com.avast.cloud",
+  organization := "com.avast",
   version := sys.env.getOrElse("TRAVIS_TAG", "0.1-SNAPSHOT"),
   description := "Library for datadog app monitoring",
   licenses ++= Seq("MIT" -> url(s"https://github.com/avast/datadog4cats/blob/${version.value}/LICENSE")),
