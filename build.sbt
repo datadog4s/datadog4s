@@ -52,14 +52,14 @@ lazy val global = project
 
 lazy val api = project
   .in(file("code/api"))
-    .settings(
-  name := "datadog4s-api",
-  scalaSettings,
-  commonSettings,
-  libraryDependencies ++= Seq(
-    Dependencies.Cats.core
+  .settings(
+    name := "datadog4s-api",
+    scalaSettings,
+    commonSettings,
+    libraryDependencies ++= Seq(
+      Dependencies.Cats.core
+    )
   )
-)
 
 lazy val statsd = project
   .in(file("code/statsd"))
