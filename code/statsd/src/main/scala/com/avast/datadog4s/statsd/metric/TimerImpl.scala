@@ -21,11 +21,11 @@ class TimerImpl[F[_]: Sync](
   defaultTags: Seq[Tag]
 ) extends Timer[F] {
 
-  private[this] val F                           = Sync[F]
-  private[this] val success: Tagger[Boolean]    = Tagger.make("success")
-  private[this] val failedTag: Tag              = success.tag(false)
-  private[this] val succeededTag: Tag           = success.tag(true)
-  private[this] val exception: Tagger[Class[_]] = Tagger.make("exception")
+  private[this] val F                                  = Sync[F]
+  private[this] val successTagger: Tagger[Boolean]     = Tagger.make("success")
+  private[this] val failedTag: Tag                     = successTagger.tag(false)
+  private[this] val succeededTag: Tag                  = successTagger.tag(true)
+  private[this] val exceptionTagger: Tagger[Throwable] = Tagger.make("exception")
 
   override def time[A](value: F[A], tags: Tag*): F[A] =
     for {
@@ -39,7 +39,7 @@ class TimerImpl[F[_]: Sync](
 
   private def measureFailed[A](startTime: Long, tags: Tag*): PartialFunction[Throwable, F[A]] = {
     case thr =>
-      val finalTags = tags :+ exception.tag(thr.getClass) :+ failedTag
+      val finalTags = tags :+ exceptionTagger.tag(thr) :+ failedTag
       val computation = for {
         stop <- clock.monotonic(TimeUnit.NANOSECONDS)
         _    <- record(Duration.ofNanos(stop - startTime), finalTags: _*)

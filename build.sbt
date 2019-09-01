@@ -3,11 +3,8 @@ lazy val supportedScalaVersions = List(scala212)
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala212,
-  scalacOptions += "-deprecation",
-  scalacOptions += "-unchecked",
-  scalacOptions += "-feature",
-  scalacOptions += "-language:higherKinds",
-  crossScalaVersions := supportedScalaVersions,
+  scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-language:higherKinds", "-Xfatal-warnings"),
+    crossScalaVersions := supportedScalaVersions,
   libraryDependencies ++= Seq(
     Dependencies.Testing.scalaTest        % Test,
     Dependencies.Testing.mockitoScalatest % Test
