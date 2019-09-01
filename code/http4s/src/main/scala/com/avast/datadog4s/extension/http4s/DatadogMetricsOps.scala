@@ -18,7 +18,7 @@ object DatadogMetricsOps {
   def make[F[_]](metricFactory: MetricFactory[F], classifierTags: ClassifierTags = defaultClassifierTags)(
     implicit F: Sync[F]
   ): MetricsOps[F] = new MetricsOps[F] {
-    import TagValues._
+
     private[this] val methodTagger   = Tagger.make[Method]("method")
     private[this] val typeTagger     = Tagger.make[TerminationType]("type")
     private[this] val activeRequests = metricFactory.count("active_requests")
