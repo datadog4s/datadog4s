@@ -8,7 +8,9 @@ import cats.syntax.flatMap._
 import cats.syntax.functor._
 import com.avast.datadog4s.api.Tag
 import com.avast.datadog4s.api.metric.Timer
+import com.avast.datadog4s.api.tag.Tagger
 import com.timgroup.statsd.StatsDClient
+
 import scala.collection.immutable.Seq
 
 class TimerImpl[F[_]: Sync](
@@ -19,10 +21,11 @@ class TimerImpl[F[_]: Sync](
   defaultTags: Seq[Tag]
 ) extends Timer[F] {
 
-  private[this] val F                       = Sync[F]
-  private[this] val failedTag: Tag          = Tag.of("success", "false")
-  private[this] val succeededTag: Tag       = Tag.of("success", "true")
-  private[this] val exceptionTagKey: String = "exception"
+  private[this] val F                                  = Sync[F]
+  private[this] val successTagger: Tagger[Boolean]     = Tagger.make("success")
+  private[this] val failedTag: Tag                     = successTagger.tag(false)
+  private[this] val succeededTag: Tag                  = successTagger.tag(true)
+  private[this] val exceptionTagger: Tagger[Throwable] = Tagger.make("exception")
 
   override def time[A](value: F[A], tags: Tag*): F[A] =
     for {
@@ -36,7 +39,7 @@ class TimerImpl[F[_]: Sync](
 
   private def measureFailed[A](startTime: Long, tags: Tag*): PartialFunction[Throwable, F[A]] = {
     case thr =>
-      val finalTags = tags :+ Tag.of(exceptionTagKey, thr.getClass.getName) :+ failedTag
+      val finalTags = tags :+ exceptionTagger.tag(thr) :+ failedTag
       val computation = for {
         stop <- clock.monotonic(TimeUnit.NANOSECONDS)
         _    <- record(Duration.ofNanos(stop - startTime), finalTags: _*)

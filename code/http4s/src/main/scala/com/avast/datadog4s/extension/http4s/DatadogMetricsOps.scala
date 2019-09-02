@@ -4,6 +4,7 @@ import java.time.Duration
 
 import cats.syntax.flatMap._
 import cats.effect.Sync
+import com.avast.datadog4s.api.tag.Tagger
 import com.avast.datadog4s.api.{ MetricFactory, Tag }
 import org.http4s.{ Method, Status }
 import org.http4s.metrics.{ MetricsOps, TerminationType }
@@ -18,7 +19,11 @@ object DatadogMetricsOps {
     implicit F: Sync[F]
   ): MetricsOps[F] = new MetricsOps[F] {
 
-    private[this] val activeRequests = metricFactory.count("active_requests")
+    private[this] val methodTagger       = Tagger.make[Method]("method")
+    private[this] val typeTagger         = Tagger.make[TerminationType]("type")
+    private[this] val responseCodeTagger = Tagger.make[Status]("response_code")
+    private[this] val statusBucketTagger = Tagger.make[String]("status_bucket")
+    private[this] val activeRequests     = metricFactory.count("active_requests")
 
     override def increaseActiveRequests(classifier: Option[String]): F[Unit] =
       activeRequests.inc(classifier.toList.flatMap(classifierTags): _*)
@@ -32,14 +37,15 @@ object DatadogMetricsOps {
       headersTime
         .record(
           Duration.ofNanos(elapsed),
-          Tag.of("method", method.name) :: classifier.toList.flatMap(classifierTags): _*
+          methodTagger.tag(method) :: classifier.toList.flatMap(classifierTags): _*
         )
 
     private[this] val requestCount   = metricFactory.count("requests_count")
     private[this] val requestLatency = metricFactory.timer("requests_latency")
     override def recordTotalTime(method: Method, status: Status, elapsed: Long, classifier: Option[String]): F[Unit] = {
-      val tags = Tag.of("method", method.name) :: Tag
-        .of("response_code", status.code.toString) :: classifier.toList.flatMap(classifierTags)
+      val tags = methodTagger.tag(method) ::
+        statusBucketTagger.tag(s"${status.code / 100}xx") ::
+        responseCodeTagger.tag(status) :: classifier.toList.flatMap(classifierTags)
       requestCount.inc(tags: _*) >> requestLatency.record(Duration.ofNanos(elapsed), tags: _*)
     }
 
@@ -50,14 +56,11 @@ object DatadogMetricsOps {
       terminationType: TerminationType,
       classifier: Option[String]
     ): F[Unit] = {
-      val tpe = terminationType match {
-        case TerminationType.Abnormal => "abnormal"
-        case TerminationType.Error    => "error"
-        case TerminationType.Timeout  => "timeout"
-      }
-      val tags = Tag.of("type", tpe) :: classifier.toList.flatMap(classifierTags)
+      val tpe  = typeTagger.tag(terminationType)
+      val tags = tpe :: classifier.toList.flatMap(classifierTags)
       abnormalCount.inc(tags: _*) >> abnormalLatency.record(Duration.ofNanos(elapsed), tags: _*)
     }
+
   }
 
 }
