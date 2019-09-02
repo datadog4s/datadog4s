@@ -19,9 +19,11 @@ object DatadogMetricsOps {
     implicit F: Sync[F]
   ): MetricsOps[F] = new MetricsOps[F] {
 
-    private[this] val methodTagger   = Tagger.make[Method]("method")
-    private[this] val typeTagger     = Tagger.make[TerminationType]("type")
-    private[this] val activeRequests = metricFactory.count("active_requests")
+    private[this] val methodTagger       = Tagger.make[Method]("method")
+    private[this] val typeTagger         = Tagger.make[TerminationType]("type")
+    private[this] val responseCodeTagger = Tagger.make[Status]("response_code")
+    private[this] val statusBucketTagger = Tagger.make[String]("status_bucket")
+    private[this] val activeRequests     = metricFactory.count("active_requests")
 
     override def increaseActiveRequests(classifier: Option[String]): F[Unit] =
       activeRequests.inc(classifier.toList.flatMap(classifierTags): _*)
@@ -42,9 +44,8 @@ object DatadogMetricsOps {
     private[this] val requestLatency = metricFactory.timer("requests_latency")
     override def recordTotalTime(method: Method, status: Status, elapsed: Long, classifier: Option[String]): F[Unit] = {
       val tags = methodTagger.tag(method) ::
-        Tag.of("status_bucket", s"${status.code / 100}xx") ::
-        Tag.of("status", status.code.toString) ::
-        Tag.of("response_code", status.code.toString) :: classifier.toList.flatMap(classifierTags)
+        statusBucketTagger.tag(s"${status.code / 100}xx") ::
+        responseCodeTagger.tag(status) :: classifier.toList.flatMap(classifierTags)
       requestCount.inc(tags: _*) >> requestLatency.record(Duration.ofNanos(elapsed), tags: _*)
     }
 
