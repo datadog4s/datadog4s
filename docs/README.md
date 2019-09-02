@@ -1,4 +1,4 @@
-# Datadog Scala Metrics [![Build Status](https://travis-ci.org/avast/datadog4s.svg?branch=master)](https://travis-ci.org/avast/datadog4s) [![Download](https://api.bintray.com/packages/avast/maven/datadog4s/images/download.svg)](https://bintray.com/avast/maven/datadog4s/_latestVersion) <img height="40" src="https://typelevel.org/cats/img/cats-badge-tiny.png" align="right"/>
+# Datadog Scala Metrics [![Build Status](https://travis-ci.org/avast/datadog4s.svg?branch=master)](https://travis-ci.org/avast/datadog4s) [![Download](https://api.bintray.com/packages/avast/maven/datadog4s/images/download.svg)](https://bintray.com/avast/maven/datadog4s/_latestVersion) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2477b21fde784f328145aeb43509a555)](https://www.codacy.com/app/tomasherman/datadog4s?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=avast/datadog4s&amp;utm_campaign=Badge_Grade)<img height="40" src="https://typelevel.org/cats/img/cats-badge-tiny.png" align="right"/>
 
 
 Toolkit for monitoring applications written in functional Scala using Datadog.
