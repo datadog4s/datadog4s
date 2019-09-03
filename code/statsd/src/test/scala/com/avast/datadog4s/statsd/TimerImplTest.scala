@@ -13,7 +13,7 @@ class TimerImplTest extends FlatSpec with MockitoSugar with BeforeAndAfter with 
 
   trait Fixtures {
     val aspect: String = "metric"
-    val sampleRate     = 1
+    val sampleRate     = 1.0
 
     val statsD: StatsDClient = mock[StatsDClient]
     val clock: Clock[IO]     = mock[Clock[IO]]
