@@ -1,7 +1,7 @@
 package com.avast.datadog4s.extension.jvm
 
 import java.time.Duration
-import java.util.concurrent.{ Executors, ScheduledExecutorService, ThreadFactory, TimeUnit }
+import java.util.concurrent.{ Executors, ScheduledExecutorService, TimeUnit }
 
 import cats.effect.{ Effect, IO, Resource, Sync }
 import com.avast.datadog4s.api.MetricFactory
@@ -27,7 +27,7 @@ object JvmMonitoring {
     Resource.make(F.delay(makeScheduler(config)))(s => F.delay(s.shutdown())).evalMap { scheduler =>
       F.delay {
         val reporter = new JvmReporter[F](factory)
-        scheduler.scheduleWithFixedDelay(
+        val _ = scheduler.scheduleWithFixedDelay(
           runnable(F.toIO(reporter.collect), errorHandler andThen F.toIO),
           config.initialDelay.toNanos,
           config.delay.toNanos,

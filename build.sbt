@@ -1,10 +1,26 @@
+import CompilerSettings.scalacOptionsFor
+
 lazy val scala212               = "2.12.9"
 lazy val supportedScalaVersions = List(scala212)
 
+val filterConsoleScalacOptions = { options: Seq[String] =>
+  options.filterNot(
+    Set(
+      "-Ywarn-unused:imports",
+      "-Ywarn-unused-import",
+      "-Ywarn-dead-code",
+      "-Xfatal-warnings"
+    )
+  )
+}
+
+
 lazy val scalaSettings = Seq(
   scalaVersion := scala212,
-  scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-language:higherKinds", "-Xfatal-warnings"),
-    crossScalaVersions := supportedScalaVersions,
+  scalacOptions ++= scalacOptionsFor(scalaVersion.value),
+  scalacOptions.in(Compile, console) ~= filterConsoleScalacOptions,
+  scalacOptions.in(Test, console) ~= filterConsoleScalacOptions,
+  crossScalaVersions := supportedScalaVersions,
   libraryDependencies ++= Seq(
     Dependencies.Testing.scalaTest        % Test,
     Dependencies.Testing.mockitoScalatest % Test

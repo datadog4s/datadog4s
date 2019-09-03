@@ -8,7 +8,6 @@ import cats.effect.Sync
 import cats.Traverse
 import cats.instances.vector._
 import cats.syntax.flatMap._
-import cats.syntax.functor._
 import com.avast.datadog4s.api.{ MetricFactory, Tag }
 import sun.management.ManagementFactoryHelper
 
@@ -52,10 +51,10 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
       nonHeapCommited.set(memoryBean.getNonHeapMemoryUsage.getCommitted) >>
       nonHeapUsed.set(memoryBean.getNonHeapMemoryUsage.getUsed) >>
       uptime.set(runtimeBean.getUptime) >>
-      threadsTotal.set(threadBean.getThreadCount) >>
-      threadsDaemon.set(threadBean.getDaemonThreadCount) >>
+      threadsTotal.set(threadBean.getThreadCount.toLong) >>
+      threadsDaemon.set(threadBean.getDaemonThreadCount.toLong) >>
       threadsStarted.set(threadBean.getTotalStartedThreadCount) >>
-      classes.set(classBean.getLoadedClassCount)
+      classes.set(classBean.getLoadedClassCount.toLong)
 
   private def gc: Vector[F[Unit]] =
     gcBeans.map { bean =>
