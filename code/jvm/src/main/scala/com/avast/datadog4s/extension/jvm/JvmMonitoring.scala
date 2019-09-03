@@ -1,9 +1,9 @@
 package com.avast.datadog4s.extension.jvm
 
 import java.time.Duration
-import java.util.concurrent.{Executors, ScheduledExecutorService, TimeUnit}
+import java.util.concurrent.{ Executors, ScheduledExecutorService, TimeUnit }
 
-import cats.effect.{Effect, IO, Resource, Sync}
+import cats.effect.{ Effect, IO, Resource, Sync }
 import com.avast.datadog4s.api.MetricFactory
 
 object JvmMonitoring {
