@@ -70,6 +70,17 @@ object CompilerSettings {
     "-Xlint"
   )
 
+  val filterConsoleScalacOptions: Seq[String] => Seq[String] = { options: Seq[String] =>
+    options.filterNot(
+      Set(
+        "-Ywarn-unused:imports",
+        "-Ywarn-unused-import",
+        "-Ywarn-dead-code",
+        "-Xfatal-warnings"
+      )
+    )
+  }
+
   def scalacOptionsFor(version: String): Seq[String] =
     commonScalacOptions ++ (CrossVersion.partialVersion(version) match {
       case Some((2, min)) if min >= 13 => scalacOptionsGte212 ++ scalacOptionsGte211

@@ -1,19 +1,7 @@
-import CompilerSettings.scalacOptionsFor
+import CompilerSettings._
 
 lazy val scala212               = "2.12.9"
 lazy val supportedScalaVersions = List(scala212)
-
-val filterConsoleScalacOptions = { options: Seq[String] =>
-  options.filterNot(
-    Set(
-      "-Ywarn-unused:imports",
-      "-Ywarn-unused-import",
-      "-Ywarn-dead-code",
-      "-Xfatal-warnings"
-    )
-  )
-}
-
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala212,
