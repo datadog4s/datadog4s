@@ -15,6 +15,6 @@ class GaugeDoubleImpl[F[_]: Sync](
   private[this] val F = Sync[F]
 
   override def set(value: Double, tags: Tag*): F[Unit] = F.delay {
-    statsDClient.recordGaugeValue(aspect, sampleRate, value, (tags ++ defaultTags): _*)
+    statsDClient.recordGaugeValue(aspect, value, sampleRate, (tags ++ defaultTags): _*)
   }
 }
