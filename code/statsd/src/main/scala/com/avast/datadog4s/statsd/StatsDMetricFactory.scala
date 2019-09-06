@@ -7,7 +7,7 @@ import com.avast.datadog4s.api.{ GaugeFactory, HistogramFactory, MetricFactory, 
 import com.avast.datadog4s.statsd.metric._
 import com.timgroup.statsd.StatsDClient
 
-class StatsDMetricFactory[F[_]: Sync](statsDClient: StatsDClient, prefix: String, config: StatsDMetricFactoryConfig)
+class StatsDMetricFactory[F[_]: Sync](statsDClient: StatsDClient, basePrefix: String, config: StatsDMetricFactoryConfig)
     extends MetricFactory[F] {
 
   import config.{ defaultTags, sampleRate => defaultSampleRate }
@@ -16,38 +16,48 @@ class StatsDMetricFactory[F[_]: Sync](statsDClient: StatsDClient, prefix: String
 
   override val histogram: HistogramFactory[F] = new HistogramFactory[F] {
     override def long(aspect: String, sampleRate: Option[Double] = None): Histogram[F, Long] =
-      new HistogramLongImpl[F](statsDClient, aspect, sampleRate.getOrElse(defaultSampleRate), defaultTags)
+      new HistogramLongImpl[F](
+        statsDClient,
+        s"$basePrefix.$aspect",
+        sampleRate.getOrElse(defaultSampleRate),
+        defaultTags
+      )
 
     override def double(aspect: String, sampleRate: Option[Double] = None): Histogram[F, Double] =
-      new HistogramDoubleImpl[F](statsDClient, aspect, sampleRate.getOrElse(defaultSampleRate), defaultTags)
+      new HistogramDoubleImpl[F](
+        statsDClient,
+        s"$basePrefix.$aspect",
+        sampleRate.getOrElse(defaultSampleRate),
+        defaultTags
+      )
   }
 
   override val gauge: GaugeFactory[F] = new GaugeFactory[F] {
     override def long(aspect: String, sampleRate: Option[Double] = None): Gauge[F, Long] =
-      new GaugeLongImpl[F](statsDClient, aspect, sampleRate.getOrElse(defaultSampleRate), defaultTags)
+      new GaugeLongImpl[F](statsDClient, s"$basePrefix.$aspect", sampleRate.getOrElse(defaultSampleRate), defaultTags)
 
     override def double(aspect: String, sampleRate: Option[Double] = None): Gauge[F, Double] =
-      new GaugeDoubleImpl[F](statsDClient, aspect, sampleRate.getOrElse(defaultSampleRate), defaultTags)
+      new GaugeDoubleImpl[F](statsDClient, s"$basePrefix.$aspect", sampleRate.getOrElse(defaultSampleRate), defaultTags)
   }
 
-  override def timer(prefix: String, sampleRate: Option[Double] = None) =
+  override def timer(aspect: String, sampleRate: Option[Double] = None) =
     new TimerImpl[F](
       clock,
       statsDClient,
-      prefix,
+      s"$basePrefix.$aspect",
       sampleRate.getOrElse(defaultSampleRate),
       defaultTags
     )
 
-  override def count(prefix: String, sampleRate: Option[Double] = None) =
-    new CountImpl[F](statsDClient, prefix, sampleRate.getOrElse(defaultSampleRate), defaultTags)
+  override def count(aspect: String, sampleRate: Option[Double] = None) =
+    new CountImpl[F](statsDClient, s"$basePrefix.$aspect", sampleRate.getOrElse(defaultSampleRate), defaultTags)
 
   override def uniqueSet(aspect: String): UniqueSet[F] =
-    new UniqueSetImpl[F](statsDClient, aspect, defaultTags)
+    new UniqueSetImpl[F](statsDClient, s"$basePrefix.$aspect", defaultTags)
 
   override def withTags(tags: Tag*): MetricFactory[F] =
-    new StatsDMetricFactory[F](statsDClient, prefix, config.copy(defaultTags = config.defaultTags ++ tags))
+    new StatsDMetricFactory[F](statsDClient, basePrefix, config.copy(defaultTags = config.defaultTags ++ tags))
 
   override def withScope(scope: String): MetricFactory[F] =
-    new StatsDMetricFactory[F](statsDClient, s"$prefix.$scope", config)
+    new StatsDMetricFactory[F](statsDClient, s"$basePrefix.$scope", config)
 }
