@@ -76,8 +76,10 @@ import com.avast.datadog4s.api.Tag
 
 Tag.of("endpoint", "admin/login")
 ```
+This is simple and straight-forward, but in some cases it leaves your code with `Tag` keys scattered around in your code and forces you to repeat it - making it prone to misspells etc. The better way is to use `Tagger`. 
+
 #### Tagger
-`Tagger[T]` is basically a factory interface for creating tags based on provided value of type `T` - as long as implicit `TagValue[T]` exist in scope. This instance is used for converting `T` into `String`. By using `Tagger`, you get a single value that you can use in multiple places in your code to not repeat yourself.
+`Tagger[T]` is basically a factory interface for creating tags based on provided value of type `T` - as long as implicit `TagValue[T]` exists in scope. This instance is used for converting `T` into `String`. By using `Tagger`, you get a single value that you can use in multiple places in your code to create `Tag`s without repeating yourself.
 
 Example: 
 ```scala mdoc
@@ -91,7 +93,7 @@ val pathTagger: Tagger[String] = Tagger.make[String]("path")
 val statusCodeTagger: Tagger[StatusCode] = Tagger.make[StatusCode]("statusCode")
 
 assert(Tag.of("path", "admin/login") == pathTagger.tag("admin/login"))
-assert(Tag.of("statusCode", "200") != statusCodeTagger.tag(StatusCode(200)))
+assert(Tag.of("statusCode", "200") == statusCodeTagger.tag(StatusCode(200)))
 ```
 
 
