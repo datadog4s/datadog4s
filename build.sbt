@@ -102,6 +102,7 @@ lazy val jvm = project
 
 lazy val docs = project
   .in(file("compiled-docs"))
+  .settings(scalaSettings)
   .settings(commonSettings)
   .dependsOn(statsd)
   .dependsOn(http4s)
