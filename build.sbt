@@ -1,8 +1,7 @@
 import CompilerSettings._
 
 lazy val scala212               = "2.12.10"
-lazy val scala213               = "2.13.0"
-lazy val supportedScalaVersions = List(scala212, scala213)
+lazy val supportedScalaVersions = List(scala212)
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala212,
@@ -81,8 +80,6 @@ lazy val http4s = project
   .settings(
     name := "datadog4s-http4s",
     scalaSettings,
-    scalaVersion := scala212, //http4s is not yet available for scala2.13
-    crossScalaVersions := List(scala212),
     commonSettings,
     libraryDependencies ++= Seq(
       Dependencies.Cats.effect,
