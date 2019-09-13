@@ -44,7 +44,7 @@ class TimerImpl[F[_]: Sync](
         stop <- clock.monotonic(TimeUnit.NANOSECONDS)
         _    <- record(Duration.ofNanos(stop - startTime), finalTags: _*)
       } yield {
-        Unit
+        ()
       }
       computation >> F.raiseError(thr)
   }
