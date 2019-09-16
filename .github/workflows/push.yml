@@ -11,4 +11,4 @@ jobs:
     - uses: actions/checkout@v1
     - name: scalafmt & test & mdoc
       run: |
-        sbt scalafmt test mdoc
+        sbt scalafmtCheck test mdoc
