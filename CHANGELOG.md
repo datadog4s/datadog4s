@@ -3,11 +3,11 @@
 ### Added
 -   Added instances of `TagValue` for numeric types such as: `Int`, `Long`...
 ### Version updates
--   `Scala -> 2.12.10`
--   `Scalafmt -> 2.0.5`
--   `SBT -> 1.3.2`
--   `Http4s -> 0.20.11`
--   `sbt-mima-plugin -> 0.6.1`
+-   `scala 2.12.9 -> 2.12.10`
+-   `org.scalameta:sbt-scalafmt 2.0.4 -> 2.0.5`
+-   `com.typesafe:sbt-mima-plugin 0.6.0 -> 0.6.1`
+-   `org.scala-sbt:sbt 1.3.0 -> 1.3.2`
+-   `org.mockito:mockito-scala-scalatest 1.5.16 -> 1.5.17`
 ## 0.2.3
 ### Misc
 Start of a change log
