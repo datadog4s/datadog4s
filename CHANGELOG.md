@@ -8,6 +8,7 @@
 -   `com.typesafe:sbt-mima-plugin 0.6.0 -> 0.6.1`
 -   `org.scala-sbt:sbt 1.3.0 -> 1.3.2`
 -   `org.mockito:mockito-scala-scalatest 1.5.16 -> 1.5.17`
+-   `org.scalameta:sbt-mdoc 1.3.2 -> 1.3.4`
 ## 0.2.3
 ### Misc
 Start of a change log
