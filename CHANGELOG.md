@@ -1,5 +1,6 @@
 # Changelog
 ## Unreleased
+## 0.2.4
 ### Added
 -   Added instances of `TagValue` for numeric types such as: `Int`, `Long`...
 ### Version updates
