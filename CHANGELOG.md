@@ -3,6 +3,8 @@
 ## 0.2.4
 ### Version updates
 -   `org.scalameta:scalafmt-core from 2.0.1 to 2.1.0`
+-   `ch.epfl.scala:sbt-bloop from 1.3.2 to 1.3.3`
+-   `com.datadoghq:java-dogstatsd-client from 2.8 to 2.8.1`
 ### Added
 -   Added instances of `TagValue` for numeric types such as: `Int`, `Long`...
 ### Version updates
