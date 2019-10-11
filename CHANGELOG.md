@@ -5,6 +5,7 @@
 -   `ch.epfl.scala:sbt-bloop from 1.3.2 to 1.3.3`
 -   `com.datadoghq:java-dogstatsd-client from 2.8 to 2.8.1`
 -   `org.scalameta:sbt-mdoc from 1.3.4 to 1.3.5`
+-   `ch.epfl.scala:sbt-bloop from 1.3.3 to 1.3.4`
 ## 0.2.4
 ### Added
 -   Added instances of `TagValue` for numeric types such as: `Int`, `Long`...
