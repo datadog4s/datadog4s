@@ -1,12 +1,12 @@
 # Changelog
 ## Unreleased
 ### Version updates
--   `org.scalameta:scalafmt-core from 2.0.1 to 2.1.1`
+-   `org.scalameta:scalafmt-core from 2.0.1 to 2.2.1`
 -   `ch.epfl.scala:sbt-bloop from 1.3.2 to 1.3.5`
 -   `com.datadoghq:java-dogstatsd-client from 2.8 to 2.8.1`
 -   `org.scalameta:sbt-mdoc from 1.3.4 to 1.3.6`
--   `org.scalameta:sbt-scalafmt from 2.0.6 to 2.0.7`
--   `org.mockito:mockito-scala-scalatest from 1.5.18 to 1.6.2`
+-   `org.scalameta:sbt-scalafmt from 2.0.6 to 2.2.1`
+-   `org.mockito:mockito-scala-scalatest from 1.5.18 to 1.7.0`
 -   `org.scala-sbt:sbt from 1.3.2 to 1.3.3`
 ## 0.2.4
 
