@@ -15,7 +15,8 @@ Latest version: [ ![Download](https://api.bintray.com/packages/avast/maven/datad
 To add all packages, add to `build.sbt`:
 
 ```scala
-resolvers += Resolver.bintrayRepo("avast", "maven")
+resolvers += Resolver.jcenterRepo
+
 libraryDependencies += "com.avast.cloud" %% "datadog4s" % "latestVersion" 
 ```
 
