@@ -13,7 +13,9 @@ In addition to basic monitoring utilities, we also provide bunch of plug-and-pla
 Latest version: [ ![Download](https://api.bintray.com/packages/avast/maven/datadog4s/images/download.svg) ](https://bintray.com/avast/maven/datadog4s/_latestVersion)
 
 To add all packages, add to `build.sbt`:
+
 ```scala
+resolvers += Resolver.bintrayRepo("avast", "maven")
 libraryDependencies += "com.avast.cloud" %% "datadog4s" % "latestVersion" 
 ```
 
