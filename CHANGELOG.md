@@ -8,6 +8,7 @@
 -   `org.scalameta:sbt-scalafmt from 2.0.6 to 2.2.1`
 -   `org.mockito:mockito-scala-scalatest from 1.5.18 to 1.7.0`
 -   `org.scala-sbt:sbt from 1.3.2 to 1.3.3`
+-   `org.http4s:http4s-core from 0.20.11 to 0.20.12`
 ## 0.2.4
 
 ### Added
