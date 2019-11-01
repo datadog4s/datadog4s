@@ -12,5 +12,4 @@ class CountImpl[F[_]: Sync](statsDClient: StatsDClient, prefix: String, sampleRa
 
   override def modify(delta: Int, tags: Tag*): F[Unit] =
     F.delay(statsDClient.count(prefix, delta.toLong, sampleRate, (tags ++ defaultTags): _*))
-
 }

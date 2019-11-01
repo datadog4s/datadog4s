@@ -8,7 +8,6 @@ import scala.collection.immutable.Seq
 
 class UniqueSetImpl[F[_]: Sync](statsDClient: StatsDClient, aspect: String, defaultTags: Seq[Tag])
     extends UniqueSet[F] {
-
   private[this] val F = Sync[F]
 
   override def record(value: String, tags: Tag*): F[Unit] =

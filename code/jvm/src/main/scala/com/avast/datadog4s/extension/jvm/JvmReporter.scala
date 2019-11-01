@@ -68,5 +68,4 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
     bufferPoolsBytes.set(bean.getMemoryUsed, beanName) >>
       bufferPoolsInstances.set(bean.getCount, beanName)
   }
-
 }

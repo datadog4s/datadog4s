@@ -20,7 +20,6 @@ class TimerImpl[F[_]: Sync](
   sampleRate: Double,
   defaultTags: Seq[Tag]
 ) extends Timer[F] {
-
   private[this] val F                                  = Sync[F]
   private[this] val successTagger: Tagger[Boolean]     = Tagger.make("success")
   private[this] val failedTag: Tag                     = successTagger.tag(false)

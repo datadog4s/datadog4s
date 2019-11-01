@@ -12,11 +12,9 @@ class HistogramLongImpl[F[_]: Sync](
   sampleRate: Double,
   defaultTags: Seq[Tag]
 ) extends Histogram[F, Long] {
-
   private[this] val F = Sync[F]
 
   override def record(value: Long, tags: Tag*): F[Unit] = F.delay {
     statsDClient.recordHistogramValue(aspect, value, sampleRate, (tags ++ defaultTags): _*)
   }
-
 }

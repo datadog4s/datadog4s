@@ -10,7 +10,6 @@ import org.http4s.{ Method, Status }
 import org.http4s.metrics.{ MetricsOps, TerminationType }
 
 object DatadogMetricsOps {
-
   type ClassifierTags = String => List[Tag]
 
   val defaultClassifierTags: ClassifierTags = classifier => List(Tag.of("classifier", classifier))
@@ -18,7 +17,6 @@ object DatadogMetricsOps {
   def make[F[_]](metricFactory: MetricFactory[F], classifierTags: ClassifierTags = defaultClassifierTags)(
     implicit F: Sync[F]
   ): MetricsOps[F] = new MetricsOps[F] {
-
     private[this] val methodTagger       = Tagger.make[Method]("method")
     private[this] val typeTagger         = Tagger.make[TerminationType]("type")
     private[this] val responseCodeTagger = Tagger.make[Status]("response_code")
@@ -60,7 +58,5 @@ object DatadogMetricsOps {
       val tags = tpe :: classifier.toList.flatMap(classifierTags)
       abnormalCount.inc(tags: _*) >> abnormalLatency.record(Duration.ofNanos(elapsed), tags: _*)
     }
-
   }
-
 }

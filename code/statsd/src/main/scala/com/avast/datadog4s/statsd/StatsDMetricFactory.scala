@@ -9,7 +9,6 @@ import com.timgroup.statsd.StatsDClient
 
 class StatsDMetricFactory[F[_]: Sync](statsDClient: StatsDClient, basePrefix: String, config: StatsDMetricFactoryConfig)
     extends MetricFactory[F] {
-
   import config.{ defaultTags, sampleRate => defaultSampleRate }
 
   private[this] val clock = Clock.create[F]

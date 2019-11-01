@@ -6,7 +6,6 @@ import com.avast.datadog4s.statsd.StatsDMetricFactory
 import com.timgroup.statsd.NonBlockingStatsDClient
 
 object StatsDMetricFactory {
-
   def make[F[_]: Sync](config: StatsDMetricFactoryConfig): Resource[F, MetricFactory[F]] = {
     val F = Sync[F]
     Resource
