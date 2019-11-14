@@ -4,7 +4,6 @@ language: scala
 
 matrix:
   include:
-    - jdk: oraclejdk8
     - jdk: oraclejdk11
     - jdk: openjdk8
     - jdk: openjdk11

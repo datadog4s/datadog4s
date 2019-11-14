@@ -7,7 +7,7 @@ import cats.effect.Sync
 import cats.instances.vector._
 import cats.syntax.flatMap._
 import cats.syntax.functor._
-import com.avast.datadog4s.api.{MetricFactory, Tag}
+import com.avast.datadog4s.api.{ MetricFactory, Tag }
 import com.sun.management._
 import sun.management.ManagementFactoryHelper
 
