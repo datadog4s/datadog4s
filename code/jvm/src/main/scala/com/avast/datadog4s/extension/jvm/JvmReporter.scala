@@ -2,16 +2,20 @@ package com.avast.datadog4s.extension.jvm
 
 import java.lang.management.ManagementFactory
 
-import scala.collection.JavaConverters._
-import com.sun.management._
-import cats.effect.Sync
 import cats.Traverse
+import cats.effect.Sync
 import cats.instances.vector._
 import cats.syntax.flatMap._
-import com.avast.datadog4s.api.{ MetricFactory, Tag }
+import cats.syntax.functor._
+import com.avast.datadog4s.api.{MetricFactory, Tag}
+import com.sun.management._
 import sun.management.ManagementFactoryHelper
 
+import scala.collection.JavaConverters._
+
 class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
+  private val F = Sync[F]
+
   private val cpuLoad              = metricsFactory.gauge.double("jvm.cpu.load")
   private val cpuTime              = metricsFactory.gauge.long("jvm.cpu.time")
   private val openFds              = metricsFactory.gauge.long("jvm.filedescriptor.open")
@@ -30,10 +34,10 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   private val gcCollections        = metricsFactory.gauge.long("jvm.gc.collections")
   private val gcTime               = metricsFactory.gauge.long("jvm.gc.time")
 
-  private val osBean      = ManagementFactory.getOperatingSystemMXBean.asInstanceOf[OperatingSystemMXBean]
+  private val osBean      = F.delay { ManagementFactory.getOperatingSystemMXBean.asInstanceOf[OperatingSystemMXBean] }
+  private val unixBean    = F.delay { ManagementFactory.getOperatingSystemMXBean.asInstanceOf[UnixOperatingSystemMXBean] }
   private val memoryBean  = ManagementFactory.getMemoryMXBean
   private val runtimeBean = ManagementFactory.getRuntimeMXBean
-  private val unixBean    = ManagementFactory.getOperatingSystemMXBean.asInstanceOf[UnixOperatingSystemMXBean]
   private val threadBean  = ManagementFactory.getThreadMXBean
   private val classBean   = ManagementFactory.getClassLoadingMXBean
   private val bufferBeans = ManagementFactoryHelper.getBufferPoolMXBeans.asScala.toVector
@@ -42,19 +46,40 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   def collect: F[Unit] =
     Traverse[Vector].sequence(buffers) >>
       Traverse[Vector].sequence(gc) >>
-      cpuLoad.set(osBean.getProcessCpuLoad) >>
-      cpuTime.set(osBean.getProcessCpuTime) >>
-      openFds.set(unixBean.getOpenFileDescriptorCount) >>
-      heapUsed.set(memoryBean.getHeapMemoryUsage.getUsed) >>
-      heapCommitted.set(memoryBean.getHeapMemoryUsage.getCommitted) >>
-      heapMax.set(memoryBean.getHeapMemoryUsage.getMax) >>
-      nonHeapCommited.set(memoryBean.getNonHeapMemoryUsage.getCommitted) >>
-      nonHeapUsed.set(memoryBean.getNonHeapMemoryUsage.getUsed) >>
-      uptime.set(runtimeBean.getUptime) >>
-      threadsTotal.set(threadBean.getThreadCount.toLong) >>
-      threadsDaemon.set(threadBean.getDaemonThreadCount.toLong) >>
-      threadsStarted.set(threadBean.getTotalStartedThreadCount) >>
-      classes.set(classBean.getLoadedClassCount.toLong)
+      protect(getCpuLoadIO)(cpuLoad.set(_)) >>
+      protect(getCpuTimeIO)(cpuTime.set(_)) >>
+      protect(getOpenFDsCountIO)(openFds.set(_)) >>
+      getHeapUsedIO.flatMap(heapUsed.set(_)) >>
+      getHeapCommittedIO.flatMap(heapCommitted.set(_)) >>
+      getHeapMaxIO.flatMap(heapMax.set(_)) >>
+      getNonHeapCommitedIO.flatMap(nonHeapCommited.set(_)) >>
+      getNonHeapUsedIO.flatMap(nonHeapUsed.set(_)) >>
+      getUptimeIO.flatMap(uptime.set(_)) >>
+      getThreadsTotalIO.flatMap(threadsTotal.set(_)) >>
+      getThreadsDaemonIO.flatMap(threadsDaemon.set(_)) >>
+      getThreadsStartedIO.flatMap(threadsStarted.set(_)) >>
+      getClassesIO.flatMap(classes.set(_))
+
+  protected[jvm] val getBuffersIO: F[Vector[Unit]] = Traverse[Vector].sequence(buffers)
+  protected[jvm] val getGcIO: F[Vector[Unit]]      = Traverse[Vector].sequence(gc)
+  protected[jvm] val getCpuLoadIO: F[Double]       = osBean.map(_.getProcessCpuLoad)
+  protected[jvm] val getCpuTimeIO: F[Long]         = osBean.map(_.getProcessCpuTime)
+  protected[jvm] val getOpenFDsCountIO: F[Long]    = unixBean.map(_.getOpenFileDescriptorCount)
+  protected[jvm] val getHeapUsedIO: F[Long]        = F.delay(memoryBean.getHeapMemoryUsage.getUsed)
+  protected[jvm] val getHeapCommittedIO: F[Long]   = F.delay(memoryBean.getHeapMemoryUsage.getCommitted)
+  protected[jvm] val getHeapMaxIO: F[Long]         = F.delay(memoryBean.getHeapMemoryUsage.getMax)
+  protected[jvm] val getNonHeapCommitedIO: F[Long] = F.delay(memoryBean.getNonHeapMemoryUsage.getCommitted)
+  protected[jvm] val getNonHeapUsedIO: F[Long]     = F.delay(memoryBean.getNonHeapMemoryUsage.getUsed)
+  protected[jvm] val getUptimeIO: F[Long]          = F.delay(runtimeBean.getUptime)
+  protected[jvm] val getThreadsTotalIO: F[Long]    = F.delay(threadBean.getThreadCount.toLong)
+  protected[jvm] val getThreadsDaemonIO: F[Long]   = F.delay(threadBean.getDaemonThreadCount.toLong)
+  protected[jvm] val getThreadsStartedIO: F[Long]  = F.delay(threadBean.getTotalStartedThreadCount)
+  protected[jvm] val getClassesIO: F[Long]         = F.delay(classBean.getLoadedClassCount.toLong)
+
+  private def protect[A](fa: F[A])(fu: A => F[Unit]): F[Unit] =
+    F.recoverWith(fa.flatMap(fu)) {
+      case _ => F.unit
+    }
 
   private def gc: Vector[F[Unit]] =
     gcBeans.map { bean =>
