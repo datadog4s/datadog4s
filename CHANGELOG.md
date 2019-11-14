@@ -1,5 +1,7 @@
 # Changelog
 ## Unreleased
+
+## 0.2.5
 ### Version updates
 -   `org.scalameta:scalafmt-core from 2.0.1 to 2.2.2`
 -   `ch.epfl.scala:sbt-bloop from 1.3.2 to 1.3.5`
@@ -9,6 +11,9 @@
 -   `org.mockito:mockito-scala-scalatest from 1.5.18 to 1.7.0`
 -   `org.scala-sbt:sbt from 1.3.2 to 1.3.3`
 -   `org.http4s:http4s-core from 0.20.11 to 0.20.12`
+
+Note: Starting from next release, dependency updates will not be tracked in the changelog unless they introduce a major change.
+
 ## 0.2.4
 
 ### Added
