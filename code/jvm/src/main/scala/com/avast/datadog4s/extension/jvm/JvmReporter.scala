@@ -83,7 +83,6 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
       case _ => F.unit
     }
 
-
   private def gc: Vector[F[Unit]] =
     gcBeans.map { bean =>
       val gcName = Tag.of("gc_name", bean.getName.replace(" ", "_"))
