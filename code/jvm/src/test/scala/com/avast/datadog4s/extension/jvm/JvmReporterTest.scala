@@ -20,7 +20,7 @@ class JvmReporterTest extends FlatSpec {
     reporter.getHeapUsedIO.unsafeRunSync()
     reporter.getHeapCommittedIO.unsafeRunSync()
     reporter.getHeapMaxIO.unsafeRunSync()
-    reporter.getNonHeapCommitedIO.unsafeRunSync()
+    reporter.getNonHeapCommittedIO.unsafeRunSync()
     reporter.getNonHeapUsedIO.unsafeRunSync()
     reporter.getUptimeIO.unsafeRunSync()
     reporter.getThreadsTotalIO.unsafeRunSync()
