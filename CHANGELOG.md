@@ -1,5 +1,6 @@
 # Changelog
 ## Unreleased
+-   **breaking**: metric `jvm.nonheap.commited` renamed to `jvm.nonheap.committed` (issue #70)
 
 ## 0.2.5
 ### Version updates
