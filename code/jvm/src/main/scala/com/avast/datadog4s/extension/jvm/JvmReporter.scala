@@ -46,35 +46,37 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   def collect: F[Unit] =
     Traverse[Vector].sequence(buffers) >>
       Traverse[Vector].sequence(gc) >>
-      protect(getCpuLoadIO)(cpuLoad.set(_)) >>
-      protect(getCpuTimeIO)(cpuTime.set(_)) >>
-      protect(getOpenFDsCountIO)(openFds.set(_)) >>
-      getHeapUsedIO.flatMap(heapUsed.set(_)) >>
-      getHeapCommittedIO.flatMap(heapCommitted.set(_)) >>
-      getHeapMaxIO.flatMap(heapMax.set(_)) >>
-      getNonHeapCommitedIO.flatMap(nonHeapCommited.set(_)) >>
-      getNonHeapUsedIO.flatMap(nonHeapUsed.set(_)) >>
-      getUptimeIO.flatMap(uptime.set(_)) >>
-      getThreadsTotalIO.flatMap(threadsTotal.set(_)) >>
-      getThreadsDaemonIO.flatMap(threadsDaemon.set(_)) >>
-      getThreadsStartedIO.flatMap(threadsStarted.set(_)) >>
-      getClassesIO.flatMap(classes.set(_))
+      getBuffersIO >>
+      getGcIO >>
+      getCpuLoadIO >>
+      getCpuTimeIO >>
+      getOpenFDsCountIO >>
+      getHeapUsedIO >>
+      getHeapCommittedIO >>
+      getHeapMaxIO >>
+      getNonHeapCommitedIO >>
+      getNonHeapUsedIO >>
+      getUptimeIO >>
+      getThreadsTotalIO >>
+      getThreadsDaemonIO >>
+      getThreadsStartedIO >>
+      getClassesIO
 
-  protected[jvm] val getBuffersIO: F[Vector[Unit]] = Traverse[Vector].sequence(buffers)
-  protected[jvm] val getGcIO: F[Vector[Unit]]      = Traverse[Vector].sequence(gc)
-  protected[jvm] val getCpuLoadIO: F[Double]       = osBean.map(_.getProcessCpuLoad)
-  protected[jvm] val getCpuTimeIO: F[Long]         = osBean.map(_.getProcessCpuTime)
-  protected[jvm] val getOpenFDsCountIO: F[Long]    = unixBean.map(_.getOpenFileDescriptorCount)
-  protected[jvm] val getHeapUsedIO: F[Long]        = F.delay(memoryBean.getHeapMemoryUsage.getUsed)
-  protected[jvm] val getHeapCommittedIO: F[Long]   = F.delay(memoryBean.getHeapMemoryUsage.getCommitted)
-  protected[jvm] val getHeapMaxIO: F[Long]         = F.delay(memoryBean.getHeapMemoryUsage.getMax)
-  protected[jvm] val getNonHeapCommitedIO: F[Long] = F.delay(memoryBean.getNonHeapMemoryUsage.getCommitted)
-  protected[jvm] val getNonHeapUsedIO: F[Long]     = F.delay(memoryBean.getNonHeapMemoryUsage.getUsed)
-  protected[jvm] val getUptimeIO: F[Long]          = F.delay(runtimeBean.getUptime)
-  protected[jvm] val getThreadsTotalIO: F[Long]    = F.delay(threadBean.getThreadCount.toLong)
-  protected[jvm] val getThreadsDaemonIO: F[Long]   = F.delay(threadBean.getDaemonThreadCount.toLong)
-  protected[jvm] val getThreadsStartedIO: F[Long]  = F.delay(threadBean.getTotalStartedThreadCount)
-  protected[jvm] val getClassesIO: F[Long]         = F.delay(classBean.getLoadedClassCount.toLong)
+  protected[jvm] val getBuffersIO         = Traverse[Vector].sequence(buffers)
+  protected[jvm] val getGcIO              = Traverse[Vector].sequence(gc)
+  protected[jvm] val getCpuLoadIO         = protect(osBean)(bean => cpuLoad.set(bean.getProcessCpuLoad))
+  protected[jvm] val getCpuTimeIO         = protect(osBean)(bean => cpuLoad.set(bean.getProcessCpuLoad))
+  protected[jvm] val getOpenFDsCountIO    = protect(unixBean)(bean => openFds.set(bean.getOpenFileDescriptorCount))
+  protected[jvm] val getHeapUsedIO        = heapUsed.set(memoryBean.getHeapMemoryUsage.getUsed)
+  protected[jvm] val getHeapCommittedIO   = heapCommitted.set(memoryBean.getHeapMemoryUsage.getCommitted)
+  protected[jvm] val getHeapMaxIO         = heapMax.set(memoryBean.getHeapMemoryUsage.getMax)
+  protected[jvm] val getNonHeapCommitedIO = nonHeapCommited.set(memoryBean.getNonHeapMemoryUsage.getCommitted)
+  protected[jvm] val getNonHeapUsedIO     = nonHeapUsed.set(memoryBean.getNonHeapMemoryUsage.getUsed)
+  protected[jvm] val getUptimeIO          = uptime.set(runtimeBean.getUptime)
+  protected[jvm] val getThreadsTotalIO    = threadsTotal.set(threadBean.getThreadCount.toLong)
+  protected[jvm] val getThreadsDaemonIO   = threadsDaemon.set(threadBean.getDaemonThreadCount.toLong)
+  protected[jvm] val getThreadsStartedIO  = threadsStarted.set(threadBean.getTotalStartedThreadCount)
+  protected[jvm] val getClassesIO         = classes.set(classBean.getLoadedClassCount.toLong)
 
   private def protect[A](fa: F[A])(fu: A => F[Unit]): F[Unit] =
     F.recoverWith(fa.flatMap(fu)) {
