@@ -19,7 +19,7 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   private val heapCommitted        = metricsFactory.gauge.long("jvm.heap.committed")
   private val heapMax              = metricsFactory.gauge.long("jvm.heap.max")
   private val nonHeapUsed          = metricsFactory.gauge.long("jvm.nonheap.used")
-  private val nonHeapCommited      = metricsFactory.gauge.long("jvm.nonheap.commited")
+  private val nonHeapCommitted      = metricsFactory.gauge.long("jvm.nonheap.committed")
   private val uptime               = metricsFactory.gauge.long("jvm.uptime")
   private val threadsTotal         = metricsFactory.gauge.long("jvm.threads.total")
   private val threadsDaemon        = metricsFactory.gauge.long("jvm.threads.daemon")
@@ -48,7 +48,7 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
       heapUsed.set(memoryBean.getHeapMemoryUsage.getUsed) >>
       heapCommitted.set(memoryBean.getHeapMemoryUsage.getCommitted) >>
       heapMax.set(memoryBean.getHeapMemoryUsage.getMax) >>
-      nonHeapCommited.set(memoryBean.getNonHeapMemoryUsage.getCommitted) >>
+      nonHeapCommitted.set(memoryBean.getNonHeapMemoryUsage.getCommitted) >>
       nonHeapUsed.set(memoryBean.getNonHeapMemoryUsage.getUsed) >>
       uptime.set(runtimeBean.getUptime) >>
       threadsTotal.set(threadBean.getThreadCount.toLong) >>
