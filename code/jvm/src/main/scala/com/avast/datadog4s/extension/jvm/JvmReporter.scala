@@ -19,7 +19,7 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   private val heapCommitted        = metricsFactory.gauge.long("jvm.heap.committed")
   private val heapMax              = metricsFactory.gauge.long("jvm.heap.max")
   private val nonHeapUsed          = metricsFactory.gauge.long("jvm.nonheap.used")
-  private val nonHeapCommitted      = metricsFactory.gauge.long("jvm.nonheap.committed")
+  private val nonHeapCommitted     = metricsFactory.gauge.long("jvm.nonheap.committed")
   private val uptime               = metricsFactory.gauge.long("jvm.uptime")
   private val threadsTotal         = metricsFactory.gauge.long("jvm.threads.total")
   private val threadsDaemon        = metricsFactory.gauge.long("jvm.threads.daemon")
