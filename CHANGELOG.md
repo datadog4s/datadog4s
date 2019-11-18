@@ -1,6 +1,7 @@
 # Changelog
 ## Unreleased
 -   **breaking**: metric `jvm.nonheap.commited` renamed to `jvm.nonheap.committed` (issue #70)
+-   Fixed issue #69 (windows jdk compatibility) by disabling metrics not obtainable on windows
 
 ## 0.2.5
 ### Version updates

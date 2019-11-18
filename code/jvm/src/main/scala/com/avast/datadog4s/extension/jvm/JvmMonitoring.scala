@@ -12,7 +12,7 @@ object JvmMonitoring {
   case class Config(
     initialDelay: Duration = Duration.ofMillis(0),
     delay: Duration = Duration.ofMinutes(1),
-    schedulerThreadName: String = "datadog-jvm-reporter"
+    schedulerThreadName: String = "datadog4s-jvm-reporter"
   )
 
   def default[F[_]: Effect](factory: MetricFactory[F]): Resource[F, Unit] =
