@@ -6,7 +6,6 @@ import cats.Traverse
 import cats.effect.Sync
 import cats.instances.vector._
 import cats.syntax.flatMap._
-import cats.syntax.functor._
 import com.avast.datadog4s.api.{ MetricFactory, Tag }
 import com.sun.management._
 import sun.management.ManagementFactoryHelper
@@ -65,7 +64,7 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   protected[jvm] val getBuffersIO          = Traverse[Vector].sequence(buffers)
   protected[jvm] val getGcIO               = Traverse[Vector].sequence(gc)
   protected[jvm] val getCpuLoadIO          = protect(osBean)(bean => cpuLoad.set(bean.getProcessCpuLoad))
-  protected[jvm] val getCpuTimeIO          = protect(osBean)(bean => cpuLoad.set(bean.getProcessCpuLoad))
+  protected[jvm] val getCpuTimeIO          = protect(osBean)(bean => cpuTime.set(bean.getProcessCpuLoad))
   protected[jvm] val getOpenFDsCountIO     = protect(unixBean)(bean => openFds.set(bean.getOpenFileDescriptorCount))
   protected[jvm] val getHeapUsedIO         = heapUsed.set(memoryBean.getHeapMemoryUsage.getUsed)
   protected[jvm] val getHeapCommittedIO    = heapCommitted.set(memoryBean.getHeapMemoryUsage.getCommitted)
