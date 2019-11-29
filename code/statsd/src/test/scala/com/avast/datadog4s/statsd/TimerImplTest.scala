@@ -7,9 +7,10 @@ import com.avast.datadog4s.api.Tag
 import com.avast.datadog4s.statsd.metric.TimerImpl
 import com.timgroup.statsd.StatsDClient
 import org.mockito.scalatest.MockitoSugar
-import org.scalatest.{ Assertions, BeforeAndAfter, FlatSpec }
+import org.scalatest.{ Assertions, BeforeAndAfter }
+import org.scalatest.flatspec.AnyFlatSpec
 
-class TimerImplTest extends FlatSpec with MockitoSugar with BeforeAndAfter with Assertions {
+class TimerImplTest extends AnyFlatSpec with MockitoSugar with BeforeAndAfter with Assertions {
 
   trait Fixtures {
     val aspect: String = "metric"
