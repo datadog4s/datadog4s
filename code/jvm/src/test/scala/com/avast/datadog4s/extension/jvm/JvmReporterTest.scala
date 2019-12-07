@@ -2,9 +2,9 @@ package com.avast.datadog4s.extension.jvm
 
 import cats.effect.IO
 import com.avast.datadog4s.noop.NoopMetricFactory
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class JvmReporterTest extends FlatSpec {
+class JvmReporterTest extends AnyFlatSpec {
   val reporter = new JvmReporter[IO](new NoopMetricFactory[IO])
 
   "JvmReporter" should "not throw any exceptions" in {
