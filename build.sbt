@@ -104,9 +104,10 @@ lazy val docs = project
   .in(file("compiled-docs"))
   .settings(scalaSettings)
   .settings(commonSettings)
+  .settings(
+    publish / skip := true
+  )
   .dependsOn(statsd)
   .dependsOn(http4s)
   .dependsOn(jvm)
   .enablePlugins(MdocPlugin)
-
-skip in (publish in docs) := true
