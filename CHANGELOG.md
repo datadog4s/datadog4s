@@ -1,5 +1,10 @@
 # Changelog
 ## Unreleased
+## 0.3.3
+-   Disabled fix of publishing of docs module
+
+## 0.3.2
+-   Fixed publishing of root project
 
 ## 0.3.1
 -   fixed bug introduced in 0.3.0 with metric `jvm.cpu.time` not being collected properly ([issue #75](https://github.com/avast/datadog4s/issues/75))
