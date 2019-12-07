@@ -43,6 +43,7 @@ lazy val commonSettings = Seq(
 lazy val global = project
   .in(file("."))
   .settings(name := "datadog4s")
+  .settings(commonSettings)
   .aggregate(
     api,
     statsd,
