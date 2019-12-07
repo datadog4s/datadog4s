@@ -1,5 +1,8 @@
 # Changelog
 ## Unreleased
+## 0.3.5
+-   Root project now depends on subprojects
+
 ## 0.3.4
 -   Another stab at fixing of publish of root project
 

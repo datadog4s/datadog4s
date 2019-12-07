@@ -44,13 +44,8 @@ lazy val global = project
   .in(file("."))
   .settings(name := "datadog4s")
   .settings(commonSettings)
-  .aggregate(
-    api,
-    statsd,
-    http4s,
-    jvm,
-    docs
-  )
+  .aggregate(api, statsd, http4s, jvm, docs)
+  .dependsOn(api, statsd, http4s, jvm, docs)
 
 lazy val api = project
   .in(file("code/api"))
