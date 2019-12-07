@@ -42,7 +42,7 @@ lazy val commonSettings = Seq(
 
 lazy val global = project
   .in(file("."))
-  .settings(name := "datadog4s", publish := {}, publishLocal := {}, crossScalaVersions := Nil)
+  .settings(name := "datadog4s")
   .aggregate(
     api,
     statsd,
