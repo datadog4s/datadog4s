@@ -1,5 +1,8 @@
 # Changelog
 ## Unreleased
+## 0.3.6
+-   Removed docs as dependency of root project - we really need to make snapshots working
+
 ## 0.3.5
 -   Root project now depends on subprojects
 
