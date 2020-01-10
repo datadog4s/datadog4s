@@ -1,5 +1,7 @@
 # Changelog
 ## Unreleased
+-   Fixed JVM metrics
+
 ## 0.3.6
 -   Removed docs as dependency of root project - we really need to make snapshots working
 
