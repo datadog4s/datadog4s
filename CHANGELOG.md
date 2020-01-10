@@ -1,5 +1,7 @@
 # Changelog
 ## Unreleased
+
+## 0.3.7
 -   Fixed JVM metrics
 
 ## 0.3.6
