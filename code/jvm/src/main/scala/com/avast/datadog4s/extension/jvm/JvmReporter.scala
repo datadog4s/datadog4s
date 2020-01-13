@@ -9,6 +9,7 @@ import cats.syntax.flatMap._
 import com.avast.datadog4s.api.{ MetricFactory, Tag }
 import com.sun.management._
 import sun.management.ManagementFactoryHelper
+import com.github.ghik.silencer.silent
 
 import scala.collection.JavaConverters._
 
@@ -39,8 +40,10 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   private val runtimeBean = ManagementFactory.getRuntimeMXBean
   private val threadBean  = ManagementFactory.getThreadMXBean
   private val classBean   = ManagementFactory.getClassLoadingMXBean
+  @silent("deprecated")
   private val bufferBeans = ManagementFactoryHelper.getBufferPoolMXBeans.asScala.toVector
-  private val gcBeans     = ManagementFactory.getGarbageCollectorMXBeans.asScala.toVector
+  @silent("deprecated")
+  private val gcBeans = ManagementFactory.getGarbageCollectorMXBeans.asScala.toVector
 
   def collect: F[Unit] =
     Traverse[Vector].sequence(buffers) >>
