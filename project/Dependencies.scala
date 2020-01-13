@@ -2,7 +2,7 @@ import sbt._
 
 object Dependencies {
   object Cats {
-    val core   = "org.typelevel" %% "cats-core"   % "2.0.0"
+    val core   = "org.typelevel" %% "cats-core"   % "2.1.0"
     val effect = "org.typelevel" %% "cats-effect" % "2.0.0"
   }
 
@@ -17,7 +17,7 @@ object Dependencies {
 
   object Testing {
     val scalaTest        = "org.scalatest" %% "scalatest"               % "3.1.0"
-    val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.10.0"
+    val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.10.4"
   }
 
   object Silencer {

@@ -1,5 +1,10 @@
 # Changelog
 ## Unreleased
+- Renamed `response_code` tag to `status_code`
+
+## 0.3.7
+-   Fixed JVM metrics
+
 ## 0.3.6
 -   Removed docs as dependency of root project - we really need to make snapshots working
 
