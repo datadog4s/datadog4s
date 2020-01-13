@@ -1,5 +1,6 @@
 # Changelog
 ## Unreleased
+- Renamed `response_code` tag to `status_code`
 
 ## 0.3.7
 -   Fixed JVM metrics
