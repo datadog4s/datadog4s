@@ -20,9 +20,7 @@ object Dependencies {
     val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.10.4"
   }
 
-  object Silencer {
-    val plugin = compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.4.4" cross CrossVersion.full)
-    val lib            = "com.github.ghik" % "silencer-lib" % "1.4.4" % Provided cross CrossVersion.full
-
+  object ScalaModules {
+    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.1.3"
   }
 }

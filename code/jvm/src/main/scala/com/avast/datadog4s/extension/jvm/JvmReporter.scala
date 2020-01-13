@@ -10,9 +10,8 @@ import com.avast.datadog4s.api.metric.Gauge
 import com.avast.datadog4s.api.{ MetricFactory, Tag }
 import com.sun.management._
 import sun.management.ManagementFactoryHelper
-import com.github.ghik.silencer.silent
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   private val F = Sync[F]
@@ -41,10 +40,8 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   private val runtimeBean = ManagementFactory.getRuntimeMXBean
   private val threadBean  = ManagementFactory.getThreadMXBean
   private val classBean   = ManagementFactory.getClassLoadingMXBean
-  @silent("deprecated")
   private val bufferBeans = ManagementFactoryHelper.getBufferPoolMXBeans.asScala.toVector
-  @silent("deprecated")
-  private val gcBeans = ManagementFactory.getGarbageCollectorMXBeans.asScala.toVector
+  private val gcBeans     = ManagementFactory.getGarbageCollectorMXBeans.asScala.toVector
 
   private def wrapUnsafe[T](gauge: Gauge[F, T], tags: Tag*)(f: => T): F[Unit] =
     F.delay(f).flatMap(gauge.set(_, tags: _*))

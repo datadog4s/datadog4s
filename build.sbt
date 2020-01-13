@@ -105,8 +105,7 @@ lazy val jvm = project
     commonSettings,
     libraryDependencies ++= Seq(
       Dependencies.Cats.effect,
-      Dependencies.Silencer.plugin,
-      Dependencies.Silencer.lib
+      Dependencies.ScalaModules.collectionCompat
     )
   )
   .dependsOn(api)
