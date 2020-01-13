@@ -1,7 +1,8 @@
 import CompilerSettings._
 
 lazy val scala212               = "2.12.10"
-lazy val supportedScalaVersions = List(scala212)
+lazy val scala213               = "2.13.1"
+lazy val supportedScalaVersions = List(scala212, scala213)
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala212,
@@ -78,9 +79,21 @@ lazy val http4s = project
     scalaSettings,
     commonSettings,
     libraryDependencies ++= Seq(
-      Dependencies.Cats.effect,
-      Dependencies.Http4s.core
-    )
+      Dependencies.Cats.effect
+    ),
+    libraryDependencies := {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, scalaMajor)) if scalaMajor >= 13 =>
+          libraryDependencies.value ++ Seq(
+            Dependencies.Http4s.coreV21
+          )
+        case Some((2, scalaMajor)) if scalaMajor >= 12 =>
+          libraryDependencies.value ++ Seq(
+            Dependencies.Http4s.coreV20
+          )
+        case _ => libraryDependencies.value
+      }
+    }
   )
   .dependsOn(api)
 
@@ -91,7 +104,8 @@ lazy val jvm = project
     scalaSettings,
     commonSettings,
     libraryDependencies ++= Seq(
-      Dependencies.Cats.effect
+      Dependencies.Cats.effect,
+      Dependencies.ScalaModules.collectionCompat
     )
   )
   .dependsOn(api)

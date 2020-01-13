@@ -11,11 +11,16 @@ object Dependencies {
   }
 
   object Http4s {
-    val core = "org.http4s" %% "http4s-core" % "0.20.15"
+    val coreV20 = "org.http4s" %% "http4s-core" % "0.20.15"
+    val coreV21 = "org.http4s" %% "http4s-core" % "0.21.0-M6"
   }
 
   object Testing {
     val scalaTest        = "org.scalatest" %% "scalatest"               % "3.1.0"
     val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.10.4"
+  }
+
+  object ScalaModules {
+    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.1.3"
   }
 }

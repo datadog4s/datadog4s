@@ -1,6 +1,9 @@
 # Changelog
 ## Unreleased
-- Renamed `response_code` tag to `status_code`
+
+## 0.4.0
+-   Renamed `response_code` tag to `status_code`
+-   Added cross compilation for Scala 2.13  
 
 ## 0.3.7
 -   Fixed JVM metrics

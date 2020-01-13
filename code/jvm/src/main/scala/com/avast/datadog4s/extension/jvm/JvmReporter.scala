@@ -11,7 +11,7 @@ import com.avast.datadog4s.api.{ MetricFactory, Tag }
 import com.sun.management._
 import sun.management.ManagementFactoryHelper
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   private val F = Sync[F]
