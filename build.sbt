@@ -83,7 +83,6 @@ lazy val http4s = project
     ),
     libraryDependencies := {
       CrossVersion.partialVersion(scalaVersion.value) match {
-        // if Scala 2.12+ is used, use scala-swing 2.x
         case Some((2, scalaMajor)) if scalaMajor >= 13 =>
           libraryDependencies.value ++ Seq(
             Dependencies.Http4s.coreV21
