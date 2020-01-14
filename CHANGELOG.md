@@ -1,5 +1,6 @@
 # Changelog
 ## Unreleased
+-   Better active requests handling in http4s
 
 ## 0.4.0
 -   Renamed `response_code` tag to `status_code`
