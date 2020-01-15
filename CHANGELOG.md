@@ -1,5 +1,7 @@
 # Changelog
 ## Unreleased
+
+## 0.5.0
 -   Better active requests handling in http4s
 
 ## 0.4.0
