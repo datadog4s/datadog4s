@@ -1,6 +1,9 @@
 # Changelog
 ## Unreleased
 
+## 0.6.1
+-   Test release to maven-central
+
 ## 0.6.0
 -   We are now publishing to maven-central instead of bintray
 
