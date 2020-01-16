@@ -1,6 +1,9 @@
 # Changelog
 ## Unreleased
 
+## 0.6.0
+-   We are now publishing to maven-central instead of bintray
+
 ## 0.5.0
 -   Better active requests handling in http4s
 
