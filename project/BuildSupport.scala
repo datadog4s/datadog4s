@@ -19,7 +19,7 @@ object BuildSupport {
     micrositeFooterText := None,
     micrositeGitterChannel := false,
     micrositeTheme := "pattern",
-    micrositePushSiteWith := GitHub4s, 
+    micrositePushSiteWith := GitHub4s,
     fork in mdoc := true,
     mdocIn := file("site") / "docs",
     mdocVariables := Map("VERSION" -> version.value),
