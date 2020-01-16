@@ -8,6 +8,20 @@ matrix:
     - jdk: openjdk8
     - jdk: openjdk11
 
+stages:
+  - name: test
+  - name: release
+    if: ((branch = master AND type = push) OR (tag IS present)) AND NOT fork
+
+jobs:
+  include:
+    # stage="test" if no stage is specified
+    - name: compile
+      script: sbt scalafmtCheck +test docs/mdoc
+    # run ci-release only if previous stages passed
+    - stage: release
+      script: sbt ci-release
+
 # These directories are cached to S3 at the end of the build
 cache:
   directories:
@@ -19,9 +33,6 @@ cache:
 
 scala:
   - 2.12.10
-
-script:
-  - ./.travis.sh
 
 before_cache:
   # Tricks to avoid unnecessary cache updates
