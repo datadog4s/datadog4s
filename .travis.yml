@@ -8,13 +8,14 @@ stages:
     if: ((branch = master AND type = push) OR (tag IS present)) AND NOT fork
 
 jdk:
-  - oraclejdk11
   - openjdk8
   - openjdk11
+  - oraclejdk11
+
+script: sbt scalafmtCheck +test docs/mdoc
+
 jobs:
   include:
-    # stage="test" if no stage is specified
-    - script: sbt scalafmtCheck +test docs/mdoc
     # run ci-release only if previous stages passed
     - stage: release
       jvm: openjdk8
