@@ -2,16 +2,15 @@ sudo: false
 
 language: scala
 
-matrix:
-  include:
-    - jdk: oraclejdk11
-    - jdk: openjdk8
-    - jdk: openjdk11
-
 stages:
   - name: test
   - name: release
     if: ((branch = master AND type = push) OR (tag IS present)) AND NOT fork
+
+jdk:
+  - oraclejdk11
+  - openjdk8
+  - openjdk11
 
 jobs:
   include:
