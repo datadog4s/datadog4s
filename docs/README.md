@@ -10,7 +10,7 @@ In addition to basic monitoring utilities, we also provide bunch of plug-and-pla
 - Http4s monitoring
 
 ## Quick start
-Latest version: [ ![Download](https://api.bintray.com/packages/avast/maven/datadog4s/images/download.svg) ](https://bintray.com/avast/maven/datadog4s/_latestVersion)
+Latest version: [![Download](https://img.shields.io/maven-central/v/com.avast.cloud/datadog4s-api_2.13)](https://search.maven.org/search?q=g:com.avast.cloud%20datadog4s)
 
 To add all packages, add to `build.sbt`:
 
