@@ -2,11 +2,24 @@ sudo: false
 
 language: scala
 
-matrix:
+stages:
+  - name: test
+  - name: release
+    if: ((branch = master AND type = push) OR (tag IS present)) AND NOT fork
+
+jdk:
+  - openjdk8
+  - openjdk11
+  - oraclejdk11
+
+script: sbt scalafmtCheck +test docs/mdoc
+
+jobs:
   include:
-    - jdk: oraclejdk11
-    - jdk: openjdk8
-    - jdk: openjdk11
+    # run ci-release only if previous stages passed
+    - stage: release
+      jvm: openjdk8
+      script: sbt ci-release
 
 # These directories are cached to S3 at the end of the build
 cache:
@@ -19,9 +32,6 @@ cache:
 
 scala:
   - 2.12.10
-
-script:
-  - ./.travis.sh
 
 before_cache:
   # Tricks to avoid unnecessary cache updates

@@ -4,6 +4,22 @@ lazy val scala212               = "2.12.10"
 lazy val scala213               = "2.13.1"
 lazy val supportedScalaVersions = List(scala212, scala213)
 
+
+inThisBuild(List(
+  organization := "com.avast.cloud",
+  homepage := Some(url("https://github.com/avast/datadog4s")),
+  licenses := List("MIT" -> url(s"https://github.com/avast/datadog4s/blob/${version.value}/LICENSE")),
+  description := "Library for datadog app monitoring",
+  developers := List(
+    Developer(
+      "tomasherman",
+      "Tomas Herman",
+      "hermant@avast.com",
+      url("https://tomasherman.cz")
+    )
+  )
+))
+
 lazy val scalaSettings = Seq(
   scalaVersion := scala212,
   scalacOptions ++= scalacOptionsFor(scalaVersion.value),
@@ -17,26 +33,6 @@ lazy val scalaSettings = Seq(
 )
 
 lazy val commonSettings = Seq(
-  organization := "com.avast.cloud",
-  version := sys.env.getOrElse("TRAVIS_TAG", "0.1-SNAPSHOT"),
-  description := "Library for datadog app monitoring",
-  licenses ++= Seq("MIT" -> url(s"https://github.com/avast/datadog4s/blob/${version.value}/LICENSE")),
-  publishArtifact in Test := false,
-  bintrayOrganization := Some("avast"),
-  bintrayPackage := "datadog4s",
-  pomExtra := (
-    <scm>
-      <url>git@github.com:avast/datadog4s.git</url>
-      <connection>scm:git:git@github.com:avast/datadog4s.git</connection>
-    </scm>
-      <developers>
-        <developer>
-          <id>avast</id>
-          <name>Tomas Herman, Avast Software s.r.o.</name>
-          <url>https://www.avast.com</url>
-        </developer>
-      </developers>
-  ),
   publishArtifact in Test := false,
   testOptions += Tests.Argument(TestFrameworks.JUnit)
 )
