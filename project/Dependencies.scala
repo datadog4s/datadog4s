@@ -20,6 +20,12 @@ object Dependencies {
     val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.10.4"
   }
 
+  object Mdoc {
+    val libMdoc = "org.scalameta" %% "mdoc" % "2.0.3" excludeAll (ExclusionRule(
+      organization = "org.slf4j"
+    ))
+  }
+
   object ScalaModules {
     val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.1.3"
   }

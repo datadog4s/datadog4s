@@ -4,22 +4,23 @@ lazy val scala212               = "2.12.10"
 lazy val scala213               = "2.13.1"
 lazy val supportedScalaVersions = List(scala212, scala213)
 
-
-inThisBuild(List(
-  organization := "com.avast.cloud",
-  sonatypeProfileName := "com.avast",
-  homepage := Some(url("https://github.com/avast/datadog4s")),
-  licenses := List("MIT" -> url(s"https://github.com/avast/datadog4s/blob/${version.value}/LICENSE")),
-  description := "Library for datadog app monitoring",
-  developers := List(
-    Developer(
-      "tomasherman",
-      "Tomas Herman",
-      "hermant@avast.com",
-      url("https://tomasherman.cz")
+inThisBuild(
+  List(
+    organization := "com.avast.cloud",
+    sonatypeProfileName := "com.avast",
+    homepage := Some(url("https://github.com/avast/datadog4s")),
+    licenses := List("MIT" -> url(s"https://github.com/avast/datadog4s/blob/${version.value}/LICENSE")),
+    description := "Library for datadog app monitoring",
+    developers := List(
+      Developer(
+        "tomasherman",
+        "Tomas Herman",
+        "hermant@avast.com",
+        url("https://tomasherman.cz")
+      )
     )
   )
-))
+)
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala212,
@@ -42,7 +43,7 @@ lazy val global = project
   .in(file("."))
   .settings(name := "datadog4s")
   .settings(commonSettings)
-  .aggregate(api, statsd, http4s, jvm, docs)
+  .aggregate(api, statsd, http4s, jvm, site)
   .dependsOn(api, statsd, http4s, jvm)
 
 lazy val api = project
@@ -107,14 +108,25 @@ lazy val jvm = project
   )
   .dependsOn(api)
 
-lazy val docs = project
-  .in(file("compiled-docs"))
+lazy val site = (project in file("site"))
   .settings(scalaSettings)
   .settings(commonSettings)
-  .settings(
-    publish / skip := true
+  .enablePlugins(
+    MdocPlugin,
+    MicrositesPlugin,
+    SiteScaladocPlugin,
+    SiteScaladocPlugin,
+    ScalaUnidocPlugin
   )
-  .dependsOn(statsd)
-  .dependsOn(http4s)
-  .dependsOn(jvm)
-  .enablePlugins(MdocPlugin)
+  .settings(
+    libraryDependencies ++= Seq(Dependencies.Mdoc.libMdoc)
+  )
+  .settings(publish / skip := true)
+  .settings(BuildSupport.micrositeSettings: _*)
+  .dependsOn(api, statsd, http4s, jvm)
+
+addCommandAlias(
+  "checkAll",
+  "; scalafmtSbtCheck; scalafmtCheckAll; doc; site/makeMdoc"
+)
+addCommandAlias("fixAll", "; scalafmtSbt; scalafmtAll")
