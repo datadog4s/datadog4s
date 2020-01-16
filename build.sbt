@@ -6,7 +6,8 @@ lazy val supportedScalaVersions = List(scala212, scala213)
 
 
 inThisBuild(List(
-  organization := "com.avast",
+  organization := "com.avast.cloud",
+  sonatypeProfileName := "com.avast",
   homepage := Some(url("https://github.com/avast/datadog4s")),
   licenses := List("MIT" -> url(s"https://github.com/avast/datadog4s/blob/${version.value}/LICENSE")),
   description := "Library for datadog app monitoring",
