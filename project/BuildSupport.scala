@@ -24,7 +24,7 @@ object BuildSupport {
     micrositeGithubToken := sys.env.get("GITHUB_TOKEN"),
     fork in mdoc := true,
     mdocIn := file("site") / "docs",
-    mdocVariables := Map("VERSION" -> previousStableVersion.value.get),
+    mdocVariables := Map("VERSION" -> previousStableVersion.value.getOrElse("latestVersion")),
     mdocAutoDependency := false,
     micrositeDataDirectory := file("site"),
     siteSubdirName in ScalaUnidoc := "api/latest",
