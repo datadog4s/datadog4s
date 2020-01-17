@@ -10,7 +10,7 @@ object BuildSupport {
   lazy val micrositeSettings = Seq(
     micrositeCompilingDocsTool := WithMdoc,
     micrositeName := "datadog4s",
-    micrositeDescription := "Datadog4s - Great monitoring made easy",
+    micrositeDescription := "Great monitoring made easy",
     micrositeAuthor := "Tomas Herman",
     micrositeGithubOwner := "avast",
     micrositeGithubRepo := "datadog4s",
