@@ -33,4 +33,4 @@ Or pick and choose from the available packages:
 
 # User guide
 
-For documentation, please read our [user guide](quickstart.html).
+For documentation, please read our [user guide](userguide.html).
