@@ -26,7 +26,7 @@ To start monitoring your code, first you need to add this library as a dependenc
 You need to add `datadog4s-api` which contains classes defining our API. You also need to add it's implementation. Currently we only support metric delivery using StatsD in package `datadog4s` which already contains `api`. We are going to assume you are using `sbt`:
 
 ```scala
-libraryDependencies += "com.avast.cloud" %% "datadog4s-api" % "0.1.2"
+libraryDependencies += "com.avast.cloud" %% "datadog4s-api" % "@VERSION@"
 ```
 
 ### Creating metric factory
@@ -63,7 +63,7 @@ factoryResource.use { factory =>
 ```
 
 ### Timers
-Timers are great. And with our API, they are even better. Because we are living in functional code, we expect you to provide us with `F[_]: Sync` and we will time how long execution takes, and tag it with whether it succeded and if it failed, which class of exception was thrown.
+Timers are great. And with our API, they are even better. Because we are living in functional code, we expect you to provide us with `F[_]: Sync` and we will time how long execution takes, and tag it with whether it succeeded (and if it failed, which class of exception was thrown).
 
 ```scala mdoc:silent
 

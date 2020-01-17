@@ -4,6 +4,7 @@ import microsites.MicrositesPlugin.autoImport._
 import sbt.Keys._
 import sbt._
 import sbtunidoc.ScalaUnidocPlugin.autoImport._
+import sbtdynver.DynVerPlugin.autoImport._
 
 object BuildSupport {
   lazy val micrositeSettings = Seq(
@@ -20,9 +21,10 @@ object BuildSupport {
     micrositeGitterChannel := false,
     micrositeTheme := "pattern",
     micrositePushSiteWith := GitHub4s,
+    micrositeGithubToken := sys.env.get("GITHUB_TOKEN"),
     fork in mdoc := true,
     mdocIn := file("site") / "docs",
-    mdocVariables := Map("VERSION" -> version.value),
+    mdocVariables := Map("VERSION" -> previousStableVersion.value.get),
     mdocAutoDependency := false,
     micrositeDataDirectory := file("site"),
     siteSubdirName in ScalaUnidoc := "api/latest",
