@@ -30,7 +30,7 @@ jobs:
 
 before_install:
 - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then bash
-  scripts/decrypt-keys.sh; fi
+  scripts/decryptKeys.sh; fi
 
 after_success:
 - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then bash
