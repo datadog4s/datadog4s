@@ -5,7 +5,7 @@ scala: [2.12.10]
 
 install:
 - rvm use 2.6.5 --install --fuzzy
-- gem install jekyll -v 4
+- if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then gem install jekyll -v 4; fi
 
 stages:
   - name: test
