@@ -1,6 +1,6 @@
 ---
 layout: docs
-title:  "Quick start"
+title:  "User guide"
 position: 1
 ---
 
