@@ -1,3 +1,9 @@
+---
+layout: docs
+title:  "Quick start"
+position: 1
+---
+
 # User guide
 
 - [User guide](#user-guide)
@@ -20,7 +26,7 @@ To start monitoring your code, first you need to add this library as a dependenc
 You need to add `datadog4s-api` which contains classes defining our API. You also need to add it's implementation. Currently we only support metric delivery using StatsD in package `datadog4s` which already contains `api`. We are going to assume you are using `sbt`:
 
 ```scala
-libraryDependencies += "com.avast.cloud" %% "datadog4s-api" % "0.1.2"
+libraryDependencies += "com.avast.cloud" %% "datadog4s-api" % "@VERSION@"
 ```
 
 ### Creating metric factory
@@ -30,7 +36,7 @@ To create an instance, we need to provide it with configuration which contains a
 
 The instance is wrapped in `Resource` because of the underlying `StatsD` client.
 
-```scala mdoc
+```scala mdoc:silent
 import java.net.InetSocketAddress
 import cats.effect._
 import com.avast.datadog4s.api._
@@ -46,7 +52,7 @@ val factoryResource: Resource[IO, MetricFactory[IO]] = StatsDMetricFactory.make(
 ### Creating metrics
 Once you have a metrics factory, creating metrics is straight forward.
 
-```scala mdoc
+```scala mdoc:silent
 factoryResource.use { factory =>
     val count: Count[IO] = factory.count("hits")
     count.inc() // increase count by one
@@ -57,9 +63,9 @@ factoryResource.use { factory =>
 ```
 
 ### Timers
-Timers are great. And with our API, they are even better. Because we are living in functional code, we expect you to provide us with `F[_]: Sync` and we will time how long execution takes, and tag it with whether it succeded and if it failed, which class of exception was thrown.
+Timers are great. And with our API, they are even better. Because we are living in functional code, we expect you to provide us with `F[_]: Sync` and we will time how long execution takes, and tag it with whether it succeeded (and if it failed, which class of exception was thrown).
 
-```scala mdoc
+```scala mdoc:silent
 
 factoryResource.use { factory =>
     val timer = factory.timer("request-latency")
@@ -103,7 +109,7 @@ Extensions are packages that monitor some functionality for you - without you ha
 ### Http4s
 Http4s package (`datadog4s-http4s`) provides implementation of [MetricsOps](metrics-ops) that is used by [http4s](http4s) to report both client and server metrics.
 
-```scala mdoc
+```scala mdoc:silent
 import com.avast.datadog4s.extension.http4s._
 
 factoryResource.use { metricFactory =>
@@ -117,7 +123,7 @@ JVM monitoring package (`datadog4s-jvm`) collects bunch of JVM metrics that we f
 
 Usage can not be simpler (unless you want to configure things like collection-frequency etc.). Simply add following to your initialization code. Resource is returned, because `Scheduler` has to be created which does the actual metric collection.
 
-```scala mdoc
+```scala mdoc:silent
 import com.avast.datadog4s.extension.jvm._
 
 val jvmMonitoring: Resource[IO, Unit] = factoryResource.flatMap(factory => JvmMonitoring.default[IO](factory))

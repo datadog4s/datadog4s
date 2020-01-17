@@ -1,4 +1,8 @@
-# Datadog Scala Metrics [![Build Status](https://travis-ci.org/avast/datadog4s.svg?branch=master)](https://travis-ci.org/avast/datadog4s) [![Download](https://img.shields.io/maven-central/v/com.avast.cloud/datadog4s-api_2.13)](https://search.maven.org/search?q=g:com.avast.cloud%20datadog4s) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2477b21fde784f328145aeb43509a555)](https://www.codacy.com/app/tomasherman/datadog4s?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=avast/datadog4s&amp;utm_campaign=Badge_Grade)<img height="40" src="https://typelevel.org/cats/img/cats-badge-tiny.png" align="right"/>
+---
+layout: home
+title:  "Home"
+section: "home"
+---
 
 Toolkit for monitoring applications written in functional Scala using Datadog.
 
@@ -14,7 +18,7 @@ Latest version: [![Download](https://img.shields.io/maven-central/v/com.avast.cl
 To add all packages, add to `build.sbt`:
 
 ```scala
-libraryDependencies += "com.avast.cloud" %% "datadog4s" % "latestVersion" 
+libraryDependencies += "com.avast.cloud" %% "datadog4s" % "@VERSION@" 
 ```
 
 Or pick and choose from the available packages:
@@ -27,7 +31,6 @@ Or pick and choose from the available packages:
 | `"com.avast.cloud" %% "datadog4s-jvm" % "latestVersion"`    | support for monitoring JVM itself                 |
 | `"com.avast.cloud" %% "datadog4s-http4s" % "latestVersion"` | monitoring support for [http4s][http4s] framework |
 
-## Documentation
-For documentation, please read our [user guide](https://avast.github.com/datadog4s/docs/userguide.md).
+# User guide
 
-[http4s]: https://http4s.org
+For documentation, please read our [user guide](quickstart.html).

@@ -38,7 +38,7 @@ lazy val global = project
   .in(file("."))
   .settings(name := "datadog4s")
   .settings(commonSettings)
-  .aggregate(api, statsd, http4s, jvm, docs)
+  .aggregate(api, statsd, http4s, jvm, site)
   .dependsOn(api, statsd, http4s, jvm)
 
 lazy val api = project
@@ -103,14 +103,25 @@ lazy val jvm = project
   )
   .dependsOn(api)
 
-lazy val docs = project
-  .in(file("compiled-docs"))
+lazy val site = (project in file("site"))
   .settings(scalaSettings)
   .settings(commonSettings)
-  .settings(
-    publish / skip := true
+  .enablePlugins(
+    MdocPlugin,
+    MicrositesPlugin,
+    SiteScaladocPlugin,
+    SiteScaladocPlugin,
+    ScalaUnidocPlugin
   )
-  .dependsOn(statsd)
-  .dependsOn(http4s)
-  .dependsOn(jvm)
-  .enablePlugins(MdocPlugin)
+  .settings(
+    libraryDependencies ++= Seq(Dependencies.Mdoc.libMdoc)
+  )
+  .settings(publish / skip := true)
+  .settings(BuildSupport.micrositeSettings: _*)
+  .dependsOn(api, statsd, http4s, jvm)
+
+addCommandAlias(
+  "checkAll",
+  "; scalafmtSbtCheck; scalafmtCheckAll; doc; site/makeMdoc"
+)
+addCommandAlias("fixAll", "; scalafmtSbt; scalafmtAll")

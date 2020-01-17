@@ -2,7 +2,6 @@ package com.avast.datadog4s
 
 import cats.effect.{ Resource, Sync }
 import com.avast.datadog4s.api.MetricFactory
-import com.avast.datadog4s.statsd.StatsDMetricFactory
 import com.timgroup.statsd.NonBlockingStatsDClient
 
 object StatsDMetricFactory {
@@ -19,6 +18,6 @@ object StatsDMetricFactory {
           )
         )
       )
-      .map(new StatsDMetricFactory[F](_, config.basePrefix, config))
+      .map(new statsd.StatsDMetricFactory[F](_, config.basePrefix, config))
   }
 }

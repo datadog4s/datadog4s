@@ -12,7 +12,7 @@ jdk:
   - openjdk11
   - oraclejdk11
 
-script: sbt scalafmtCheck +test docs/mdoc
+script: sbt checkAll +test
 
 jobs:
   include:

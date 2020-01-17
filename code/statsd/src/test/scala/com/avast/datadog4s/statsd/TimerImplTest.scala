@@ -36,11 +36,13 @@ class TimerImplTest extends AnyFlatSpec with MockitoSugar with BeforeAndAfter wi
 
     assertThrows[NoSuchElementException](res.unsafeRunSync())
     verify(statsD, times(1))
-      .recordExecutionTime(aspect,
-                           20,
-                           sampleRate,
-                           Tag.of("exception", "java.util.NoSuchElementException"),
-                           Tag.of("success", "false"))
+      .recordExecutionTime(
+        aspect,
+        20,
+        sampleRate,
+        Tag.of("exception", "java.util.NoSuchElementException"),
+        Tag.of("success", "false")
+      )
   }
 
 }
