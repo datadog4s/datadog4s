@@ -23,13 +23,13 @@ libraryDependencies += "com.avast.cloud" %% "datadog4s" % "@VERSION@"
 
 Or pick and choose from the available packages:
 
-| dependency name                                             | notes                                             |
-|-------------------------------------------------------------|---------------------------------------------------| 
-| `"com.avast.cloud" %% "datadog4s" % "latestVersion"`        | all-you-can-eat ... all the available packages    |
-| `"com.avast.cloud" %% "datadog4s-api" % "latestVersion"`    | api classes                                       |
-| `"com.avast.cloud" %% "datadog4s-statsd" % "latestVersion"` | statsd implementation of api classes              |
-| `"com.avast.cloud" %% "datadog4s-jvm" % "latestVersion"`    | support for monitoring JVM itself                 |
-| `"com.avast.cloud" %% "datadog4s-http4s" % "latestVersion"` | monitoring support for [http4s][http4s] framework |
+| dependency name                                         | notes                                             |
+|---------------------------------------------------------|---------------------------------------------------| 
+| `"com.avast.cloud" %% "datadog4s" % "@VERSION@"`        | all-you-can-eat ... all the available packages    |
+| `"com.avast.cloud" %% "datadog4s-api" % "@VERSION@"`    | api classes                                       |
+| `"com.avast.cloud" %% "datadog4s-statsd" % "@VERSION@"` | statsd implementation of api classes              |
+| `"com.avast.cloud" %% "datadog4s-jvm" % "@VERSION@"`    | support for monitoring JVM itself                 |
+| `"com.avast.cloud" %% "datadog4s-http4s" % "@VERSION@"` | monitoring support for [http4s][http4s] framework |
 
 # User guide
 
