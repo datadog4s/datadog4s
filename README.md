@@ -28,6 +28,6 @@ Or pick and choose from the available packages:
 | `"com.avast.cloud" %% "datadog4s-http4s" % "latestVersion"` | monitoring support for [http4s][http4s] framework |
 
 ## Documentation
-For documentation, please read our [user guide](https://avast.github.com/datadog4s/docs/userguide.md).
+For documentation, please read our [user guide](https://avast.github.io/datadog4s/quickstart.html).
 
 [http4s]: https://http4s.org
