@@ -20,8 +20,6 @@ object BuildSupport {
     micrositeFooterText := None,
     micrositeGitterChannel := false,
     micrositeTheme := "pattern",
-    micrositePushSiteWith := GitHub4s,
-    micrositeGithubToken := sys.env.get("GITHUB_TOKEN"),
     fork in mdoc := true,
     mdocIn := file("site") / "docs",
     mdocVariables := Map("VERSION" -> previousStableVersion.value.getOrElse("latestVersion")),
