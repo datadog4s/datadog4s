@@ -1,6 +1,7 @@
 sudo: false
 
 language: scala
+scala: [2.12.10]
 
 install:
 - rvm use 2.6.5 --install --fuzzy
@@ -16,6 +17,8 @@ jdk:
   - openjdk11
   - oraclejdk11
 
+
+
 script: sbt checkAll +test
 
 jobs:
@@ -25,6 +28,15 @@ jobs:
       jvm: openjdk8
       script: sbt ci-release site/publishMicrosite
 
+before_install:
+- if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then bash
+  scripts/decrypt-keys.sh; fi
+
+after_success:
+- if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then bash
+  scripts/publishMicrosite.sh; fi
+- if [ "$TRAVIS_PULL_REQUEST" = "true" ]; then echo "Not in master branch, skipping
+  deploy and release"; fi
 
 # These directories are cached to S3 at the end of the build
 cache:
@@ -33,10 +45,6 @@ cache:
     - $HOME/.ivy2/cache
     - $HOME/.sbt/boot/
     - $HOME/.sbt/launchers
-
-
-scala:
-  - 2.12.10
 
 before_cache:
   # Tricks to avoid unnecessary cache updates
