@@ -25,7 +25,7 @@ jobs:
       install:
         - rvm use 2.6.5 --install --fuzzy
         - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then gem install jekyll -v 4; fi
-      script: sbt ci-release site/publishMicrosite
+      script: sbt ci-release
 
 before_install:
 - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then bash
