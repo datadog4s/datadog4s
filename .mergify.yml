@@ -3,7 +3,7 @@ pull_request_rules:
     conditions:
       - author=scala-steward
     actions:
-      assign:
+      request_reviews:
         users: [tomasherman]
       label:
         add: [dependency-update]
@@ -12,9 +12,10 @@ pull_request_rules:
       - base=master
       - author=scala-steward
       - status-success=continuous-integration/travis-ci/pr
+      - body~=labels:.*semver-patch.*    
     actions:
       merge:
-        method: merge
+        method: approve
   - name: automatic merge on CI success and review
     conditions:
       - base=master
