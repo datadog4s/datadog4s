@@ -7,15 +7,16 @@ pull_request_rules:
         users: [tomasherman]
       label:
         add: [dependency-update]
-  - name: merge Scala Steward's PRs
+  - name: Approve scala-steward patches
     conditions:
       - base=master
       - author=scala-steward
       - status-success=continuous-integration/travis-ci/pr
       - body~=labels:.*semver-patch.*    
     actions:
-      merge:
-        method: approve
+      review:
+        type: APPROVE
+        message: Approving patch (rule: Approve scala-steward patches)
   - name: automatic merge on CI success and review
     conditions:
       - base=master
