@@ -16,7 +16,6 @@ pull_request_rules:
     actions:
       review:
         type: APPROVE
-        message: Approving patch (rule: Approve scala-steward patches)
   - name: automatic merge on CI success and review
     conditions:
       - base=master
