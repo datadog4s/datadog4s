@@ -1,6 +1,9 @@
 # Changelog
 ## Unreleased
 
+## 0.6.2
+-   Dependency update release
+
 ## 0.6.1
 -   Test release to maven-central
 

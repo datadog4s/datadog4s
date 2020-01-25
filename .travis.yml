@@ -13,8 +13,6 @@ jdk:
   - openjdk11
   - oraclejdk11
 
-
-
 script: sbt checkAll +test
 
 jobs:
