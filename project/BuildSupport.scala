@@ -1,3 +1,4 @@
+import Dependencies.{ Cats, Http4s }
 import com.typesafe.sbt.site.SitePlugin.autoImport._
 import mdoc.MdocPlugin.autoImport._
 import microsites.MicrositesPlugin.autoImport._
@@ -22,7 +23,13 @@ object BuildSupport {
     micrositeTheme := "pattern",
     fork in mdoc := true,
     mdocIn := file("site") / "docs",
-    mdocVariables := Map("VERSION" -> previousStableVersion.value.getOrElse("latestVersion")),
+    mdocVariables := Map(
+      "VERSION"             -> previousStableVersion.value.getOrElse("latestVersion"),
+      "CATS_VERSION"        -> Cats.core.revision,
+      "CATS_EFFECT_VERSION" -> Cats.effect.revision,
+      "HTTP4S_212_VERSION"  -> Http4s.core212.revision,
+      "HTTP4S_213_VERSION"  -> Http4s.core213.revision
+    ),
     mdocAutoDependency := false,
     micrositeDataDirectory := file("site"),
     siteSubdirName in ScalaUnidoc := "api/latest",

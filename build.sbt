@@ -78,11 +78,11 @@ lazy val http4s = project
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2, scalaMajor)) if scalaMajor >= 13 =>
           libraryDependencies.value ++ Seq(
-            Dependencies.Http4s.coreV21
+            Dependencies.Http4s.core213
           )
         case Some((2, scalaMajor)) if scalaMajor >= 12 =>
           libraryDependencies.value ++ Seq(
-            Dependencies.Http4s.coreV20
+            Dependencies.Http4s.core212
           )
         case _ => libraryDependencies.value
       }
