@@ -1,6 +1,6 @@
 addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.0")
 
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.3.0")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.3.1")
 
 addSbtPlugin("ch.epfl.scala" % "sbt-bloop" % "1.3.5")
 
