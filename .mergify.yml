@@ -5,6 +5,8 @@ pull_request_rules:
     actions:
       assign:
         users: [tomasherman]
+      request_reviews:
+        users: [tomasherman]
       label:
         add: [dependency-update]
   - name: Approve scala-steward patches
