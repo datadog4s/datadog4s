@@ -28,4 +28,10 @@ jobs:
       run: sbt +compile
     - name: Run `test`
       run: sbt +test
-    
+  publish:
+    needs: [build]
+    if: ${{github.ref == "master"}}
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Publish
+        run: echo "publish"
