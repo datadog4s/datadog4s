@@ -72,7 +72,9 @@ lazy val http4s = project
     scalaSettings,
     commonSettings,
     libraryDependencies ++= Seq(
-      Dependencies.Cats.effect
+      Dependencies.Cats.effect,
+      Dependencies.Silencer.lib,
+      Dependencies.Silencer.plugin
     ),
     libraryDependencies := {
       CrossVersion.partialVersion(scalaVersion.value) match {
