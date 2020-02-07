@@ -31,7 +31,7 @@ object Dependencies {
   }
 
   object Silencer {
-    val lib = "com.github.ghik" % "silencer-lib" % "1.4.4" % Provided cross CrossVersion.full
+    val lib    = "com.github.ghik" % "silencer-lib" % "1.4.4" % Provided cross CrossVersion.full
     val plugin = compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.4.4" cross CrossVersion.full)
   }
 }
