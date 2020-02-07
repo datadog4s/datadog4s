@@ -1,7 +1,7 @@
 ---
-layout: home
-title:  "Home"
-section: "home"
+layout:   home
+title:    "Home"
+section:  "home"
 ---
 
 Toolkit for monitoring applications written in functional Scala using Datadog.
@@ -23,22 +23,22 @@ libraryDependencies += "com.avast.cloud" %% "datadog4s" % "@VERSION@"
 
 Or pick and choose from the available packages:
 
-| dependency name                                                 | notes                                                 |
-|-- ------------------------------------------------------------- | --------------------------------------------------- --|
-| `"com.avast.cloud" %% "datadog4s" % "@VERSION@"`            | all-you-can-eat ... all the available packages        |
-| `"com.avast.cloud" %% "datadog4s-api" % "@VERSION@"`        | api classes                                           |
-| `"com.avast.cloud" %% "datadog4s-statsd" % "@VERSION@"`     | statsd implementation of api classes                  |
-| `"com.avast.cloud" %% "datadog4s-jvm" % "@VERSION@"`        | support for monitoring JVM itself                     |
-| `"com.avast.cloud" %% "datadog4s-http4s" % "@VERSION@"`     | monitoring support for [http4s][http4s] framework     |
+|                     dependency name                     |                       notes                       |
+| ------------------------------------------------------- | ------------------------------------------------- |
+| `"com.avast.cloud" %% "datadog4s" % "@VERSION@"`        | all-you-can-eat ... all the available packages    |
+| `"com.avast.cloud" %% "datadog4s-api" % "@VERSION@"`    | api classes                                       |
+| `"com.avast.cloud" %% "datadog4s-statsd" % "@VERSION@"` | statsd implementation of api classes              |
+| `"com.avast.cloud" %% "datadog4s-jvm" % "@VERSION@"`    | support for monitoring JVM itself                 |
+| `"com.avast.cloud" %% "datadog4s-http4s" % "@VERSION@"` | monitoring support for [http4s][http4s] framework |
 
 ## Comaptibility
 Datadog4s is currently released for both scala 2.12 and scala 2.13. It is using following versions of libraries:
 
-| library       | 2.12 version            | 2.13 version            |
-|-- ----------- | ----------------------- | --------------------- --|
-| cats-core     | `@CATS_VERSION@`        | `@CATS_VERSION@`        |
-| cats-effect   | `@CATS_EFFECT_VERSION@` | `@CATS_EFFECT_VERSION@` |
-| http4s        | `@HTTP4S_212_VERSION@`  | `@HTTP4S_213_VERSION@`  |
+|   library   |      2.12 version       |      2.13 version       |
+| ----------- | ----------------------- | ----------------------- |
+| cats-core   | `@CATS_VERSION@`        | `@CATS_VERSION@`        |
+| cats-effect | `@CATS_EFFECT_VERSION@` | `@CATS_EFFECT_VERSION@` |
+| http4s      | `@HTTP4S_212_VERSION@`  | `@HTTP4S_213_VERSION@`  |
 
 # User guide
 
