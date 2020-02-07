@@ -22,5 +22,10 @@ jobs:
         key: ${{ runner.os }}-scala-${{ matrix.scala }}-${{ hashFiles('**/*.sbt') }}
         restore-keys: |
           ${{ runner.os }}-scala-${{ matrix.scala }}-
-    - name: Run tests
-      run: sbt checkAll +test
+    - name: Run `static analysis`
+      run: sbt checkAll
+    - name: Run `compile`
+      run: sbt +compile
+    - name: Run `test`
+      run: sbt +test
+    
