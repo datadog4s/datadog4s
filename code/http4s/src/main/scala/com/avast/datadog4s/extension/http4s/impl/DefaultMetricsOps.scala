@@ -19,7 +19,7 @@ private[http4s] class DefaultMetricsOps[F[_]](
 )(
   implicit F: Sync[F]
 ) extends MetricsOps[F] {
-  private[this] val methodTagger          = Tagger.make[Method]("method")
+  private[this] val methodTagger = Tagger.make[Method]("method")
   @deprecated("please use terminationTypeTagger", "0.6.3")
   private[this] val typeTagger            = Tagger.make[TerminationType]("type")
   private[this] val terminationTypeTagger = Tagger.make[TerminationType]("termination_type")
@@ -71,9 +71,9 @@ private[http4s] class DefaultMetricsOps[F[_]](
     terminationType: TerminationType,
     classifier: Option[String]
   ): F[Unit] = {
-    val terminationTpe  = terminationTypeTagger.tag(terminationType)
-    val tpe  = typeTagger.tag(terminationType)
-    val tags = tpe :: terminationTpe :: classifier.toList.flatMap(classifierTags)
+    val terminationTpe = terminationTypeTagger.tag(terminationType)
+    val tpe            = typeTagger.tag(terminationType)
+    val tags           = tpe :: terminationTpe :: classifier.toList.flatMap(classifierTags)
     abnormalCount.inc(tags: _*) >> abnormalLatency.record(Duration.ofNanos(elapsed), tags: _*)
   }
 }
