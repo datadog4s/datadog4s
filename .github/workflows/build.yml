@@ -23,13 +23,9 @@ jobs:
         key: ${{ runner.os }}-scala-${{ matrix.scala }}-${{ hashFiles('**/*.sbt') }}
         restore-keys: |
           ${{ runner.os }}-scala-${{ matrix.scala }}-
-    - name: Run `static analysis`
-      run: sbt checkAll
-    - name: Run `compile`
-      run: sbt +compile
-    - name: Run `test`
-      run: sbt +test
-
+    - name: Compile & Test
+      run: sbt checkAll +test
+      
   publish:
     timeout-minutes: 10
     if: github.ref == 'refs/heads/master'
@@ -48,12 +44,8 @@ jobs:
         key: ${{ runner.os }}-scala-${{ matrix.scala }}-${{ hashFiles('**/*.sbt') }}
         restore-keys: |
           ${{ runner.os }}-scala-${{ matrix.scala }}-
-    - name: Run `static analysis`
-      run: sbt checkAll
-    - name: Run `compile`
-      run: sbt +compile
-    - name: Run `test`
-      run: sbt +test
+    - name: Compile & Test
+      run: sbt checkAll +test
     - name: Install GPG
       uses: olafurpg/setup-gpg@v2
     - name: Release
