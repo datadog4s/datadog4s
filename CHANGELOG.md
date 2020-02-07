@@ -1,7 +1,7 @@
 # Changelog
 ## Unreleased
--   Http4s
-  -   recommended tag to use for abnormal termination type is now `abnormal_termination_type` (instead of `type)
+**Http4s**
+-   Recommended tag to use for abnormal termination type is now `abnormal_termination_type` (instead of `type)
 
 ## 0.6.3
 -   Dependency update release
