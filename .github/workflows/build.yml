@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   build:
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
@@ -22,10 +23,50 @@ jobs:
         key: ${{ runner.os }}-scala-${{ matrix.scala }}-${{ hashFiles('**/*.sbt') }}
         restore-keys: |
           ${{ runner.os }}-scala-${{ matrix.scala }}-
-    - name: Run `static analysis`
-      run: sbt checkAll
-    - name: Run `compile`
-      run: sbt +compile
-    - name: Run `test`
-      run: sbt +test
-    
+    - name: Compile & Test
+      run: sbt checkAll +test
+      
+  publish:
+    timeout-minutes: 10
+    if: github.ref == 'refs/heads/master'
+    needs: [build]
+    runs-on: [ubuntu-latest]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: '1.8.0'
+    - uses: actions/cache@v1
+      with:
+        path: ~/.cache/coursier
+        key: ${{ runner.os }}-scala-${{ matrix.scala }}-${{ hashFiles('**/*.sbt') }}
+        restore-keys: |
+          ${{ runner.os }}-scala-${{ matrix.scala }}-
+    - name: Compile & Test
+      run: sbt checkAll +test
+    - name: Install GPG
+      uses: olafurpg/setup-gpg@v2
+    - name: Release
+      env:
+        PGP_SECRET: ${{ secrets.PGP_SECRET }}
+        PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+        SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+        SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSPHRASE }}
+      run: sbt ci-release
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: '2.6'
+    - name: Install jekyll
+      run: gem install jekyll -v 4.0.0
+    - name: Publish microsite
+      env:
+        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=no"
+      run: |
+        eval "$(ssh-agent -s)"
+        ssh-add - <<< "${DEPLOY_KEY}"
+        git config --global user.email "datadog4s-bot@github.com"
+        git config --global user.name "Release bot"
+        sbt site/publishMicrosite
