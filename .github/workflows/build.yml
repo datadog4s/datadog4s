@@ -12,8 +12,6 @@ jobs:
         java: ['1.8.0', '11.0.x', '13.0.x']
         scala: ['2.12.10']
     steps:
-    - name: printstuff
-      run: echo branch ${{github.ref}}
     - uses: actions/checkout@v2
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
@@ -33,7 +31,7 @@ jobs:
       run: sbt +test
   publish:
     timeout-minutes: 10
-    if: github.ref == 'master'
+    if: github.ref == 'refs/heads/master'
     needs: [build]
     runs-on: [ubuntu-latest]
     steps:
