@@ -3,7 +3,7 @@ import sbt._
 object Dependencies {
   object Cats {
     val core   = "org.typelevel" %% "cats-core"   % "2.1.0"
-    val effect = "org.typelevel" %% "cats-effect" % "2.0.0"
+    val effect = "org.typelevel" %% "cats-effect" % "2.1.0"
   }
 
   object Datadog {
@@ -11,13 +11,13 @@ object Dependencies {
   }
 
   object Http4s {
-    val core212 = "org.http4s" %% "http4s-core" % "0.20.16"
-    val core213 = "org.http4s" %% "http4s-core" % "0.21.0-RC1"
+    val core212 = "org.http4s" %% "http4s-core" % "0.20.17"
+    val core213 = "org.http4s" %% "http4s-core" % "0.21.0-RC4"
   }
 
   object Testing {
     val scalaTest        = "org.scalatest" %% "scalatest"               % "3.1.0"
-    val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.11.0"
+    val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.11.2"
   }
 
   object Mdoc {
