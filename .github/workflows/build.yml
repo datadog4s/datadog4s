@@ -29,7 +29,7 @@ jobs:
       run: sbt checkAll +test
       
   publish:
-    timeout-minutes: 10
+    timeout-minutes: 15
     if: github.ref == 'refs/heads/master' || contains(github.ref, 'refs/tags/v' )
     needs: [build]
     runs-on: [ubuntu-latest]
