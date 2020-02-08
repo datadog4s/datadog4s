@@ -25,7 +25,7 @@ pull_request_rules:
       - "#approved-reviews-by>=1"
       - status-success=Build / build (1.8.0, 2.12.10)
       - status-success=Build / build (11.0.x, 2.12.10)
-      - status-success=Build / build (13.0.x, 2.12.10)\
+      - status-success=Build / build (13.0.x, 2.12.10)
     actions:
       merge:
         method: rebase
