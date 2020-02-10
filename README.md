@@ -1,6 +1,6 @@
 # Datadog Scala Metrics ![Build](https://github.com/avast/datadog4s/workflows/Build/badge.svg?branch=master) [![Download](https://img.shields.io/maven-central/v/com.avast.cloud/datadog4s-api_2.13)](https://search.maven.org/search?q=g:com.avast.cloud%20datadog4s) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2477b21fde784f328145aeb43509a555)](https://www.codacy.com/app/tomasherman/datadog4s?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=avast/datadog4s&amp;utm_campaign=Badge_Grade)<img height="40" src="https://typelevel.org/cats/img/cats-badge-tiny.png" align="right"/>
 
-Toolkit for monitoring applications written in functional Scala using Datadog.
+Toolkit for monitoring applications written in functional Scala using Datadog and Cats.
 
 Goal of this project is to make great monitoring as easy as possible. 
 
