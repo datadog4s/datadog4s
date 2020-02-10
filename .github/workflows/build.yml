@@ -53,6 +53,8 @@ jobs:
       run: sbt checkAll +test
     - name: Install GPG
       uses: olafurpg/setup-gpg@v2
+    - name: Release Drafter
+      uses: release-drafter/release-drafter@v5.6.1
     - name: Release
       env:
         PGP_SECRET: ${{ secrets.PGP_SECRET }}
