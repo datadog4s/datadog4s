@@ -55,8 +55,6 @@ jobs:
       uses: olafurpg/setup-gpg@v2
     - name: Release Drafter
       uses: release-drafter/release-drafter@v5.6.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.RELEASE_DRAFTER_TOKEN }}
     - name: Release
       env:
         PGP_SECRET: ${{ secrets.PGP_SECRET }}
