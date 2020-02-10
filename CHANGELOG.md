@@ -1,6 +1,10 @@
 # Changelog
 ## Unreleased
-**Http4s**
+
+## 0.7.0
+-   Both scala `2.12` and `2.13` release now use http4s `0.21.0`
+
+## 0.6.4
 -   Recommended tag to use for abnormal termination type is now `abnormal_termination_type` (instead of `type)
 
 ## 0.6.3
