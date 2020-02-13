@@ -10,6 +10,7 @@ lazy val scalaSettings = Seq(
   scalacOptions.in(Compile, console) ~= filterConsoleScalacOptions,
   scalacOptions.in(Test, console) ~= filterConsoleScalacOptions,
   crossScalaVersions := supportedScalaVersions,
+  mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet,
   libraryDependencies ++= Seq(
     Dependencies.Testing.scalaTest        % Test,
     Dependencies.Testing.mockitoScalatest % Test
@@ -40,6 +41,7 @@ lazy val global = project
   .settings(commonSettings)
   .aggregate(api, statsd, http4s, jvm, site)
   .dependsOn(api, statsd, http4s, jvm)
+  .disablePlugins(MimaPlugin)
 
 lazy val api = project
   .in(file("code/api"))
@@ -103,6 +105,7 @@ lazy val jvm = project
 lazy val site = (project in file("site"))
   .settings(scalaSettings)
   .settings(commonSettings)
+  .disablePlugins(MimaPlugin)
   .enablePlugins(
     MdocPlugin,
     MicrositesPlugin,
