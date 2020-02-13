@@ -57,7 +57,7 @@ jobs:
     - name: Compile & Test
       run: sbt checkAll +test
     - name: Run binary compatiblity check
-      if: contains(github.ref, 'refs/tags/v'
+      if: contains(github.ref, 'refs/tags/v')
       run: sbt +mimaReportBinaryIssues
     - name: Install GPG
       uses: olafurpg/setup-gpg@v2
