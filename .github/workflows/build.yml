@@ -50,7 +50,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-scala-${{ matrix.scala }}-
     - name: Compile & Test
-      run: sbt checkAll +test
+      run: sbt checkAll +test +mimaReportBinaryIssues
     - name: Install GPG
       uses: olafurpg/setup-gpg@v2
     - name: Release Drafter
