@@ -28,7 +28,7 @@ class TimerImplTest extends AnyFlatSpec with MockitoSugar with BeforeAndAfter wi
     private val res = timer.time(IO.delay("hello world")).unsafeRunSync()
 
     verify(statsD, times(1)).recordExecutionTime(aspect, 20, sampleRate, Tag.of("success", "true"))
-    assertResult(res) { "hello world" }
+    assertResult(res)("hello world")
   }
 
   it should "report failure with label failure:true and exception name" in new Fixtures {
