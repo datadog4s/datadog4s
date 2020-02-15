@@ -34,8 +34,8 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   private val gcCollections        = metricsFactory.gauge.long("jvm.gc.collections")
   private val gcTime               = metricsFactory.gauge.long("jvm.gc.time")
 
-  private val osBean      = F.delay { ManagementFactory.getOperatingSystemMXBean.asInstanceOf[OperatingSystemMXBean] }
-  private val unixBean    = F.delay { ManagementFactory.getOperatingSystemMXBean.asInstanceOf[UnixOperatingSystemMXBean] }
+  private val osBean      = F.delay(ManagementFactory.getOperatingSystemMXBean.asInstanceOf[OperatingSystemMXBean])
+  private val unixBean    = F.delay(ManagementFactory.getOperatingSystemMXBean.asInstanceOf[UnixOperatingSystemMXBean])
   private val memoryBean  = ManagementFactory.getMemoryMXBean
   private val runtimeBean = ManagementFactory.getRuntimeMXBean
   private val threadBean  = ManagementFactory.getThreadMXBean
