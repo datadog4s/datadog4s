@@ -1,6 +1,8 @@
 name: Build
 
 on:
+  release:
+    type: [published]
   push:
     branches:
       - master
