@@ -6,7 +6,7 @@ addSbtPlugin("ch.epfl.scala" % "sbt-bloop" % "1.3.5")
 
 addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.1.1")
 
-addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.6.4")
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.7.0")
 
 addSbtPlugin("com.47deg" % "sbt-microsites" % "1.1.2")
 
