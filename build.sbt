@@ -39,6 +39,7 @@ lazy val global = project
   .in(file("."))
   .settings(name := "datadog4s")
   .settings(commonSettings)
+  .settings(scalaSettins)
   .aggregate(api, statsd, http4s, jvm, site)
   .dependsOn(api, statsd, http4s, jvm)
   .disablePlugins(MimaPlugin)
