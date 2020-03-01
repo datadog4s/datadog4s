@@ -1,6 +1,12 @@
 # Changelog
 ## Unreleased
 
+## 0.7.2
+-   Fix publishing of root project for Scala 2.13
+
+## 0.7.1
+-   Dependency updates
+
 ## 0.7.0
 -   Both scala `2.12` and `2.13` release now use http4s `0.21.0`
 
