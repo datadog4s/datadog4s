@@ -2,7 +2,7 @@ name: Build
 
 on:
   release:
-    type: [published]
+    types: [published]
   push:
     branches:
       - master
