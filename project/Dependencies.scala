@@ -21,7 +21,7 @@ object Dependencies {
   }
 
   object Mdoc {
-    val libMdoc = "org.scalameta" %% "mdoc" % "2.1.3" excludeAll (ExclusionRule(
+    val libMdoc = "org.scalameta" %% "mdoc" % "2.1.4" excludeAll (ExclusionRule(
       organization = "org.slf4j"
     ))
   }
