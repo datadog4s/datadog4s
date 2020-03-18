@@ -1,7 +1,7 @@
 package com.avast.datadog4s.extension.jvm
 
 import java.time.Duration
-import java.util.concurrent.{ Executors, ScheduledExecutorService, TimeUnit }
+import java.util.concurrent.{ ScheduledExecutorService, ScheduledThreadPoolExecutor, ThreadFactory, TimeUnit }
 
 import cats.effect.{ Effect, IO, Resource, Sync }
 import com.avast.datadog4s.api.MetricFactory
@@ -37,13 +37,18 @@ object JvmMonitoring {
     }
   }
 
-  private def makeScheduler(config: Config): ScheduledExecutorService =
-    Executors.newScheduledThreadPool(1, { r: Runnable =>
+  private def makeScheduler(config: Config): ScheduledExecutorService = {
+    val threadFactory: ThreadFactory = (r: Runnable) => {
       val thread = new Thread(r)
       thread.setName(s"${config.schedulerThreadName}-${thread.getId}")
       thread.setDaemon(true)
       thread
-    })
+    }
+
+    val executor = new ScheduledThreadPoolExecutor(1, threadFactory)
+    executor.setRemoveOnCancelPolicy(true)
+    executor
+  }
 
   private def runnable(reportMetrics: IO[Unit], errorHandler: ErrorHandler[IO]): Runnable =
     () => reportMetrics.handleErrorWith(errorHandler).unsafeRunSync()
