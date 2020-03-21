@@ -12,7 +12,7 @@ object JvmMonitoring {
   case class Config(
     initialDelay: Duration = Duration.ofMillis(0),
     delay: Duration = Duration.ofSeconds(60),
-    timeout: Duration = Duration.ofSeconds(10),
+    timeout: Duration = Duration.ofSeconds(10)
   )
 
   def default[F[_]: ConcurrentEffect: Timer](factory: MetricFactory[F]): Resource[F, Unit] =
