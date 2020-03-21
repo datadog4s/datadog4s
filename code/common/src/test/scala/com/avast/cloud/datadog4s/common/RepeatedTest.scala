@@ -23,7 +23,7 @@ class RepeatedTest extends AnyFlatSpec with Matchers {
         Repeated.run[IO](Duration.ofMillis(0), Duration.ofMillis(5), Duration.ofMillis(50), noopErrHandler) {
           ref.update(_ + 1)
         }
-      forever.use(_ => IO.never).timeout(100 milli).flatMap(_ => ref.get)
+      forever.use(_ => IO.never).timeout(100 milli).attempt.flatMap(_ => ref.get)
     }
     val value = test.unsafeRunSync()
     value must be > 5
@@ -36,7 +36,7 @@ class RepeatedTest extends AnyFlatSpec with Matchers {
           IO.raiseError(new Throwable)
         }
 
-      forever.use(_ => IO.never).timeout(100 milli).flatMap(_ => ref.get)
+      forever.use(_ => IO.never).timeout(100 milli).attempt.flatMap(_ => ref.get)
     }
     val value = test.unsafeRunSync()
     value.succ must be(0)
@@ -50,7 +50,7 @@ class RepeatedTest extends AnyFlatSpec with Matchers {
           IO.never
         }
 
-      forever.use(_ => IO.never).timeout(100 milli).flatMap(_ => ref.get)
+      forever.use(_ => IO.never).timeout(100 milli).attempt.flatMap(_ => ref.get)
     }
     val value = test.unsafeRunSync()
     value.succ must be(0)
