@@ -40,7 +40,7 @@ lazy val global = project
   .settings(name := "datadog4s")
   .settings(commonSettings)
   .settings(scalaSettings)
-  .aggregate(api, statsd, http4s, jvm, site)
+  .aggregate(api, statsd, http4s, jvm, site, common)
   .dependsOn(api, statsd, http4s, jvm)
   .disablePlugins(MimaPlugin)
 
@@ -54,6 +54,19 @@ lazy val api = project
       Dependencies.Cats.core
     )
   )
+
+lazy val common = project
+  .in(file("code/common"))
+  .settings(
+    name := "datadog4s-inmemory",
+    scalaSettings,
+    commonSettings,
+    libraryDependencies ++= Seq(
+      Dependencies.Cats.effect,
+      Dependencies.Testing.scalaTest % Test
+    )
+  )
+  .dependsOn(api)
 
 lazy val statsd = project
   .in(file("code/statsd"))
@@ -101,7 +114,7 @@ lazy val jvm = project
       Dependencies.ScalaModules.collectionCompat
     )
   )
-  .dependsOn(api)
+  .dependsOn(api, common % "compile->compile;test->test")
 
 lazy val site = (project in file("site"))
   .settings(scalaSettings)
