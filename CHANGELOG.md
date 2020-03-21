@@ -1,5 +1,6 @@
 # Changelog
-## Unreleased
+## 0.7.3 and going forward
+*Going forward, changes will be tracked in release notes*
 
 ## 0.7.2
 -   Fix publishing of root project for Scala 2.13
