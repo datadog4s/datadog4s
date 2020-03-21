@@ -2,7 +2,7 @@ package com.avast.datadog4s.extension.jvm
 
 import java.time.Duration
 
-import cats.effect.{ConcurrentEffect, Resource, Sync, Timer}
+import cats.effect.{ ConcurrentEffect, Resource, Sync, Timer }
 import com.avast.cloud.datadog4s.common.Repeated
 import com.avast.datadog4s.api.MetricFactory
 
