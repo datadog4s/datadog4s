@@ -23,7 +23,9 @@ class JvmMonitoringTest extends AnyFlatSpec with Matchers {
     val inmemory = InMemoryMetricFactory.make[IO]
     val eff = JvmMonitoring
       .configured(inmemory, Config().copy(delay = Duration.ofMillis(10)), noopErrHandler)
-      .use(_ => timer.sleep(100.millis))
+      .use(_ => IO.never)
+      .timeout(100.millis)
+
     eff.unsafeRunSync()
     val state = inmemory.state.asScala
     state.keySet must equal(expectedAspects)
