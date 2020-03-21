@@ -31,9 +31,10 @@ class JvmMonitoringTest extends AnyFlatSpec with Matchers {
     val state = inmemory.state.asScala
     state.keySet must equal(expectedAspects)
     state.values.foreach { vector =>
-      vector.groupBy(_.tags).foreach { case (_, records) =>
-        records.size must be > 0
-        records.size must be < 15
+      vector.groupBy(_.tags).foreach {
+        case (_, records) =>
+          records.size must be > 0
+          records.size must be < 15
       }
     }
   }
