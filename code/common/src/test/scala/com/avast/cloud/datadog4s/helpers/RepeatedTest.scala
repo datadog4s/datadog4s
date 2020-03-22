@@ -1,4 +1,4 @@
-package com.avast.cloud.datadog4s.common
+package com.avast.cloud.datadog4s.helpers
 
 import java.time.Duration
 
@@ -20,7 +20,7 @@ class RepeatedTest extends AnyFlatSpec with Matchers {
   "repeated test" should "be called repeatedly" in {
     val test = Ref.of[IO, Int](0).flatMap { ref =>
       val forever =
-        Repeated.run[IO](Duration.ofMillis(0), Duration.ofMillis(5), Duration.ofMillis(50), noopErrHandler) {
+        Repeated.run[IO](Duration.ofMillis(5), Duration.ofMillis(50), noopErrHandler) {
           ref.update(_ + 1)
         }
       forever.use(_ => IO.never).timeout(100 milli).attempt.flatMap(_ => ref.get)
@@ -32,7 +32,7 @@ class RepeatedTest extends AnyFlatSpec with Matchers {
   it should "handle errors using provided handler" in {
     val test = Ref.of[IO, ErrorState](ErrorState.empty).flatMap { ref =>
       val forever =
-        Repeated.run(Duration.ofMillis(0), Duration.ofMillis(5), Duration.ofMillis(50), _ => ref.update(_.incFail)) {
+        Repeated.run(Duration.ofMillis(5), Duration.ofMillis(50), _ => ref.update(_.incFail)) {
           IO.raiseError(new Throwable)
         }
 
@@ -46,7 +46,7 @@ class RepeatedTest extends AnyFlatSpec with Matchers {
   it should "timeout tasks that are taking too long" in {
     val test = Ref.of[IO, ErrorState](ErrorState.empty).flatMap { ref =>
       val forever =
-        Repeated.run(Duration.ofMillis(0), Duration.ofMillis(5), Duration.ofMillis(10), _ => ref.update(_.incFail)) {
+        Repeated.run(Duration.ofMillis(5), Duration.ofMillis(10), _ => ref.update(_.incFail)) {
           IO.never
         }
 

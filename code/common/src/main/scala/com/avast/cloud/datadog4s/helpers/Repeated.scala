@@ -1,4 +1,4 @@
-package com.avast.cloud.datadog4s.common
+package com.avast.cloud.datadog4s.helpers
 
 import java.time.Duration
 
@@ -12,7 +12,6 @@ import scala.concurrent.duration._
 
 object Repeated {
   def run[F[_]: Concurrent: Timer](
-    initDelay: Duration,
     delay: Duration,
     iterationTimeout: Duration,
     errorHandler: Throwable => F[Unit]
@@ -23,8 +22,7 @@ object Repeated {
     }
 
     val snooze   = Timer[F].sleep(toScala(delay))
-    val repeated = (safeTask *> snooze).foreverM[Unit]
-    val process  = Timer[F].sleep(toScala(initDelay)) *> repeated
+    val process = (safeTask *> snooze).foreverM[Unit]
 
     Concurrent[F].background(process)
   }
