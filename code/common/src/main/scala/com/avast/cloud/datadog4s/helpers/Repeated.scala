@@ -21,7 +21,7 @@ object Repeated {
       case Left(e)  => errorHandler(e)
     }
 
-    val snooze   = Timer[F].sleep(toScala(delay))
+    val snooze  = Timer[F].sleep(toScala(delay))
     val process = (safeTask *> snooze).foreverM[Unit]
 
     Concurrent[F].background(process)
