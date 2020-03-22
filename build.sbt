@@ -58,7 +58,7 @@ lazy val api = project
 lazy val common = project
   .in(file("code/common"))
   .settings(
-    name := "datadog4s-inmemory",
+    name := "datadog4s-common",
     scalaSettings,
     commonSettings,
     libraryDependencies ++= Seq(
@@ -136,6 +136,6 @@ lazy val site = (project in file("site"))
 
 addCommandAlias(
   "checkAll",
-  "; scalafmtSbtCheck; scalafmtCheckAll; doc; site/makeMdoc"
+  "; scalafmtSbtCheck; scalafmtCheckAll; +test; doc; site/makeMdoc"
 )
 addCommandAlias("fixAll", "; scalafmtSbt; scalafmtAll")

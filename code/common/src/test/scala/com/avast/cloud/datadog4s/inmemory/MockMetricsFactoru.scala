@@ -1,21 +1,20 @@
 package com.avast.cloud.datadog4s.inmemory
 
 import java.time.Duration
-import java.util.concurrent.{ ConcurrentHashMap, ConcurrentMap }
 
 import cats.effect.Sync
-import cats.syntax.functor._
+import cats.effect.concurrent.Ref
 import cats.syntax.flatMap._
+import cats.syntax.functor._
 import com.avast.datadog4s.api.metric._
 import com.avast.datadog4s.api.{ GaugeFactory, HistogramFactory, MetricFactory, Tag }
 
-class InMemoryMetricFactory[F[_]: Sync](val state: ConcurrentMap[String, Vector[Record[Any]]])
-    extends MetricFactory[F] {
+class MockMetricsFactoru[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record[Any]]]]) extends MetricFactory[F] {
 
   private def updateState[A](aspect: String, value: A, tags: Tag*): F[Unit] =
-    Sync[F].delay {
-      state.computeIfPresent(aspect, (_, v) => v :+ Record[Any](value, tags))
-      state.computeIfAbsent(aspect, _ => Vector(Record[Any](value, tags)))
+    state.update { oldState =>
+      val updatedField = oldState.getOrElse(aspect, Vector.empty) :+ Record[Any](value, tags)
+      oldState.updated(aspect, updatedField)
     }.void
 
   override def histogram: HistogramFactory[F] = new HistogramFactory[F] {
@@ -58,6 +57,8 @@ class InMemoryMetricFactory[F[_]: Sync](val state: ConcurrentMap[String, Vector[
   override def withScope(name: String): MetricFactory[F] = this
 }
 
-object InMemoryMetricFactory {
-  def make[F[_]: Sync] = new InMemoryMetricFactory[F](new ConcurrentHashMap[String, Vector[Record[Any]]]())
+object MockMetricsFactoru {
+
+  def make[F[_]: Sync]: F[MockMetricsFactoru[F]] =
+    Ref.of(Map.empty[String, Vector[Record[Any]]]).map(state => new MockMetricsFactoru[F](state))
 }
