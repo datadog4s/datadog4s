@@ -3,7 +3,7 @@ package com.avast.datadog4s.extension.jvm
 import java.time.Duration
 
 import cats.effect.{ ContextShift, IO, Timer }
-import com.avast.cloud.datadog4s.inmemory.MockMetricsFactoru
+import com.avast.cloud.datadog4s.inmemory.MockMetricsFactory
 import com.avast.datadog4s.extension.jvm.JvmMonitoring.Config
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
@@ -19,7 +19,7 @@ class JvmMonitoringTest extends AnyFlatSpec with Matchers {
   val noopErrHandler: Throwable => IO[Unit] = (_: Throwable) => IO.unit
 
   "JvmMonitoring" should "create all expected metrics and update them periodically" in {
-    val testEffect = MockMetricsFactoru.make[IO].flatMap { inmemory =>
+    val testEffect = MockMetricsFactory.make[IO].flatMap { inmemory =>
       val runTest = JvmMonitoring
         .configured(inmemory, Config().copy(delay = Duration.ofMillis(10)), noopErrHandler)
         .use(_ => IO.never)

@@ -9,7 +9,7 @@ import cats.syntax.functor._
 import com.avast.datadog4s.api.metric._
 import com.avast.datadog4s.api.{ GaugeFactory, HistogramFactory, MetricFactory, Tag }
 
-class MockMetricsFactoru[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record[Any]]]]) extends MetricFactory[F] {
+class MockMetricsFactory[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record[Any]]]]) extends MetricFactory[F] {
 
   private def updateState[A](aspect: String, value: A, tags: Tag*): F[Unit] =
     state.update { oldState =>
@@ -57,8 +57,8 @@ class MockMetricsFactoru[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record
   override def withScope(name: String): MetricFactory[F] = this
 }
 
-object MockMetricsFactoru {
+object MockMetricsFactory {
 
-  def make[F[_]: Sync]: F[MockMetricsFactoru[F]] =
-    Ref.of(Map.empty[String, Vector[Record[Any]]]).map(state => new MockMetricsFactoru[F](state))
+  def make[F[_]: Sync]: F[MockMetricsFactory[F]] =
+    Ref.of(Map.empty[String, Vector[Record[Any]]]).map(state => new MockMetricsFactory[F](state))
 }
