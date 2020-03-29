@@ -125,8 +125,14 @@ Usage can not be simpler (unless you want to configure things like collection-fr
 
 ```scala mdoc:silent
 import com.avast.datadog4s.extension.jvm._
+import scala.concurrent.ExecutionContext
+
+implicit val ec = ExecutionContext.global // please don't use global EC in production
+implicit val contextShift = IO.contextShift(ec)
+implicit val timer = IO.timer(ec)
 
 val jvmMonitoring: Resource[IO, Unit] = factoryResource.flatMap(factory => JvmMonitoring.default[IO](factory))
+
 jvmMonitoring.use { _ => 
     // your application is in here
     IO.pure(())

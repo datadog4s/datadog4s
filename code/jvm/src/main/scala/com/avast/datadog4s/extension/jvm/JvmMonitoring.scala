@@ -1,57 +1,31 @@
 package com.avast.datadog4s.extension.jvm
 
 import java.time.Duration
-import java.util.concurrent.{ ScheduledExecutorService, ScheduledThreadPoolExecutor, ThreadFactory, TimeUnit }
 
-import cats.effect.{ Effect, IO, Resource, Sync }
+import cats.effect.{ ConcurrentEffect, Resource, Sync, Timer }
+import com.avast.cloud.datadog4s.helpers.Repeated
 import com.avast.datadog4s.api.MetricFactory
 
 object JvmMonitoring {
   type ErrorHandler[F[_]] = Throwable => F[Unit]
 
   case class Config(
-    initialDelay: Duration = Duration.ofMillis(0),
-    delay: Duration = Duration.ofMinutes(1),
-    schedulerThreadName: String = "datadog4s-jvm-reporter"
+    delay: Duration = Duration.ofSeconds(60),
+    timeout: Duration = Duration.ofSeconds(10)
   )
 
-  def default[F[_]: Effect](factory: MetricFactory[F]): Resource[F, Unit] =
+  def default[F[_]: ConcurrentEffect: Timer](factory: MetricFactory[F]): Resource[F, Unit] =
     configured(factory, Config(), defaultErrorHandler)
 
-  def configured[F[_]: Effect](
+  def configured[F[_]: ConcurrentEffect: Timer](
     factory: MetricFactory[F],
     config: Config,
     errorHandler: ErrorHandler[F]
   ): Resource[F, Unit] = {
-    val F = Effect[F]
-    Resource.make(F.delay(makeScheduler(config)))(s => F.delay(s.shutdown())).evalMap { scheduler =>
-      F.delay {
-        val reporter = new JvmReporter[F](factory)
-        val _ = scheduler.scheduleWithFixedDelay(
-          runnable(F.toIO(reporter.collect), errorHandler andThen F.toIO),
-          config.initialDelay.toNanos,
-          config.delay.toNanos,
-          TimeUnit.NANOSECONDS
-        )
-      }
-    }
+    val reporter = new JvmReporter[F](factory)
+
+    Repeated.run[F](config.delay, config.timeout, errorHandler)(reporter.collect).map(_ => ())
   }
-
-  private def makeScheduler(config: Config): ScheduledExecutorService = {
-    val threadFactory: ThreadFactory = (r: Runnable) => {
-      val thread = new Thread(r)
-      thread.setName(s"${config.schedulerThreadName}-${thread.getId}")
-      thread.setDaemon(true)
-      thread
-    }
-
-    val executor = new ScheduledThreadPoolExecutor(1, threadFactory)
-    executor.setRemoveOnCancelPolicy(true)
-    executor
-  }
-
-  private def runnable(reportMetrics: IO[Unit], errorHandler: ErrorHandler[IO]): Runnable =
-    () => reportMetrics.handleErrorWith(errorHandler).unsafeRunSync()
 
   private def defaultErrorHandler[F[_]: Sync]: ErrorHandler[F] =
     err =>

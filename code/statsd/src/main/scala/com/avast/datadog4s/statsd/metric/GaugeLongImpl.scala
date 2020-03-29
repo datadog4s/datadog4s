@@ -4,6 +4,7 @@ import cats.effect.Sync
 import com.avast.datadog4s.api.Tag
 import com.avast.datadog4s.api.metric.Gauge
 import com.timgroup.statsd.StatsDClient
+
 import scala.collection.immutable.Seq
 
 class GaugeLongImpl[F[_]: Sync](
