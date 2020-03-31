@@ -192,7 +192,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">Config</span><span class="params">(<span name="initialDelay">initialDelay: <a href="https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html#java.time.Duration" class="extype" name="java.time.Duration">Duration</a> = <span class="symbol">Duration.ofMillis(0)</span></span>, <span name="delay">delay: <a href="https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html#java.time.Duration" class="extype" name="java.time.Duration">Duration</a> = <span class="symbol">Duration.ofMinutes(1)</span></span>, <span name="schedulerThreadName">schedulerThreadName: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;datadog4s-jvm-reporter&quot;</span></span>)</span><span class="result"> extends <a href="https://www.scala-lang.org/api/2.12.11/scala/Product.html#scala.Product" class="extype" name="scala.Product">Product</a> with <a href="https://www.scala-lang.org/api/2.12.11/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
+        <span class="name">Config</span><span class="params">(<span name="delay">delay: <a href="https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html#java.time.Duration" class="extype" name="java.time.Duration">Duration</a> = <span class="symbol">Duration.ofSeconds(60)</span></span>, <span name="timeout">timeout: <a href="https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html#java.time.Duration" class="extype" name="java.time.Duration">Duration</a> = <span class="symbol">Duration.ofSeconds(10)</span></span>)</span><span class="result"> extends <a href="https://www.scala-lang.org/api/2.12.11/scala/Product.html#scala.Product" class="extype" name="scala.Product">Product</a> with <a href="https://www.scala-lang.org/api/2.12.11/scala/Serializable.html#scala.Serializable" class="extype" name="scala.Serializable">Serializable</a></span>
       </span>
       </h4>
 
@@ -248,9 +248,9 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.avast.datadog4s.extension.jvm.JvmMonitoring.Config#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(initialDelay:java.time.Duration,delay:java.time.Duration,schedulerThreadName:String):com.avast.datadog4s.extension.jvm.JvmMonitoring.Config"></a><a id="&lt;init&gt;:Config"></a>
+      <a id="&lt;init&gt;(delay:java.time.Duration,timeout:java.time.Duration):com.avast.datadog4s.extension.jvm.JvmMonitoring.Config"></a><a id="&lt;init&gt;:Config"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/extension/jvm/JvmMonitoring$$Config.html#&lt;init&gt;(initialDelay:java.time.Duration,delay:java.time.Duration,schedulerThreadName:String):com.avast.datadog4s.extension.jvm.JvmMonitoring.Config" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/extension/jvm/JvmMonitoring$$Config.html#&lt;init&gt;(delay:java.time.Duration,timeout:java.time.Duration):com.avast.datadog4s.extension.jvm.JvmMonitoring.Config" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -259,7 +259,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">Config</span><span class="params">(<span name="initialDelay">initialDelay: <a href="https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html#java.time.Duration" class="extype" name="java.time.Duration">Duration</a> = <span class="symbol">Duration.ofMillis(0)</span></span>, <span name="delay">delay: <a href="https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html#java.time.Duration" class="extype" name="java.time.Duration">Duration</a> = <span class="symbol">Duration.ofMinutes(1)</span></span>, <span name="schedulerThreadName">schedulerThreadName: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;datadog4s-jvm-reporter&quot;</span></span>)</span>
+        <span class="name">Config</span><span class="params">(<span name="delay">delay: <a href="https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html#java.time.Duration" class="extype" name="java.time.Duration">Duration</a> = <span class="symbol">Duration.ofSeconds(60)</span></span>, <span name="timeout">timeout: <a href="https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html#java.time.Duration" class="extype" name="java.time.Duration">Duration</a> = <span class="symbol">Duration.ofSeconds(10)</span></span>)</span>
       </span>
       
       
@@ -434,22 +434,6 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.avast.datadog4s.extension.jvm.JvmMonitoring.Config#initialDelay" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="initialDelay:java.time.Duration"></a><a id="initialDelay:Duration"></a>
-      <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/extension/jvm/JvmMonitoring$$Config.html#initialDelay:java.time.Duration" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">initialDelay</span><span class="result">: <a href="https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html#java.time.Duration" class="extype" name="java.time.Duration">Duration</a></span>
-      </span>
-      
-      
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <span class="permalink">
@@ -520,22 +504,6 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.avast.datadog4s.extension.jvm.JvmMonitoring.Config#schedulerThreadName" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="schedulerThreadName:String"></a>
-      <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/extension/jvm/JvmMonitoring$$Config.html#schedulerThreadName:String" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">schedulerThreadName</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
-      </span>
-      
-      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -552,6 +520,22 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="com.avast.datadog4s.extension.jvm.JvmMonitoring.Config#timeout" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="timeout:java.time.Duration"></a><a id="timeout:Duration"></a>
+      <span class="permalink">
+      <a href="../../../../../com/avast/datadog4s/extension/jvm/JvmMonitoring$$Config.html#timeout:java.time.Duration" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">timeout</span><span class="result">: <a href="https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html#java.time.Duration" class="extype" name="java.time.Duration">Duration</a></span>
+      </span>
+      
+      
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
