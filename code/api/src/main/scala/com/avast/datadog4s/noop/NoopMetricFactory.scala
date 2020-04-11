@@ -23,6 +23,8 @@ class NoopMetricFactory[F[_]: Applicative] extends MetricFactory[F] {
     override def double(aspect: String, sampleRate: Option[Double] = None): Gauge[F, Double] = new NoopGaugeDouble[F]
   }
 
+  override def eventer: Eventer[F] = new NoopEventer[F]
+
   override def uniqueSet(aspect: String): UniqueSet[F] = new NoopUniqueSet[F]
 
   override def withTags(tags: Tag*): MetricFactory[F] = this

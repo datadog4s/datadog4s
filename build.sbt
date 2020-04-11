@@ -51,7 +51,8 @@ lazy val api = project
     scalaSettings,
     commonSettings,
     libraryDependencies ++= Seq(
-      Dependencies.Cats.core
+      Dependencies.Cats.core,
+      Dependencies.Enumeratum.enumeratum
     )
   )
 

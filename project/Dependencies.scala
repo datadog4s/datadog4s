@@ -31,7 +31,11 @@ object Dependencies {
   }
 
   object Silencer {
-    val lib    = "com.github.ghik" % "silencer-lib" % "1.6.0" % Provided cross CrossVersion.full
-    val plugin = compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.6.0" cross CrossVersion.full)
+    val lib    = ("com.github.ghik" % "silencer-lib" % "1.6.0" % Provided).cross(CrossVersion.full)
+    val plugin = compilerPlugin(("com.github.ghik" % "silencer-plugin" % "1.6.0").cross(CrossVersion.full))
+  }
+
+  object Enumeratum {
+    val enumeratum = "com.beachape" %% "enumeratum" % "1.5.15"
   }
 }
