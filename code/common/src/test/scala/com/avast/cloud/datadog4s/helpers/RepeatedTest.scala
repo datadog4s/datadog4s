@@ -27,6 +27,7 @@ class RepeatedTest extends AnyFlatSpec with Matchers {
       forever.use(_ => IO.never).timeout(100 milli).attempt.flatMap(_ => ref.get)
     }
     val value = test.unsafeRunSync()
+    logger.info(s"test finished with $value")
     value must be > 5
   }
 
@@ -40,6 +41,7 @@ class RepeatedTest extends AnyFlatSpec with Matchers {
       forever.use(_ => IO.never).timeout(100 milli).attempt.flatMap(_ => ref.get)
     }
     val value = test.unsafeRunSync()
+    logger.info(s"test finished with $value")
     value.succ must be(0)
     value.failure must be > 0
   }
@@ -54,6 +56,7 @@ class RepeatedTest extends AnyFlatSpec with Matchers {
       forever.use(_ => IO.never).timeout(100 milli).attempt.flatMap(_ => ref.get)
     }
     val value = test.unsafeRunSync()
+    logger.info(s"test finished with $value")
     value.succ must be(0)
     value.failure must be > 0
     value.failure must be <= 10
