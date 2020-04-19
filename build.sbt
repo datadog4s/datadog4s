@@ -63,7 +63,8 @@ lazy val common = project
     commonSettings,
     libraryDependencies ++= Seq(
       Dependencies.Cats.effect,
-      Dependencies.Testing.scalaTest % Test
+      Dependencies.Testing.scalaTest % Test,
+      Dependencies.Logging.logback   % Test
     )
   )
   .dependsOn(api)

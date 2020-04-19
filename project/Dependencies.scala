@@ -20,6 +20,10 @@ object Dependencies {
     val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.13.9"
   }
 
+  object Logging {
+    val logback = "ch.qos.logback" % "logback-classic" % "1.2.3"
+  }
+
   object Mdoc {
     val libMdoc = "org.scalameta" %% "mdoc" % "2.1.5" excludeAll (ExclusionRule(
       organization = "org.slf4j"

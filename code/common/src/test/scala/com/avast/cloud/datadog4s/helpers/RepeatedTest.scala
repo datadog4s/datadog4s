@@ -6,22 +6,23 @@ import cats.effect.concurrent.Ref
 import cats.effect.{ ContextShift, IO, Timer }
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
+import org.slf4j.LoggerFactory
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 
 class RepeatedTest extends AnyFlatSpec with Matchers {
-  private val ec: ExecutionContext            = scala.concurrent.ExecutionContext.Implicits.global
-  implicit val contextShift: ContextShift[IO] = cats.effect.IO.contextShift(ec)
-  implicit val timer: Timer[IO]               = IO.timer(ec)
-
-  val noopErrHandler: Throwable => IO[Unit] = (_: Throwable) => IO.unit
+  private val ec: ExecutionContext                  = scala.concurrent.ExecutionContext.Implicits.global
+  implicit val contextShift: ContextShift[IO]       = cats.effect.IO.contextShift(ec)
+  implicit val timer: Timer[IO]                     = IO.timer(ec)
+  private val logger                                = LoggerFactory.getLogger(classOf[RepeatedTest])
+  private val noopErrHandler: Throwable => IO[Unit] = (_: Throwable) => IO.unit
 
   "repeated test" should "be called repeatedly" in {
     val test = Ref.of[IO, Int](0).flatMap { ref =>
       val forever =
         Repeated.run[IO](Duration.ofMillis(5), Duration.ofMillis(50), noopErrHandler) {
-          ref.update(_ + 1)
+          IO.delay(logger.info("increasing ref")) *> ref.update(_ + 1)
         }
       forever.use(_ => IO.never).timeout(100 milli).attempt.flatMap(_ => ref.get)
     }
