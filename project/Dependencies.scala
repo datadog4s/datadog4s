@@ -31,7 +31,7 @@ object Dependencies {
   }
 
   object ScalaModules {
-    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.1.5"
+    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.1.6"
   }
 
   object Silencer {
