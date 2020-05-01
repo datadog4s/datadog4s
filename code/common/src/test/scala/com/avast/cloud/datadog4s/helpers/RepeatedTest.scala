@@ -1,6 +1,7 @@
 package com.avast.cloud.datadog4s.helpers
 
 import java.time.Duration
+import java.util.concurrent.Executors
 
 import cats.effect.concurrent.Ref
 import cats.effect.{ ContextShift, IO, Timer }
@@ -12,23 +13,37 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 
 class RepeatedTest extends AnyFlatSpec with Matchers {
-  private val ec: ExecutionContext                  = scala.concurrent.ExecutionContext.Implicits.global
+  private val ec: ExecutionContext                  = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(5))
   implicit val contextShift: ContextShift[IO]       = cats.effect.IO.contextShift(ec)
   implicit val timer: Timer[IO]                     = IO.timer(ec)
   private val logger                                = LoggerFactory.getLogger(classOf[RepeatedTest])
   private val noopErrHandler: Throwable => IO[Unit] = (_: Throwable) => IO.unit
 
   "repeated test" should "be called repeatedly" in {
+    val waitFor = 10
+
     val test = Ref.of[IO, Int](0).flatMap { ref =>
-      val forever =
+      val endlessProcess =
         Repeated.run[IO](Duration.ofMillis(5), Duration.ofMillis(50), noopErrHandler) {
-          IO.delay(logger.info("increasing ref")) *> ref.update(_ + 1)
+          IO.delay(logger.info("increasing ref")) *> ref.update(_ + 1) *> IO.delay(logger.info("ref updated"))
         }
-      forever.use(_ => IO.never).timeout(100 milli).attempt.flatMap(_ => ref.get)
+
+      def waitUntil: IO[Unit] = ref.get.flatMap {
+        case value if value > waitFor => IO.pure(())
+        case _                        => timer.sleep(10.millis) *> waitUntil
+      }
+
+      val observedProcess = endlessProcess.use(_ => waitUntil)
+
+      IO.delay(logger.info("starting test")) *> observedProcess
+        .timeout(1 minute) //failsafe in case it all runs forever
+        .attempt
+        .flatMap(_ => ref.get)
     }
+
     val value = test.unsafeRunSync()
     logger.info(s"test finished with $value")
-    value must be > 5
+    value must be > waitFor
   }
 
   it should "handle errors using provided handler" in {
