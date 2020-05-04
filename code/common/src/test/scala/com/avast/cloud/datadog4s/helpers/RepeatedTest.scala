@@ -21,14 +21,12 @@ class RepeatedTest extends AnyFlatSpec with Matchers {
   "repeated test" should "be called repeatedly" in {
     val waitFor = 10
 
-    def buildProcess(counter: Ref[IO, Int], killSignal: Deferred[IO, Unit]) = {
+    def buildProcess(counter: Ref[IO, Int], killSignal: Deferred[IO, Unit]): IO[Int] = {
       def decreaseCounter: IO[Unit] =
-        counter.modify { c =>
-          val newC = c - 1
-          if (newC <= 0) {
-            (newC, killSignal.complete(()))
-          } else {
-            (newC, IO.pure(()))
+        counter.modify { currentCount =>
+          currentCount - 1 match {
+            case newCounter if newCounter <= 0 => (newCounter, killSignal.complete(()))
+            case newCounter                    => (newCounter, IO.pure(()))
           }
         }.flatMap(identity)
 
