@@ -7,6 +7,7 @@ import cats.effect.{ ContextShift, IO, Timer }
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 import org.slf4j.LoggerFactory
+import cats.syntax.flatMap._
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
@@ -26,9 +27,9 @@ class RepeatedTest extends AnyFlatSpec with Matchers {
         counter.modify { currentCount =>
           currentCount - 1 match {
             case newCounter if newCounter <= 0 => (newCounter, killSignal.complete(()))
-            case newCounter                    => (newCounter, IO.pure(()))
+            case newCounter                    => (newCounter, IO.unit)
           }
-        }.flatMap(identity)
+        }.flatten
 
       val process = Repeated.run[IO](Duration.ofMillis(5), Duration.ofMillis(50), noopErrHandler) {
         IO.delay(logger.info("increasing ref")) *> decreaseCounter *> IO.delay(logger.info("ref updated"))
