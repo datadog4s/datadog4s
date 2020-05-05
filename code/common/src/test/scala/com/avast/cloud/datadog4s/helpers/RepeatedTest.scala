@@ -51,19 +51,24 @@ class RepeatedTest extends AnyFlatSpec with Matchers {
       .unsafeRunSync()
 
     logger.info(s"test finished with $value")
-    value.fold(throw _, identity) must equal(0)
+    value.fold(throw _, identity) must be <= 0
   }
 
   it should "handle errors using provided handler" in {
-    val test = Ref.of[IO, ErrorState](ErrorState.empty).flatMap { ref =>
-      val forever =
-        Repeated.run(Duration.ofMillis(5), Duration.ofMillis(50), _ => ref.update(_.incFail)) {
-          IO.raiseError(new Throwable)
-        }
-
-      forever.use(_ => IO.never).timeout(100 milli).attempt.flatMap(_ => ref.get)
+    val test = for {
+      ref        <- Ref.of[IO, ErrorState](ErrorState.empty)
+      killSignal <- Deferred[IO, Unit]
+    } yield {
+      val process = Repeated.run(
+        Duration.ofMillis(5),
+        Duration.ofMillis(50),
+        _ => ref.update(_.incFail) *> killSignal.complete(())
+      ) {
+        IO.raiseError(new Throwable)
+      }
+      process.use(_ => killSignal.get) *> ref.get
     }
-    val value = test.unsafeRunSync()
+    val value = test.flatten.timeout(100 milli).attempt.unsafeRunSync().fold(throw _, identity)
     logger.info(s"test finished with $value")
     value.succ must be(0)
     value.failure must be > 0
