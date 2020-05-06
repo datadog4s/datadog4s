@@ -33,7 +33,11 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-scala-${{ matrix.scala }}-
     - name: Compile & Test
-      run: sbt checkAll +test
+      run: sbt checkAll
+    - name: Codecov report
+      env:
+        CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
+      run: bash <(curl -s https://codecov.io/bash)
       
   publish:
     timeout-minutes: 15
@@ -57,7 +61,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-scala-${{ matrix.scala }}-
     - name: Compile & Test
-      run: sbt checkAll +test
+      run: sbt checkAll
     - name: Run binary compatiblity check
       if: contains(github.ref, 'refs/tags/v')
       run: sbt +mimaReportBinaryIssues
