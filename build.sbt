@@ -137,6 +137,7 @@ lazy val site = (project in file("site"))
 
 addCommandAlias(
   "checkAll",
-  "; scalafmtSbtCheck; scalafmtCheckAll; +test; doc; site/makeMdoc"
+  "; scalafmtSbtCheck; scalafmtCheckAll; +test; doc; site/makeMdoc; coverageReport"
 )
+
 addCommandAlias("fixAll", "; scalafmtSbt; scalafmtAll")
