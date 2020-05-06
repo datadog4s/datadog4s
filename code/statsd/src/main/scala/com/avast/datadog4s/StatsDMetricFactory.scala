@@ -1,6 +1,6 @@
 package com.avast.datadog4s
 
-import cats.effect.{Resource, Sync}
+import cats.effect.{ Resource, Sync }
 import com.avast.datadog4s.api.MetricFactory
 import com.timgroup.statsd.NonBlockingStatsDClientBuilder
 
