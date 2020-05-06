@@ -47,7 +47,6 @@ class StatsDMetricFactory[F[_]: Sync](statsDClient: StatsDClient, basePrefix: St
         sampleRate.getOrElse(defaultSampleRate),
         defaultTags
       )
-
   }
 
   override val gauge: GaugeFactory[F] = new GaugeFactory[F] {
