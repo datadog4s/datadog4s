@@ -4,6 +4,6 @@ import cats.Applicative
 import com.avast.datadog4s.api.Tag
 import com.avast.datadog4s.api.metric.Gauge
 
-class NoopGaugeDouble[F[_]: Applicative] extends Gauge[F, Double] {
-  override def set(value: Double, tags: Tag*): F[Unit] = Applicative[F].unit
+class NoopGauge[F[_]: Applicative, N] extends Gauge[F, N] {
+  override def set(value: N, tags: Tag*): F[Unit] = Applicative[F].unit
 }
