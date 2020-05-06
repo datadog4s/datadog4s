@@ -24,16 +24,17 @@ class NoopMetricFactory[F[_]: Applicative] extends MetricFactory[F] {
     override def double(aspect: String, sampleRate: Option[Double] = None): Gauge[F, Double] = new NoopGauge[F, Double]
   }
 
-  override def uniqueSet(aspect: String): UniqueSet[F] = new NoopUniqueSet[F]
-
-  override def withTags(tags: Tag*): MetricFactory[F] = this
-
-  override def withScope(prefix: String): MetricFactory[F] = this
-
   override def distribution: DistributionFactory[F] = new DistributionFactory[F] {
     override def long(aspect: String, sampleRate: Option[Double]): Distribution[F, Long] = new NoopDistribution[F, Long]
 
     override def double(aspect: String, sampleRate: Option[Double]): Distribution[F, Double] =
       new NoopDistribution[F, Double]
   }
+
+  override def uniqueSet(aspect: String): UniqueSet[F] = new NoopUniqueSet[F]
+
+  override def withTags(tags: Tag*): MetricFactory[F] = this
+
+  override def withScope(prefix: String): MetricFactory[F] = this
+
 }
