@@ -151,12 +151,12 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.avast.datadog4s.statsd">statsd</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <span class="separator"></span>
-                        <a class="class" href="" title=""></a>
-                        <a href="" title="">CountImpl</a>
+                        <a class="class" href="CountImpl.html" title=""></a>
+                        <a href="CountImpl.html" title="">CountImpl</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
-                        <a class="class" href="DistributionDoubleImpl.html" title=""></a>
-                        <a href="DistributionDoubleImpl.html" title="">DistributionDoubleImpl</a>
+                        <a class="class" href="" title=""></a>
+                        <a href="" title="">DistributionDoubleImpl</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="DistributionLongImpl.html" title=""></a>
@@ -194,8 +194,8 @@
       <div id="definition">
         <div class="big-circle class">c</div>
         <p id="owner"><a href="../../../../index.html" class="extype" name="com">com</a>.<a href="../../../index.html" class="extype" name="com.avast">avast</a>.<a href="../../index.html" class="extype" name="com.avast.datadog4s">datadog4s</a>.<a href="../index.html" class="extype" name="com.avast.datadog4s.statsd">statsd</a>.<a href="index.html" class="extype" name="com.avast.datadog4s.statsd.metric">metric</a></p>
-        <h1>CountImpl<span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html" title="Permalink">
+        <h1>DistributionDoubleImpl<span class="permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span></h1>
@@ -208,7 +208,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">CountImpl</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>]</span><span class="result"> extends <a href="../../api/metric/Count.html" class="extype" name="com.avast.datadog4s.api.metric.Count">Count</a>[<span class="extype" name="com.avast.datadog4s.statsd.metric.CountImpl.F">F</span>]</span>
+        <span class="name">DistributionDoubleImpl</span><span class="tparams">[<span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>]</span><span class="result"> extends <a href="../../api/metric/Distribution.html" class="extype" name="com.avast.datadog4s.api.metric.Distribution">Distribution</a>[<span class="extype" name="com.avast.datadog4s.statsd.metric.DistributionDoubleImpl.F">F</span>, <a href="https://www.scala-lang.org/api/2.12.11/scala/Double.html#scala.Double" class="extype" name="scala.Double">Double</a>]</span>
       </span>
       </h4>
 
@@ -217,7 +217,7 @@
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="../../api/metric/Count.html" class="extype" name="com.avast.datadog4s.api.metric.Count">Count</a>[<span class="extype" name="com.avast.datadog4s.statsd.metric.CountImpl.F">F</span>], <a href="https://www.scala-lang.org/api/2.12.11/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a>, <a href="https://www.scala-lang.org/api/2.12.11/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></div>
+          <div class="superTypes hiddenContent"><a href="../../api/metric/Distribution.html" class="extype" name="com.avast.datadog4s.api.metric.Distribution">Distribution</a>[<span class="extype" name="com.avast.datadog4s.statsd.metric.DistributionDoubleImpl.F">F</span>, <a href="https://www.scala-lang.org/api/2.12.11/scala/Double.html#scala.Double" class="extype" name="scala.Double">Double</a>], <a href="https://www.scala-lang.org/api/2.12.11/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a>, <a href="https://www.scala-lang.org/api/2.12.11/scala/Any.html#scala.Any" class="extype" name="scala.Any">Any</a></div>
         </div></div>
         
 
@@ -243,7 +243,7 @@
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="com.avast.datadog4s.statsd.metric.CountImpl"><span>CountImpl</span></li><li class="in" name="com.avast.datadog4s.api.metric.Count"><span>Count</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="com.avast.datadog4s.statsd.metric.DistributionDoubleImpl"><span>DistributionDoubleImpl</span></li><li class="in" name="com.avast.datadog4s.api.metric.Distribution"><span>Distribution</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -263,10 +263,10 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="com.avast.datadog4s.statsd.metric.CountImpl#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(statsDClient:com.timgroup.statsd.StatsDClient,prefix:String,sampleRate:Double,defaultTags:scala.collection.immutable.Seq[com.avast.datadog4s.api.Tag])(implicitevidence$1:cats.effect.Sync[F]):com.avast.datadog4s.statsd.metric.CountImpl[F]"></a><a id="&lt;init&gt;:CountImpl[F]"></a>
+              <ol><li name="com.avast.datadog4s.statsd.metric.DistributionDoubleImpl#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(statsDClient:com.timgroup.statsd.StatsDClient,aspect:String,sampleRate:Double,defaultTags:Seq[com.avast.datadog4s.api.Tag])(implicitevidence$1:cats.effect.Sync[F]):com.avast.datadog4s.statsd.metric.DistributionDoubleImpl[F]"></a><a id="&lt;init&gt;:DistributionDoubleImpl[F]"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#&lt;init&gt;(statsDClient:com.timgroup.statsd.StatsDClient,prefix:String,sampleRate:Double,defaultTags:scala.collection.immutable.Seq[com.avast.datadog4s.api.Tag])(implicitevidence$1:cats.effect.Sync[F]):com.avast.datadog4s.statsd.metric.CountImpl[F]" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#&lt;init&gt;(statsDClient:com.timgroup.statsd.StatsDClient,aspect:String,sampleRate:Double,defaultTags:Seq[com.avast.datadog4s.api.Tag])(implicitevidence$1:cats.effect.Sync[F]):com.avast.datadog4s.statsd.metric.DistributionDoubleImpl[F]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -275,7 +275,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">CountImpl</span><span class="params">(<span name="statsDClient">statsDClient: <a href="https://javadoc.io/page/com.datadoghq/java-dogstatsd-client/2.10.0/com/timgroup/statsd/StatsDClient.html#com.timgroup.statsd.StatsDClient" class="extype" name="com.timgroup.statsd.StatsDClient">StatsDClient</a></span>, <span name="prefix">prefix: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sampleRate">sampleRate: <a href="https://www.scala-lang.org/api/2.12.11/scala/Double.html#scala.Double" class="extype" name="scala.Double">Double</a></span>, <span name="defaultTags">defaultTags: <a href="https://www.scala-lang.org/api/2.12.11/scala/collection/immutable/Seq.html#scala.collection.immutable.Seq" class="extype" name="scala.collection.immutable.Seq">Seq</a>[<a href="../../api/index.html#Tag=String" class="extmbr" name="com.avast.datadog4s.api.Tag">Tag</a>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="https://javadoc.io/page/org.typelevel/cats-effect_2.12/2.1.3/cats/effect/Sync.html#cats.effect.Sync" class="extype" name="cats.effect.Sync">Sync</a>[<span class="extype" name="com.avast.datadog4s.statsd.metric.CountImpl.F">F</span>]</span>)</span>
+        <span class="name">DistributionDoubleImpl</span><span class="params">(<span name="statsDClient">statsDClient: <a href="https://javadoc.io/page/com.datadoghq/java-dogstatsd-client/2.10.0/com/timgroup/statsd/StatsDClient.html#com.timgroup.statsd.StatsDClient" class="extype" name="com.timgroup.statsd.StatsDClient">StatsDClient</a></span>, <span name="aspect">aspect: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="sampleRate">sampleRate: <a href="https://www.scala-lang.org/api/2.12.11/scala/Double.html#scala.Double" class="extype" name="scala.Double">Double</a></span>, <span name="defaultTags">defaultTags: <span class="extype" name="scala.Seq">Seq</span>[<a href="../../api/index.html#Tag=String" class="extmbr" name="com.avast.datadog4s.api.Tag">Tag</a>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="https://javadoc.io/page/org.typelevel/cats-effect_2.12/2.1.3/cats/effect/Sync.html#cats.effect.Sync" class="extype" name="cats.effect.Sync">Sync</a>[<span class="extype" name="com.avast.datadog4s.statsd.metric.DistributionDoubleImpl.F">F</span>]</span>)</span>
       </span>
       
       
@@ -292,7 +292,7 @@
                 <li name="scala.AnyRef#!=" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a><a id="!=(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#!=(x$1:Any):Boolean" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#!=(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -308,7 +308,7 @@
     </li><li name="scala.AnyRef###" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="##():Int"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html###():Int" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html###():Int" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -324,7 +324,7 @@
     </li><li name="scala.AnyRef#==" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="==(x$1:Any):Boolean"></a><a id="==(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#==(x$1:Any):Boolean" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#==(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -340,7 +340,7 @@
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#asInstanceOf[T0]:T0" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#asInstanceOf[T0]:T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -356,7 +356,7 @@
     </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a><a id="clone():AnyRef"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#clone():Object" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#clone():Object" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -377,26 +377,10 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.avast.datadog4s.api.metric.Count#dec" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="dec(tags:com.avast.datadog4s.api.Tag*):F[Unit]"></a><a id="dec(Tag*):F[Unit]"></a>
-      <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#dec(tags:com.avast.datadog4s.api.Tag*):F[Unit]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">dec</span><span class="params">(<span name="tags">tags: <a href="../../api/index.html#Tag=String" class="extmbr" name="com.avast.datadog4s.api.Tag">Tag</a>*</span>)</span><span class="result">: <span class="extype" name="com.avast.datadog4s.statsd.metric.CountImpl.F">F</span>[<a href="https://www.scala-lang.org/api/2.12.11/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a>]</span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../api/metric/Count.html" class="extype" name="com.avast.datadog4s.api.metric.Count">Count</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#eq(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#eq(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -412,7 +396,7 @@
     </li><li name="scala.AnyRef#equals" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="equals(x$1:Any):Boolean"></a><a id="equals(Any):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#equals(x$1:Any):Boolean" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#equals(x$1:Any):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -428,7 +412,7 @@
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#finalize():Unit" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#finalize():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -450,7 +434,7 @@
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#getClass():Class[_]" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#getClass():Class[_]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -469,7 +453,7 @@
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#hashCode():Int" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#hashCode():Int" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -485,26 +469,10 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.avast.datadog4s.api.metric.Count#inc" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="inc(tags:com.avast.datadog4s.api.Tag*):F[Unit]"></a><a id="inc(Tag*):F[Unit]"></a>
-      <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#inc(tags:com.avast.datadog4s.api.Tag*):F[Unit]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">inc</span><span class="params">(<span name="tags">tags: <a href="../../api/index.html#Tag=String" class="extmbr" name="com.avast.datadog4s.api.Tag">Tag</a>*</span>)</span><span class="result">: <span class="extype" name="com.avast.datadog4s.statsd.metric.CountImpl.F">F</span>[<a href="https://www.scala-lang.org/api/2.12.11/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a>]</span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../api/metric/Count.html" class="extype" name="com.avast.datadog4s.api.metric.Count">Count</a></dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#isInstanceOf[T0]:Boolean" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#isInstanceOf[T0]:Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -517,26 +485,10 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.avast.datadog4s.statsd.metric.CountImpl#modify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="modify(delta:Int,tags:com.avast.datadog4s.api.Tag*):F[Unit]"></a><a id="modify(Int,Tag*):F[Unit]"></a>
-      <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#modify(delta:Int,tags:com.avast.datadog4s.api.Tag*):F[Unit]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">modify</span><span class="params">(<span name="delta">delta: <a href="https://www.scala-lang.org/api/2.12.11/scala/Int.html#scala.Int" class="extype" name="scala.Int">Int</a></span>, <span name="tags">tags: <a href="../../api/index.html#Tag=String" class="extmbr" name="com.avast.datadog4s.api.Tag">Tag</a>*</span>)</span><span class="result">: <span class="extype" name="com.avast.datadog4s.statsd.metric.CountImpl.F">F</span>[<a href="https://www.scala-lang.org/api/2.12.11/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a>]</span>
-      </span>
-      
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.avast.datadog4s.statsd.metric.CountImpl">CountImpl</a> → <a href="../../api/metric/Count.html" class="extype" name="com.avast.datadog4s.api.metric.Count">Count</a></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#ne(x$1:AnyRef):Boolean" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#ne(x$1:AnyRef):Boolean" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -552,7 +504,7 @@
     </li><li name="scala.AnyRef#notify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notify():Unit"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#notify():Unit" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#notify():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -571,7 +523,7 @@
     </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="notifyAll():Unit"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#notifyAll():Unit" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#notifyAll():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -587,10 +539,26 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.avast.datadog4s.statsd.metric.DistributionDoubleImpl#record" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="record(value:Double,tags:com.avast.datadog4s.api.Tag*):F[Unit]"></a><a id="record(Double,Tag*):F[Unit]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#record(value:Double,tags:com.avast.datadog4s.api.Tag*):F[Unit]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">record</span><span class="params">(<span name="value">value: <a href="https://www.scala-lang.org/api/2.12.11/scala/Double.html#scala.Double" class="extype" name="scala.Double">Double</a></span>, <span name="tags">tags: <a href="../../api/index.html#Tag=String" class="extmbr" name="com.avast.datadog4s.api.Tag">Tag</a>*</span>)</span><span class="result">: <span class="extype" name="com.avast.datadog4s.statsd.metric.DistributionDoubleImpl.F">F</span>[<a href="https://www.scala-lang.org/api/2.12.11/scala/Unit.html#scala.Unit" class="extype" name="scala.Unit">Unit</a>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.avast.datadog4s.statsd.metric.DistributionDoubleImpl">DistributionDoubleImpl</a> → <a href="../../api/metric/Distribution.html" class="extype" name="com.avast.datadog4s.api.metric.Distribution">Distribution</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -606,7 +574,7 @@
     </li><li name="scala.AnyRef#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#toString():String" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#toString():String" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -622,7 +590,7 @@
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#wait():Unit" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#wait():Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -644,7 +612,7 @@
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -666,7 +634,7 @@
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait(x$1:Long):Unit"></a><a id="wait(Long):Unit"></a>
       <span class="permalink">
-      <a href="../../../../../com/avast/datadog4s/statsd/metric/CountImpl.html#wait(x$1:Long):Unit" title="Permalink">
+      <a href="../../../../../com/avast/datadog4s/statsd/metric/DistributionDoubleImpl.html#wait(x$1:Long):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -697,8 +665,8 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="com.avast.datadog4s.api.metric.Count">
-              <h3>Inherited from <a href="../../api/metric/Count.html" class="extype" name="com.avast.datadog4s.api.metric.Count">Count</a>[<span class="extype" name="com.avast.datadog4s.statsd.metric.CountImpl.F">F</span>]</h3>
+        <div class="parent" name="com.avast.datadog4s.api.metric.Distribution">
+              <h3>Inherited from <a href="../../api/metric/Distribution.html" class="extype" name="com.avast.datadog4s.api.metric.Distribution">Distribution</a>[<span class="extype" name="com.avast.datadog4s.statsd.metric.DistributionDoubleImpl.F">F</span>, <a href="https://www.scala-lang.org/api/2.12.11/scala/Double.html#scala.Double" class="extype" name="scala.Double">Double</a>]</h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <a href="https://www.scala-lang.org/api/2.12.11/scala/AnyRef.html#scala.AnyRef" class="extype" name="scala.AnyRef">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
