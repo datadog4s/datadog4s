@@ -1,2 +1,2 @@
 ignore:
-  - "Noop*.scala"
+  - "**/Noop*.scala"
