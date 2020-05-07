@@ -35,10 +35,9 @@ jobs:
     - name: Compile & Test
       run: sbt checkAll
     - name: Codecov report
-      env:
-        CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
-      run: bash <(curl -s https://codecov.io/bash)
-      
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{secrets.CODECOV_TOKEN}}     
   publish:
     timeout-minutes: 15
     if: github.ref == 'refs/heads/master' || contains(github.ref, 'refs/tags/v' )
