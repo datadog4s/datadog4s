@@ -35,6 +35,7 @@ jobs:
     - name: Compile & Test
       run: sbt checkAll
     - name: Codecov report
+      if: ${{matrix.java}} == '11.0.x'
       uses: codecov/codecov-action@v1
       with:
         token: ${{secrets.CODECOV_TOKEN}}     
@@ -43,7 +44,6 @@ jobs:
     if: github.ref == 'refs/heads/master' || contains(github.ref, 'refs/tags/v' )
     needs: [build]
     runs-on: [ubuntu-latest]
-
     steps:
     - name: Debug info
       run: echo ref:${{github.ref}}
