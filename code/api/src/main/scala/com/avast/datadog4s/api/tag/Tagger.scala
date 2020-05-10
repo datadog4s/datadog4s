@@ -7,9 +7,10 @@ trait Tagger[A] {
 }
 
 object Tagger {
-  def make[A: TagValue](name: String): Tagger[A] = new Tagger[A] {
-    private[this] val tagValue = TagValue[A]
+  def make[A: TagValue](name: String): Tagger[A] =
+    new Tagger[A] {
+      private[this] val tagValue = TagValue[A]
 
-    override def tag(a: A): Tag = Tag.of(name, tagValue.convert(a))
-  }
+      override def tag(a: A): Tag = Tag.of(name, tagValue.convert(a))
+    }
 }
