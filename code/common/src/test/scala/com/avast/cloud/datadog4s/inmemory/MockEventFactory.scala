@@ -14,9 +14,10 @@ class MockEventFactory[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record[A
       oldState.updated(aspect, updatedField)
     }.void
 
-  override def eventer: Eventer[F] = new Eventer[F] {
-    override def send(event: Event, tags: Tag*): F[Unit] = updateState("", event, tags: _*)
-  }
+  override def eventer: Eventer[F] =
+    new Eventer[F] {
+      override def send(event: Event, tags: Tag*): F[Unit] = updateState("", event, tags: _*)
+    }
 
   override def withTags(tags: Tag*): EventFactory[F] = this
 
