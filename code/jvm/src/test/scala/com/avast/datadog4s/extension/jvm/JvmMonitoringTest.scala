@@ -28,7 +28,7 @@ class JvmMonitoringTest extends AnyFlatSpec with Matchers {
 
       runTest >> inmemory.state.get
     }
-    val result = testEffect.unsafeRunSync()
+    val result     = testEffect.unsafeRunSync()
     result.keySet must equal(expectedAspects)
     result.values.foreach { vector =>
       vector.groupBy(_.tags).foreach {

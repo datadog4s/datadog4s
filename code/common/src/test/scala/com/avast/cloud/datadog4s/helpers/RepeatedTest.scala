@@ -41,9 +41,7 @@ class RepeatedTest extends AnyFlatSpec with Matchers {
       killSignal <- Deferred[IO, Unit]
       counter    <- Ref.of[IO, Int](waitFor)
       output     <- buildProcess(counter, killSignal)
-    } yield {
-      output
-    }
+    } yield output
 
     val value = (IO.delay(logger.info("starting test")) *> test)
       .timeout(1 minute) //failsafe in case it all runs forever
@@ -55,7 +53,7 @@ class RepeatedTest extends AnyFlatSpec with Matchers {
   }
 
   it should "handle errors using provided handler" in {
-    val test = for {
+    val test  = for {
       ref        <- Ref.of[IO, ErrorState](ErrorState.empty)
       killSignal <- Deferred[IO, Unit]
     } yield {
@@ -101,7 +99,7 @@ class RepeatedTest extends AnyFlatSpec with Matchers {
     def incFail: ErrorState = this.copy(failure = failure + 1)
     def incSucc: ErrorState = this.copy(succ = succ + 1)
   }
-  object ErrorState {
+  object ErrorState                              {
     def empty: ErrorState = ErrorState(0, 0)
   }
 

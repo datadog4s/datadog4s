@@ -5,7 +5,7 @@ object CompilerSettings {
   // graciously reused from https://github.com/softwaremill/sbt-softwaremille
 
   private val commonScalacOptions = Seq(
-    "-deprecation", // Emit warning and location for usages of deprecated APIs.
+    "-deprecation",                  // Emit warning and location for usages of deprecated APIs.
     "-encoding",
     "UTF-8",                         // Specify character encoding used by source files.
     "-explaintypes",                 // Explain type errors in more detail.
@@ -61,7 +61,7 @@ object CompilerSettings {
     "-Ywarn-unused:privates",  // Warn if a private member is unused.
     "-Ywarn-extra-implicit",
     "-Xfatal-warnings"
-  ) // Warn when more than one implicit parameter section is defined.
+  )                            // Warn when more than one implicit parameter section is defined.
 
   private val scalacOptionsEq211 = List(
     "-Ywarn-unused-import" // Warn if an import selector is not referenced.
