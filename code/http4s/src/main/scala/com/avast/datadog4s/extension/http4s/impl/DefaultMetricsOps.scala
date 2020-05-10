@@ -17,10 +17,10 @@ private[http4s] class DefaultMetricsOps[F[_]](
   metricFactory: MetricFactory[F],
   classifierTags: ClassifierTags,
   activeConnectionsRef: Ref[F, ActiveConnections]
-)(
-  implicit F: Sync[F]
+)(implicit
+  F: Sync[F]
 ) extends MetricsOps[F] {
-  private[this] val methodTagger = Tagger.make[Method]("method")
+  private[this] val methodTagger          = Tagger.make[Method]("method")
   @deprecated("please use terminationTypeTagger - this will be removed in next release 0.8.0", "0.6.3")
   private[this] val typeTagger            = Tagger.make[TerminationType]("type")
   private[this] val terminationTypeTagger = Tagger.make[TerminationType]("termination_type")
@@ -40,7 +40,7 @@ private[http4s] class DefaultMetricsOps[F[_]](
       val current               = activeConnections.getOrElse(classifier, default)
       val next                  = current + delta
       val nextActiveConnections = activeConnections.updated(classifier, next)
-      val action = activeRequests.set(
+      val action                = activeRequests.set(
         next.toLong,
         classifier.toList.flatMap(classifierTags): _*
       )
@@ -74,8 +74,8 @@ private[http4s] class DefaultMetricsOps[F[_]](
   ): F[Unit] = {
     val terminationTpe = terminationTypeTagger.tag(terminationType)
     @silent("deprecated")
-    val tpe  = typeTagger.tag(terminationType)
-    val tags = tpe :: terminationTpe :: classifier.toList.flatMap(classifierTags)
+    val tpe            = typeTagger.tag(terminationType)
+    val tags           = tpe :: terminationTpe :: classifier.toList.flatMap(classifierTags)
     abnormalCount.inc(tags: _*) >> abnormalLatency.record(Duration.ofNanos(elapsed), tags: _*)
   }
 }

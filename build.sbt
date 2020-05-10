@@ -63,7 +63,8 @@ lazy val common = project
     commonSettings,
     libraryDependencies ++= Seq(
       Dependencies.Cats.effect,
-      Dependencies.Testing.scalaTest % Test
+      Dependencies.Testing.scalaTest % Test,
+      Dependencies.Logging.logback   % Test
     )
   )
   .dependsOn(api)
@@ -103,7 +104,7 @@ lazy val http4s = project
   )
   .dependsOn(api)
 
-lazy val jvm = project
+lazy val jvm  = project
   .in(file("code/jvm"))
   .settings(
     name := "datadog4s-jvm",
@@ -136,6 +137,7 @@ lazy val site = (project in file("site"))
 
 addCommandAlias(
   "checkAll",
-  "; scalafmtSbtCheck; scalafmtCheckAll; +test; doc; site/makeMdoc"
+  "; scalafmtSbtCheck; scalafmtCheckAll; coverage; +test; coverageReport; doc; site/makeMdoc"
 )
+
 addCommandAlias("fixAll", "; scalafmtSbt; scalafmtAll")

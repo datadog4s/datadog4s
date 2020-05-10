@@ -33,14 +33,17 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-scala-${{ matrix.scala }}-
     - name: Compile & Test
-      run: sbt checkAll +test
-      
+      run: sbt checkAll
+    - name: Codecov report
+      if: ${{matrix.java}} == '11.0.x'
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{secrets.CODECOV_TOKEN}}     
   publish:
     timeout-minutes: 15
     if: github.ref == 'refs/heads/master' || contains(github.ref, 'refs/tags/v' )
     needs: [build]
     runs-on: [ubuntu-latest]
-
     steps:
     - name: Debug info
       run: echo ref:${{github.ref}}
@@ -57,9 +60,9 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-scala-${{ matrix.scala }}-
     - name: Compile & Test
-      run: sbt checkAll +test
+      run: sbt checkAll
     - name: Run binary compatiblity check
-      if: contains(github.ref, 'refs/tags/v')
+      if: contains(github.ref, 'refs/tags/v') && !endsWith(github.ref, '.0')
       run: sbt +mimaReportBinaryIssues
     - name: Install GPG
       uses: olafurpg/setup-gpg@v2

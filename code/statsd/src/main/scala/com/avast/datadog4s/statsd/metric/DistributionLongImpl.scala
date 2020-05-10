@@ -2,20 +2,18 @@ package com.avast.datadog4s.statsd.metric
 
 import cats.effect.Sync
 import com.avast.datadog4s.api.Tag
-import com.avast.datadog4s.api.metric.Histogram
+import com.avast.datadog4s.api.metric.Distribution
 import com.timgroup.statsd.StatsDClient
-import scala.collection.immutable.Seq
 
-class HistogramLongImpl[F[_]: Sync](
+class DistributionLongImpl[F[_]: Sync](
   statsDClient: StatsDClient,
   aspect: String,
   sampleRate: Double,
   defaultTags: Seq[Tag]
-) extends Histogram[F, Long] {
-  private[this] val F = Sync[F]
-
+) extends Distribution[F, Long] {
+  private[this] val F                                   = Sync[F]
   override def record(value: Long, tags: Tag*): F[Unit] =
     F.delay {
-      statsDClient.recordHistogramValue(aspect, value, sampleRate, (tags ++ defaultTags): _*)
+      statsDClient.recordDistributionValue(aspect, value, sampleRate, (tags ++ defaultTags): _*)
     }
 }

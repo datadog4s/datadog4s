@@ -2,8 +2,8 @@ package com.avast.datadog4s.statsd
 
 import cats.effect.{ Clock, Sync }
 import com.avast.datadog4s.StatsDMetricFactoryConfig
-import com.avast.datadog4s.api.metric.{ Gauge, Histogram, UniqueSet }
-import com.avast.datadog4s.api.{ GaugeFactory, HistogramFactory, MetricFactory, Tag }
+import com.avast.datadog4s.api.metric.{ Distribution, Gauge, Histogram, UniqueSet }
+import com.avast.datadog4s.api.{ DistributionFactory, GaugeFactory, HistogramFactory, MetricFactory, Tag }
 import com.avast.datadog4s.statsd.metric._
 import com.timgroup.statsd.StatsDClient
 
@@ -24,6 +24,24 @@ class StatsDMetricFactory[F[_]: Sync](statsDClient: StatsDClient, basePrefix: St
 
     override def double(aspect: String, sampleRate: Option[Double] = None): Histogram[F, Double] =
       new HistogramDoubleImpl[F](
+        statsDClient,
+        s"$basePrefix.$aspect",
+        sampleRate.getOrElse(defaultSampleRate),
+        defaultTags
+      )
+  }
+
+  override val distribution: DistributionFactory[F] = new DistributionFactory[F] {
+    override def long(aspect: String, sampleRate: Option[Double]): Distribution[F, Long] =
+      new DistributionLongImpl[F](
+        statsDClient,
+        s"$basePrefix.$aspect",
+        sampleRate.getOrElse(defaultSampleRate),
+        defaultTags
+      )
+
+    override def double(aspect: String, sampleRate: Option[Double]): Distribution[F, Double] =
+      new DistributionDoubleImpl[F](
         statsDClient,
         s"$basePrefix.$aspect",
         sampleRate.getOrElse(defaultSampleRate),
@@ -59,4 +77,5 @@ class StatsDMetricFactory[F[_]: Sync](statsDClient: StatsDClient, basePrefix: St
 
   override def withScope(scope: String): MetricFactory[F] =
     new StatsDMetricFactory[F](statsDClient, s"$basePrefix.$scope", config)
+
 }
