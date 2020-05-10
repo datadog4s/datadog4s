@@ -1,6 +1,9 @@
 package com.avast.datadog4s.api.event
 
-//TODO add Date support
+import java.time.Instant
+
+import com.avast.datadog4s.api.event
+
 /**
  *
  * @param title required - The title of the event
@@ -12,13 +15,65 @@ package com.avast.datadog4s.api.event
  * @param sourceTypeName The source type name
  * @param alertType error, warning, success, or info (defaults to info)
  */
-case class Event(
-  title: String,
-  text: String,
-  date: Option[Long] = None,
-  hostname: Option[String] = None,
-  aggregationKey: Option[String] = None,
-  priority: Priority = Priority.Normal,
-  sourceTypeName: Option[String] = None,
-  alertType: AlertType = AlertType.Info
-)
+sealed trait Event {
+  val title: String
+  val text: String
+  val date: Option[Instant]          = None
+  val hostname: Option[String]       = None
+  val aggregationKey: Option[String] = None
+  val priority: event.Priority.Value = Priority.Normal
+  val sourceTypeName: Option[String] = None
+  val alertType: AlertType.Value     = AlertType.Info
+}
+
+object Event {
+
+  case class Error(
+    title: String,
+    text: String,
+    override val date: Option[Instant] = None,
+    override val hostname: Option[String] = None,
+    override val aggregationKey: Option[String] = None,
+    override val priority: Priority.Value = Priority.Normal,
+    override val sourceTypeName: Option[String] = None
+  ) extends Event {
+    override val alertType: AlertType.Value = AlertType.Error
+  }
+
+  case class Warning(
+    title: String,
+    text: String,
+    override val date: Option[Instant] = None,
+    override val hostname: Option[String] = None,
+    override val aggregationKey: Option[String] = None,
+    override val priority: Priority.Value = Priority.Normal,
+    override val sourceTypeName: Option[String] = None
+  ) extends Event {
+    override val alertType: AlertType.Value = AlertType.Warning
+  }
+
+  case class Info(
+    title: String,
+    text: String,
+    override val date: Option[Instant] = None,
+    override val hostname: Option[String] = None,
+    override val aggregationKey: Option[String] = None,
+    override val priority: Priority.Value = Priority.Normal,
+    override val sourceTypeName: Option[String] = None
+  ) extends Event {
+    override val alertType: AlertType.Value = AlertType.Info
+  }
+
+  case class Success(
+    title: String,
+    text: String,
+    override val date: Option[Instant] = None,
+    override val hostname: Option[String] = None,
+    override val aggregationKey: Option[String] = None,
+    override val priority: Priority.Value = Priority.Normal,
+    override val sourceTypeName: Option[String] = None
+  ) extends Event {
+    override val alertType: AlertType.Value = AlertType.Success
+  }
+
+}

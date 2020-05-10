@@ -1,8 +1,8 @@
 package com.avast.datadog4s.statsd
 
 import cats.effect.IO
-import com.avast.datadog4s.api.event.Event
-import com.avast.datadog4s.statsd.metric.EventerImpl
+import com.avast.datadog4s.api.event.Event.Info
+import com.avast.datadog4s.statsd.event.EventerImpl
 import com.timgroup.statsd.{ StatsDClient, Event => SEvent }
 import org.mockito.ArgumentMatchers
 import org.mockito.scalatest.MockitoSugar
@@ -18,7 +18,7 @@ class EventerImplTest extends AnyFlatSpec with MockitoSugar with BeforeAndAfter 
 
   "eventer F[A]" should "report passed event" in new Fixtures {
 
-    eventer.send(Event("hello", "world")).unsafeRunSync()
+    eventer.send(Info("hello", "world")).unsafeRunSync()
 
     val expectedEvent: SEvent = SEvent
       .builder()

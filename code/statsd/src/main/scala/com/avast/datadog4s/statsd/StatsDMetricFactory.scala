@@ -2,7 +2,7 @@ package com.avast.datadog4s.statsd
 
 import cats.effect.{ Clock, Sync }
 import com.avast.datadog4s.StatsDMetricFactoryConfig
-import com.avast.datadog4s.api.metric.{ Eventer, Gauge, Histogram, UniqueSet }
+import com.avast.datadog4s.api.metric.{ Gauge, Histogram, UniqueSet }
 import com.avast.datadog4s.api.{ GaugeFactory, HistogramFactory, MetricFactory, Tag }
 import com.avast.datadog4s.statsd.metric._
 import com.timgroup.statsd.StatsDClient
@@ -53,8 +53,6 @@ class StatsDMetricFactory[F[_]: Sync](statsDClient: StatsDClient, basePrefix: St
 
   override def uniqueSet(aspect: String): UniqueSet[F] =
     new UniqueSetImpl[F](statsDClient, s"$basePrefix.$aspect", defaultTags)
-
-  override def eventer: Eventer[F] = new EventerImpl[F](statsDClient, defaultTags)
 
   override def withTags(tags: Tag*): MetricFactory[F] =
     new StatsDMetricFactory[F](statsDClient, basePrefix, config.copy(defaultTags = config.defaultTags ++ tags))

@@ -1,6 +1,6 @@
 package com.avast.datadog4s.api
 
-import com.avast.datadog4s.api.metric.{ Count, Eventer, Timer, UniqueSet }
+import com.avast.datadog4s.api.metric.{ Count, Timer, UniqueSet }
 
 trait MetricFactory[F[_]] {
   def histogram: HistogramFactory[F]
@@ -8,7 +8,6 @@ trait MetricFactory[F[_]] {
   def timer(aspect: String, sampleRate: Option[Double] = None): Timer[F]
   def count(aspect: String, sampleRate: Option[Double] = None): Count[F]
   def uniqueSet(aspect: String): UniqueSet[F]
-  def eventer: Eventer[F]
 
   def withTags(tags: Tag*): MetricFactory[F]
   def withScope(name: String): MetricFactory[F]

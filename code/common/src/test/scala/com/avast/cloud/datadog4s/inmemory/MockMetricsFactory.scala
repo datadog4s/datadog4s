@@ -6,7 +6,6 @@ import cats.effect.Sync
 import cats.effect.concurrent.Ref
 import cats.syntax.flatMap._
 import cats.syntax.functor._
-import com.avast.datadog4s.api.event.Event
 import com.avast.datadog4s.api.metric._
 import com.avast.datadog4s.api.{ GaugeFactory, HistogramFactory, MetricFactory, Tag }
 
@@ -47,10 +46,6 @@ class MockMetricsFactory[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record
 
   override def count(aspect: String, sampleRate: Option[Double]): Count[F] = new Count[F] {
     override def modify(delta: Int, tags: Tag*): F[Unit] = updateState(aspect, delta, tags: _*)
-  }
-
-  override def eventer: Eventer[F] = new Eventer[F] {
-    override def send(event: Event, tags: Tag*): F[Unit] = updateState("", event, tags: _*)
   }
 
   override def uniqueSet(aspect: String): UniqueSet[F] = new UniqueSet[F] {
