@@ -43,20 +43,24 @@ class JvmMonitoringTest extends AnyFlatSpec with Matchers {
     "jvm.cpu.load",
     "jvm.cpu.time",
     "jvm.filedescriptor.open",
-    "jvm.heap.used",
-    "jvm.heap.committed",
-    "jvm.heap.max",
-    "jvm.nonheap.used",
-    "jvm.nonheap.committed",
+    "jvm.heap_memory",
+    "jvm.heap_memory_committed",
+    "jvm.heap_memory_init",
+    "jvm.heap_memory_max",
+    "jvm.non_heap_memory",
+    "jvm.non_heap_memory_committed",
+    "jvm.non_heap_memory_init",
+    "jvm.non_heap_memory_max",
     "jvm.uptime",
-    "jvm.threads.total",
-    "jvm.threads.daemon",
-    "jvm.threads.started",
+    "jvm.thread_count",
+    "jvm.thread_daemon",
+    "jvm.thread_started",
     "jvm.classes.loaded",
     "jvm.bufferpool.instances",
     "jvm.bufferpool.bytes",
-    "jvm.gc.collections",
-    "jvm.gc.time"
+    // we do not explicitly verify minor collection count/time as we don't know what GC is going to be used
+    "jvm.gc.major_collection_time",
+    "jvm.gc.major_collection_count"
   )
 
 }
