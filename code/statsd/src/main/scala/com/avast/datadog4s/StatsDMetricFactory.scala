@@ -18,6 +18,6 @@ object StatsDMetricFactory {
             .build()
         )
       )
-      .map(new statsd.StatsDMetricFactory[F](_, config.basePrefix, config))
+      .map(new statsd.StatsDMetricFactory[F](_, config.basePrefix, config.sampleRate, config.defaultTags))
   }
 }
