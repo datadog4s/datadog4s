@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit
 import cats.effect.{ Clock, IO }
 import com.avast.datadog4s.api.Tag
 import com.avast.datadog4s.statsd.metric.TimerImpl
-import com.timgroup.statsd.StatsDClient
+import com.timgroup.statsd.{ StatsDClient => JStatsDClient }
 import org.mockito.scalatest.MockitoSugar
 import org.scalatest.{ Assertions, BeforeAndAfter }
 import org.scalatest.flatspec.AnyFlatSpec
@@ -16,8 +16,8 @@ class TimerImplTest extends AnyFlatSpec with MockitoSugar with BeforeAndAfter wi
     val aspect: String = "metric"
     val sampleRate     = 1.0
 
-    val statsD: StatsDClient = mock[StatsDClient]
-    val clock: Clock[IO]     = mock[Clock[IO]]
+    val statsD: JStatsDClient = mock[JStatsDClient]
+    val clock: Clock[IO]      = mock[Clock[IO]]
 
     val timer = new TimerImpl[IO](clock, statsD, aspect, sampleRate, Vector.empty)
 
