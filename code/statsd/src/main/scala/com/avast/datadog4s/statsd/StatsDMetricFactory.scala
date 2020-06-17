@@ -4,22 +4,24 @@ import cats.effect.{ Clock, Sync }
 import com.avast.datadog4s.api._
 import com.avast.datadog4s.api.metric.{ Distribution, Gauge, Histogram, UniqueSet }
 import com.avast.datadog4s.statsd.metric._
-import com.timgroup.statsd.StatsDClient
+import com.timgroup.statsd.{ StatsDClient => JStatsDClient }
 
 class StatsDMetricFactory[F[_]: Sync](
-  statsDClient: StatsDClient,
-  basePrefix: String,
+  statsDClient: JStatsDClient,
+  prefix: Option[String],
   defaultSampleRate: Double,
   defaultTags: collection.immutable.Seq[Tag]
 ) extends MetricFactory[F] {
 
   private[this] val clock = Clock.create[F]
 
+  private def extendPrefix(ext: String): String = prefix.map(v => s"$v.$ext").getOrElse(ext)
+
   override val histogram: HistogramFactory[F] = new HistogramFactory[F] {
     override def long(aspect: String, sampleRate: Option[Double] = None): Histogram[F, Long] =
       new HistogramLongImpl[F](
         statsDClient,
-        s"$basePrefix.$aspect",
+        extendPrefix(aspect),
         sampleRate.getOrElse(defaultSampleRate),
         defaultTags
       )
@@ -27,7 +29,7 @@ class StatsDMetricFactory[F[_]: Sync](
     override def double(aspect: String, sampleRate: Option[Double] = None): Histogram[F, Double] =
       new HistogramDoubleImpl[F](
         statsDClient,
-        s"$basePrefix.$aspect",
+        extendPrefix(aspect),
         sampleRate.getOrElse(defaultSampleRate),
         defaultTags
       )
@@ -37,7 +39,7 @@ class StatsDMetricFactory[F[_]: Sync](
     override def long(aspect: String, sampleRate: Option[Double]): Distribution[F, Long] =
       new DistributionLongImpl[F](
         statsDClient,
-        s"$basePrefix.$aspect",
+        extendPrefix(aspect),
         sampleRate.getOrElse(defaultSampleRate),
         defaultTags
       )
@@ -45,7 +47,7 @@ class StatsDMetricFactory[F[_]: Sync](
     override def double(aspect: String, sampleRate: Option[Double]): Distribution[F, Double] =
       new DistributionDoubleImpl[F](
         statsDClient,
-        s"$basePrefix.$aspect",
+        extendPrefix(aspect),
         sampleRate.getOrElse(defaultSampleRate),
         defaultTags
       )
@@ -53,31 +55,31 @@ class StatsDMetricFactory[F[_]: Sync](
 
   override val gauge: GaugeFactory[F] = new GaugeFactory[F] {
     override def long(aspect: String, sampleRate: Option[Double] = None): Gauge[F, Long] =
-      new GaugeLongImpl[F](statsDClient, s"$basePrefix.$aspect", sampleRate.getOrElse(defaultSampleRate), defaultTags)
+      new GaugeLongImpl[F](statsDClient, extendPrefix(aspect), sampleRate.getOrElse(defaultSampleRate), defaultTags)
 
     override def double(aspect: String, sampleRate: Option[Double] = None): Gauge[F, Double] =
-      new GaugeDoubleImpl[F](statsDClient, s"$basePrefix.$aspect", sampleRate.getOrElse(defaultSampleRate), defaultTags)
+      new GaugeDoubleImpl[F](statsDClient, extendPrefix(aspect), sampleRate.getOrElse(defaultSampleRate), defaultTags)
   }
 
   override def timer(aspect: String, sampleRate: Option[Double] = None) =
     new TimerImpl[F](
       clock,
       statsDClient,
-      s"$basePrefix.$aspect",
+      extendPrefix(aspect),
       sampleRate.getOrElse(defaultSampleRate),
       defaultTags
     )
 
   override def count(aspect: String, sampleRate: Option[Double] = None) =
-    new CountImpl[F](statsDClient, s"$basePrefix.$aspect", sampleRate.getOrElse(defaultSampleRate), defaultTags)
+    new CountImpl[F](statsDClient, extendPrefix(aspect), sampleRate.getOrElse(defaultSampleRate), defaultTags)
 
   override def uniqueSet(aspect: String): UniqueSet[F] =
-    new UniqueSetImpl[F](statsDClient, s"$basePrefix.$aspect", defaultTags)
+    new UniqueSetImpl[F](statsDClient, extendPrefix(aspect), defaultTags)
 
   override def withTags(tags: Tag*): MetricFactory[F] =
-    new StatsDMetricFactory[F](statsDClient, basePrefix, defaultSampleRate, defaultTags ++ tags)
+    new StatsDMetricFactory[F](statsDClient, prefix, defaultSampleRate, defaultTags ++ tags)
 
   override def withScope(scope: String): MetricFactory[F] =
-    new StatsDMetricFactory[F](statsDClient, s"$basePrefix.$scope", defaultSampleRate, defaultTags)
+    new StatsDMetricFactory[F](statsDClient, Some(extendPrefix(scope)), defaultSampleRate, defaultTags)
 
 }

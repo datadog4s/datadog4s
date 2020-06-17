@@ -44,7 +44,7 @@ import com.avast.datadog4s.api.metric._
 import com.avast.datadog4s._
 
 val statsDServer = InetSocketAddress.createUnresolved("localhost", 8125)
-val config = StatsDMetricFactoryConfig("my-app-name", statsDServer)
+val config = StatsDMetricFactoryConfig(Some("my-app-name"), statsDServer)
 
 val factoryResource: Resource[IO, MetricFactory[IO]] = StatsDMetricFactory.make(config)
 ```
