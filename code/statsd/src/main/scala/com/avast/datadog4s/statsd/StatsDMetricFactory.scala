@@ -1,15 +1,17 @@
 package com.avast.datadog4s.statsd
 
 import cats.effect.{ Clock, Sync }
-import com.avast.datadog4s.StatsDMetricFactoryConfig
+import com.avast.datadog4s.api._
 import com.avast.datadog4s.api.metric.{ Distribution, Gauge, Histogram, UniqueSet }
-import com.avast.datadog4s.api.{ DistributionFactory, GaugeFactory, HistogramFactory, MetricFactory, Tag }
 import com.avast.datadog4s.statsd.metric._
 import com.timgroup.statsd.StatsDClient
 
-class StatsDMetricFactory[F[_]: Sync](statsDClient: StatsDClient, basePrefix: String, config: StatsDMetricFactoryConfig)
-    extends MetricFactory[F] {
-  import config.{ defaultTags, sampleRate => defaultSampleRate }
+class StatsDMetricFactory[F[_]: Sync](
+  statsDClient: StatsDClient,
+  basePrefix: String,
+  defaultSampleRate: Double,
+  defaultTags: collection.immutable.Seq[Tag]
+) extends MetricFactory[F] {
 
   private[this] val clock = Clock.create[F]
 
@@ -73,9 +75,9 @@ class StatsDMetricFactory[F[_]: Sync](statsDClient: StatsDClient, basePrefix: St
     new UniqueSetImpl[F](statsDClient, s"$basePrefix.$aspect", defaultTags)
 
   override def withTags(tags: Tag*): MetricFactory[F] =
-    new StatsDMetricFactory[F](statsDClient, basePrefix, config.copy(defaultTags = config.defaultTags ++ tags))
+    new StatsDMetricFactory[F](statsDClient, basePrefix, defaultSampleRate, defaultTags ++ tags)
 
   override def withScope(scope: String): MetricFactory[F] =
-    new StatsDMetricFactory[F](statsDClient, s"$basePrefix.$scope", config)
+    new StatsDMetricFactory[F](statsDClient, s"$basePrefix.$scope", defaultSampleRate, defaultTags)
 
 }
