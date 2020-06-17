@@ -54,7 +54,7 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   private val gc: Vector[F[Unit]] =
     gcBeans.map { bean =>
       val name   = bean.getName
-      val gcName = Tag.of("gc_name", bean.getName.replace(" ", "_"))
+      val gcName = Tag.of("gc_name", name.replace(" ", "_"))
       if (name.contains("young"))
         wrapUnsafe(gcMinorCollections, gcName)(bean.getCollectionCount) >>
           wrapUnsafe(gcMinorTime, gcName)(bean.getCollectionTime)
@@ -106,7 +106,7 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
       getNonHeapCommittedIO >>
       getNonHeapUsedIO >>
       getNonHeapInitIO >>
-      getNonHeapInitIO >>
+      getNonHeapMaxIO >>
       getUptimeIO >>
       getThreadsTotalIO >>
       getThreadsDaemonIO >>
