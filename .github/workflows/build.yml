@@ -40,7 +40,7 @@ jobs:
       with:
         token: ${{secrets.CODECOV_TOKEN}}     
   publish:
-    timeout-minutes: 15
+    timeout-minutes: 20
     if: github.ref == 'refs/heads/master' || contains(github.ref, 'refs/tags/v' )
     needs: [build]
     runs-on: [ubuntu-latest]
