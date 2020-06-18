@@ -55,7 +55,7 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
     gcBeans.map { bean =>
       val name   = bean.getName
       val gcName = Tag.of("gc_name", name.replace(" ", "_"))
-      if (name.contains("young"))
+      if (name.toLowerCase.contains("young"))
         wrapUnsafe(gcMinorCollections, gcName)(bean.getCollectionCount) >>
           wrapUnsafe(gcMinorTime, gcName)(bean.getCollectionTime)
       else

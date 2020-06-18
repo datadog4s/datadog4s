@@ -39,6 +39,11 @@ class JvmMonitoringTest extends AnyFlatSpec with Matchers {
     }
   }
 
+  val minorGcParams =
+    if (System.getProperty("java.version").startsWith("1.8."))
+      Set.empty
+    else Set("jvm.gc.minor_collection_time", "jvm.gc.minor_collection_count")
+
   val expectedAspects: Set[String] = Set(
     "jvm.cpu.load",
     "jvm.cpu.time",
@@ -58,9 +63,7 @@ class JvmMonitoringTest extends AnyFlatSpec with Matchers {
     "jvm.loaded_classes",
     "jvm.bufferpool.instances",
     "jvm.bufferpool.bytes",
-    // we do not explicitly verify minor collection count/time as we don't know what GC is going to be used
     "jvm.gc.major_collection_time",
     "jvm.gc.major_collection_count"
-  )
-
+  ) ++ minorGcParams
 }
