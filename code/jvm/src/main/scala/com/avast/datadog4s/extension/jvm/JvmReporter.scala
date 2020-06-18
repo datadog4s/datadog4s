@@ -31,7 +31,7 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   private val threadsTotal         = metricsFactory.gauge.long("jvm.thread_count")
   private val threadsDaemon        = metricsFactory.gauge.long("jvm.thread_daemon")
   private val threadsStarted       = metricsFactory.gauge.long("jvm.thread_started")
-  private val classes              = metricsFactory.gauge.long("jvm.classes.loaded")
+  private val classes              = metricsFactory.gauge.long("jvm.loaded_classes")
   private val bufferPoolsInstances = metricsFactory.gauge.long("jvm.bufferpool.instances")
   private val bufferPoolsBytes     = metricsFactory.gauge.long("jvm.bufferpool.bytes")
   private val gcMinorCollections   = metricsFactory.gauge.long("jvm.gc.minor_collection_count")

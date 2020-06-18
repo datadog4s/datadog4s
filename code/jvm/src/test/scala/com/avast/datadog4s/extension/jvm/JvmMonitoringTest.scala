@@ -60,7 +60,7 @@ class JvmMonitoringTest extends AnyFlatSpec with Matchers {
     "jvm.thread_count",
     "jvm.thread_daemon",
     "jvm.thread_started",
-    "jvm.classes.loaded",
+    "jvm.loaded_classes",
     "jvm.bufferpool.instances",
     "jvm.bufferpool.bytes",
     "jvm.gc.major_collection_time",
