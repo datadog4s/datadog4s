@@ -11,8 +11,8 @@ object Dependencies {
   }
 
   object Http4s {
-    val core212 = "org.http4s" %% "http4s-core" % "0.21.4"
-    val core213 = "org.http4s" %% "http4s-core" % "0.21.4"
+    val core212 = "org.http4s" %% "http4s-core" % "0.21.5"
+    val core213 = "org.http4s" %% "http4s-core" % "0.21.5"
   }
 
   object Testing {
