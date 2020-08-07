@@ -3,21 +3,21 @@ import sbt._
 object Dependencies {
   object Cats {
     val core   = "org.typelevel" %% "cats-core"   % "2.1.1"
-    val effect = "org.typelevel" %% "cats-effect" % "2.1.3"
+    val effect = "org.typelevel" %% "cats-effect" % "2.1.4"
   }
 
   object Datadog {
-    val statsDClient = "com.datadoghq" % "java-dogstatsd-client" % "2.10.1"
+    val statsDClient = "com.datadoghq" % "java-dogstatsd-client" % "2.10.3"
   }
 
   object Http4s {
-    val core212 = "org.http4s" %% "http4s-core" % "0.21.4"
-    val core213 = "org.http4s" %% "http4s-core" % "0.21.4"
+    val core212 = "org.http4s" %% "http4s-core" % "0.21.6"
+    val core213 = "org.http4s" %% "http4s-core" % "0.21.6"
   }
 
   object Testing {
-    val scalaTest        = "org.scalatest" %% "scalatest"               % "3.2.0"
-    val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.14.8"
+    val scalaTest        = "org.scalatest" %% "scalatest"               % "3.2.1"
+    val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.14.7"
   }
 
   object Logging {
