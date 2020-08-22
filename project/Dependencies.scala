@@ -11,13 +11,13 @@ object Dependencies {
   }
 
   object Http4s {
-    val core212 = "org.http4s" %% "http4s-core" % "0.21.6"
-    val core213 = "org.http4s" %% "http4s-core" % "0.21.6"
+    val core212 = "org.http4s" %% "http4s-core" % "0.21.7"
+    val core213 = "org.http4s" %% "http4s-core" % "0.21.7"
   }
 
   object Testing {
-    val scalaTest        = "org.scalatest" %% "scalatest"               % "3.2.1"
-    val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.14.8"
+    val scalaTest        = "org.scalatest" %% "scalatest"               % "3.2.2"
+    val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.14.7"
   }
 
   object Logging {
@@ -25,7 +25,7 @@ object Dependencies {
   }
 
   object Mdoc {
-    val libMdoc = "org.scalameta" %% "mdoc" % "2.2.2" excludeAll (ExclusionRule(
+    val libMdoc = "org.scalameta" %% "mdoc" % "2.2.5" excludeAll (ExclusionRule(
       organization = "org.slf4j"
     ))
   }
