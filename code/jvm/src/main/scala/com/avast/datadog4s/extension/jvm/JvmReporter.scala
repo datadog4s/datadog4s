@@ -4,7 +4,6 @@ import java.lang.management.ManagementFactory
 
 import cats.Traverse
 import cats.effect.Sync
-import cats.instances.vector._
 import cats.syntax.flatMap._
 import com.avast.datadog4s.api.metric.Gauge
 import com.avast.datadog4s.api.{ MetricFactory, Tag }
