@@ -2,7 +2,7 @@ import sbt._
 
 object Dependencies {
   object Cats {
-    val core   = "org.typelevel" %% "cats-core"   % "2.1.1"
+    val core   = "org.typelevel" %% "cats-core"   % "2.2.0"
     val effect = "org.typelevel" %% "cats-effect" % "2.1.4"
   }
 
@@ -11,13 +11,13 @@ object Dependencies {
   }
 
   object Http4s {
-    val core212 = "org.http4s" %% "http4s-core" % "0.21.6"
-    val core213 = "org.http4s" %% "http4s-core" % "0.21.6"
+    val core212 = "org.http4s" %% "http4s-core" % "0.21.7"
+    val core213 = "org.http4s" %% "http4s-core" % "0.21.7"
   }
 
   object Testing {
-    val scalaTest        = "org.scalatest" %% "scalatest"               % "3.2.0"
-    val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.14.7"
+    val scalaTest        = "org.scalatest" %% "scalatest"               % "3.2.2"
+    val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.14.8"
   }
 
   object Logging {
@@ -25,7 +25,7 @@ object Dependencies {
   }
 
   object Mdoc {
-    val libMdoc = "org.scalameta" %% "mdoc" % "2.2.2" excludeAll (ExclusionRule(
+    val libMdoc = "org.scalameta" %% "mdoc" % "2.2.6" excludeAll (ExclusionRule(
       organization = "org.slf4j"
     ))
   }
