@@ -17,7 +17,7 @@ object Dependencies {
 
   object Testing {
     val scalaTest        = "org.scalatest" %% "scalatest"               % "3.2.2"
-    val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.15.0"
+    val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.15.1"
   }
 
   object Logging {
