@@ -1,4 +1,3 @@
-import CompilerSettings._
 
 lazy val scala212               = "2.12.11"
 lazy val scala213               = "2.13.1"
@@ -6,15 +5,12 @@ lazy val scala3                 = "0.27.0-RC1"
 lazy val supportedScalaVersions = List(scala212, scala213, scala3)
 
 lazy val scalaSettings = Seq(
-  scalaVersion := scala212,
-  scalacOptions ++= scalacOptionsFor(scalaVersion.value),
-  scalacOptions.in(Compile, console) ~= filterConsoleScalacOptions,
-  scalacOptions.in(Test, console) ~= filterConsoleScalacOptions,
+  scalaVersion := scala213,
   scalacOptions ++= { if (isDotty.value) Seq("-source:3.0-migration") else Nil },
   crossScalaVersions := supportedScalaVersions,
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet,
   libraryDependencies += (Dependencies.Testing.scalaTest        % Test).withDottyCompat(scalaVersion.value),
-  libraryDependencies += (Dependencies.Testing.mockitoScalatest % Test).withDottyCompat(scalaVersion.value)
+  //libraryDependencies += (Dependencies.Testing.mockitoScalatest % Test).withDottyCompat(scalaVersion.value)
 )
 
 lazy val commonSettings = Seq(

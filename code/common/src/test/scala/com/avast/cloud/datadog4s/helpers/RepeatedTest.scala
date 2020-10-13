@@ -12,6 +12,8 @@ import cats.syntax.flatMap._
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 
+import scala.language.postfixOps
+
 class RepeatedTest extends AnyFlatSpec with Matchers {
   private val ec: ExecutionContext                  = scala.concurrent.ExecutionContext.Implicits.global
   implicit val contextShift: ContextShift[IO]       = cats.effect.IO.contextShift(ec)
