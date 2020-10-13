@@ -1,48 +1,61 @@
 package com.avast.datadog4s.statsd
 
-import java.util.concurrent.TimeUnit
-
 import cats.effect.{ Clock, IO }
 import com.avast.datadog4s.api.Tag
 import com.avast.datadog4s.statsd.metric.TimerImpl
-import com.timgroup.statsd.{ StatsDClient => JStatsDClient }
-import org.mockito.scalatest.MockitoSugar
-import org.scalatest.{ Assertions, BeforeAndAfter }
-import org.scalatest.flatspec.AnyFlatSpec
 
-class TimerImplTest extends AnyFlatSpec with MockitoSugar with BeforeAndAfter with Assertions {
+import scala.jdk.CollectionConverters._
 
-  trait Fixtures {
-    val aspect: String = "metric"
-    val sampleRate     = 1.0
+class TimerImplTest extends munit.FunSuite {
 
-    val statsD: JStatsDClient = mock[JStatsDClient]
-    val clock: Clock[IO]      = mock[Clock[IO]]
+  trait TestFixture {
+    val aspect: String
+    val sampleRate: Double
 
-    val timer = new TimerImpl[IO](clock, statsD, aspect, sampleRate, Vector.empty)
-
-    when(clock.monotonic(TimeUnit.NANOSECONDS)).thenReturn(IO.pure(10 * 1000 * 1000), IO.pure(30 * 1000 * 1000))
+    val statsD: JMockStatsDClient
+    val clock: Clock[IO]
+    val timer: TimerImpl[IO]
   }
 
-  "time F[A]" should "report success with label success:true" in new Fixtures {
-    private val res = timer.time(IO.delay("hello world")).unsafeRunSync()
+  private val fixture = FunFixture[TestFixture](
+    setup = { _ =>
+      new TestFixture {
+        val aspect: String = "metric"
+        val sampleRate     = 1.0
 
-    verify(statsD, times(1)).recordExecutionTime(aspect, 20, sampleRate, Tag.of("success", "true"))
-    assertResult(res)("hello world")
-  }
+        val statsD: JMockStatsDClient = MockStatsDClient()
+        val clock: Clock[IO]          = new MockClock
+        val timer                     = new TimerImpl[IO](clock, statsD, aspect, sampleRate, Vector.empty)
+      }
+    },
+    _ => ()
+  )
 
-  it should "report failure with label failure:true and exception name" in new Fixtures {
-    private val res = timer.time(IO.raiseError(new NoSuchElementException("fail")))
+  fixture.test("time F[A] should report success with label success:true") { f =>
+    val res = f.timer.time(IO.delay("hello world")).unsafeRunSync()
 
-    assertThrows[NoSuchElementException](res.unsafeRunSync())
-    verify(statsD, times(1))
-      .recordExecutionTime(
-        aspect,
-        20,
-        sampleRate,
-        Tag.of("exception", "java.util.NoSuchElementException"),
-        Tag.of("success", "false")
+    assert(
+      f.statsD.getHistory.get.asScala.toVector == Vector(
+        new ExecutionTimeRecord(f.aspect, 20, f.sampleRate, Vector(Tag.of("success", "true")).asJava)
       )
+    )
+    assert(res == "hello world")
+  }
+
+  fixture.test("time F[A] should report failure with label failure:true and exception name") { f =>
+    val res = f.timer.time(IO.raiseError(new NoSuchElementException("fail")))
+
+    intercept[NoSuchElementException](res.unsafeRunSync())
+    assert(
+      f.statsD.getHistory.get().asScala.toVector == Vector(
+        new ExecutionTimeRecord(
+          f.aspect,
+          20,
+          f.sampleRate,
+          Vector(Tag.of("exception", "java.util.NoSuchElementException"), Tag.of("success", "false")).asJava
+        )
+      )
+    )
   }
 
 }

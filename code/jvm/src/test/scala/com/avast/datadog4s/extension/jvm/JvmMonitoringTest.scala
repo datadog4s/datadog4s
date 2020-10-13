@@ -5,20 +5,18 @@ import java.time.Duration
 import cats.effect.{ ContextShift, IO, Timer }
 import com.avast.cloud.datadog4s.inmemory.MockMetricsFactory
 import com.avast.datadog4s.extension.jvm.JvmMonitoring.Config
-import org.scalatest.flatspec.AnyFlatSpec
-import org.scalatest.matchers.must.Matchers
 import cats.syntax.flatMap._
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 
-class JvmMonitoringTest extends AnyFlatSpec with Matchers {
+class JvmMonitoringTest extends munit.FunSuite {
   private val ec: ExecutionContext            = scala.concurrent.ExecutionContext.Implicits.global
   implicit val contextShift: ContextShift[IO] = cats.effect.IO.contextShift(ec)
   implicit val timer: Timer[IO]               = IO.timer(ec)
 
   val noopErrHandler: Throwable => IO[Unit] = (_: Throwable) => IO.unit
 
-  "JvmMonitoring" should "create all expected metrics and update them periodically" in {
+  test("JvmMonitoring should create all expected metrics and update them periodically") {
     val testEffect = MockMetricsFactory.make[IO].flatMap { inmemory =>
       val runTest = JvmMonitoring
         .configured(inmemory, Config().copy(delay = Duration.ofMillis(10)), noopErrHandler)
@@ -29,22 +27,22 @@ class JvmMonitoringTest extends AnyFlatSpec with Matchers {
       runTest >> inmemory.state.get
     }
     val result     = testEffect.unsafeRunSync()
-    result.keySet must equal(expectedAspects)
+    assert(result.keySet == expectedAspects)
     result.values.foreach { vector =>
       vector.groupBy(_.tags).foreach {
         case (_, records) =>
-          records.size must be > 0
-          records.size must be < 15
+          assert(records.nonEmpty)
+          assert(records.size < 15)
       }
     }
   }
 
-  val minorGcParams =
+  lazy val minorGcParams: Set[String] =
     if (System.getProperty("java.version").startsWith("1.8."))
       Set.empty
     else Set("jvm.gc.minor_collection_time", "jvm.gc.minor_collection_count")
 
-  val expectedAspects: Set[String] = Set(
+  lazy val expectedAspects: Set[String] = Set(
     "jvm.cpu.load",
     "jvm.cpu.time",
     "jvm.filedescriptor.open",

@@ -1,5 +1,6 @@
 package com.avast.datadog4s.api.tag
 
+@FunctionalInterface
 trait TagValue[A] { self =>
   def convert(a: A): String
 

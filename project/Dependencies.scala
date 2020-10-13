@@ -1,5 +1,4 @@
 import sbt._
-
 object Dependencies {
   object Cats {
     val core   = "org.typelevel" %% "cats-core"   % "2.2.0"
@@ -16,8 +15,8 @@ object Dependencies {
   }
 
   object Testing {
-    val scalaTest        = "org.scalatest" %% "scalatest"               % "3.2.2"
     val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.15.1"
+    val munit            = "org.scalameta" %% "munit"                   % "0.7.14"
   }
 
   object Logging {
@@ -34,8 +33,4 @@ object Dependencies {
     val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.2.0"
   }
 
-  object Silencer {
-    val lib    = "com.github.ghik" % "silencer-lib" % "1.6.0" % Provided cross CrossVersion.full
-    val plugin = compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.6.0" cross CrossVersion.full)
-  }
 }
