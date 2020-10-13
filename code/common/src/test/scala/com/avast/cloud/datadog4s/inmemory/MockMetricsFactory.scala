@@ -8,7 +8,6 @@ import cats.syntax.flatMap._
 import cats.syntax.functor._
 import com.avast.datadog4s.api.metric._
 import com.avast.datadog4s.api.{ DistributionFactory, GaugeFactory, HistogramFactory, MetricFactory, Tag }
-import scala.language.implicitConversions
 
 class MockMetricsFactory[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record[Any]]]]) extends MetricFactory[F] {
 

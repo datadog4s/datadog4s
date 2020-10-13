@@ -4,24 +4,21 @@ import java.time.Duration
 
 import cats.effect.concurrent.{ Deferred, Ref }
 import cats.effect.{ ContextShift, IO, Timer }
-import org.scalatest.flatspec.AnyFlatSpec
-import org.scalatest.matchers.must.Matchers
-import org.slf4j.LoggerFactory
 import cats.syntax.flatMap._
+import org.slf4j.LoggerFactory
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
-
 import scala.language.postfixOps
 
-class RepeatedTest extends AnyFlatSpec with Matchers {
+class RepeatedTest extends munit.FunSuite {
   private val ec: ExecutionContext                  = scala.concurrent.ExecutionContext.Implicits.global
   implicit val contextShift: ContextShift[IO]       = cats.effect.IO.contextShift(ec)
   implicit val timer: Timer[IO]                     = IO.timer(ec)
   private val logger                                = LoggerFactory.getLogger(classOf[RepeatedTest])
   private val noopErrHandler: Throwable => IO[Unit] = (_: Throwable) => IO.unit
 
-  "repeated test" should "be called repeatedly" in {
+  test("repeated test should be called repeatedly") {
     val waitFor = 10
 
     def buildProcess(counter: Ref[IO, Int], killSignal: Deferred[IO, Unit]): IO[Int] = {
@@ -51,10 +48,10 @@ class RepeatedTest extends AnyFlatSpec with Matchers {
       .unsafeRunSync()
 
     logger.info(s"test finished with $value")
-    value.fold(throw _, identity) must be <= 0
+    assert(value.fold(throw _, identity) <= 0)
   }
 
-  it should "handle errors using provided handler" in {
+  test("repeated test should handle errors using provided handler") {
     val test  = for {
       ref        <- Ref.of[IO, ErrorState](ErrorState.empty)
       killSignal <- Deferred[IO, Unit]
@@ -70,11 +67,11 @@ class RepeatedTest extends AnyFlatSpec with Matchers {
     }
     val value = test.flatten.timeout(100 milli).attempt.unsafeRunSync().fold(throw _, identity)
     logger.info(s"test finished with $value")
-    value.succ must be(0)
-    value.failure must be > 0
+    assert(value.succ == 0)
+    assert(value.failure > 0)
   }
 
-  it should "timeout tasks that are taking too long" in {
+  test("repeated test should timeout tasks that are taking too long") {
     val test = for {
       ref        <- Ref.of[IO, ErrorState](ErrorState.empty)
       killSignal <- Deferred[IO, Unit]
@@ -92,9 +89,9 @@ class RepeatedTest extends AnyFlatSpec with Matchers {
     val result = test.flatten.timeout(100 milli).attempt.unsafeRunSync().fold(throw _, identity)
 
     logger.info(s"test finished with $result")
-    result.succ must be(0)
-    result.failure must be > 0
-    result.failure must be <= 10
+    assert(result.succ == 0)
+    assert(result.failure > 0)
+    assert(result.failure <= 10)
   }
 
   case class ErrorState(succ: Int, failure: Int) {

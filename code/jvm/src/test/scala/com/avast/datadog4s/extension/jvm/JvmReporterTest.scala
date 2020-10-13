@@ -2,16 +2,15 @@ package com.avast.datadog4s.extension.jvm
 
 import cats.effect.IO
 import com.avast.datadog4s.noop.NoopMetricFactory
-import org.scalatest.flatspec.AnyFlatSpec
 
-class JvmReporterTest extends AnyFlatSpec {
+class JvmReporterTest extends munit.FunSuite {
   val reporter = new JvmReporter[IO](new NoopMetricFactory[IO])
 
-  "JvmReporter" should "not throw any exceptions" in {
+  test("JvmReporter should not throw any exceptions") {
     reporter.collect.unsafeRunSync()
   }
 
-  it should "not throw exception when accessing individual metrics" in {
+  test("JvmReporter should not throw exception when accessing individual metrics") {
     reporter.getBuffersIO.unsafeRunSync()
     reporter.getGcIO.unsafeRunSync()
     reporter.getCpuLoadIO.unsafeRunSync()

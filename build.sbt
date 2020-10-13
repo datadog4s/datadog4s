@@ -1,16 +1,15 @@
-
 lazy val scala212               = "2.12.11"
 lazy val scala213               = "2.13.1"
 lazy val scala3                 = "0.27.0-RC1"
 lazy val supportedScalaVersions = List(scala212, scala213, scala3)
 
 lazy val scalaSettings = Seq(
-  scalaVersion := scala213,
+  scalaVersion := scala212,
   scalacOptions ++= { if (isDotty.value) Seq("-source:3.0-migration") else Nil },
   crossScalaVersions := supportedScalaVersions,
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet,
-  libraryDependencies += (Dependencies.Testing.scalaTest        % Test).withDottyCompat(scalaVersion.value),
-  //libraryDependencies += (Dependencies.Testing.mockitoScalatest % Test).withDottyCompat(scalaVersion.value)
+  libraryDependencies += (Dependencies.Testing.munit % Test),
+  testFrameworks += new TestFramework("munit.Framework")
 )
 
 lazy val commonSettings = Seq(
@@ -56,8 +55,7 @@ lazy val common = project
     scalaSettings,
     commonSettings,
     libraryDependencies += Dependencies.Cats.effect.withDottyCompat(scalaVersion.value),
-    libraryDependencies += (Dependencies.Testing.scalaTest % Test).withDottyCompat(scalaVersion.value),
-    libraryDependencies += (Dependencies.Logging.logback   % Test).withDottyCompat(scalaVersion.value)
+    libraryDependencies += (Dependencies.Logging.logback % Test).withDottyCompat(scalaVersion.value)
   )
   .dependsOn(api)
 
@@ -68,7 +66,8 @@ lazy val statsd = project
     scalaSettings,
     commonSettings,
     libraryDependencies += Dependencies.Cats.effect.withDottyCompat(scalaVersion.value),
-    libraryDependencies += Dependencies.Datadog.statsDClient.withDottyCompat(scalaVersion.value)
+    libraryDependencies += Dependencies.Datadog.statsDClient.withDottyCompat(scalaVersion.value),
+    libraryDependencies += Dependencies.ScalaModules.collectionCompat.withDottyCompat(scalaVersion.value)
   )
   .dependsOn(api)
 
@@ -122,7 +121,8 @@ lazy val site = (project in file("site"))
 
 addCommandAlias(
   "checkAll",
-  "; scalafmtSbtCheck; scalafmtCheckAll; coverage; +test; coverageReport; doc; site/makeMdoc"
+  //"; scalafmtSbtCheck; scalafmtCheckAll; coverage; +test; coverageReport; doc; site/makeMdoc"
+  "; scalafmtSbtCheck; scalafmtCheckAll; coverage; +test; doc; site/makeMdoc"
 )
 
 addCommandAlias("fixAll", "; scalafmtSbt; scalafmtAll")

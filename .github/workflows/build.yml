@@ -34,11 +34,11 @@ jobs:
           ${{ runner.os }}-scala-${{ matrix.scala }}-
     - name: Compile & Test
       run: sbt checkAll
-    - name: Codecov report
-      if: ${{matrix.java}} == '11.0.x'
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{secrets.CODECOV_TOKEN}}     
+#    - name: Codecov report
+#      if: ${{matrix.java}} == '11.0.x'
+#      uses: codecov/codecov-action@v1
+#      with:
+#        token: ${{secrets.CODECOV_TOKEN}}     
   publish:
     timeout-minutes: 20
     if: github.ref == 'refs/heads/master' || contains(github.ref, 'refs/tags/v' )
