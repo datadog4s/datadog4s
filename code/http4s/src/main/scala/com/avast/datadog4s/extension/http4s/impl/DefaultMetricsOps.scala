@@ -9,7 +9,6 @@ import com.avast.datadog4s.api.MetricFactory
 import com.avast.datadog4s.api.tag.Tagger
 import com.avast.datadog4s.extension.http4s.DatadogMetricsOps.ClassifierTags
 import com.avast.datadog4s.extension.http4s._
-import com.github.ghik.silencer.silent
 import org.http4s.metrics.{ MetricsOps, TerminationType }
 import org.http4s.{ Method, Status }
 
@@ -21,8 +20,6 @@ private[http4s] class DefaultMetricsOps[F[_]](
   F: Sync[F]
 ) extends MetricsOps[F] {
   private[this] val methodTagger          = Tagger.make[Method]("method")
-  @deprecated("please use terminationTypeTagger - this will be removed in next release 0.8.0", "0.6.3")
-  private[this] val typeTagger            = Tagger.make[TerminationType]("type")
   private[this] val terminationTypeTagger = Tagger.make[TerminationType]("termination_type")
   private[this] val statusCodeTagger      = Tagger.make[Status]("status_code")
   private[this] val statusBucketTagger    = Tagger.make[String]("status_bucket")
@@ -73,9 +70,7 @@ private[http4s] class DefaultMetricsOps[F[_]](
     classifier: Option[String]
   ): F[Unit] = {
     val terminationTpe = terminationTypeTagger.tag(terminationType)
-    @silent("deprecated")
-    val tpe            = typeTagger.tag(terminationType)
-    val tags           = tpe :: terminationTpe :: classifier.toList.flatMap(classifierTags)
+    val tags           = terminationTpe :: classifier.toList.flatMap(classifierTags)
     abnormalCount.inc(tags: _*) >> abnormalLatency.record(Duration.ofNanos(elapsed), tags: _*)
   }
 }

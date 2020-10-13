@@ -2,19 +2,19 @@ import CompilerSettings._
 
 lazy val scala212               = "2.12.11"
 lazy val scala213               = "2.13.1"
-lazy val supportedScalaVersions = List(scala212, scala213)
+lazy val scala3                 = "0.27.0-RC1"
+lazy val supportedScalaVersions = List(scala212, scala213, scala3)
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala212,
   scalacOptions ++= scalacOptionsFor(scalaVersion.value),
   scalacOptions.in(Compile, console) ~= filterConsoleScalacOptions,
   scalacOptions.in(Test, console) ~= filterConsoleScalacOptions,
+  scalacOptions ++= { if (isDotty.value) Seq("-source:3.0-migration") else Nil },
   crossScalaVersions := supportedScalaVersions,
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet,
-  libraryDependencies ++= Seq(
-    Dependencies.Testing.scalaTest        % Test,
-    Dependencies.Testing.mockitoScalatest % Test
-  )
+  libraryDependencies += (Dependencies.Testing.scalaTest        % Test).withDottyCompat(scalaVersion.value),
+  libraryDependencies += (Dependencies.Testing.mockitoScalatest % Test).withDottyCompat(scalaVersion.value)
 )
 
 lazy val commonSettings = Seq(
@@ -50,9 +50,7 @@ lazy val api = project
     name := "datadog4s-api",
     scalaSettings,
     commonSettings,
-    libraryDependencies ++= Seq(
-      Dependencies.Cats.core
-    )
+    libraryDependencies += Dependencies.Cats.core.withDottyCompat(scalaVersion.value)
   )
 
 lazy val common = project
@@ -61,11 +59,9 @@ lazy val common = project
     name := "datadog4s-common",
     scalaSettings,
     commonSettings,
-    libraryDependencies ++= Seq(
-      Dependencies.Cats.effect,
-      Dependencies.Testing.scalaTest % Test,
-      Dependencies.Logging.logback   % Test
-    )
+    libraryDependencies += Dependencies.Cats.effect.withDottyCompat(scalaVersion.value),
+    libraryDependencies += (Dependencies.Testing.scalaTest % Test).withDottyCompat(scalaVersion.value),
+    libraryDependencies += (Dependencies.Logging.logback   % Test).withDottyCompat(scalaVersion.value)
   )
   .dependsOn(api)
 
@@ -75,10 +71,8 @@ lazy val statsd = project
     name := "datadog4s-statsd",
     scalaSettings,
     commonSettings,
-    libraryDependencies ++= Seq(
-      Dependencies.Cats.effect,
-      Dependencies.Datadog.statsDClient
-    )
+    libraryDependencies += Dependencies.Cats.effect.withDottyCompat(scalaVersion.value),
+    libraryDependencies += Dependencies.Datadog.statsDClient.withDottyCompat(scalaVersion.value)
   )
   .dependsOn(api)
 
@@ -88,16 +82,12 @@ lazy val http4s = project
     name := "datadog4s-http4s",
     scalaSettings,
     commonSettings,
-    libraryDependencies ++= Seq(
-      Dependencies.Cats.effect,
-      Dependencies.Silencer.lib,
-      Dependencies.Silencer.plugin
-    ),
+    libraryDependencies += Dependencies.Cats.effect.withDottyCompat(scalaVersion.value),
     libraryDependencies := {
       CrossVersion.partialVersion(scalaVersion.value) match {
         case _ =>
           libraryDependencies.value ++ Seq(
-            Dependencies.Http4s.core212
+            Dependencies.Http4s.core212.withDottyCompat(scalaVersion.value)
           )
       }
     }
@@ -110,10 +100,8 @@ lazy val jvm  = project
     name := "datadog4s-jvm",
     scalaSettings,
     commonSettings,
-    libraryDependencies ++= Seq(
-      Dependencies.Cats.effect,
-      Dependencies.ScalaModules.collectionCompat
-    )
+    libraryDependencies += Dependencies.Cats.effect.withDottyCompat(scalaVersion.value),
+    libraryDependencies += Dependencies.ScalaModules.collectionCompat.withDottyCompat(scalaVersion.value)
   )
   .dependsOn(api, common % "compile->compile;test->test")
 
@@ -125,11 +113,12 @@ lazy val site = (project in file("site"))
     MdocPlugin,
     MicrositesPlugin,
     SiteScaladocPlugin,
-    SiteScaladocPlugin,
     ScalaUnidocPlugin
   )
   .settings(
-    libraryDependencies ++= Seq(Dependencies.Mdoc.libMdoc)
+    libraryDependencies += Dependencies.Mdoc.libMdoc.withDottyCompat(scalaVersion.value),
+    libraryDependencies -= "org.tpolecat" %% "tut-core" % "0.6.13",
+    libraryDependencies -= "org.tpolecat" %% "tut-core" % "0.6.13" % Tut
   )
   .settings(publish / skip := true)
   .settings(BuildSupport.micrositeSettings: _*)
