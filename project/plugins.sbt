@@ -14,7 +14,7 @@ addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.3")
 
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.0.0")
 
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.1")
+//addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.1")
 
 addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.4.2")
 
