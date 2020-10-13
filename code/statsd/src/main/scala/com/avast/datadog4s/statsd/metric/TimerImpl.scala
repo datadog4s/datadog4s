@@ -34,14 +34,13 @@ class TimerImpl[F[_]: Sync](
       _     <- record(Duration.ofNanos(stop - start), (tags :+ succeededTag): _*)
     } yield a
 
-  private def measureFailed[A](startTime: Long, tags: Tag*): PartialFunction[Throwable, F[A]] = {
-    case thr: Throwable =>
-      val finalTags   = tags :+ exceptionTagger.tag(thr) :+ failedTag
-      val computation = for {
-        stop <- clock.monotonic(TimeUnit.NANOSECONDS)
-        _    <- record(Duration.ofNanos(stop - startTime), finalTags: _*)
-      } yield ()
-      computation >> F.raiseError(thr)
+  private def measureFailed[A](startTime: Long, tags: Tag*): PartialFunction[Throwable, F[A]] = { case thr: Throwable =>
+    val finalTags   = tags :+ exceptionTagger.tag(thr) :+ failedTag
+    val computation = for {
+      stop <- clock.monotonic(TimeUnit.NANOSECONDS)
+      _    <- record(Duration.ofNanos(stop - startTime), finalTags: _*)
+    } yield ()
+    computation >> F.raiseError(thr)
   }
 
   override def record(duration: Duration, tags: Tag*): F[Unit] =

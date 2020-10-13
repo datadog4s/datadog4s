@@ -176,8 +176,8 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   protected[jvm] val getClassesIO          = wrapUnsafe(classes)(classBean.getLoadedClassCount.toLong)
 
   private def protect[A](fa: F[A])(fu: A => F[Unit]): F[Unit] =
-    F.recoverWith(fa.flatMap(fu)) {
-      case _ => F.unit
+    F.recoverWith(fa.flatMap(fu)) { case _ =>
+      F.unit
     }
 
   val collect: F[Unit] =
