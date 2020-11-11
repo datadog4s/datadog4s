@@ -6,10 +6,10 @@ lazy val scalaSettings = Seq(
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet,
   libraryDependencies += (Dependencies.Testing.munit % Test),
   testFrameworks += new TestFramework("munit.Framework"),
-  compile / packageDoc / publishArtifact := {
+  Compile / doc / sources := {
     CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((3, 0)) => false //disable publishing of scaladoc due to a bug
-      case _            => true
+      case Some((3, 0)) => Seq.empty //disable publishing of scaladoc due to a bug
+      case _            => (Compile / doc / sources).value
     }
   }
 )
