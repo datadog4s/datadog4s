@@ -68,7 +68,7 @@ lazy val statsd = project
     scalaSettings,
     commonSettings,
     libraryDependencies += Dependencies.Cats.effect.withDottyCompat(scalaVersion.value),
-    libraryDependencies += Dependencies.Datadog.statsDClient.withDottyCompat(scalaVersion.value),
+    libraryDependencies += Dependencies.Datadog.statsDClient,
     libraryDependencies += Dependencies.ScalaModules.collectionCompat.withDottyCompat(scalaVersion.value)
   )
   .dependsOn(api)
