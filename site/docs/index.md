@@ -1,8 +1,8 @@
---------  ------
+---
 layout:   home
 title:    "Home"
 section:  "home"
---------  ------
+---
 
 Toolkit for monitoring applications written in functional Scala using Datadog.
 
