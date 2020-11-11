@@ -8,6 +8,12 @@ import sbtunidoc.ScalaUnidocPlugin.autoImport._
 import sbtdynver.DynVerPlugin.autoImport._
 
 object BuildSupport {
+  object ScalaVersions {
+    lazy val scala212               = "2.12.12"
+    lazy val scala213               = "2.13.3"
+    lazy val scala3                 = "3.0.0-M1"
+    lazy val supportedScalaVersions = List(scala212, scala213, scala3)
+  }
   lazy val micrositeSettings = Seq(
     micrositeCompilingDocsTool := WithMdoc,
     micrositeName := "datadog4s",
@@ -28,7 +34,8 @@ object BuildSupport {
       "CATS_VERSION"        -> Cats.core.revision,
       "CATS_EFFECT_VERSION" -> Cats.effect.revision,
       "HTTP4S_212_VERSION"  -> Http4s.core212.revision,
-      "HTTP4S_213_VERSION"  -> Http4s.core213.revision
+      "HTTP4S_213_VERSION"  -> Http4s.core213.revision,
+      "SCALA_3_VERSION"     -> ScalaVersions.scala3
     ),
     mdocAutoDependency := false,
     micrositeDataDirectory := file("site"),

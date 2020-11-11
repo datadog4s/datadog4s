@@ -1,15 +1,17 @@
-lazy val scala212               = "2.12.12"
-lazy val scala213               = "2.13.3"
-lazy val scala3                 = "3.0.0-M1"
-lazy val supportedScalaVersions = List(scala212, scala213, scala3)
-
+import BuildSupport.ScalaVersions._
 lazy val scalaSettings = Seq(
-  scalaVersion := scala212,
+  scalaVersion := scala213,
   scalacOptions ++= { if (isDotty.value) Seq("-source:3.0-migration") else Nil },
   crossScalaVersions := supportedScalaVersions,
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet,
   libraryDependencies += (Dependencies.Testing.munit % Test),
-  testFrameworks += new TestFramework("munit.Framework")
+  testFrameworks += new TestFramework("munit.Framework"),
+  compile / packageDoc / publishArtifact := {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((3, 0)) => false //disable publishing of scaladoc due to a bug
+      case _            => true
+    }
+  }
 )
 
 lazy val commonSettings = Seq(

@@ -1,14 +1,14 @@
----
+--------  ------
 layout:   home
 title:    "Home"
 section:  "home"
----
+--------  ------
 
 Toolkit for monitoring applications written in functional Scala using Datadog.
 
 Goal of this project is to make great monitoring as easy as possible. 
 
-In addition to basic monitoring utilities, we also provide bunch of plug-and-play modules that do monitoring for you. Currently those are:
+In addition to basic monitoring utilities, we also provide bunch of p¡¡lug-and-play modules that do monitoring for you. Currently those are:
 -   JVM monitoring
 -   Http4s monitoring
 
@@ -34,11 +34,11 @@ Or pick and choose from the available packages:
 ## Comaptibility
 Datadog4s is currently released for both scala 2.12 and scala 2.13. It is using following versions of libraries:
 
-|   library   |      2.12 version       |      2.13 version       |
-| ----------- | ----------------------- | ----------------------- |
-| cats-core   | `@CATS_VERSION@`        | `@CATS_VERSION@`        |
-| cats-effect | `@CATS_EFFECT_VERSION@` | `@CATS_EFFECT_VERSION@` |
-| http4s      | `@HTTP4S_212_VERSION@`  | `@HTTP4S_213_VERSION@`  |
+|   library   |      2.12 version       |      2.13 version       | @SCALA_3_VERSION@ version |
+| ----------- | ----------------------- | ----------------------- | ------------------------- |
+| cats-core   | `@CATS_VERSION@`        | `@CATS_VERSION@`        | `@CATS_VERSION@`          |
+| cats-effect | `@CATS_EFFECT_VERSION@` | `@CATS_EFFECT_VERSION@` | `@CATS_EFFECT_VERSION@`   |
+| http4s      | `@HTTP4S_212_VERSION@`  | `@HTTP4S_213_VERSION@`  | `@HTTP4S_213_VERSION@`    |
 
 # User guide
 
