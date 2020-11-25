@@ -1,6 +1,6 @@
 import BuildSupport.ScalaVersions._
 lazy val scalaSettings = Seq(
-  scalaVersion := scala213,
+  scalaVersion := scala3,
   scalacOptions ++= { if (isDotty.value) Seq("-source:3.0-migration") else Nil },
   crossScalaVersions := supportedScalaVersions,
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet,
@@ -69,7 +69,7 @@ lazy val statsd = project
     commonSettings,
     libraryDependencies += Dependencies.Cats.effect.withDottyCompat(scalaVersion.value),
     libraryDependencies += Dependencies.Datadog.statsDClient,
-    libraryDependencies += Dependencies.ScalaModules.collectionCompat.withDottyCompat(scalaVersion.value)
+    libraryDependencies += Dependencies.ScalaModules.collectionCompat
   )
   .dependsOn(api)
 
@@ -98,7 +98,7 @@ lazy val jvm  = project
     scalaSettings,
     commonSettings,
     libraryDependencies += Dependencies.Cats.effect.withDottyCompat(scalaVersion.value),
-    libraryDependencies += Dependencies.ScalaModules.collectionCompat.withDottyCompat(scalaVersion.value)
+    libraryDependencies += Dependencies.ScalaModules.collectionCompat
   )
   .dependsOn(api, common % "compile->compile;test->test")
 
@@ -113,7 +113,7 @@ lazy val site = (project in file("site"))
     ScalaUnidocPlugin
   )
   .settings(
-    libraryDependencies += Dependencies.Mdoc.libMdoc.withDottyCompat(scalaVersion.value),
+    libraryDependencies += Dependencies.Mdoc.libMdoc.withDottyCompat(scalaVersion.value) exclude ("org.scala-lang.modules", "scala-collection-compat_2.13"),
     libraryDependencies -= "org.tpolecat" %% "tut-core" % "0.6.13",
     libraryDependencies -= "org.tpolecat" %% "tut-core" % "0.6.13" % Tut
   )
