@@ -113,7 +113,8 @@ lazy val site = (project in file("site"))
     ScalaUnidocPlugin
   )
   .settings(
-    libraryDependencies += Dependencies.Mdoc.libMdoc.withDottyCompat(scalaVersion.value) exclude ("org.scala-lang.modules", "scala-collection-compat_2.13"),
+    libraryDependencies += Dependencies.Mdoc.libMdoc.withDottyCompat(scalaVersion.value)
+      exclude ("org.scala-lang.modules", "scala-collection-compat_2.13"), // we use 3.0.0 version of scala-collection-compat
     libraryDependencies -= "org.tpolecat" %% "tut-core" % "0.6.13",
     libraryDependencies -= "org.tpolecat" %% "tut-core" % "0.6.13" % Tut
   )
