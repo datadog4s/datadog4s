@@ -1,6 +1,6 @@
 import BuildSupport.ScalaVersions._
 lazy val scalaSettings = Seq(
-  scalaVersion := scala3,
+  scalaVersion := scala213,
   scalacOptions ++= { if (isDotty.value) Seq("-source:3.0-migration") else Nil },
   crossScalaVersions := supportedScalaVersions,
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet,
