@@ -90,3 +90,7 @@ project/plugins/project/
 compiled-docs
 
 .bsp
+
+.vscode
+project/metals.sbt
+project/project
