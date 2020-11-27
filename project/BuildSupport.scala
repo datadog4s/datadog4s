@@ -33,8 +33,8 @@ object BuildSupport {
       "VERSION"             -> previousStableVersion.value.getOrElse("latestVersion"),
       "CATS_VERSION"        -> Cats.core.revision,
       "CATS_EFFECT_VERSION" -> Cats.effect.revision,
-      "HTTP4S_212_VERSION"  -> Http4s.core212.revision,
-      "HTTP4S_213_VERSION"  -> Http4s.core213.revision,
+      "HTTP4S_212_VERSION"  -> Http4s.core.revision,
+      "HTTP4S_213_VERSION"  -> Http4s.core.revision,
       "SCALA_3_VERSION"     -> ScalaVersions.scala3
     ),
     mdocAutoDependency := false,

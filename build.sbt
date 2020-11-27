@@ -80,14 +80,7 @@ lazy val http4s = project
     scalaSettings,
     commonSettings,
     libraryDependencies += Dependencies.Cats.effect.withDottyCompat(scalaVersion.value),
-    libraryDependencies := {
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        case _ =>
-          libraryDependencies.value ++ Seq(
-            Dependencies.Http4s.core212.withDottyCompat(scalaVersion.value)
-          )
-      }
-    }
+    libraryDependencies += Dependencies.Http4s.core.withDottyCompat(scalaVersion.value)
   )
   .dependsOn(api)
 
