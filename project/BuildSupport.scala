@@ -15,7 +15,6 @@ object BuildSupport {
     lazy val supportedScalaVersions = List(scala212, scala213, scala3)
   }
   lazy val micrositeSettings = Seq(
-    micrositeCompilingDocsTool := WithMdoc,
     micrositeName := "datadog4s",
     micrositeDescription := "Great monitoring made easy",
     micrositeAuthor := "Tomas Herman",
