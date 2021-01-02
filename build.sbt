@@ -107,7 +107,7 @@ lazy val site = (project in file("site"))
   )
   .settings(
     libraryDependencies += Dependencies.Mdoc.libMdoc
-      exclude ("org.scala-lang.modules", "scala-collection-compat_2.13"), // we use 3.0.0 version of scala-collection-compat
+      exclude ("org.scala-lang.modules", "scala-collection-compat_2.13") // we use 3.0.0 version of scala-collection-compat
   )
   .settings(publish / skip := true)
   .settings(BuildSupport.micrositeSettings: _*)
