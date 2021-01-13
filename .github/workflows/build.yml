@@ -75,11 +75,8 @@ jobs:
         SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
         SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSPHRASE }}
       run: sbt ci-release
-    - uses: actions/setup-ruby@v1
-      with:
-        ruby-version: '2.6'
-    - name: Install jekyll
-      run: gem install jekyll -v 4.0.0
+    - name: Setup jekyll
+      uses: victoriadrake/jekyll-cd@master
     - name: Publish microsite
       env:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
