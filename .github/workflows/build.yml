@@ -26,12 +26,9 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
-    - uses: actions/cache@v1
+    - uses: coursier/cache-action@v5
       with:
-        path: ~/.cache/coursier
-        key: ${{ runner.os }}-scala-${{ matrix.scala }}-${{ hashFiles('**/*.sbt') }}
-        restore-keys: |
-          ${{ runner.os }}-scala-${{ matrix.scala }}-
+        extraKey: scala-${{ matrix.scala }}
     - name: Compile & Test
       run: sbt checkAll
 #    - name: Codecov report
@@ -53,12 +50,9 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: '1.8.0'
-    - uses: actions/cache@v1
+    - uses: coursier/cache-action@v5
       with:
-        path: ~/.cache/coursier
-        key: ${{ runner.os }}-scala-${{ matrix.scala }}-${{ hashFiles('**/*.sbt') }}
-        restore-keys: |
-          ${{ runner.os }}-scala-${{ matrix.scala }}-
+        extraKey: scala-${{ matrix.scala }}
     - name: Compile & Test
       run: sbt checkAll
     - name: Run binary compatiblity check
@@ -75,13 +69,26 @@ jobs:
         SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
         SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSPHRASE }}
       run: sbt ci-release
-    - name: Setup jekyll
-      uses: victoriadrake/jekyll-cd@master
+    - uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems
+        restore-keys: |
+          ${{ runner.os }}-gems
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: '2.6'
+    - name: Install jekyll
+      run: |
+        export GEM_HOME=$PWD/vendor/bundle
+        gem install jekyll -v 4.0.0
     - name: Publish microsite
       env:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
         GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=no"
       run: |
+        export PATH="$PWD/vendor/bundle/bin:$PATH"
+        export GEM_HOME=$PWD/vendor/bundle
         eval "$(ssh-agent -s)"
         ssh-add - <<< "${DEPLOY_KEY}"
         git config --global user.email "datadog4s-bot@github.com"
