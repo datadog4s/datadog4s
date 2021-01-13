@@ -64,8 +64,6 @@ jobs:
     - name: Run binary compatiblity check
       if: contains(github.ref, 'refs/tags/v') && !endsWith(github.ref, '.0')
       run: sbt +mimaReportBinaryIssues
-    - name: Install GPG
-      uses: olafurpg/setup-gpg@v3
     - name: Release Drafter
       uses: release-drafter/release-drafter@v5.6.1
       env:
