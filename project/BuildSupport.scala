@@ -14,6 +14,7 @@ object BuildSupport {
     lazy val scala3                 = "3.0.0-RC1"
     lazy val supportedScalaVersions = List(scala212, scala213, scala3)
   }
+
   lazy val micrositeSettings = Seq(
     micrositeName := "datadog4s",
     micrositeDescription := "Great monitoring made easy",
@@ -29,7 +30,10 @@ object BuildSupport {
     fork in mdoc := true,
     mdocIn := file("site") / "docs",
     mdocVariables := Map(
-      "VERSION"             -> previousStableVersion.value.getOrElse("latestVersion"),
+      "VERSION"             -> {
+        if (!isSnapshot.value) { version.value }
+        else { previousStableVersion.value.getOrElse("latestVersion") }
+      },
       "CATS_VERSION"        -> Cats.core.revision,
       "CATS_EFFECT_VERSION" -> Cats.effect.revision,
       "HTTP4S_212_VERSION"  -> Http4s.core.revision,
