@@ -65,7 +65,7 @@ class RepeatedTest extends munit.FunSuite {
       }
       process.use(_ => killSignal.get) *> ref.get
     }
-    val value = test.flatten.timeout(100 milli).attempt.unsafeRunSync().fold(throw _, identity)
+    val value = test.flatten.timeout(500 milli).attempt.unsafeRunSync().fold(throw _, identity)
     logger.info(s"test finished with $value")
     assert(value.succ == 0)
     assert(value.failure > 0)
@@ -86,7 +86,7 @@ class RepeatedTest extends munit.FunSuite {
       process.use(_ => killSignal.get) *> ref.get
     }
 
-    val result = test.flatten.timeout(100 milli).attempt.unsafeRunSync().fold(throw _, identity)
+    val result = test.flatten.timeout(500 milli).attempt.unsafeRunSync().fold(throw _, identity)
 
     logger.info(s"test finished with $result")
     assert(result.succ == 0)
