@@ -11,7 +11,7 @@ trait MetricFactory[F[_]] {
   def timer(
     aspect: String,
     sampleRate: Option[Double] = None,
-    timerMode: TimerMode = HistogramTimer: TimerMode
+    timerMode: TimerMode = TimerMode.histogram
   ): Timer[F]
   def count(aspect: String, sampleRate: Option[Double] = None): Count[F]
   def uniqueSet(aspect: String): UniqueSet[F]
@@ -24,6 +24,9 @@ trait MetricFactory[F[_]] {
 object MetricFactory {
   sealed trait TimerMode
   object TimerMode {
+    val histogram: TimerMode    = HistogramTimer
+    val distribution: TimerMode = DistributionTimer
+
     case object HistogramTimer    extends TimerMode
     case object DistributionTimer extends TimerMode
   }

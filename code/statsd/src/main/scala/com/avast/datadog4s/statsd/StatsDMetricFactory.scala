@@ -5,6 +5,7 @@ import com.avast.datadog4s.api.MetricFactory.TimerMode
 import com.avast.datadog4s.api._
 import com.avast.datadog4s.api.metric.{ Distribution, Gauge, Histogram, UniqueSet }
 import com.avast.datadog4s.statsd.metric._
+import com.avast.datadog4s.statsd.metric.timer.{ DistributionTimer, HistogramTimer }
 import com.timgroup.statsd.{ StatsDClient => JStatsDClient }
 
 class StatsDMetricFactory[F[_]: Sync](
@@ -64,14 +65,24 @@ class StatsDMetricFactory[F[_]: Sync](
   }
 
   override def timer(aspect: String, sampleRate: Option[Double] = None, timerMode: TimerMode = timerMode) =
-    new TimerImpl[F](
-      clock,
-      statsDClient,
-      extendPrefix(aspect),
-      sampleRate.getOrElse(defaultSampleRate),
-      defaultTags,
-      timerMode
-    )
+    timerMode match {
+      case TimerMode.HistogramTimer    =>
+        new HistogramTimer[F](
+          clock,
+          statsDClient,
+          extendPrefix(aspect),
+          sampleRate.getOrElse(defaultSampleRate),
+          defaultTags
+        )
+      case TimerMode.DistributionTimer =>
+        new DistributionTimer[F](
+          clock,
+          statsDClient,
+          extendPrefix(aspect),
+          sampleRate.getOrElse(defaultSampleRate),
+          defaultTags
+        )
+    }
 
   override def count(aspect: String, sampleRate: Option[Double] = None) =
     new CountImpl[F](statsDClient, extendPrefix(aspect), sampleRate.getOrElse(defaultSampleRate), defaultTags)

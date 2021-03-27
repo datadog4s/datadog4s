@@ -13,13 +13,8 @@ import com.timgroup.statsd.StatsDClient
 
 import scala.collection.immutable.Seq
 
-class TimerImpl[F[_]: Sync](
-  clock: Clock[F],
-  statsDClient: StatsDClient,
-  aspect: String,
-  sampleRate: Double,
-  defaultTags: Seq[Tag],
-  timerMode: TimerMode
+abstract class TimerImpl[F[_]: Sync](
+  clock: Clock[F]
 ) extends Timer[F] {
   private[this] val F                                  = Sync[F]
   private[this] val successTagger: Tagger[Boolean]     = Tagger.make("success")
@@ -43,16 +38,4 @@ class TimerImpl[F[_]: Sync](
     } yield ()
     computation >> F.raiseError(thr)
   }
-
-  override def record(duration: Duration, tags: Tag*): F[Unit] =
-    timerMode match {
-      case TimerMode.HistogramTimer    =>
-        F.delay {
-          statsDClient.recordExecutionTime(aspect, duration.toMillis, sampleRate, (tags ++ defaultTags): _*)
-        }
-      case TimerMode.DistributionTimer =>
-        F.delay {
-          statsDClient.recordDistributionValue(aspect, duration.toMillis, sampleRate, (tags ++ defaultTags): _*)
-        }
-    }
 }
