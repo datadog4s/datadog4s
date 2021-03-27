@@ -1,7 +1,8 @@
 package com.avast.datadog4s
 
-import java.net.InetSocketAddress
+import com.avast.datadog4s.api.MetricFactory.TimerMode
 
+import java.net.InetSocketAddress
 import com.avast.datadog4s.api.Tag
 
 case class StatsDMetricFactoryConfig(
@@ -9,5 +10,6 @@ case class StatsDMetricFactoryConfig(
   statsDServer: InetSocketAddress,
   defaultTags: scala.collection.immutable.Seq[Tag] = Vector.empty,
   sampleRate: Double = 1.0,
-  queueSize: Int = 10000
+  queueSize: Int = 10000,
+  defaultTimerMode: TimerMode = TimerMode.HistogramTimer
 )

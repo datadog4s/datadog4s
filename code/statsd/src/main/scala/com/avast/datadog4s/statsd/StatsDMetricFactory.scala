@@ -1,6 +1,7 @@
 package com.avast.datadog4s.statsd
 
 import cats.effect.{ Clock, Sync }
+import com.avast.datadog4s.api.MetricFactory.TimerMode
 import com.avast.datadog4s.api._
 import com.avast.datadog4s.api.metric.{ Distribution, Gauge, Histogram, UniqueSet }
 import com.avast.datadog4s.statsd.metric._
@@ -10,7 +11,8 @@ class StatsDMetricFactory[F[_]: Sync](
   statsDClient: JStatsDClient,
   prefix: Option[String],
   defaultSampleRate: Double,
-  defaultTags: collection.immutable.Seq[Tag]
+  defaultTags: collection.immutable.Seq[Tag],
+  timerMode: TimerMode
 ) extends MetricFactory[F] {
 
   private[this] val clock = Clock.create[F]
@@ -61,13 +63,14 @@ class StatsDMetricFactory[F[_]: Sync](
       new GaugeDoubleImpl[F](statsDClient, extendPrefix(aspect), sampleRate.getOrElse(defaultSampleRate), defaultTags)
   }
 
-  override def timer(aspect: String, sampleRate: Option[Double] = None) =
+  override def timer(aspect: String, sampleRate: Option[Double] = None, timerMode: TimerMode = timerMode) =
     new TimerImpl[F](
       clock,
       statsDClient,
       extendPrefix(aspect),
       sampleRate.getOrElse(defaultSampleRate),
-      defaultTags
+      defaultTags,
+      timerMode
     )
 
   override def count(aspect: String, sampleRate: Option[Double] = None) =
@@ -77,9 +80,11 @@ class StatsDMetricFactory[F[_]: Sync](
     new UniqueSetImpl[F](statsDClient, extendPrefix(aspect), defaultTags)
 
   override def withTags(tags: Tag*): MetricFactory[F] =
-    new StatsDMetricFactory[F](statsDClient, prefix, defaultSampleRate, defaultTags ++ tags)
+    new StatsDMetricFactory[F](statsDClient, prefix, defaultSampleRate, defaultTags ++ tags, timerMode)
 
   override def withScope(scope: String): MetricFactory[F] =
-    new StatsDMetricFactory[F](statsDClient, Some(extendPrefix(scope)), defaultSampleRate, defaultTags)
+    new StatsDMetricFactory[F](statsDClient, Some(extendPrefix(scope)), defaultSampleRate, defaultTags, timerMode)
 
+  override def withTimerMode(newTimerMode: TimerMode): MetricFactory[F] =
+    new StatsDMetricFactory[F](statsDClient, prefix, defaultSampleRate, defaultTags, newTimerMode)
 }

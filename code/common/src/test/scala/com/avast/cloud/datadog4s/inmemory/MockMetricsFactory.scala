@@ -1,13 +1,13 @@
 package com.avast.cloud.datadog4s.inmemory
 
 import java.time.Duration
-
 import cats.effect.Sync
 import cats.effect.concurrent.Ref
 import cats.syntax.flatMap._
 import cats.syntax.functor._
+import com.avast.datadog4s.api.MetricFactory.TimerMode
 import com.avast.datadog4s.api.metric._
-import com.avast.datadog4s.api.{ DistributionFactory, GaugeFactory, HistogramFactory, MetricFactory, Tag }
+import com.avast.datadog4s.api.{DistributionFactory, GaugeFactory, HistogramFactory, MetricFactory, Tag}
 
 class MockMetricsFactory[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record[Any]]]]) extends MetricFactory[F] {
 
@@ -44,7 +44,7 @@ class MockMetricsFactory[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record
         }
     }
 
-  override def timer(aspect: String, sampleRate: Option[Double]): Timer[F] =
+  override def timer(aspect: String, sampleRate: Option[Double], timerMode: TimerMode): Timer[F] =
     new Timer[F] {
       override def time[A](f: F[A], tags: Tag*): F[A] = f.flatMap(a => updateState(aspect, a, tags: _*).as(a))
 
@@ -78,6 +78,7 @@ class MockMetricsFactory[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record
 
   override def withScope(name: String): MetricFactory[F] = this
 
+  override def withTimerMode(timerMode: TimerMode): MetricFactory[F] = this
 }
 
 object MockMetricsFactory {

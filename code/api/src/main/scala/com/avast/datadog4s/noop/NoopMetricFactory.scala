@@ -1,12 +1,13 @@
 package com.avast.datadog4s.noop
 
 import cats.Applicative
+import com.avast.datadog4s.api.MetricFactory.TimerMode
 import com.avast.datadog4s.api._
 import com.avast.datadog4s.api.metric._
 import com.avast.datadog4s.noop.metric._
 
 class NoopMetricFactory[F[_]: Applicative] extends MetricFactory[F] {
-  override def timer(prefix: String, sampleRate: Option[Double] = None): Timer[F] = new NoopTimer[F]
+  override def timer(prefix: String, sampleRate: Option[Double] = None, timer: TimerMode): Timer[F] = new NoopTimer[F]
 
   override def count(prefix: String, sampleRate: Option[Double] = None): Count[F] = new NoopCount[F]
 
@@ -41,5 +42,7 @@ class NoopMetricFactory[F[_]: Applicative] extends MetricFactory[F] {
   override def withTags(tags: Tag*): MetricFactory[F] = this
 
   override def withScope(prefix: String): MetricFactory[F] = this
+
+  override def withTimerMode(timerMode: TimerMode): MetricFactory[F] = this
 
 }
