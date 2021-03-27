@@ -1,17 +1,14 @@
 package com.avast.datadog4s.statsd.metric
 
-import java.time.Duration
-import java.util.concurrent.TimeUnit
 import cats.effect.{ Clock, Sync }
 import cats.syntax.flatMap._
 import cats.syntax.functor._
-import com.avast.datadog4s.api.MetricFactory.TimerMode
 import com.avast.datadog4s.api.Tag
 import com.avast.datadog4s.api.metric.Timer
 import com.avast.datadog4s.api.tag.Tagger
-import com.timgroup.statsd.StatsDClient
 
-import scala.collection.immutable.Seq
+import java.time.Duration
+import java.util.concurrent.TimeUnit
 
 abstract class TimerImpl[F[_]: Sync](
   clock: Clock[F]
