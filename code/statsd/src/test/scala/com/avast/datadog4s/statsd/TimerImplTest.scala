@@ -1,6 +1,6 @@
 package com.avast.datadog4s.statsd
 
-import cats.effect.{Clock, IO}
+import cats.effect.{ Clock, IO }
 import com.avast.datadog4s.api.MetricFactory.TimerMode
 import com.avast.datadog4s.api.Tag
 import com.avast.datadog4s.statsd.metric.TimerImpl
