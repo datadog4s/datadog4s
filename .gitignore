@@ -94,3 +94,5 @@ compiled-docs
 .vscode
 project/metals.sbt
 project/project
+
+api-key.txt
