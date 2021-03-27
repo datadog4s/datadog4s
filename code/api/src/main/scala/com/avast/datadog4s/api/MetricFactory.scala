@@ -8,7 +8,11 @@ trait MetricFactory[F[_]] {
   def histogram: HistogramFactory[F]
   def distribution: DistributionFactory[F]
   def gauge: GaugeFactory[F]
-  def timer(aspect: String, sampleRate: Option[Double] = None, timerMode: TimerMode = HistogramTimer: TimerMode): Timer[F]
+  def timer(
+    aspect: String,
+    sampleRate: Option[Double] = None,
+    timerMode: TimerMode = HistogramTimer: TimerMode
+  ): Timer[F]
   def count(aspect: String, sampleRate: Option[Double] = None): Count[F]
   def uniqueSet(aspect: String): UniqueSet[F]
 

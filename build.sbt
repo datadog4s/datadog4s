@@ -84,7 +84,7 @@ lazy val http4s = project
   )
   .dependsOn(api)
 
-lazy val jvm  = project
+lazy val jvm        = project
   .in(file("code/jvm"))
   .settings(
     name := "datadog4s-jvm",
@@ -97,10 +97,7 @@ lazy val jvm  = project
 
 lazy val playground = (project in file("code/playground"))
   .dependsOn(statsd)
-  .settings(publish / skip := true,
-    name := "datadog4s-playground",
-    commonSettings, scalaSettings)
-
+  .settings(publish / skip := true, name := "datadog4s-playground", commonSettings, scalaSettings)
 
 lazy val site = (project in file("site"))
   .settings(scalaSettings)
