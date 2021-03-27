@@ -1,6 +1,5 @@
 package com.avast.datadog4s.api
 
-import com.avast.datadog4s.api.MetricFactory.TimerMode.HistogramTimer
 import com.avast.datadog4s.api.MetricFactory.TimerMode
 import com.avast.datadog4s.api.metric.{ Count, Timer, UniqueSet }
 
