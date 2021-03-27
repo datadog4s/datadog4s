@@ -95,6 +95,13 @@ lazy val jvm  = project
   )
   .dependsOn(api, common % "compile->compile;test->test")
 
+lazy val playground = (project in file("code/playground"))
+  .dependsOn(statsd)
+  .settings(publish / skip := true,
+    name := "datadog4s-playground",
+    commonSettings, scalaSettings)
+
+
 lazy val site = (project in file("site"))
   .settings(scalaSettings)
   .settings(commonSettings)
