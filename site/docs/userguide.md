@@ -68,7 +68,7 @@ Timers are great. And with our API, they are even better. Because we are living 
 ```scala mdoc:silent
 
 factoryResource.use { factory =>
-    val timer = factory.timer("request-latency")
+    val timer = factory.timer.histogram("request-latency")
 
     timer.time(IO.pure(println("success"))) // tagged as success
     timer.time(IO.raiseError(new Exception("error"))) //tagged as failure
