@@ -12,9 +12,15 @@ object DatadogMetricsOps {
 
   val defaultClassifierTags: ClassifierTags = classifier => List(Tag.of("classifier", classifier))
 
-  def make[F[_]](metricFactory: MetricFactory[F], classifierTags: ClassifierTags = defaultClassifierTags)(implicit
+  def make[F[_]](
+    metricFactory: MetricFactory[F],
+    distributionBasedTimers: Boolean = false,
+    classifierTags: ClassifierTags = defaultClassifierTags
+  )(implicit
     F: Sync[F]
   ): F[MetricsOps[F]] =
-    Ref.of[F, ActiveConnections](Map.empty).map(new DefaultMetricsOps[F](metricFactory, classifierTags, _))
+    Ref
+      .of[F, ActiveConnections](Map.empty)
+      .map(new DefaultMetricsOps[F](metricFactory, classifierTags, _, distributionBasedTimers))
 
 }
