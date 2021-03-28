@@ -42,4 +42,9 @@ class NoopMetricFactory[F[_]: Applicative] extends MetricFactory[F] {
 
   override def withScope(prefix: String): MetricFactory[F] = this
 
+  override def timer: TimerFactory[F] = new TimerFactory[F] {
+    override def histogram(aspect: String, sampleRate: Option[Double]): Timer[F] = new NoopTimer[F]
+
+    override def distribution(aspect: String, sampleRate: Option[Double]): Timer[F] = new NoopTimer[F]
+  }
 }

@@ -1,24 +1,17 @@
 package com.avast.datadog4s.statsd.metric
 
-import java.time.Duration
-import java.util.concurrent.TimeUnit
-
 import cats.effect.{ Clock, Sync }
 import cats.syntax.flatMap._
 import cats.syntax.functor._
 import com.avast.datadog4s.api.Tag
 import com.avast.datadog4s.api.metric.Timer
 import com.avast.datadog4s.api.tag.Tagger
-import com.timgroup.statsd.StatsDClient
 
-import scala.collection.immutable.Seq
+import java.time.Duration
+import java.util.concurrent.TimeUnit
 
-class TimerImpl[F[_]: Sync](
-  clock: Clock[F],
-  statsDClient: StatsDClient,
-  aspect: String,
-  sampleRate: Double,
-  defaultTags: Seq[Tag]
+abstract class TimerImpl[F[_]: Sync](
+  clock: Clock[F]
 ) extends Timer[F] {
   private[this] val F                                  = Sync[F]
   private[this] val successTagger: Tagger[Boolean]     = Tagger.make("success")
@@ -43,8 +36,4 @@ class TimerImpl[F[_]: Sync](
     computation >> F.raiseError(thr)
   }
 
-  override def record(duration: Duration, tags: Tag*): F[Unit] =
-    F.delay {
-      statsDClient.recordExecutionTime(aspect, duration.toMillis, sampleRate, (tags ++ defaultTags): _*)
-    }
 }
