@@ -18,6 +18,6 @@ object DatadogMetricsOps {
     builder(metricFactory).setClassifierTags(classifierTags).build()
 
   def builder[F[_]: Sync](metricFactory: MetricFactory[F]): MetricsOpsBuilder[F] =
-    new MetricsOpsBuilder[F](metricFactory)
+    MetricsOpsBuilder.withDefaults[F](metricFactory)
 
 }

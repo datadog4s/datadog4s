@@ -2,31 +2,37 @@ package com.avast.datadog4s.extension.http4s
 
 import cats.effect.Sync
 import cats.effect.concurrent.Ref
+import cats.syntax.functor._
 import com.avast.datadog4s.api.{ MetricFactory, Tag }
 import com.avast.datadog4s.extension.http4s.DatadogMetricsOps.ClassifierTags
-import com.avast.datadog4s.extension.http4s.MetricsOpsBuilder.defaultClassifierTags
 import com.avast.datadog4s.extension.http4s.impl.{ ActiveConnections, DefaultMetricsOps }
 import org.http4s.metrics.MetricsOps
-import cats.syntax.functor._
 
-private[http4s] final class MetricsOpsBuilder[F[_]: Sync](metricFactory: MetricFactory[F]) {
-  private[this] var distributionBasedTimers: Boolean = false
-  private[this] var classifierTags: ClassifierTags   = defaultClassifierTags
+final case class MetricsOpsBuilder[F[_]: Sync] private (
+  metricFactory: MetricFactory[F],
+  distributionBasedTimers: Boolean,
+  classifierTags: ClassifierTags
+) {
 
-  def useDistributionBasedTimers(): MetricsOpsBuilder[F] = {
-    distributionBasedTimers = true
-    this
-  }
+  /**
+   * Force MetricOps to use [[com.avast.datadog4s.api.TimerFactory.distribution TimerFactory.distribution]] for timing http4s requests.
+   * For the implications please see [[com.avast.datadog4s.api.TimerFactory.distribution TimerFactory.distribution]] scaladoc.
+   */
+  def useDistributionBasedTimers(): MetricsOpsBuilder[F] =
+    copy(distributionBasedTimers = true)
 
-  def useHistogramBasedTimers(): MetricsOpsBuilder[F] = {
-    distributionBasedTimers = false
-    this
-  }
+  /**
+   * Force MetricOps to use [[com.avast.datadog4s.api.TimerFactory.histogram TimerFactory.histogram]] for timing http4s requests.
+   * For the implications please see [[com.avast.datadog4s.api.TimerFactory.histogram TimerFactory.histogram]] scaladoc.
+   */
+  def useHistogramBasedTimers(): MetricsOpsBuilder[F] =
+    copy(distributionBasedTimers = false)
 
-  def setClassifierTags(newClassifierTags: ClassifierTags): MetricsOpsBuilder[F] = {
-    classifierTags = newClassifierTags
-    this
-  }
+  /**
+   * Function for computing tags based on provided classifier. By default uses [[MetricsOpsBuilder.defaultClassifierTags]]
+   */
+  def setClassifierTags(newClassifierTags: ClassifierTags): MetricsOpsBuilder[F] =
+    copy(classifierTags = newClassifierTags)
 
   def build(): F[MetricsOps[F]] =
     Ref
@@ -36,4 +42,7 @@ private[http4s] final class MetricsOpsBuilder[F[_]: Sync](metricFactory: MetricF
 
 object MetricsOpsBuilder {
   val defaultClassifierTags: ClassifierTags = classifier => List(Tag.of("classifier", classifier))
+
+  def withDefaults[F[_]: Sync](metricFactory: MetricFactory[F]): MetricsOpsBuilder[F] =
+    new MetricsOpsBuilder[F](metricFactory, distributionBasedTimers = false, classifierTags = defaultClassifierTags)
 }
