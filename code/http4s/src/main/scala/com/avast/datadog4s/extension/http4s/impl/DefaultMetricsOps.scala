@@ -3,7 +3,6 @@ package com.avast.datadog4s.extension.http4s.impl
 import java.time.Duration
 
 import cats.effect.Sync
-import cats.effect.concurrent.Ref
 import cats.syntax.flatMap._
 import com.avast.datadog4s.api.MetricFactory
 import com.avast.datadog4s.api.tag.Tagger
@@ -11,6 +10,7 @@ import com.avast.datadog4s.extension.http4s.DatadogMetricsOps.ClassifierTags
 import com.avast.datadog4s.extension.http4s._
 import org.http4s.metrics.{ MetricsOps, TerminationType }
 import org.http4s.{ Method, Status }
+import cats.effect.Ref
 
 private[http4s] class DefaultMetricsOps[F[_]](
   metricFactory: MetricFactory[F],

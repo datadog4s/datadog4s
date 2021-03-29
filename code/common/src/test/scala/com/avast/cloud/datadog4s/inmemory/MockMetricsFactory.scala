@@ -3,11 +3,11 @@ package com.avast.cloud.datadog4s.inmemory
 import java.time.Duration
 
 import cats.effect.Sync
-import cats.effect.concurrent.Ref
 import cats.syntax.flatMap._
 import cats.syntax.functor._
 import com.avast.datadog4s.api.metric._
 import com.avast.datadog4s.api.{ DistributionFactory, GaugeFactory, HistogramFactory, MetricFactory, Tag }
+import cats.effect.Ref
 
 class MockMetricsFactory[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record[Any]]]]) extends MetricFactory[F] {
 

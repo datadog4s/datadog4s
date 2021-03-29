@@ -1,11 +1,11 @@
 package com.avast.datadog4s.extension.http4s
 
 import cats.effect.Sync
-import cats.effect.concurrent.Ref
 import cats.syntax.functor._
 import com.avast.datadog4s.api.{ MetricFactory, Tag }
 import com.avast.datadog4s.extension.http4s.impl.{ ActiveConnections, DefaultMetricsOps }
 import org.http4s.metrics.MetricsOps
+import cats.effect.Ref
 
 object DatadogMetricsOps {
   type ClassifierTags = String => List[Tag]

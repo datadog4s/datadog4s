@@ -2,19 +2,19 @@ package com.avast.cloud.datadog4s.helpers
 
 import java.time.Duration
 
-import cats.effect.concurrent.{ Deferred, Ref }
-import cats.effect.{ ContextShift, IO, Timer }
+import cats.effect.IO
 import cats.syntax.flatMap._
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 import scala.language.postfixOps
+import cats.effect.{ Deferred, Ref, Temporal }
 
 class RepeatedTest extends munit.FunSuite {
   private val ec: ExecutionContext                  = scala.concurrent.ExecutionContext.Implicits.global
   implicit val contextShift: ContextShift[IO]       = cats.effect.IO.contextShift(ec)
-  implicit val timer: Timer[IO]                     = IO.timer(ec)
+  implicit val timer: Temporal[IO]                     = IO.timer(ec)
   private val logger                                = LoggerFactory.getLogger(classOf[RepeatedTest])
   private val noopErrHandler: Throwable => IO[Unit] = (_: Throwable) => IO.unit
 
