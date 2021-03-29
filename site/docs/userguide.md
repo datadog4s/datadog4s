@@ -113,7 +113,7 @@ Http4s package (`datadog4s-http4s`) provides implementation of [MetricsOps](metr
 import com.avast.datadog4s.extension.http4s._
 
 factoryResource.use { metricFactory =>
-    val _ = DatadogMetricsOps.make[IO](metricFactory) // create metrics factory and use it as you please
+    val _ = DatadogMetricsOps.builder[IO](metricFactory).build() // create metrics factory and use it as you please
     IO.pure(())
 }
 ```
