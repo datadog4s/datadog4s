@@ -1,6 +1,6 @@
 package com.avast.datadog4s.statsd.metric
 
-import cats.effect.{ Clock, Sync }
+import cats.effect.{Clock, Sync}
 import cats.syntax.flatMap._
 import cats.syntax.functor._
 import com.avast.datadog4s.api.Tag
@@ -8,7 +8,7 @@ import com.avast.datadog4s.api.metric.Timer
 import com.avast.datadog4s.api.tag.Tagger
 
 import java.time.Duration
-import java.util.concurrent.TimeUnit
+import scala.concurrent.duration.FiniteDuration
 
 abstract class TimerImpl[F[_]: Sync](
   clock: Clock[F]
@@ -21,19 +21,19 @@ abstract class TimerImpl[F[_]: Sync](
 
   override def time[A](value: F[A], tags: Tag*): F[A] =
     for {
-      start <- clock.monotonic(TimeUnit.NANOSECONDS)
+      start <- clock.monotonic
       a     <- F.recoverWith(value)(measureFailed(start))
-      stop  <- clock.monotonic(TimeUnit.NANOSECONDS)
-      _     <- record(Duration.ofNanos(stop - start), (tags :+ succeededTag): _*)
+      stop  <- clock.monotonic
+      _     <- record(Duration.ofNanos(stop.minus(start).toNanos), (tags :+ succeededTag): _*)
     } yield a
 
-  private def measureFailed[A](startTime: Long, tags: Tag*): PartialFunction[Throwable, F[A]] = { case thr: Throwable =>
+  private def measureFailed[A](startTime: FiniteDuration, tags: Tag*): PartialFunction[Throwable, F[A]] = { case thr: Throwable =>
     val finalTags   = tags :+ exceptionTagger.tag(thr) :+ failedTag
     val computation = for {
-      stop <- clock.monotonic(TimeUnit.NANOSECONDS)
-      _    <- record(Duration.ofNanos(stop - startTime), finalTags: _*)
+      stop <- clock.monotonic
+      _    <- record(Duration.ofNanos(stop.minus(startTime).toNanos), finalTags: _*)
     } yield ()
-    computation >> F.raiseError(thr)
+    computation >> F.raiseError[A](thr)
   }
 
 }

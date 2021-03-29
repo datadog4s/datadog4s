@@ -14,7 +14,7 @@ class StatsDMetricFactory[F[_]: Sync](
   defaultTags: collection.immutable.Seq[Tag]
 ) extends MetricFactory[F] {
 
-  private[this] val clock = Clock.create[F]
+  private[this] val clock: Clock[F] = Clock[F]
 
   private def extendPrefix(ext: String): String = prefix.map(v => s"$v.$ext").getOrElse(ext)
 

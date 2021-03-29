@@ -8,7 +8,7 @@ import com.avast.datadog4s.statsd.metric.timer.HistogramTimer
 import scala.jdk.CollectionConverters._
 
 class TimerImplTest extends munit.FunSuite {
-
+  import cats.effect.unsafe.implicits.global
   trait TestFixture {
     val aspect: String
     val sampleRate: Double

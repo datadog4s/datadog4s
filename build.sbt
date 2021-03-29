@@ -1,4 +1,5 @@
 import BuildSupport.ScalaVersions._
+
 lazy val scalaSettings = Seq(
   scalaVersion := scala213,
   scalacOptions ++= { if (isDotty.value) Seq("-source:3.0-migration") else Nil },

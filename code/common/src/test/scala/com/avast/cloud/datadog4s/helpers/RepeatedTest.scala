@@ -1,20 +1,16 @@
 package com.avast.cloud.datadog4s.helpers
 
 import java.time.Duration
-
-import cats.effect.concurrent.{ Deferred, Ref }
-import cats.effect.{ ContextShift, IO, Timer }
+import cats.effect.kernel.Temporal
+import cats.effect.{Deferred, IO, Ref}
 import cats.syntax.flatMap._
 import org.slf4j.LoggerFactory
 
-import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 import scala.language.postfixOps
 
 class RepeatedTest extends munit.FunSuite {
-  private val ec: ExecutionContext                  = scala.concurrent.ExecutionContext.Implicits.global
-  implicit val contextShift: ContextShift[IO]       = cats.effect.IO.contextShift(ec)
-  implicit val timer: Timer[IO]                     = IO.timer(ec)
+  import cats.effect.unsafe.implicits.global
   private val logger                                = LoggerFactory.getLogger(classOf[RepeatedTest])
   private val noopErrHandler: Throwable => IO[Unit] = (_: Throwable) => IO.unit
 
@@ -25,7 +21,7 @@ class RepeatedTest extends munit.FunSuite {
       def decreaseCounter: IO[Unit] =
         counter.modify { currentCount =>
           currentCount - 1 match {
-            case newCounter if newCounter <= 0 => (newCounter, killSignal.complete(()))
+            case newCounter if newCounter <= 0 => (newCounter, killSignal.complete(()).void)
             case newCounter                    => (newCounter, IO.unit)
           }
         }.flatten
@@ -59,7 +55,7 @@ class RepeatedTest extends munit.FunSuite {
       val process = Repeated.run(
         Duration.ofMillis(5),
         Duration.ofMillis(50),
-        _ => ref.update(_.incFail) *> killSignal.complete(())
+        _ => ref.update(_.incFail) *> killSignal.complete(()).void
       ) {
         IO.raiseError(new Throwable)
       }
@@ -79,7 +75,7 @@ class RepeatedTest extends munit.FunSuite {
       val process = Repeated.run(
         Duration.ofMillis(5),
         Duration.ofMillis(10),
-        _ => ref.update(_.incFail) *> killSignal.complete(())
+        _ => ref.update(_.incFail) *> killSignal.complete(()).void
       ) {
         IO.never
       }

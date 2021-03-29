@@ -1,15 +1,16 @@
 package com.avast.cloud.datadog4s.helpers
 
-import java.time.Duration
+import cats.conversions.all.autoWidenFunctor
 
-import cats.effect.{ Concurrent, Resource, Timer }
+import java.time.Duration
+import cats.effect.{Concurrent, Resource, Temporal}
 import cats.syntax.applicativeError._
 import cats.syntax.flatMap._
 import cats.syntax.apply._
 import cats.syntax.applicative._
 
 import scala.concurrent.duration._
-
+import cats.syntax.functor._
 object Repeated {
 
   /**
@@ -19,20 +20,23 @@ object Repeated {
    * @param errorHandler handler called when `task fails or during timeout
    * @param task effect that will be run periodically
    */
-  def run[F[_]: Concurrent: Timer](
+  def run[F[_]: Concurrent: Temporal](
     delay: Duration,
     iterationTimeout: Duration,
     errorHandler: Throwable => F[Unit]
   )(task: F[Unit]): Resource[F, F[Unit]] = {
-    val safeTask = Concurrent.timeout(task, toScala(iterationTimeout)).attempt.flatMap {
+    val safeTask = Temporal[F].timeout(task, toScala(iterationTimeout)).attempt.flatMap {
       case Right(a) => a.pure[F]
       case Left(e)  => errorHandler(e)
     }
 
-    val snooze  = Timer[F].sleep(toScala(delay))
+    val snooze  = Temporal[F].sleep(toScala(delay))
     val process = (safeTask *> snooze).foreverM[Unit]
 
-    Concurrent[F].background(process)
+    Concurrent[F].background(process).flatMap { outcome =>
+      ???
+    }
+
   }
 
   private def toScala(duration: Duration): FiniteDuration =
