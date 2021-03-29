@@ -2,7 +2,7 @@ import sbt._
 object Dependencies {
   object Cats {
     val core   = "org.typelevel" %% "cats-core"   % "2.4.2"
-    val effect = "org.typelevel" %% "cats-effect" % "2.4.0"
+    val effect = "org.typelevel" %% "cats-effect" % "2.4.1"
   }
 
   object Datadog {
