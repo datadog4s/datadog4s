@@ -134,11 +134,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: release-drafter/release-drafter@v5.6.1
 
-      - env:
+      - uses: actions/cache@v1
+        with:
           path: vendor/bundle
           key: ${{ runner.os }}-gems
           restore-keys: ${{ runner.os }}-gems
-        uses: actions/cache@v1
 
       - env:
           ruby-version: 2.6
