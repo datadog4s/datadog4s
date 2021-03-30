@@ -19,9 +19,9 @@ class JvmMonitoringTest extends munit.FunSuite {
   test("JvmMonitoring should create all expected metrics and update them periodically") {
     val testEffect = MockMetricsFactory.make[IO].flatMap { inmemory =>
       val runTest = JvmMonitoring
-        .configured(inmemory, Config().copy(delay = Duration.ofMillis(10)), noopErrHandler)
+        .configured(inmemory, Config().copy(delay = Duration.ofMillis(100)), noopErrHandler)
         .use(_ => IO.never)
-        .timeout(100.millis)
+        .timeout(1000.millis)
         .attempt
 
       runTest >> inmemory.state.get
