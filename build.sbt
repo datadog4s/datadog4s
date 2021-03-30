@@ -1,4 +1,13 @@
 import BuildSupport.ScalaVersions._
+
+ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
+ThisBuild / githubWorkflowPublishTargetBranches :=
+  Seq(RefPredicate.StartsWith(Ref.Tag("v")))
+
+ThisBuild / githubWorkflowPublish := Seq(WorkflowStep.Sbt(List("ci-release")))
+ThisBuild / githubWorkflowJavaVersions := GithubActions.javaVersions
+ThisBuild / githubWorkflowPublishPostamble := GithubActions.postPublish
+
 lazy val scalaSettings = Seq(
   scalaVersion := scala213,
   scalacOptions ++= { if (isDotty.value) Seq("-source:3.0-migration") else Nil },
