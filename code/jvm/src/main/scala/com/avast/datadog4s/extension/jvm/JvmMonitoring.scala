@@ -2,9 +2,10 @@ package com.avast.datadog4s.extension.jvm
 
 import java.time.Duration
 
-import cats.effect.{ ConcurrentEffect, Resource, Sync, Timer }
+import cats.effect.{ ConcurrentEffect, Resource, Sync }
 import com.avast.cloud.datadog4s.helpers.Repeated
 import com.avast.datadog4s.api.MetricFactory
+import cats.effect.Temporal
 
 object JvmMonitoring {
   type ErrorHandler[F[_]] = Throwable => F[Unit]
@@ -14,10 +15,10 @@ object JvmMonitoring {
     timeout: Duration = Duration.ofSeconds(10)
   )
 
-  def default[F[_]: ConcurrentEffect: Timer](factory: MetricFactory[F]): Resource[F, Unit] =
+  def default[F[_]: ConcurrentEffect: Temporal](factory: MetricFactory[F]): Resource[F, Unit] =
     configured(factory, Config(), defaultErrorHandler)
 
-  def configured[F[_]: ConcurrentEffect: Timer](
+  def configured[F[_]: ConcurrentEffect: Temporal](
     factory: MetricFactory[F],
     config: Config,
     errorHandler: ErrorHandler[F]
