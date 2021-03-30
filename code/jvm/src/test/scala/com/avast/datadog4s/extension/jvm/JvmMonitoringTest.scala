@@ -27,7 +27,7 @@ class JvmMonitoringTest extends munit.FunSuite {
       runTest >> inmemory.state.get
     }
     val result     = testEffect.unsafeRunSync()
-    assert(result.keySet == expectedAspects)
+    assertEquals(result.keySet, expectedAspects)
     result.values.foreach { vector =>
       vector.groupBy(_.tags).foreach { case (_, records) =>
         assert(records.nonEmpty)
