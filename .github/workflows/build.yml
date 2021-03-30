@@ -29,6 +29,8 @@ jobs:
       uses: olafurpg/setup-scala@v10
       with:
         java-version: ${{ matrix.java }}
+    - name: Test
+      run: sbt ++${{metrix.scala}} checkAll
     - name: Cache sbt
       uses: actions/cache@v2
       with:
