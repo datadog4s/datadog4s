@@ -7,11 +7,11 @@ ThisBuild / githubWorkflowPublishTargetBranches :=
 ThisBuild / githubWorkflowPublish := Seq(WorkflowStep.Sbt(List("ci-release")))
 ThisBuild / githubWorkflowJavaVersions := GithubActions.javaVersions
 ThisBuild / githubWorkflowPublishPostamble := GithubActions.postPublish
+ThisBuild / crossScalaVersions := supportedScalaVersions
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala213,
   scalacOptions ++= { if (isDotty.value) Seq("-source:3.0-migration") else Nil },
-  crossScalaVersions := supportedScalaVersions,
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet,
   libraryDependencies += (Dependencies.Testing.munit % Test),
   testFrameworks += new TestFramework("munit.Framework"),
