@@ -30,7 +30,7 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Test
-      run: sbt ++${{metrix.scala}} checkAll
+      run: sbt ++${{matrix.scala}} checkAll
     - name: Cache sbt
       uses: actions/cache@v2
       with:
