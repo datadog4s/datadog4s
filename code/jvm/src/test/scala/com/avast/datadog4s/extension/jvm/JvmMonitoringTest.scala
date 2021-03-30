@@ -27,7 +27,8 @@ class JvmMonitoringTest extends munit.FunSuite {
       runTest >> inmemory.state.get
     }
     val result     = testEffect.unsafeRunSync()
-    assertEquals(clue(result.keySet.toList.sorted), clue(expectedAspects.toList.sorted))
+    val observedAspects = result.keySet.removedAll(unreliableAspects).toList.sorted
+    assertEquals(observedAspects, expectedAspects.toList.sorted)
     result.values.foreach { vector =>
       vector.groupBy(_.tags).foreach { case (_, records) =>
         assert(records.nonEmpty)
@@ -35,6 +36,15 @@ class JvmMonitoringTest extends munit.FunSuite {
       }
     }
   }
+
+  /**
+   * Not always present and should be ignored
+   */
+  lazy val unreliableAspects: Set[String] = Set(
+    "jvm.non_heap_memory.code_cache",
+    "jvm.non_heap_memory.code_cache_committed",
+    "jvm.non_heap_memory.code_cache_max"
+  )
 
   lazy val minorGcParams: Set[String] =
     if (System.getProperty("java.version").startsWith("1.8."))
@@ -62,11 +72,6 @@ class JvmMonitoringTest extends munit.FunSuite {
     "jvm.non_heap_memory_committed",
     "jvm.non_heap_memory_init",
     "jvm.non_heap_memory_max",
-/* code cache is not always present and can appear and disappear during runtime
-    "jvm.non_heap_memory.code_cache",
-    "jvm.non_heap_memory.code_cache_committed",
-    "jvm.non_heap_memory.code_cache_max",
-*/
     "jvm.non_heap_memory.metaspace",
     "jvm.non_heap_memory.metaspace_committed",
     "jvm.non_heap_memory.metaspace_max",
