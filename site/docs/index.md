@@ -8,7 +8,7 @@ Toolkit for monitoring applications written in functional Scala using Datadog.
 
 Goal of this project is to make great monitoring as easy as possible. 
 
-In addition to basic monitoring utilities, we also provide bunch of p¡¡lug-and-play modules that do monitoring for you. Currently those are:
+In addition to basic monitoring utilities, we also provide bunch of plug-and-play modules that do monitoring for you. Currently, those are:
 -   JVM monitoring
 -   Http4s monitoring
 
@@ -31,8 +31,8 @@ Or pick and choose from the available packages:
 | `"com.avast.cloud" %% "datadog4s-jvm" % "@VERSION@"`    | support for monitoring JVM itself                 |
 | `"com.avast.cloud" %% "datadog4s-http4s" % "@VERSION@"` | monitoring support for [http4s][http4s] framework |
 
-## Comaptibility
-Datadog4s is currently released for both scala 2.12 and scala 2.13. It is using following versions of libraries:
+## Compatibility
+Datadog4s is currently released for following combinations of scala/cats versions:
 
 |   library   |      2.12 version       |      2.13 version       | @SCALA_3_VERSION@ version |
 | ----------- | ----------------------- | ----------------------- | ------------------------- |
@@ -42,4 +42,4 @@ Datadog4s is currently released for both scala 2.12 and scala 2.13. It is using 
 
 # User guide
 
-For documentation, please read our [user guide](userguide.html).
+For the documentation, please read our [user guide](userguide.html).
