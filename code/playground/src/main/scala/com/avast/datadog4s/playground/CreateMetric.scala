@@ -22,8 +22,8 @@ object CreateMetric extends IOApp {
     val l = scala.util.Random.nextInt(100)
     import scala.concurrent.duration._
     val p = for {
-      _ <- hist.record(l)
-      _ <- dist.record(l)
+      _ <- hist.record(l.toLong)
+      _ <- dist.record(l.toLong)
       _ <- IO.sleep(100.milli)
     } yield ()
     p.flatMap(_ => loop(hist, dist))
