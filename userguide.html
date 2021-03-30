@@ -31,13 +31,14 @@
 <h3 id="installation">Installation</h3>
 <p>To start monitoring your code, first you need to add this library as a dependency to your project. This project is composed of multiple packages to make it easy for you to pick and choose what you require.</p>
 
-<p>You need to add <code class="highlighter-rouge">datadog4s-api</code> which contains classes defining our API. You also need to add it’s implementation. Currently we only support metric delivery using StatsD in package <code class="highlighter-rouge">datadog4s</code> which already contains <code class="highlighter-rouge">api</code>. We are going to assume you are using <code class="highlighter-rouge">sbt</code>:</p>
+<p>You need to add <code class="highlighter-rouge">datadog4s-api</code> which contains classes defining our API. You also need to add its implementation. Currently, we only support metric delivery using StatsD in package <code class="highlighter-rouge">datadog4s</code> which already contains <code class="highlighter-rouge">api</code>. We are going to assume you are using <code class="highlighter-rouge">sbt</code>:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.avast.cloud"</span> <span class="o">%%</span> <span class="s">"datadog4s-api"</span> <span class="o">%</span> <span class="s">"0.11.2"</span>
+<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.avast.cloud"</span> <span class="o">%%</span> <span class="s">"datadog4s-statsd"</span> <span class="o">%</span> <span class="s">"0.11.2"</span>
 </code></pre></div></div>
 
 <h3 id="creating-metric-factory">Creating metric factory</h3>
-<p>To start creating your metrics, first you need to create a <code class="highlighter-rouge">MetricFactory[F[_]]</code>. Currently the only implementation is in <code class="highlighter-rouge">statsd</code> package. MetricFactory is purely functional so it requires you to provide type constructor which implements <code class="highlighter-rouge">cats.effect.Sync</code>. For the simplicity, we will use <code class="highlighter-rouge">cats.effect.IO</code> in these examples.</p>
+<p>To start creating your metrics, first you need to create a <code class="highlighter-rouge">MetricFactory[F[_]]</code>. Currently, the only implementation is in <code class="highlighter-rouge">statsd</code> package. MetricFactory is purely functional, so it requires you to provide type constructor which implements <code class="highlighter-rouge">cats.effect.Sync</code>. For the simplicity, we will use <code class="highlighter-rouge">cats.effect.IO</code> in these examples.</p>
 
 <p>To create an instance, we need to provide it with configuration which contains a few basic fields, like address of the StatsD server, prefix etc. For more information see scaladoc of the config class.</p>
 
@@ -56,26 +57,38 @@
 </code></pre></div></div>
 
 <h3 id="creating-metrics">Creating metrics</h3>
-<p>Once you have a metrics factory, creating metrics is straight forward.</p>
+<p>Once you have a metrics factory, creating metrics is straight-forward. Note that all metric operations return side-effecting actions.</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">factoryResource</span><span class="o">.</span><span class="py">use</span> <span class="o">{</span> <span class="n">factory</span> <span class="k">=&gt;</span>
     <span class="k">val</span> <span class="nv">count</span><span class="k">:</span> <span class="kt">Count</span><span class="o">[</span><span class="kt">IO</span><span class="o">]</span> <span class="k">=</span> <span class="nv">factory</span><span class="o">.</span><span class="py">count</span><span class="o">(</span><span class="s">"hits"</span><span class="o">)</span>
-    <span class="nv">count</span><span class="o">.</span><span class="py">inc</span><span class="o">()</span> <span class="c1">// increase count by one</span>
-
     <span class="k">val</span> <span class="nv">histogram</span><span class="k">:</span> <span class="kt">Histogram</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">Long</span><span class="o">]</span> <span class="k">=</span> <span class="nv">factory</span><span class="o">.</span><span class="py">histogram</span><span class="o">.</span><span class="py">long</span><span class="o">(</span><span class="s">"my-histogram"</span><span class="o">)</span>
-    <span class="nv">histogram</span><span class="o">.</span><span class="py">record</span><span class="o">(</span><span class="mi">1337</span><span class="o">,</span> <span class="nv">Tag</span><span class="o">.</span><span class="py">of</span><span class="o">(</span><span class="s">"username"</span><span class="o">,</span> <span class="s">"xyz"</span><span class="o">))</span> <span class="c1">// record a value to histogram with Tag</span>
+    <span class="k">for</span> <span class="o">{</span>
+        <span class="k">_</span> <span class="k">&lt;-</span>  <span class="nv">count</span><span class="o">.</span><span class="py">inc</span><span class="o">()</span> <span class="c1">// increase count by one</span>
+        <span class="k">_</span> <span class="k">&lt;-</span> <span class="nv">histogram</span><span class="o">.</span><span class="py">record</span><span class="o">(</span><span class="mi">1337</span><span class="o">,</span> <span class="nv">Tag</span><span class="o">.</span><span class="py">of</span><span class="o">(</span><span class="s">"username"</span><span class="o">,</span> <span class="s">"xyz"</span><span class="o">))</span> <span class="c1">// record a value to histogram with Tag</span>
+    <span class="o">}</span> <span class="k">yield</span> <span class="o">{</span>
+        <span class="o">()</span>
+    <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div></div>
 
 <h3 id="timers">Timers</h3>
-<p>Timers are great. And with our API, they are even better. Because we are living in functional code, we expect you to provide us with <code class="highlighter-rouge">F[_]: Sync</code> and we will time how long execution takes, and tag it with whether it succeeded (and if it failed, which class of exception was thrown).</p>
+<p>In addition to basic datadog metrics, we provide a <code class="highlighter-rouge">Timer[F]</code> abstraction which has proved to be very useful is practice. Timers provide you with <code class="highlighter-rouge">.time[A](fa: F[A]): F[A]</code> method, which will measure how long it took to run provided <code class="highlighter-rouge">fa</code>. In addition, it tags the metric with <code class="highlighter-rouge">success:true</code> or <code class="highlighter-rouge">success:false</code> and <code class="highlighter-rouge">exception:&lt;&lt;throwable class name&gt;&gt;</code> in case the <code class="highlighter-rouge">fa</code> failed.</p>
+
+<h4 id="histogram-vs-distribution">Histogram vs Distribution</h4>
+<p>There are two versions of timers, one backed by <code class="highlighter-rouge">Histogram</code> and one backed by <code class="highlighter-rouge">Distribution</code>. You can read scaladoc for more details and links to datadog documentation.</p>
+
+<p>Long story short, <code class="highlighter-rouge">histogram</code> backed timers are aggregated per datadog agent, while the <code class="highlighter-rouge">distributions</code> are computed on datadog server. The implications are that <code class="highlighter-rouge">distribution</code> based timers, and it’s buckets (50th, 75th, 95th percentile etc) are more correct and in general it’s the implementation that we’d suggest to use.</p>
+
+<h4 id="example">Example</h4>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="nv">factoryResource</span><span class="o">.</span><span class="py">use</span> <span class="o">{</span> <span class="n">factory</span> <span class="k">=&gt;</span>
-    <span class="k">val</span> <span class="nv">timer</span> <span class="k">=</span> <span class="nv">factory</span><span class="o">.</span><span class="py">timer</span><span class="o">.</span><span class="py">histogram</span><span class="o">(</span><span class="s">"request-latency"</span><span class="o">)</span>
 
-    <span class="nv">timer</span><span class="o">.</span><span class="py">time</span><span class="o">(</span><span class="nv">IO</span><span class="o">.</span><span class="py">pure</span><span class="o">(</span><span class="nf">println</span><span class="o">(</span><span class="s">"success"</span><span class="o">)))</span> <span class="c1">// tagged as success</span>
-    <span class="nv">timer</span><span class="o">.</span><span class="py">time</span><span class="o">(</span><span class="nv">IO</span><span class="o">.</span><span class="py">raiseError</span><span class="o">(</span><span class="k">new</span> <span class="nc">Exception</span><span class="o">(</span><span class="s">"error"</span><span class="o">)))</span> <span class="c1">//tagged as failure</span>
+
+<span class="nv">factoryResource</span><span class="o">.</span><span class="py">use</span> <span class="o">{</span> <span class="n">factory</span> <span class="k">=&gt;</span>
+    <span class="k">val</span> <span class="nv">timer</span> <span class="k">=</span> <span class="nv">factory</span><span class="o">.</span><span class="py">timer</span><span class="o">.</span><span class="py">distribution</span><span class="o">(</span><span class="s">"request-latency"</span><span class="o">)</span>
+
+    <span class="nv">timer</span><span class="o">.</span><span class="py">time</span><span class="o">(</span><span class="nv">IO</span><span class="o">.</span><span class="py">delay</span><span class="o">(</span><span class="nf">println</span><span class="o">(</span><span class="s">"success"</span><span class="o">)))</span> <span class="c1">// tagged with success:true</span>
+    <span class="nv">timer</span><span class="o">.</span><span class="py">time</span><span class="o">(</span><span class="nv">IO</span><span class="o">.</span><span class="py">raiseError</span><span class="o">(</span><span class="k">new</span> <span class="nc">NullPointerException</span><span class="o">(</span><span class="s">"error"</span><span class="o">)))</span> <span class="c1">// tagged with success:false and exception:NullPointerException</span>
 <span class="o">}</span>
 </code></pre></div></div>
 
@@ -86,7 +99,7 @@
 <span class="nv">Tag</span><span class="o">.</span><span class="py">of</span><span class="o">(</span><span class="s">"endpoint"</span><span class="o">,</span> <span class="s">"admin/login"</span><span class="o">)</span>
 <span class="c1">// res2: Tag = "endpoint:admin/login"</span>
 </code></pre></div></div>
-<p>This is simple and straight-forward, but in some cases it leaves your code with <code class="highlighter-rouge">Tag</code> keys scattered around in your code and forces you to repeat it - making it prone to misspells etc. The better way is to use <code class="highlighter-rouge">Tagger</code>.</p>
+<p>This is simple and straight-forward, but in some cases it leaves your code with <code class="highlighter-rouge">Tag</code> keys scattered around and forces you to repeat it - making it prone to misspells etc. The better way is to use <code class="highlighter-rouge">Tagger</code>.</p>
 
 <h4 id="tagger">Tagger</h4>
 <p><code class="highlighter-rouge">Tagger[T]</code> is basically a factory interface for creating tags based on provided value of type <code class="highlighter-rouge">T</code> - as long as implicit <code class="highlighter-rouge">TagValue[T]</code> exists in scope. This instance is used for converting <code class="highlighter-rouge">T</code> into <code class="highlighter-rouge">String</code>. By using <code class="highlighter-rouge">Tagger</code>, you get a single value that you can use in multiple places in your code to create <code class="highlighter-rouge">Tag</code>s without repeating yourself.</p>
@@ -94,22 +107,25 @@
 <p>Example:</p>
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.avast.datadog4s.api.tag.</span><span class="o">{</span><span class="nc">TagValue</span><span class="o">,</span> <span class="nc">Tagger</span><span class="o">}</span>
 
-<span class="k">case</span> <span class="k">class</span> <span class="nc">StatusCode</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pathTagger</span><span class="k">:</span> <span class="kt">Tagger</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nv">Tagger</span><span class="o">.</span><span class="py">make</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"path"</span><span class="o">)</span>
+<span class="c1">// pathTagger: Tagger[String] = com.avast.datadog4s.api.tag.Tagger$$anon$1@46bab726</span>
+<span class="nf">assert</span><span class="o">(</span><span class="nv">Tag</span><span class="o">.</span><span class="py">of</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"admin/login"</span><span class="o">)</span> <span class="o">==</span> <span class="nv">pathTagger</span><span class="o">.</span><span class="py">tag</span><span class="o">(</span><span class="s">"admin/login"</span><span class="o">))</span>
+
+<span class="c1">// tagger also supports taging using custom types using TagValue typeclass</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">StatusCode</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>  
 
 <span class="k">implicit</span> <span class="k">val</span> <span class="nv">statusCodeTagValue</span><span class="k">:</span> <span class="kt">TagValue</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">]</span> <span class="k">=</span> <span class="nc">TagValue</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="py">contramap</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">](</span><span class="n">sc</span> <span class="k">=&gt;</span> <span class="nv">sc</span><span class="o">.</span><span class="py">value</span><span class="o">)</span>
-<span class="c1">// statusCodeTagValue: TagValue[StatusCode] = com.avast.datadog4s.api.tag.TagValue$$anonfun$contramap$2@5553ecfc</span>
+<span class="c1">// statusCodeTagValue: TagValue[StatusCode] = com.avast.datadog4s.api.tag.TagValue$$anonfun$contramap$2@74836fec</span>
 
-<span class="k">val</span> <span class="nv">pathTagger</span><span class="k">:</span> <span class="kt">Tagger</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nv">Tagger</span><span class="o">.</span><span class="py">make</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"path"</span><span class="o">)</span>
-<span class="c1">// pathTagger: Tagger[String] = com.avast.datadog4s.api.tag.Tagger$$anon$1@7e496df7</span>
 <span class="k">val</span> <span class="nv">statusCodeTagger</span><span class="k">:</span> <span class="kt">Tagger</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">]</span> <span class="k">=</span> <span class="nv">Tagger</span><span class="o">.</span><span class="py">make</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">](</span><span class="s">"statusCode"</span><span class="o">)</span>
-<span class="c1">// statusCodeTagger: Tagger[StatusCode] = com.avast.datadog4s.api.tag.Tagger$$anon$1@3ac82ec7</span>
+<span class="c1">// statusCodeTagger: Tagger[StatusCode] = com.avast.datadog4s.api.tag.Tagger$$anon$1@4f9f7709</span>
 
-<span class="nf">assert</span><span class="o">(</span><span class="nv">Tag</span><span class="o">.</span><span class="py">of</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"admin/login"</span><span class="o">)</span> <span class="o">==</span> <span class="nv">pathTagger</span><span class="o">.</span><span class="py">tag</span><span class="o">(</span><span class="s">"admin/login"</span><span class="o">))</span>
 <span class="nf">assert</span><span class="o">(</span><span class="nv">Tag</span><span class="o">.</span><span class="py">of</span><span class="o">(</span><span class="s">"statusCode"</span><span class="o">,</span> <span class="s">"200"</span><span class="o">)</span> <span class="o">==</span> <span class="nv">statusCodeTagger</span><span class="o">.</span><span class="py">tag</span><span class="o">(</span><span class="nc">StatusCode</span><span class="o">(</span><span class="mi">200</span><span class="o">)))</span>
 </code></pre></div></div>
 
 <h2 id="extensions">Extensions</h2>
-<p>Extensions are packages that monitor some functionality for you - without you having to do anything.</p>
+<p>Extensions are packages that monitor some functionality for you - without you having to do much.</p>
 
 <h3 id="http4s">Http4s</h3>
 <p>Http4s package (<code class="highlighter-rouge">datadog4s-http4s</code>) provides implementation of <a href="metrics-ops">MetricsOps</a> that is used by <a href="http4s">http4s</a> to report both client and server metrics.</p>
@@ -117,15 +133,19 @@
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.avast.datadog4s.extension.http4s._</span>
 
 <span class="nv">factoryResource</span><span class="o">.</span><span class="py">use</span> <span class="o">{</span> <span class="n">metricFactory</span> <span class="k">=&gt;</span>
-    <span class="k">val</span> <span class="nv">_</span> <span class="k">=</span> <span class="nv">DatadogMetricsOps</span><span class="o">.</span><span class="py">builder</span><span class="o">[</span><span class="kt">IO</span><span class="o">](</span><span class="n">metricFactory</span><span class="o">).</span><span class="py">build</span><span class="o">()</span> <span class="c1">// create metrics factory and use it as you please</span>
-    <span class="nv">IO</span><span class="o">.</span><span class="py">pure</span><span class="o">(())</span>
+    <span class="c1">// create metrics factory and use it as you please</span>
+    <span class="nv">DatadogMetricsOps</span><span class="o">.</span><span class="py">builder</span><span class="o">[</span><span class="kt">IO</span><span class="o">](</span><span class="n">metricFactory</span><span class="o">).</span><span class="py">build</span><span class="o">().</span><span class="py">flatMap</span> <span class="o">{</span> <span class="n">metricOps</span> <span class="k">=&gt;</span>
+      <span class="c1">// setup http4s Metrics middleware here</span>
+      <span class="k">val</span> <span class="nv">_</span> <span class="k">=</span> <span class="n">metricOps</span>
+      <span class="nv">IO</span><span class="o">.</span><span class="py">unit</span>
+    <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div></div>
 
 <h3 id="jvm-monitoring">Jvm monitoring</h3>
-<p>JVM monitoring package (<code class="highlighter-rouge">datadog4s-jvm</code>) collects bunch of JVM metrics that we found useful over last 5 or so years running JVM apps in Avast. Those metrics can be found in <a href="../jvm/src/main/scala/com/avast/datadog4s/extension/jvm/JvmReporter.scala">JvmReporter</a> and are hopefully self explenatory.</p>
+<p>JVM monitoring package (<code class="highlighter-rouge">datadog4s-jvm</code>) collects a bunch of JVM metrics that we found useful over last 5 or so years running JVM apps in Avast. Those metrics can be found in <a href="https://github.com/avast/datadog4s/blob/master/code/jvm/src/main/scala/com/avast/datadog4s/extension/jvm/JvmReporter.scala">JvmReporter</a> and are hopefully self-explanatory. We tried to match reported metrics to <a href="https://docs.datadoghq.com/tracing/runtime_metrics/java/">datadog JVM runtime metrics</a></p>
 
-<p>Usage can not be simpler (unless you want to configure things like collection-frequency etc.). Simply add following to your initialization code. Resource is returned, because <code class="highlighter-rouge">Scheduler</code> has to be created which does the actual metric collection.</p>
+<p>Usage can not be simpler (unless you want to configure things like collection-frequency etc.). Simply add following to your initialization code. Resource is returned, because a fiber is started in the background and has to be terminated eventually.</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.avast.datadog4s.extension.jvm._</span>
 <span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext</span>
@@ -134,11 +154,13 @@
 <span class="k">implicit</span> <span class="k">val</span> <span class="nv">contextShift</span> <span class="k">=</span> <span class="nv">IO</span><span class="o">.</span><span class="py">contextShift</span><span class="o">(</span><span class="n">ec</span><span class="o">)</span>
 <span class="k">implicit</span> <span class="k">val</span> <span class="nv">timer</span> <span class="k">=</span> <span class="nv">IO</span><span class="o">.</span><span class="py">timer</span><span class="o">(</span><span class="n">ec</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">jvmMonitoring</span><span class="k">:</span> <span class="kt">Resource</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">Unit</span><span class="o">]</span> <span class="k">=</span> <span class="nv">factoryResource</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="n">factory</span> <span class="k">=&gt;</span> <span class="nv">JvmMonitoring</span><span class="o">.</span><span class="py">default</span><span class="o">[</span><span class="kt">IO</span><span class="o">](</span><span class="n">factory</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">jvmMonitoring</span><span class="k">:</span> <span class="kt">Resource</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">Unit</span><span class="o">]</span> <span class="k">=</span> <span class="nv">factoryResource</span><span class="o">.</span><span class="py">flatMap</span> <span class="o">{</span>
+  <span class="n">factory</span> <span class="k">=&gt;</span> <span class="nv">JvmMonitoring</span><span class="o">.</span><span class="py">default</span><span class="o">[</span><span class="kt">IO</span><span class="o">](</span><span class="n">factory</span><span class="o">)</span>
+<span class="o">}</span>
 
 <span class="nv">jvmMonitoring</span><span class="o">.</span><span class="py">use</span> <span class="o">{</span> <span class="k">_</span> <span class="k">=&gt;</span> 
     <span class="c1">// your application is in here</span>
-    <span class="nv">IO</span><span class="o">.</span><span class="py">pure</span><span class="o">(())</span>
+    <span class="nv">IO</span><span class="o">.</span><span class="py">unit</span>
 <span class="o">}</span>
 </code></pre></div></div>
 
