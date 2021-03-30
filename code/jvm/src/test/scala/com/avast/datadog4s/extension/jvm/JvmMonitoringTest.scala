@@ -62,9 +62,11 @@ class JvmMonitoringTest extends munit.FunSuite {
     "jvm.non_heap_memory_committed",
     "jvm.non_heap_memory_init",
     "jvm.non_heap_memory_max",
+/* code cache is not always present and can appear and disappear during runtime
     "jvm.non_heap_memory.code_cache",
     "jvm.non_heap_memory.code_cache_committed",
     "jvm.non_heap_memory.code_cache_max",
+*/
     "jvm.non_heap_memory.metaspace",
     "jvm.non_heap_memory.metaspace_committed",
     "jvm.non_heap_memory.metaspace_max",
