@@ -37,7 +37,7 @@ object GithubActions {
 
     private val rubyCache: WorkflowStep = WorkflowStep.Use(
       UseRef.Public("actions", "cache", "v1"),
-      env = Map(
+      params = Map(
         "path"         -> "vendor/bundle",
         "key"          -> "${{ runner.os }}-gems",
         "restore-keys" -> "${{ runner.os }}-gems"
