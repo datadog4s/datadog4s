@@ -15,7 +15,8 @@ on:
     tags: [v*]
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  JAVA_OPTS: '-Dsbt.boot.lock=false'
+  JVM_OPTS: '-Dsbt.boot.lock=false'
 
 jobs:
   build:
