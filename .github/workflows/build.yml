@@ -12,59 +12,91 @@ on:
 jobs:
   build:
     timeout-minutes: 10
-    runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
       matrix:
-        java: ['1.8.0', '11.0.x', '13.0.x']
-        scala: ['2.12.10']
+        os: [ubuntu-latest]
+        scala: [2.12.12, 2.13.5, 3.0.0-RC1]
+        java: [adopt@1.8, adopt@1.11, adopt@1.13]
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Debug info
       run: echo ref:${{github.ref}}
-    - uses: actions/checkout@v2
-    - name: Set up JDK ${{ matrix.java }}
-      uses: actions/setup-java@v1
+    - name: Checkout current branch (full)
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Setup Java and Scala
+      uses: olafurpg/setup-scala@v10
       with:
         java-version: ${{ matrix.java }}
-    - uses: coursier/cache-action@v5
+    - name: Cache sbt
+      uses: actions/cache@v2
       with:
-        extraKey: scala-${{ matrix.scala }}
-    - name: Compile & Test
-      run: sbt checkAll
-#    - name: Codecov report
-#      if: ${{matrix.java}} == '11.0.x'
-#      uses: codecov/codecov-action@v1
-#      with:
-#        token: ${{secrets.CODECOV_TOKEN}}     
+        path: |
+          ~/.sbt
+          ~/.ivy2/cache
+          ~/.coursier/cache/v1
+          ~/.cache/coursier/v1
+          ~/AppData/Local/Coursier/Cache/v1
+          ~/Library/Caches/Coursier/v1
+        key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
+
+      - name: Compress target directories
+        run: tar cf targets.tar code/*/target project/target
+      - name: Upload target directories
+        uses: actions/upload-artifact@v2
+        with:
+          name: target-${{ matrix.os }}-${{ matrix.scala }}-${{ matrix.java }}
+          path: targets.tar
   publish:
     timeout-minutes: 30
     if: github.ref == 'refs/heads/master' || contains(github.ref, 'refs/tags/v' )
     needs: [build]
-    runs-on: [ubuntu-latest]
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        scala: [2.12.12]
+        java: [adopt@1.8]
+    runs-on: ${{ matrix.os }}
     steps:
-    - name: Debug info
-      run: echo ref:${{github.ref}}
-    - uses: actions/checkout@v2
-    - run: git fetch --tags -f --unshallow
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - name: Checkout current branch (full)
+      uses: actions/checkout@v2
       with:
-        java-version: '1.8.0'
-    - uses: coursier/cache-action@v5
+        fetch-depth: 0
+
+    - name: Setup Java and Scala
+      uses: olafurpg/setup-scala@v10
       with:
-        extraKey: scala-${{ matrix.scala }}
-    - name: Compile & Test
-      run: sbt checkAll
-#    - name: Run binary compatiblity check ## disabled to avoid issues with dotty build missing
-#      if: contains(github.ref, 'refs/tags/v') && !endsWith(github.ref, '.0')
-#      run: sbt +mimaReportBinaryIssues
+        java-version: ${{ matrix.java }}
+
+    - name: Cache sbt
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.sbt
+          ~/.ivy2/cache
+          ~/.coursier/cache/v1
+          ~/.cache/coursier/v1
+          ~/AppData/Local/Coursier/Cache/v1
+          ~/Library/Caches/Coursier/v1
+        key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
+
+    - name: Download target directories ${{ matrix.scala }}
+      uses: actions/download-artifact@v2
+      with:
+        name: target-${{ matrix.os }}-${{ matrix.scala }}-${{ matrix.java }}
+
+    - name: Inflate target directories ${{ matrix.scala }}
+      run: |
+        tar xf targets.tar
+        rm targets.tar
     - name: Release
       env:
         PGP_SECRET: ${{ secrets.PGP_SECRET }}
         PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
         SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
         SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSPHRASE }}
-      run: sbt ci-release
+      run: sbt ++${{ matrix.scala }} ci-release
     - name: Release Drafter
       uses: release-drafter/release-drafter@v5.6.1
       env:
