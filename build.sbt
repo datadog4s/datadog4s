@@ -48,7 +48,7 @@ lazy val global = project
   .settings(name := "datadog4s")
   .settings(commonSettings)
   .settings(scalaSettings)
-  .aggregate(api, statsd, http4s, jvm, site, common)
+  .aggregate(api, statsd, http4s, jvm, site, common, playground)
   .dependsOn(api, statsd, http4s, jvm)
   .disablePlugins(MimaPlugin)
 
@@ -106,9 +106,14 @@ lazy val jvm        = project
   )
   .dependsOn(api, common % "compile->compile;test->test")
 
-lazy val playground = (project in file("code/playground"))
+lazy val playground = project
+  .in(file("code/playground"))
+  .settings(
+    name := "datadog4s-playground",
+    commonSettings,
+    scalaSettings
+  )
   .dependsOn(statsd)
-  .settings(publish / skip := true, name := "datadog4s-playground", commonSettings, scalaSettings)
 
 lazy val site = (project in file("site"))
   .settings(scalaSettings)
