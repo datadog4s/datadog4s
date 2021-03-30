@@ -8,6 +8,7 @@ ThisBuild / githubWorkflowPublish := Seq(WorkflowStep.Sbt(List("ci-release")))
 ThisBuild / githubWorkflowJavaVersions := GithubActions.javaVersions
 ThisBuild / githubWorkflowPublishPostamble := GithubActions.postPublish
 ThisBuild / crossScalaVersions := supportedScalaVersions
+ThisBuild / githubWorkflowTargetBranches := Seq("master")
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala213,
