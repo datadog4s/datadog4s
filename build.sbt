@@ -9,7 +9,6 @@ ThisBuild / githubWorkflowJavaVersions := GithubActions.javaVersions
 ThisBuild / githubWorkflowPublishPostamble := GithubActions.postPublish
 ThisBuild / crossScalaVersions := supportedScalaVersions
 ThisBuild / githubWorkflowEnv := Map("JAVA_OPTS" -> "-Dsbt.boot.lock=false", "JVM_OPTS" -> "-Dsbt.boot.lock=false")
-ThisBuild / githubWorkflowTargetBranches := Seq("master")
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala213,
