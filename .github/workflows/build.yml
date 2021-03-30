@@ -11,6 +11,9 @@ on:
       - '*'
 jobs:
   build:
+    env:
+      JAVA_OPTS: -Dsbt.boot.lock=false
+      JVM_OPTS: -Dsbt.boot.lock=false
     timeout-minutes: 10
     strategy:
       matrix:
