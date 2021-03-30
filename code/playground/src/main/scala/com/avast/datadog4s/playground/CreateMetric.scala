@@ -19,7 +19,7 @@ object CreateMetric extends IOApp {
         } yield ExitCode.Success
       }
   def loop(hist: Histogram[IO, Long], dist: Distribution[IO, Long]): IO[Unit] = {
-    val l = scala.util.Random.nextLong(100)
+    val l = scala.util.Random.nextInt(100)
     import scala.concurrent.duration._
     val p = for {
       _ <- hist.record(l)
