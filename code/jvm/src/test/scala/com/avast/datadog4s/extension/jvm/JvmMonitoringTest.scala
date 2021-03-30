@@ -27,7 +27,7 @@ class JvmMonitoringTest extends munit.FunSuite {
       runTest >> inmemory.state.get
     }
     val result     = testEffect.unsafeRunSync()
-    val observedAspects = result.keySet.removedAll(unreliableAspects).toList.sorted
+    val observedAspects = (result.keySet -- unreliableAspects).toList.sorted
     assertEquals(observedAspects, expectedAspects.toList.sorted)
     result.values.foreach { vector =>
       vector.groupBy(_.tags).foreach { case (_, records) =>
