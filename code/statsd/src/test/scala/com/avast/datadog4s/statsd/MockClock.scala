@@ -2,10 +2,7 @@ package com.avast.datadog4s.statsd
 
 import cats.Applicative
 import cats.effect.unsafe.IORuntime
-
-import java.util.concurrent.TimeUnit
-import cats.effect.{Clock, IO, Ref}
-import cats.implicits.catsSyntaxFlatMapOps
+import cats.effect.{ Clock, IO, Ref }
 
 import scala.concurrent.duration._
 

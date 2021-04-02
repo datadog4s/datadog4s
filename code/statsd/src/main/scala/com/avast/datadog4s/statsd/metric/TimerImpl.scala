@@ -1,6 +1,6 @@
 package com.avast.datadog4s.statsd.metric
 
-import cats.effect.{Clock, Sync}
+import cats.effect.{ Clock, Sync }
 import cats.syntax.flatMap._
 import cats.syntax.functor._
 import com.avast.datadog4s.api.Tag
@@ -27,13 +27,14 @@ abstract class TimerImpl[F[_]: Sync](
       _     <- record(Duration.ofNanos(stop.minus(start).toNanos), (tags :+ succeededTag): _*)
     } yield a
 
-  private def measureFailed[A](startTime: FiniteDuration, tags: Tag*): PartialFunction[Throwable, F[A]] = { case thr: Throwable =>
-    val finalTags   = tags :+ exceptionTagger.tag(thr) :+ failedTag
-    val computation = for {
-      stop <- clock.monotonic
-      _    <- record(Duration.ofNanos(stop.minus(startTime).toNanos), finalTags: _*)
-    } yield ()
-    computation >> F.raiseError[A](thr)
+  private def measureFailed[A](startTime: FiniteDuration, tags: Tag*): PartialFunction[Throwable, F[A]] = {
+    case thr: Throwable =>
+      val finalTags   = tags :+ exceptionTagger.tag(thr) :+ failedTag
+      val computation = for {
+        stop <- clock.monotonic
+        _    <- record(Duration.ofNanos(stop.minus(startTime).toNanos), finalTags: _*)
+      } yield ()
+      computation >> F.raiseError[A](thr)
   }
 
 }

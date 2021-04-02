@@ -1,11 +1,9 @@
 package com.avast.cloud.datadog4s.helpers
 
-import java.time.Duration
-import cats.effect.kernel.Temporal
-import cats.effect.{Deferred, IO, Ref}
-import cats.syntax.flatMap._
+import cats.effect.{ Deferred, IO, Ref }
 import org.slf4j.LoggerFactory
 
+import java.time.Duration
 import scala.concurrent.duration._
 import scala.language.postfixOps
 

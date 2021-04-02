@@ -1,15 +1,15 @@
 package com.avast.datadog4s.extension.http4s.impl
 
 import java.time.Duration
-import cats.effect.{Ref, Sync}
+import cats.effect.{ Ref, Sync }
 import cats.syntax.flatMap._
 import com.avast.datadog4s.api.MetricFactory
 import com.avast.datadog4s.api.metric.Timer
 import com.avast.datadog4s.api.tag.Tagger
 import com.avast.datadog4s.extension.http4s.DatadogMetricsOps.ClassifierTags
 import com.avast.datadog4s.extension.http4s._
-import org.http4s.metrics.{MetricsOps, TerminationType}
-import org.http4s.{Method, Status}
+import org.http4s.metrics.{ MetricsOps, TerminationType }
+import org.http4s.{ Method, Status }
 
 private[http4s] class DefaultMetricsOps[F[_]](
   metricFactory: MetricFactory[F],

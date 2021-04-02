@@ -2,8 +2,8 @@ import BuildSupport.ScalaVersions._
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala213,
-  scalacOptions ++= { if (isDotty.value) Seq("-source:3.0-migration") else Nil },
   crossScalaVersions := supportedScalaVersions,
+  scalacOptions ++= { if (isDotty.value) Seq("-source:3.0-migration") else Nil },
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet,
   libraryDependencies += (Dependencies.Testing.munit % Test),
   testFrameworks += new TestFramework("munit.Framework"),
@@ -38,7 +38,7 @@ lazy val global = project
   .settings(name := "datadog4s")
   .settings(commonSettings)
   .settings(scalaSettings)
-  .aggregate(api, statsd, http4s, jvm, site, common)
+  .aggregate(api, statsd, http4s, jvm, site, common, playground)
   .dependsOn(api, statsd, http4s, jvm)
   .disablePlugins(MimaPlugin)
 
@@ -96,9 +96,14 @@ lazy val jvm        = project
   )
   .dependsOn(api, common % "compile->compile;test->test")
 
-lazy val playground = (project in file("code/playground"))
+lazy val playground = project
+  .in(file("code/playground"))
+  .settings(
+    name := "datadog4s-playground",
+    commonSettings,
+    scalaSettings
+  )
   .dependsOn(statsd)
-  .settings(publish / skip := true, name := "datadog4s-playground", commonSettings, scalaSettings)
 
 lazy val site = (project in file("site"))
   .settings(scalaSettings)

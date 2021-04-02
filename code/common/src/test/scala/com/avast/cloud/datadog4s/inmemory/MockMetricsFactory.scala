@@ -1,11 +1,12 @@
 package com.avast.cloud.datadog4s.inmemory
 
-import java.time.Duration
-import cats.effect.{IO, Ref, Sync}
+import cats.effect.{ Ref, Sync }
 import cats.syntax.flatMap._
 import cats.syntax.functor._
 import com.avast.datadog4s.api.metric._
-import com.avast.datadog4s.api.{DistributionFactory, GaugeFactory, HistogramFactory, MetricFactory, Tag, TimerFactory}
+import com.avast.datadog4s.api._
+
+import java.time.Duration
 
 class MockMetricsFactory[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record[Any]]]]) extends MetricFactory[F] {
 
@@ -96,5 +97,7 @@ class MockMetricsFactory[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record
 object MockMetricsFactory {
 
   def make[F[_]: Sync]: F[MockMetricsFactory[F]] =
-    Ref.of[F, Map[String, Vector[Record[Any]]]](Map.empty[String, Vector[Record[Any]]]).map(state => new MockMetricsFactory[F](state))
+    Ref
+      .of[F, Map[String, Vector[Record[Any]]]](Map.empty[String, Vector[Record[Any]]])
+      .map(state => new MockMetricsFactory[F](state))
 }
