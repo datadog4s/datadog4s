@@ -125,7 +125,7 @@ Extensions are packages that monitor some functionality for you - without you ha
 ### Http4s
 Http4s package (`datadog4s-http4s`) provides implementation of [MetricsOps](metrics-ops) that is used by [http4s](http4s) to report both client and server metrics.
 
-```scala mdoc:silent
+```scala
 import com.avast.datadog4s.extension.http4s._
 
 factoryResource.use { metricFactory =>
@@ -148,8 +148,6 @@ import com.avast.datadog4s.extension.jvm._
 import scala.concurrent.ExecutionContext
 
 implicit val ec = ExecutionContext.global // please don't use global EC in production
-implicit val contextShift = IO.contextShift(ec)
-implicit val timer = IO.timer(ec)
 
 val jvmMonitoring: Resource[IO, Unit] = factoryResource.flatMap {
   factory => JvmMonitoring.default[IO](factory)
