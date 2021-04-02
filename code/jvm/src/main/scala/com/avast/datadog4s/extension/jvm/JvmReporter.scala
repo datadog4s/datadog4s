@@ -156,24 +156,26 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
     }
   }
 
-  protected[jvm] val getBuffersIO          = Traverse[Vector].sequence(buffers)
-  protected[jvm] val getGcIO               = Traverse[Vector].sequence(gc)
-  protected[jvm] val getCpuLoadIO          = protect(osBean)(bean => wrapUnsafe(cpuLoad)(bean.getProcessCpuLoad))
-  protected[jvm] val getCpuTimeIO          = protect(osBean)(bean => wrapUnsafe(cpuTime)(bean.getProcessCpuTime))
-  protected[jvm] val getOpenFDsCountIO     = protect(unixBean)(bean => wrapUnsafe(openFds)(bean.getOpenFileDescriptorCount))
-  protected[jvm] val getHeapUsedIO         = wrapUnsafe(heapUsed)(memoryBean.getHeapMemoryUsage.getUsed)
-  protected[jvm] val getHeapCommittedIO    = wrapUnsafe(heapCommitted)(memoryBean.getHeapMemoryUsage.getCommitted)
-  protected[jvm] val getHeapInitIO         = wrapUnsafe(heapInit)(memoryBean.getHeapMemoryUsage.getInit)
-  protected[jvm] val getHeapMaxIO          = wrapUnsafe(heapMax)(memoryBean.getHeapMemoryUsage.getMax)
-  protected[jvm] val getNonHeapCommittedIO = wrapUnsafe(nonHeapCommitted)(memoryBean.getNonHeapMemoryUsage.getCommitted)
-  protected[jvm] val getNonHeapUsedIO      = wrapUnsafe(nonHeapUsed)(memoryBean.getNonHeapMemoryUsage.getUsed)
-  protected[jvm] val getNonHeapInitIO      = wrapUnsafe(nonHeapInit)(memoryBean.getNonHeapMemoryUsage.getInit)
-  protected[jvm] val getNonHeapMaxIO       = wrapUnsafe(nonHeapMax)(memoryBean.getNonHeapMemoryUsage.getMax)
-  protected[jvm] val getUptimeIO           = wrapUnsafe(uptime)(runtimeBean.getUptime)
-  protected[jvm] val getThreadsTotalIO     = wrapUnsafe(threadsTotal)(threadBean.getThreadCount.toLong)
-  protected[jvm] val getThreadsDaemonIO    = wrapUnsafe(threadsDaemon)(threadBean.getDaemonThreadCount.toLong)
-  protected[jvm] val getThreadsStartedIO   = wrapUnsafe(threadsStarted)(threadBean.getTotalStartedThreadCount)
-  protected[jvm] val getClassesIO          = wrapUnsafe(classes)(classBean.getLoadedClassCount.toLong)
+  protected[jvm] val getBuffersIO: F[Vector[Unit]]  = Traverse[Vector].sequence(buffers)
+  protected[jvm] val getGcIO: F[Vector[Unit]]       = Traverse[Vector].sequence(gc)
+  protected[jvm] val getCpuLoadIO: F[Unit]          = protect(osBean)(bean => wrapUnsafe(cpuLoad)(bean.getProcessCpuLoad))
+  protected[jvm] val getCpuTimeIO: F[Unit]          = protect(osBean)(bean => wrapUnsafe(cpuTime)(bean.getProcessCpuTime))
+  protected[jvm] val getOpenFDsCountIO: F[Unit]     =
+    protect(unixBean)(bean => wrapUnsafe(openFds)(bean.getOpenFileDescriptorCount))
+  protected[jvm] val getHeapUsedIO: F[Unit]         = wrapUnsafe(heapUsed)(memoryBean.getHeapMemoryUsage.getUsed)
+  protected[jvm] val getHeapCommittedIO: F[Unit]    = wrapUnsafe(heapCommitted)(memoryBean.getHeapMemoryUsage.getCommitted)
+  protected[jvm] val getHeapInitIO: F[Unit]         = wrapUnsafe(heapInit)(memoryBean.getHeapMemoryUsage.getInit)
+  protected[jvm] val getHeapMaxIO: F[Unit]          = wrapUnsafe(heapMax)(memoryBean.getHeapMemoryUsage.getMax)
+  protected[jvm] val getNonHeapCommittedIO: F[Unit] =
+    wrapUnsafe(nonHeapCommitted)(memoryBean.getNonHeapMemoryUsage.getCommitted)
+  protected[jvm] val getNonHeapUsedIO: F[Unit]      = wrapUnsafe(nonHeapUsed)(memoryBean.getNonHeapMemoryUsage.getUsed)
+  protected[jvm] val getNonHeapInitIO: F[Unit]      = wrapUnsafe(nonHeapInit)(memoryBean.getNonHeapMemoryUsage.getInit)
+  protected[jvm] val getNonHeapMaxIO: F[Unit]       = wrapUnsafe(nonHeapMax)(memoryBean.getNonHeapMemoryUsage.getMax)
+  protected[jvm] val getUptimeIO: F[Unit]           = wrapUnsafe(uptime)(runtimeBean.getUptime)
+  protected[jvm] val getThreadsTotalIO: F[Unit]     = wrapUnsafe(threadsTotal)(threadBean.getThreadCount.toLong)
+  protected[jvm] val getThreadsDaemonIO: F[Unit]    = wrapUnsafe(threadsDaemon)(threadBean.getDaemonThreadCount.toLong)
+  protected[jvm] val getThreadsStartedIO: F[Unit]   = wrapUnsafe(threadsStarted)(threadBean.getTotalStartedThreadCount)
+  protected[jvm] val getClassesIO: F[Unit]          = wrapUnsafe(classes)(classBean.getLoadedClassCount.toLong)
 
   private def protect[A](fa: F[A])(fu: A => F[Unit]): F[Unit] =
     F.recoverWith(fa.flatMap(fu)) { case _ =>
