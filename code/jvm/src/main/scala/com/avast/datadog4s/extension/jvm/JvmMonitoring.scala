@@ -1,7 +1,7 @@
 package com.avast.datadog4s.extension.jvm
 
 import cats.effect.kernel.Temporal
-import cats.effect.{Resource, Sync}
+import cats.effect.{ Resource, Sync }
 import com.avast.cloud.datadog4s.helpers.Repeated
 import com.avast.datadog4s.api.MetricFactory
 
