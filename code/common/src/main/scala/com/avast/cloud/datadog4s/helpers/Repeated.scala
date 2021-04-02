@@ -1,7 +1,5 @@
 package com.avast.cloud.datadog4s.helpers
 
-import cats.conversions.all.autoWidenFunctor
-
 import java.time.Duration
 import cats.effect.{ Concurrent, Outcome, Resource, Temporal }
 import cats.syntax.applicativeError._
@@ -20,7 +18,7 @@ object Repeated {
    * @param errorHandler handler called when `task fails or during timeout
    * @param task effect that will be run periodically
    */
-  def run[F[_]: Concurrent: Temporal](
+  def run[F[_]: Temporal](
     delay: Duration,
     iterationTimeout: Duration,
     errorHandler: Throwable => F[Unit]
