@@ -49,7 +49,7 @@ lazy val api = project
     name := "datadog4s-api",
     scalaSettings,
     commonSettings,
-    libraryDependencies += Dependencies.Cats.core //.withDottyCompat(scalaVersion.value)
+    libraryDependencies += Dependencies.Cats.core
   )
 
 lazy val common = project
@@ -58,7 +58,7 @@ lazy val common = project
     name := "datadog4s-common",
     scalaSettings,
     commonSettings,
-    libraryDependencies += Dependencies.Cats.effect, //.withDottyCompat(scalaVersion.value),
+    libraryDependencies += Dependencies.Cats.effect,
     libraryDependencies += (Dependencies.Logging.logback % Test)
   )
   .dependsOn(api)
@@ -69,7 +69,7 @@ lazy val statsd = project
     name := "datadog4s-statsd",
     scalaSettings,
     commonSettings,
-    libraryDependencies += Dependencies.Cats.effect, //.withDottyCompat(scalaVersion.value),
+    libraryDependencies += Dependencies.Cats.effect,
     libraryDependencies += Dependencies.Datadog.statsDClient,
     libraryDependencies += Dependencies.ScalaModules.collectionCompat
   )
@@ -92,7 +92,7 @@ lazy val jvm = project
     name := "datadog4s-jvm",
     scalaSettings,
     commonSettings,
-    libraryDependencies += Dependencies.Cats.effect, //.withDottyCompat(scalaVersion.value),
+    libraryDependencies += Dependencies.Cats.effect,
     libraryDependencies += Dependencies.ScalaModules.collectionCompat
   )
   .dependsOn(api, common % "compile->compile;test->test")
