@@ -33,7 +33,7 @@ abstract class TimerImpl[F[_]: Sync](
       stop <- clock.monotonic(TimeUnit.NANOSECONDS)
       _    <- record(Duration.ofNanos(stop - startTime), finalTags: _*)
     } yield ()
-    computation >> F.raiseError(thr)
+    computation >> F.raiseError[A](thr)
   }
 
 }

@@ -18,17 +18,18 @@ class JvmMonitoringTest extends munit.FunSuite {
   val noopErrHandler: Throwable => IO[Unit] = (_: Throwable) => IO.unit
 
   test("JvmMonitoring should create all expected metrics and update them periodically") {
-    val testEffect = MockMetricsFactory.make[IO].flatMap { inmemory =>
+    val testEffect      = MockMetricsFactory.make[IO].flatMap { inmemory =>
       val runTest = JvmMonitoring
-        .configured(inmemory, Config().copy(delay = Duration.ofMillis(10)), noopErrHandler)
+        .configured(inmemory, Config().copy(delay = Duration.ofMillis(100)), noopErrHandler)
         .use(_ => IO.never)
-        .timeout(100.millis)
+        .timeout(1000.millis)
         .attempt
 
       runTest >> inmemory.state.get
     }
-    val result     = testEffect.unsafeRunSync()
-    assert(result.keySet == expectedAspects)
+    val result          = testEffect.unsafeRunSync()
+    val observedAspects = (result.keySet -- unreliableAspects).toList.sorted
+    assertEquals(observedAspects, expectedAspects.toList.sorted)
     result.values.foreach { vector =>
       vector.groupBy(_.tags).foreach { case (_, records) =>
         assert(records.nonEmpty)
@@ -36,6 +37,15 @@ class JvmMonitoringTest extends munit.FunSuite {
       }
     }
   }
+
+  /**
+   * Not always present and should be ignored
+   */
+  lazy val unreliableAspects: Set[String] = Set(
+    "jvm.non_heap_memory.code_cache",
+    "jvm.non_heap_memory.code_cache_committed",
+    "jvm.non_heap_memory.code_cache_max"
+  )
 
   lazy val minorGcParams: Set[String] =
     if (System.getProperty("java.version").startsWith("1.8."))
@@ -63,9 +73,6 @@ class JvmMonitoringTest extends munit.FunSuite {
     "jvm.non_heap_memory_committed",
     "jvm.non_heap_memory_init",
     "jvm.non_heap_memory_max",
-    "jvm.non_heap_memory.code_cache",
-    "jvm.non_heap_memory.code_cache_committed",
-    "jvm.non_heap_memory.code_cache_max",
     "jvm.non_heap_memory.metaspace",
     "jvm.non_heap_memory.metaspace_committed",
     "jvm.non_heap_memory.metaspace_max",
