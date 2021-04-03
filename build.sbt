@@ -86,7 +86,7 @@ lazy val http4s = project
   )
   .dependsOn(api)
 
-lazy val jvm = project
+lazy val jvm        = project
   .in(file("code/jvm"))
   .settings(
     name := "datadog4s-jvm",
