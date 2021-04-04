@@ -47,7 +47,7 @@ class MockMetricsFactory[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record
     new Timer[F] {
       override def time[A](f: F[A], tags: Tag*): F[A] = f.flatMap(a => updateState(aspect, a, tags: _*).as(a))
 
-      override def record(duration: Duration, tags: Tag*): F[Unit] = updateState[Duration](aspect, duration, tags: _*)
+      override def recordMillis(duration: Long, tags: Tag*): F[Unit] = updateState[Long](aspect, duration, tags: _*)
     }
 
   override def count(aspect: String, sampleRate: Option[Double]): Count[F] =
@@ -77,13 +77,13 @@ class MockMetricsFactory[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record
     override def histogram(aspect: String, sampleRate: Option[Double]): Timer[F] = new Timer[F] {
       override def time[A](f: F[A], tags: Tag*): F[A] = f.flatMap(a => updateState(aspect, a, tags: _*).as(a))
 
-      override def record(duration: Duration, tags: Tag*): F[Unit] = updateState[Duration](aspect, duration, tags: _*)
+      override def recordMillis(duration: Long, tags: Tag*): F[Unit] = updateState[Long](aspect, duration, tags: _*)
     }
 
     override def distribution(aspect: String, sampleRate: Option[Double]): Timer[F] = new Timer[F] {
       override def time[A](f: F[A], tags: Tag*): F[A] = f.flatMap(a => updateState(aspect, a, tags: _*).as(a))
 
-      override def record(duration: Duration, tags: Tag*): F[Unit] = updateState[Duration](aspect, duration, tags: _*)
+      override def recordMillis(duration: Long, tags: Tag*): F[Unit] = updateState[Long](aspect, duration, tags: _*)
     }
 
   }
