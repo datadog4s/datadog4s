@@ -1,6 +1,5 @@
 package com.avast.cloud.datadog4s.inmemory
 
-import java.time.Duration
 import cats.effect.Sync
 import cats.effect.concurrent.Ref
 import cats.syntax.flatMap._
