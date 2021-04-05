@@ -9,7 +9,7 @@ lazy val scalaSettings = Seq(
   Compile / doc / sources := {
     CrossVersion.partialVersion(scalaVersion.value) match {
       // case Some((3, 0)) => Seq.empty //disable publishing of scaladoc due to a bug
-      case _            => (Compile / doc / sources).value
+      case _ => (Compile / doc / sources).value
     }
   }
 )
