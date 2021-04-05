@@ -29,7 +29,7 @@ lazy val commonSettings = Seq(
       url("https://tomasherman.cz")
     )
   ),
-  publishArtifact in Test := false,
+  Test / publishArtifact := false,
   testOptions += Tests.Argument(TestFrameworks.JUnit)
 )
 
