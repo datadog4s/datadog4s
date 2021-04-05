@@ -16,16 +16,14 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        java: ['1.8.0', '11.0.x', '13.0.x']
-        scala: ['2.12.10']
+        java: ['adopt@1.8', 'adopt@1.11', 'adopt@1.13']
     steps:
     - name: Debug info
       run: echo ref:${{github.ref}}
     - uses: actions/checkout@v2
-    - name: Set up JDK ${{ matrix.java }}
-      uses: actions/setup-java@v1
+    - uses: olafurpg/setup-scala@v10
       with:
-        java-version: ${{ matrix.java }}
+        java-version: ${{matrix.java}}
     - uses: coursier/cache-action@v5
       with:
         extraKey: scala-${{ matrix.scala }}
