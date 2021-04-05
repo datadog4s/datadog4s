@@ -16,19 +16,21 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        java: ['adopt@1.8', 'adopt@1.11', 'adopt@1.13']
+        java: ['1.8.0', '11.0.x', '13.0.x']
+        scala: ['2.12.10']
     steps:
     - name: Debug info
       run: echo ref:${{github.ref}}
     - uses: actions/checkout@v2
-    - uses: olafurpg/setup-scala@v10
+    - name: Set up JDK ${{ matrix.java }}
+      uses: actions/setup-java@v1
       with:
-        java-version: ${{matrix.java}}
+        java-version: ${{ matrix.java }}
     - uses: coursier/cache-action@v5
       with:
         extraKey: scala-${{ matrix.scala }}
     - name: Compile & Test
-      run: sbtn checkAll
+      run: sbt checkAll
 #    - name: Codecov report
 #      if: ${{matrix.java}} == '11.0.x'
 #      uses: codecov/codecov-action@v1
@@ -52,17 +54,17 @@ jobs:
       with:
         extraKey: scala-${{ matrix.scala }}
     - name: Compile & Test
-      run: sbtn checkAll
+      run: sbt checkAll
 #    - name: Run binary compatiblity check ## disabled to avoid issues with dotty build missing
 #      if: contains(github.ref, 'refs/tags/v') && !endsWith(github.ref, '.0')
-#      run: sbtn +mimaReportBinaryIssues
+#      run: sbt +mimaReportBinaryIssues
     - name: Release
       env:
         PGP_SECRET: ${{ secrets.PGP_SECRET }}
         PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
         SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
         SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSPHRASE }}
-      run: sbtn ci-release
+      run: sbt ci-release
     - name: Release Drafter
       uses: release-drafter/release-drafter@v5.6.1
       env:
@@ -91,4 +93,4 @@ jobs:
         ssh-add - <<< "${DEPLOY_KEY}"
         git config --global user.email "datadog4s-bot@github.com"
         git config --global user.name "Release bot"
-        sbtn site/publishMicrosite
+        sbt site/publishMicrosite
