@@ -2,9 +2,9 @@ package com.avast.datadog4s.statsd
 
 import java.util.concurrent.TimeUnit
 
-import cats.effect.concurrent.Ref
 import cats.effect.{ Clock, IO }
 import cats.implicits.catsSyntaxFlatMapOps
+import cats.effect.Ref
 
 class MockClock extends Clock[IO] {
   val callCount = Ref.of[IO, Int](0).unsafeRunSync()
