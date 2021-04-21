@@ -4,10 +4,15 @@ import java.time.Duration
 import java.util.concurrent.TimeUnit
 import scala.concurrent.duration.FiniteDuration
 
-class JvmMonitoringTest extends munit.FunSuite {
+class AsDurationTest extends munit.FunSuite {
   test("Long should propagate return the value") {
     val value = 1337L
     assertEquals(AsDuration[Long].toMillis(1337), value)
+  }
+
+  test("Int should propagate return the value") {
+    val value = 1337
+    assertEquals(AsDuration[Int].toMillis(1337), value.toLong)
   }
 
   test("Duration should return millis correctly") {
