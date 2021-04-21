@@ -10,7 +10,7 @@ trait Timer[F[_]] {
   def record(duration: Duration, tags: Tag*): F[Unit] = recordT[Duration](duration, tags: _*)
 
   /**
-   * Record a value that implements [[AsDuration]] type class.
+   * Record a value that implements [[com.avast.datadog4s.api.metric.AsDuration]] type class.
    */
   def recordT[T: AsDuration](value: T, tags: Tag*): F[Unit] = recordMillis(AsDuration[T].toMillis(value), tags: _*)
   def recordMillis(long: Long, tags: Tag*): F[Unit]
