@@ -25,5 +25,4 @@ class AsDurationTest extends munit.FunSuite {
     assertEquals(AsDuration[FiniteDuration].toMillis(duration), 60L * 60 * 1000)
   }
 
-
 }
