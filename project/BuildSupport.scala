@@ -11,7 +11,7 @@ object BuildSupport {
   object ScalaVersions {
     lazy val scala212               = "2.12.12"
     lazy val scala213               = "2.13.5"
-    lazy val scala3                 = "3.0.0-RC1"
+    lazy val scala3                 = "3.0.0-RC3"
     lazy val supportedScalaVersions = List(scala212, scala213, scala3)
   }
 
@@ -27,7 +27,7 @@ object BuildSupport {
     micrositeFooterText := None,
     micrositeGitterChannel := false,
     micrositeTheme := "pattern",
-    fork in mdoc := true,
+    mdoc / fork := true,
     mdocIn := file("site") / "docs",
     mdocVariables := Map(
       "VERSION"             -> {
@@ -42,10 +42,10 @@ object BuildSupport {
     ),
     mdocAutoDependency := false,
     micrositeDataDirectory := file("site"),
-    siteSubdirName in ScalaUnidoc := "api/latest",
+    ScalaUnidoc / siteSubdirName := "api/latest",
     addMappingsToSiteDir(
-      mappings in (ScalaUnidoc, packageDoc),
-      siteSubdirName in ScalaUnidoc
+      ScalaUnidoc / packageDoc / mappings,
+      ScalaUnidoc / siteSubdirName
     )
   )
 }

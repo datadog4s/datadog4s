@@ -3,16 +3,9 @@ import BuildSupport.ScalaVersions._
 lazy val scalaSettings = Seq(
   scalaVersion := scala213,
   crossScalaVersions := supportedScalaVersions,
-  scalacOptions ++= { if (isDotty.value) Seq("-source:3.0-migration") else Nil },
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet,
   libraryDependencies += (Dependencies.Testing.munit % Test),
-  testFrameworks += new TestFramework("munit.Framework"),
-  Compile / doc / sources := {
-    CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((3, 0)) => Seq.empty //disable publishing of scaladoc due to a bug
-      case _            => (Compile / doc / sources).value
-    }
-  }
+  testFrameworks += new TestFramework("munit.Framework")
 )
 
 lazy val commonSettings = Seq(
@@ -29,7 +22,7 @@ lazy val commonSettings = Seq(
       url("https://tomasherman.cz")
     )
   ),
-  publishArtifact in Test := false,
+  Test / publishArtifact := false,
   testOptions += Tests.Argument(TestFrameworks.JUnit)
 )
 
@@ -48,7 +41,7 @@ lazy val api = project
     name := "datadog4s-api",
     scalaSettings,
     commonSettings,
-    libraryDependencies += Dependencies.Cats.core.withDottyCompat(scalaVersion.value)
+    libraryDependencies += Dependencies.Cats.core.cross(CrossVersion.for3Use2_13)
   )
 
 lazy val common = project
@@ -57,7 +50,7 @@ lazy val common = project
     name := "datadog4s-common",
     scalaSettings,
     commonSettings,
-    libraryDependencies += Dependencies.Cats.effect.withDottyCompat(scalaVersion.value),
+    libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
     libraryDependencies += (Dependencies.Logging.logback % Test)
   )
   .dependsOn(api)
@@ -68,7 +61,7 @@ lazy val statsd = project
     name := "datadog4s-statsd",
     scalaSettings,
     commonSettings,
-    libraryDependencies += Dependencies.Cats.effect.withDottyCompat(scalaVersion.value),
+    libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
     libraryDependencies += Dependencies.Datadog.statsDClient,
     libraryDependencies += Dependencies.ScalaModules.collectionCompat
   )
@@ -80,8 +73,8 @@ lazy val http4s = project
     name := "datadog4s-http4s",
     scalaSettings,
     commonSettings,
-    libraryDependencies += Dependencies.Cats.effect.withDottyCompat(scalaVersion.value),
-    libraryDependencies += Dependencies.Http4s.core.withDottyCompat(scalaVersion.value)
+    libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
+    libraryDependencies += Dependencies.Http4s.core.cross(CrossVersion.for3Use2_13)
   )
   .dependsOn(api)
 
@@ -91,7 +84,7 @@ lazy val jvm        = project
     name := "datadog4s-jvm",
     scalaSettings,
     commonSettings,
-    libraryDependencies += Dependencies.Cats.effect.withDottyCompat(scalaVersion.value),
+    libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
     libraryDependencies += Dependencies.ScalaModules.collectionCompat
   )
   .dependsOn(api, common % "compile->compile;test->test")

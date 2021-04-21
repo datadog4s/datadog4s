@@ -1,8 +1,8 @@
 import sbt._
 object Dependencies {
   object Cats {
-    val core   = "org.typelevel" %% "cats-core"   % "2.5.0"
-    val effect = "org.typelevel" %% "cats-effect" % "2.4.1"
+    val core   = "org.typelevel" %% "cats-core"   % "2.6.0"
+    val effect = "org.typelevel" %% "cats-effect" % "2.5.0"
   }
 
   object Datadog {
@@ -10,12 +10,12 @@ object Dependencies {
   }
 
   object Http4s {
-    val core = "org.http4s" %% "http4s-core" % "0.21.21"
+    val core = "org.http4s" %% "http4s-core" % "0.21.22"
   }
 
   object Testing {
     val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.15.1"
-    val munit            = "org.scalameta" %% "munit"                   % "0.7.23"
+    val munit            = "org.scalameta" %% "munit"                   % "0.7.25"
   }
 
   object Logging {
@@ -23,7 +23,7 @@ object Dependencies {
   }
 
   object Mdoc {
-    val libMdoc = "org.scalameta" %% "mdoc" % "2.2.19" excludeAll (ExclusionRule(
+    val libMdoc = "org.scalameta" %% "mdoc" % "2.2.20" excludeAll (ExclusionRule(
       organization = "org.slf4j"
     ))
   }
