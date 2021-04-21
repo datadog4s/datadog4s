@@ -12,6 +12,7 @@ object AsDuration {
   def apply[A: AsDuration]: AsDuration[A] = implicitly[AsDuration[A]]
 
   implicit val longInstance: AsDuration[Long]                     = (a: Long) => a
+  implicit val intInstance: AsDuration[Int]                       = (a: Int) => a.toLong
   implicit val durationInstance: AsDuration[Duration]             = AsDuration[Long].contraMap(_.toMillis)
   implicit val finiteDurationInstance: AsDuration[FiniteDuration] = AsDuration[Long].contraMap(_.toMillis)
 }
