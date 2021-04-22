@@ -17,7 +17,7 @@ object AsDuration {
       case TimeUnit.NANOSECONDS  => a.toNanos
       case TimeUnit.MICROSECONDS => a.toNanos / 1000
       case TimeUnit.MILLISECONDS => a.toMillis
-      case TimeUnit.SECONDS      => a.toSeconds
+      case TimeUnit.SECONDS      => a.toMillis / 1000 // jdk1.8 toSeconds returns BigDecimal :(
       case TimeUnit.MINUTES      => a.toMinutes
       case TimeUnit.HOURS        => a.toHours
       case TimeUnit.DAYS         => a.toDays
