@@ -1,9 +1,13 @@
 import BuildSupport.ScalaVersions._
 
+// settings only for projects that are published
+lazy val publishSettings = Seq(
+  mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet,
+)
+
 lazy val scalaSettings = Seq(
   scalaVersion := scala213,
   crossScalaVersions := supportedScalaVersions,
-  mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet,
   libraryDependencies += (Dependencies.Testing.munit % Test),
   testFrameworks += new TestFramework("munit.Framework")
 )
@@ -41,6 +45,7 @@ lazy val api = project
     name := "datadog4s-api",
     scalaSettings,
     commonSettings,
+    publishSettings,
     libraryDependencies += Dependencies.Cats.core.cross(CrossVersion.for3Use2_13)
   )
 
@@ -50,6 +55,7 @@ lazy val common = project
     name := "datadog4s-common",
     scalaSettings,
     commonSettings,
+    publishSettings,
     libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
     libraryDependencies += (Dependencies.Logging.logback % Test)
   )
@@ -61,6 +67,7 @@ lazy val statsd = project
     name := "datadog4s-statsd",
     scalaSettings,
     commonSettings,
+    publishSettings,
     libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
     libraryDependencies += Dependencies.Datadog.statsDClient,
     libraryDependencies += Dependencies.ScalaModules.collectionCompat
@@ -73,6 +80,7 @@ lazy val http4s = project
     name := "datadog4s-http4s",
     scalaSettings,
     commonSettings,
+    publishSettings,
     libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
     libraryDependencies += Dependencies.Http4s.core.cross(CrossVersion.for3Use2_13)
   )
@@ -84,6 +92,7 @@ lazy val jvm        = project
     name := "datadog4s-jvm",
     scalaSettings,
     commonSettings,
+    publishSettings,
     libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
     libraryDependencies += Dependencies.ScalaModules.collectionCompat
   )

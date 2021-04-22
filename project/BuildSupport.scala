@@ -27,7 +27,6 @@ object BuildSupport {
     micrositeFooterText := None,
     micrositeGitterChannel := false,
     micrositeTheme := "pattern",
-    mdoc / fork := true,
     mdocIn := file("site") / "docs",
     mdocVariables := Map(
       "VERSION"             -> {
