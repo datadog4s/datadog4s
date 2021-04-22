@@ -1,6 +1,6 @@
 package com.avast.datadog4s.statsd
 
-import cats.effect.{Clock, IO}
+import cats.effect.{ Clock, IO }
 import com.avast.datadog4s.api.Tag
 import com.avast.datadog4s.statsd.metric.TimerImpl
 import com.avast.datadog4s.statsd.metric.timer.HistogramTimer
@@ -37,7 +37,8 @@ class TimerImplTest extends munit.FunSuite {
     val res = f.timer.time(IO.delay("hello world")).unsafeRunSync()
 
     assertEquals(
-      f.statsD.getHistory.get.asScala.toVector, Vector(
+      f.statsD.getHistory.get.asScala.toVector,
+      Vector(
         new HistogramRecord(f.aspect, 20, f.sampleRate, Vector(Tag.of("success", "true")).asJava)
       )
     )
@@ -49,7 +50,8 @@ class TimerImplTest extends munit.FunSuite {
 
     intercept[NoSuchElementException](res.unsafeRunSync())
     assertEquals(
-      f.statsD.getHistory.get().asScala.toVector, Vector(
+      f.statsD.getHistory.get().asScala.toVector,
+      Vector(
         new HistogramRecord(
           f.aspect,
           20,

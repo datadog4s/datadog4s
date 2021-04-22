@@ -18,7 +18,10 @@ class AsDurationTest extends munit.FunSuite {
     assertEquals(AsDuration[FiniteDuration].valueOfTimeUnit(duration, TimeUnit.MILLISECONDS), 60L * 60 * 1000)
     assertEquals(AsDuration[FiniteDuration].valueOfTimeUnit(duration, TimeUnit.HOURS), 1L)
     assertEquals(AsDuration[FiniteDuration].valueOfTimeUnit(duration, TimeUnit.MINUTES), 60L)
-    assertEquals(AsDuration[FiniteDuration].valueOfTimeUnit(duration, TimeUnit.NANOSECONDS), 60L * 60 * 1000 * 1000 * 1000)
+    assertEquals(
+      AsDuration[FiniteDuration].valueOfTimeUnit(duration, TimeUnit.NANOSECONDS),
+      60L * 60 * 1000 * 1000 * 1000
+    )
   }
 
 }
