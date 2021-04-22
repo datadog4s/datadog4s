@@ -2,6 +2,8 @@ package com.avast.datadog4s.api
 
 import com.avast.datadog4s.api.metric.Timer
 
+import java.util.concurrent.TimeUnit
+
 trait TimerFactory[F[_]] {
 
   /**
@@ -11,7 +13,7 @@ trait TimerFactory[F[_]] {
    *
    * In general, [[TimerFactory.distribution]] is probably preferred.
    */
-  def histogram(aspect: String, sampleRate: Option[Double] = None): Timer[F]
+  def histogram(aspect: String, sampleRate: Option[Double] = None, timeUnit: TimeUnit = TimeUnit.MILLISECONDS): Timer[F]
 
   /**
    * Create distribution-based timer. Unlike [[TimerFactory.histogram]], this implementation will aggregate and compute histograms on datadog servers
@@ -19,5 +21,9 @@ trait TimerFactory[F[_]] {
    *
    * For more information about distribution see [[https://docs.datadoghq.com/metrics/distributions/ Datadog documentation]]
    */
-  def distribution(aspect: String, sampleRate: Option[Double] = None): Timer[F]
+  def distribution(
+    aspect: String,
+    sampleRate: Option[Double] = None,
+    timeUnit: TimeUnit = TimeUnit.MILLISECONDS
+  ): Timer[F]
 }
