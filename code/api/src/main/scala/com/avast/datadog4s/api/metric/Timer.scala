@@ -13,7 +13,7 @@ trait Timer[F[_]] {
   /**
    * Record raw measurement represented as long
    * @param duration Measured duration
-   * @param timeUnit TimeUnit in which [[duration]] is measured
+   * @param timeUnit TimeUnit in which duration is measured
    * @param tags Tags that should be applied for this recording
    */
   def recordRaw(duration: Long, timeUnit: TimeUnit, tags: Tag*): F[Unit] =
