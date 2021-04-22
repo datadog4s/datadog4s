@@ -2,7 +2,7 @@ import BuildSupport.ScalaVersions._
 
 // settings only for projects that are published
 lazy val publishSettings = Seq(
-  mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet,
+  mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet
 )
 
 lazy val scalaSettings = Seq(
