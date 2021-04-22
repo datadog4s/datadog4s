@@ -1,10 +1,11 @@
 package com.avast.datadog4s.statsd
 
-import cats.effect.{ Clock, IO }
+import cats.effect.{Clock, IO}
 import com.avast.datadog4s.api.Tag
 import com.avast.datadog4s.statsd.metric.TimerImpl
 import com.avast.datadog4s.statsd.metric.timer.HistogramTimer
 
+import java.util.concurrent.TimeUnit
 import scala.jdk.CollectionConverters._
 
 class TimerImplTest extends munit.FunSuite {
@@ -26,7 +27,7 @@ class TimerImplTest extends munit.FunSuite {
 
         val statsD: JMockStatsDClient = MockStatsDClient()
         val clock: Clock[IO]          = new MockClock
-        val timer                     = new HistogramTimer[IO](clock, statsD, aspect, sampleRate, Vector.empty)
+        val timer                     = new HistogramTimer[IO](clock, statsD, aspect, sampleRate, Vector.empty, TimeUnit.MILLISECONDS)
       }
     },
     _ => ()
@@ -35,21 +36,21 @@ class TimerImplTest extends munit.FunSuite {
   fixture.test("time F[A] should report success with label success:true") { f =>
     val res = f.timer.time(IO.delay("hello world")).unsafeRunSync()
 
-    assert(
-      f.statsD.getHistory.get.asScala.toVector == Vector(
-        new ExecutionTimeRecord(f.aspect, 20, f.sampleRate, Vector(Tag.of("success", "true")).asJava)
+    assertEquals(
+      f.statsD.getHistory.get.asScala.toVector, Vector(
+        new HistogramRecord(f.aspect, 20, f.sampleRate, Vector(Tag.of("success", "true")).asJava)
       )
     )
-    assert(res == "hello world")
+    assertEquals(res, "hello world")
   }
 
   fixture.test("time F[A] should report failure with label failure:true and exception name") { f =>
     val res = f.timer.time(IO.raiseError(new NoSuchElementException("fail")))
 
     intercept[NoSuchElementException](res.unsafeRunSync())
-    assert(
-      f.statsD.getHistory.get().asScala.toVector == Vector(
-        new ExecutionTimeRecord(
+    assertEquals(
+      f.statsD.getHistory.get().asScala.toVector, Vector(
+        new HistogramRecord(
           f.aspect,
           20,
           f.sampleRate,

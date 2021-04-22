@@ -5,7 +5,9 @@ import cats.effect.concurrent.Ref
 import cats.syntax.flatMap._
 import cats.syntax.functor._
 import com.avast.datadog4s.api.metric._
-import com.avast.datadog4s.api.{ DistributionFactory, GaugeFactory, HistogramFactory, MetricFactory, Tag, TimerFactory }
+import com.avast.datadog4s.api.{DistributionFactory, GaugeFactory, HistogramFactory, MetricFactory, Tag, TimerFactory}
+
+import java.util.concurrent.TimeUnit
 
 class MockMetricsFactory[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record[Any]]]]) extends MetricFactory[F] {
 
@@ -46,7 +48,7 @@ class MockMetricsFactory[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record
     new Timer[F] {
       override def time[A](f: F[A], tags: Tag*): F[A] = f.flatMap(a => updateState(aspect, a, tags: _*).as(a))
 
-      override def recordMillis(duration: Long, tags: Tag*): F[Unit] = updateState[Long](aspect, duration, tags: _*)
+      override def recordT[T: AsDuration](duration: T, tags: Tag*): F[Unit] = updateState[Long](aspect, AsDuration[T].valueOfTimeUnit(duration, TimeUnit.MILLISECONDS), tags: _*)
     }
 
   override def count(aspect: String, sampleRate: Option[Double]): Count[F] =
@@ -73,16 +75,16 @@ class MockMetricsFactory[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record
     }
 
   override def timer: TimerFactory[F] = new TimerFactory[F] {
-    override def histogram(aspect: String, sampleRate: Option[Double]): Timer[F] = new Timer[F] {
+    override def histogram(aspect: String, sampleRate: Option[Double], timeUnit: TimeUnit): Timer[F] = new Timer[F] {
       override def time[A](f: F[A], tags: Tag*): F[A] = f.flatMap(a => updateState(aspect, a, tags: _*).as(a))
 
-      override def recordMillis(duration: Long, tags: Tag*): F[Unit] = updateState[Long](aspect, duration, tags: _*)
+      override def recordT[T: AsDuration](duration: T, tags: Tag*): F[Unit] = updateState[Long](aspect, AsDuration[T].valueOfTimeUnit(duration, timeUnit), tags: _*)
     }
 
-    override def distribution(aspect: String, sampleRate: Option[Double]): Timer[F] = new Timer[F] {
+    override def distribution(aspect: String, sampleRate: Option[Double], timeUnit: TimeUnit): Timer[F] = new Timer[F] {
       override def time[A](f: F[A], tags: Tag*): F[A] = f.flatMap(a => updateState(aspect, a, tags: _*).as(a))
 
-      override def recordMillis(duration: Long, tags: Tag*): F[Unit] = updateState[Long](aspect, duration, tags: _*)
+      override def recordT[T: AsDuration](duration: T, tags: Tag*): F[Unit] = updateState[Long](aspect, AsDuration[T].valueOfTimeUnit(duration, timeUnit), tags: _*)
     }
 
   }

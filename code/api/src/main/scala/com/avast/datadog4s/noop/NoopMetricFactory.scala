@@ -5,6 +5,8 @@ import com.avast.datadog4s.api._
 import com.avast.datadog4s.api.metric._
 import com.avast.datadog4s.noop.metric._
 
+import java.util.concurrent.TimeUnit
+
 class NoopMetricFactory[F[_]: Applicative] extends MetricFactory[F] {
   override def timer(prefix: String, sampleRate: Option[Double] = None): Timer[F] = new NoopTimer[F]
 
@@ -43,8 +45,9 @@ class NoopMetricFactory[F[_]: Applicative] extends MetricFactory[F] {
   override def withScope(prefix: String): MetricFactory[F] = this
 
   override def timer: TimerFactory[F] = new TimerFactory[F] {
-    override def histogram(aspect: String, sampleRate: Option[Double]): Timer[F] = new NoopTimer[F]
+    override def histogram(aspect: String, sampleRate: Option[Double], timeUnit: TimeUnit): Timer[F] = new NoopTimer[F]
 
-    override def distribution(aspect: String, sampleRate: Option[Double]): Timer[F] = new NoopTimer[F]
+    override def distribution(aspect: String, sampleRate: Option[Double], timeUnit: TimeUnit): Timer[F] =
+      new NoopTimer[F]
   }
 }
