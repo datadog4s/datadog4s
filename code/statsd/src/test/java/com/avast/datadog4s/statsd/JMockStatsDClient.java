@@ -13,13 +13,13 @@ import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class JMockStatsDClient implements StatsDClient {
-   private AtomicReference<ArrayList<ExecutionTimeRecord>> history;
+   private final AtomicReference<ArrayList<Object>> history;
 
-   public JMockStatsDClient(AtomicReference<ArrayList<ExecutionTimeRecord>> history) {
+   public JMockStatsDClient(AtomicReference<ArrayList<Object>> history) {
       this.history = history;
    }
 
-   public AtomicReference<ArrayList<ExecutionTimeRecord>> getHistory() {
+   public AtomicReference<ArrayList<Object>> getHistory() {
       return history;
    }
 
@@ -173,7 +173,10 @@ public class JMockStatsDClient implements StatsDClient {
 
    @Override
    public void recordHistogramValue(String aspect, long value, double sampleRate, String... tags) {
-
+      history.updateAndGet(h -> {
+         h.add(new HistogramRecord(aspect, value, sampleRate, Arrays.asList(tags)));
+         return h;
+      });
    }
 
    @Override

@@ -7,6 +7,8 @@ import com.avast.datadog4s.statsd.metric._
 import com.avast.datadog4s.statsd.metric.timer.{ DistributionTimer, HistogramTimer }
 import com.timgroup.statsd.{ StatsDClient => JStatsDClient }
 
+import java.util.concurrent.TimeUnit
+
 class StatsDMetricFactory[F[_]: Sync](
   statsDClient: JStatsDClient,
   prefix: Option[String],
@@ -63,20 +65,30 @@ class StatsDMetricFactory[F[_]: Sync](
   }
 
   override val timer: TimerFactory[F] = new TimerFactory[F] {
-    override def histogram(aspect: String, sampleRate: Option[Double]): Timer[F] = new HistogramTimer[F](
+    override def histogram(
+      aspect: String,
+      sampleRate: Option[Double] = None,
+      timeUnit: TimeUnit = TimeUnit.MILLISECONDS
+    ): Timer[F] = new HistogramTimer[F](
       clock,
       statsDClient,
       extendPrefix(aspect),
       sampleRate.getOrElse(defaultSampleRate),
-      defaultTags
+      defaultTags,
+      timeUnit
     )
 
-    override def distribution(aspect: String, sampleRate: Option[Double]): Timer[F] = new DistributionTimer[F](
+    override def distribution(
+      aspect: String,
+      sampleRate: Option[Double] = None,
+      timeUnit: TimeUnit = TimeUnit.MILLISECONDS
+    ): Timer[F] = new DistributionTimer[F](
       clock,
       statsDClient,
       extendPrefix(aspect),
       sampleRate.getOrElse(defaultSampleRate),
-      defaultTags
+      defaultTags,
+      timeUnit
     )
 
   }
@@ -87,7 +99,8 @@ class StatsDMetricFactory[F[_]: Sync](
       statsDClient,
       extendPrefix(aspect),
       sampleRate.getOrElse(defaultSampleRate),
-      defaultTags
+      defaultTags,
+      TimeUnit.MILLISECONDS
     )
 
   override def count(aspect: String, sampleRate: Option[Double] = None) =

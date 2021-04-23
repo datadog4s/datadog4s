@@ -7,7 +7,6 @@ import com.avast.datadog4s.api.Tag
 import com.avast.datadog4s.api.metric.Timer
 import com.avast.datadog4s.api.tag.Tagger
 
-import java.time.Duration
 import scala.concurrent.duration.FiniteDuration
 
 abstract class TimerImpl[F[_]: Sync](
@@ -24,7 +23,7 @@ abstract class TimerImpl[F[_]: Sync](
       start <- clock.monotonic
       a     <- F.recoverWith(value)(measureFailed(start))
       stop  <- clock.monotonic
-      _     <- record(Duration.ofNanos(stop.minus(start).toNanos), (tags :+ succeededTag): _*)
+      _     <- record(stop.minus(start), (tags :+ succeededTag): _*)
     } yield a
 
   private def measureFailed[A](startTime: FiniteDuration, tags: Tag*): PartialFunction[Throwable, F[A]] = {
@@ -32,9 +31,8 @@ abstract class TimerImpl[F[_]: Sync](
       val finalTags   = tags :+ exceptionTagger.tag(thr) :+ failedTag
       val computation = for {
         stop <- clock.monotonic
-        _    <- record(Duration.ofNanos(stop.minus(startTime).toNanos), finalTags: _*)
+        _    <- record(stop.minus(startTime), finalTags: _*)
       } yield ()
       computation >> F.raiseError[A](thr)
   }
-
 }

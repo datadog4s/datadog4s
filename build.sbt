@@ -1,9 +1,13 @@
 import BuildSupport.ScalaVersions._
 
+// settings only for projects that are published
+lazy val publishSettings = Seq(
+  mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet
+)
+
 lazy val scalaSettings = Seq(
   scalaVersion := scala213,
   crossScalaVersions := supportedScalaVersions,
-  mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet,
   libraryDependencies += (Dependencies.Testing.munit % Test),
   testFrameworks += new TestFramework("munit.Framework")
 )
@@ -42,7 +46,8 @@ lazy val api = project
     name := "datadog4s-api",
     scalaSettings,
     commonSettings,
-    libraryDependencies += Dependencies.Cats.core
+    publishSettings,
+    libraryDependencies += Dependencies.Cats.core.cross(CrossVersion.for3Use2_13)
   )
 
 lazy val common = project
@@ -51,7 +56,8 @@ lazy val common = project
     name := "datadog4s-common",
     scalaSettings,
     commonSettings,
-    libraryDependencies += Dependencies.Cats.effect,
+    publishSettings,
+    libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
     libraryDependencies += (Dependencies.Logging.logback % Test)
   )
   .dependsOn(api)
@@ -62,7 +68,8 @@ lazy val statsd = project
     name := "datadog4s-statsd",
     scalaSettings,
     commonSettings,
-    libraryDependencies += Dependencies.Cats.effect,
+    publishSettings,
+    libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
     libraryDependencies += Dependencies.Datadog.statsDClient,
     libraryDependencies += Dependencies.ScalaModules.collectionCompat
   )
@@ -74,6 +81,7 @@ lazy val http4s = project
     name := "datadog4s-http4s",
     scalaSettings,
     commonSettings,
+    publishSettings,
     libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
     libraryDependencies += Dependencies.Http4s.core.cross(CrossVersion.for3Use2_13)
   )
@@ -85,7 +93,8 @@ lazy val jvm        = project
     name := "datadog4s-jvm",
     scalaSettings,
     commonSettings,
-    libraryDependencies += Dependencies.Cats.effect,
+    publishSettings,
+    libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
     libraryDependencies += Dependencies.ScalaModules.collectionCompat
   )
   .dependsOn(api, common % "compile->compile;test->test")
@@ -119,8 +128,8 @@ lazy val site = (project in file("site"))
 
 addCommandAlias(
   "checkAll",
-  //"; scalafmtSbtCheck; scalafmtCheckAll; coverage; +test; coverageReport; doc; site/makeMdoc"
-  "; scalafmtSbtCheck; scalafmtCheckAll; +test; doc; site/makeMdoc"
+  //" scalafmtSbtCheck; scalafmtCheckAll; coverage; +test; coverageReport; doc; site/makeMdoc"
+  "scalafmtSbtCheck; scalafmtCheckAll; +test; doc; site/makeMdoc"
 )
 
 addCommandAlias("fixAll", "; scalafmtSbt; scalafmtAll")
