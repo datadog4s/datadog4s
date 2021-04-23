@@ -91,6 +91,9 @@ and <code class="highlighter-rouge">exception:&lt;&lt;throwable class name&gt;&g
 <p>In addition to <code class="highlighter-rouge">.time[A]</code> method it also allows for recording of raw values that represent elapsed time or even raw time
 data. You can see example of such calls below.</p>
 
+<p>Optionally, when creating a <code class="highlighter-rouge">Timer</code>, you can also set the time units which will be used for reporting. By default, all
+timers create with <code class="highlighter-rouge">microsecond</code> granularity. You can provide your own time unit if you need more or less precision.</p>
+
 <h4 id="histogram-vs-distribution">Histogram vs Distribution</h4>
 
 <p>There are two versions of timers, one backed by <code class="highlighter-rouge">Histogram</code> and one backed by <code class="highlighter-rouge">Distribution</code>. You can read scaladoc for
@@ -102,12 +105,16 @@ etc) are more correct and in general it’s the implementation that we’d sugge
 
 <h4 id="example">Example</h4>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">factoryResource</span><span class="o">.</span><span class="py">use</span> <span class="o">{</span> <span class="n">factory</span> <span class="k">=&gt;</span>
-    <span class="k">val</span> <span class="nv">timer</span> <span class="k">=</span> <span class="nv">factory</span><span class="o">.</span><span class="py">timer</span><span class="o">.</span><span class="py">distribution</span><span class="o">(</span><span class="s">"request-latency"</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">java.util.concurrent.TimeUnit</span>
 
+<span class="nv">factoryResource</span><span class="o">.</span><span class="py">use</span> <span class="o">{</span> <span class="n">factory</span> <span class="k">=&gt;</span>
+    <span class="k">val</span> <span class="nv">timer</span> <span class="k">=</span> <span class="nv">factory</span><span class="o">.</span><span class="py">timer</span><span class="o">.</span><span class="py">distribution</span><span class="o">(</span><span class="s">"request-latency"</span><span class="o">)</span>
+    
     <span class="nv">timer</span><span class="o">.</span><span class="py">time</span><span class="o">(</span><span class="nv">IO</span><span class="o">.</span><span class="py">delay</span><span class="o">(</span><span class="nf">println</span><span class="o">(</span><span class="s">"success"</span><span class="o">)))</span> <span class="c1">// tagged with success:true</span>
     <span class="nv">timer</span><span class="o">.</span><span class="py">time</span><span class="o">(</span><span class="nv">IO</span><span class="o">.</span><span class="py">raiseError</span><span class="o">(</span><span class="k">new</span> <span class="nc">NullPointerException</span><span class="o">(</span><span class="s">"error"</span><span class="o">)))</span> <span class="c1">// tagged with success:false and exception:NullPointerException</span>
     
+    <span class="k">val</span> <span class="nv">nanoTimer</span> <span class="k">=</span> <span class="nv">factory</span><span class="o">.</span><span class="py">timer</span><span class="o">.</span><span class="py">distribution</span><span class="o">(</span><span class="s">"nano-timer"</span><span class="o">,</span> <span class="n">timeUnit</span> <span class="k">=</span> <span class="nv">TimeUnit</span><span class="o">.</span><span class="py">NANOSECONDS</span><span class="o">)</span>
+    <span class="nv">nanoTimer</span><span class="o">.</span><span class="py">time</span><span class="o">(</span><span class="nv">IO</span><span class="o">.</span><span class="py">delay</span><span class="o">(</span><span class="nf">println</span><span class="o">(</span><span class="s">"success"</span><span class="o">)))</span> <span class="c1">// metric will be recorded with 'nanoseconds' precision</span>
     
     <span class="c1">// timer.record works for all types that implement `ElapsedTime` typeclass, out of the box we provide implementation</span>
     <span class="c1">// for java.time.Duration and scala.concurrent.duration.FiniteDuration</span>
@@ -116,7 +123,6 @@ etc) are more correct and in general it’s the implementation that we’d sugge
     <span class="nv">timer</span><span class="o">.</span><span class="py">record</span><span class="o">(</span><span class="nv">Duration</span><span class="o">.</span><span class="py">ofNanos</span><span class="o">(</span><span class="mi">1000</span><span class="o">))</span>
     
     <span class="k">import</span> <span class="nn">scala.concurrent.duration.FiniteDuration</span>
-    <span class="k">import</span> <span class="nn">java.util.concurrent.TimeUnit</span>
     <span class="nv">timer</span><span class="o">.</span><span class="py">record</span><span class="o">(</span><span class="nc">FiniteDuration</span><span class="o">(</span><span class="mi">1000</span><span class="o">,</span> <span class="nv">TimeUnit</span><span class="o">.</span><span class="py">MILLISECONDS</span><span class="o">))</span>
     
     <span class="nv">timer</span><span class="o">.</span><span class="py">recordTime</span><span class="o">(</span><span class="mi">1000L</span><span class="o">,</span> <span class="nv">TimeUnit</span><span class="o">.</span><span class="py">MILLISECONDS</span><span class="o">)</span>
@@ -147,7 +153,7 @@ get a single value that you can use in multiple places in your code to create <c
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.avast.datadog4s.api.tag.</span><span class="o">{</span><span class="nc">TagValue</span><span class="o">,</span> <span class="nc">Tagger</span><span class="o">}</span>
 
 <span class="k">val</span> <span class="nv">pathTagger</span><span class="k">:</span> <span class="kt">Tagger</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nv">Tagger</span><span class="o">.</span><span class="py">make</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"path"</span><span class="o">)</span>
-<span class="c1">// pathTagger: Tagger[String] = com.avast.datadog4s.api.tag.Tagger$$anon$1@2838db41</span>
+<span class="c1">// pathTagger: Tagger[String] = com.avast.datadog4s.api.tag.Tagger$$anon$1@2a37a0c1</span>
 <span class="nf">assert</span><span class="o">(</span><span class="nv">Tag</span><span class="o">.</span><span class="py">of</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"admin/login"</span><span class="o">)</span> <span class="o">==</span> <span class="nv">pathTagger</span><span class="o">.</span><span class="py">tag</span><span class="o">(</span><span class="s">"admin/login"</span><span class="o">))</span>
 
 <span class="c1">// tagger also supports taging using custom types using TagValue typeclass</span>
@@ -155,10 +161,10 @@ get a single value that you can use in multiple places in your code to create <c
 <span class="k">case</span> <span class="k">class</span> <span class="nc">StatusCode</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>  
 
 <span class="k">implicit</span> <span class="k">val</span> <span class="nv">statusCodeTagValue</span><span class="k">:</span> <span class="kt">TagValue</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">]</span> <span class="k">=</span> <span class="nc">TagValue</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="py">contramap</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">](</span><span class="n">sc</span> <span class="k">=&gt;</span> <span class="nv">sc</span><span class="o">.</span><span class="py">value</span><span class="o">)</span>
-<span class="c1">// statusCodeTagValue: TagValue[StatusCode] = com.avast.datadog4s.api.tag.TagValue$$anonfun$contramap$2@4ba89601</span>
+<span class="c1">// statusCodeTagValue: TagValue[StatusCode] = com.avast.datadog4s.api.tag.TagValue$$anonfun$contramap$2@43a26a57</span>
 
 <span class="k">val</span> <span class="nv">statusCodeTagger</span><span class="k">:</span> <span class="kt">Tagger</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">]</span> <span class="k">=</span> <span class="nv">Tagger</span><span class="o">.</span><span class="py">make</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">](</span><span class="s">"statusCode"</span><span class="o">)</span>
-<span class="c1">// statusCodeTagger: Tagger[StatusCode] = com.avast.datadog4s.api.tag.Tagger$$anon$1@34ace32e</span>
+<span class="c1">// statusCodeTagger: Tagger[StatusCode] = com.avast.datadog4s.api.tag.Tagger$$anon$1@424b3f97</span>
 
 <span class="nf">assert</span><span class="o">(</span><span class="nv">Tag</span><span class="o">.</span><span class="py">of</span><span class="o">(</span><span class="s">"statusCode"</span><span class="o">,</span> <span class="s">"200"</span><span class="o">)</span> <span class="o">==</span> <span class="nv">statusCodeTagger</span><span class="o">.</span><span class="py">tag</span><span class="o">(</span><span class="nc">StatusCode</span><span class="o">(</span><span class="mi">200</span><span class="o">)))</span>
 </code></pre></div></div>
