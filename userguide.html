@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><title>datadog4s: User guide</title><meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Tomas Herman" /><meta name="description" content="Great monitoring made easy" /><meta name="og:image" content="/datadog4s/img/poster.png" /><meta name="image" property="og:image" content="/datadog4s/img/poster.png" /><meta name="og:title" content="datadog4s: User guide" /><meta name="title" property="og:title" content="datadog4s: User guide" /><meta name="og:site_name" content="datadog4s" /><meta name="og:url" content="https://github.com/avast/datadog4s" /><meta name="og:type" content="website" /><meta name="og:description" content="Great monitoring made easy" /><link rel="icon" type="image/png" href="/datadog4s/img/favicon.png" /><meta name="twitter:title" content="datadog4s: User guide" /><meta name="twitter:image" content="https://avast.github.io/datadog4s/img/poster.png" /><meta name="twitter:description" content="Great monitoring made easy" /><meta name="twitter:card" content="summary_large_image" /><link rel="icon" type="image/png" sizes="16x16" href="/datadog4s/img/favicon16x16.png" /><link rel="icon" type="image/png" sizes="24x24" href="/datadog4s/img/favicon24x24.png" /><link rel="icon" type="image/png" sizes="32x32" href="/datadog4s/img/favicon32x32.png" /><link rel="icon" type="image/png" sizes="48x48" href="/datadog4s/img/favicon48x48.png" /><link rel="icon" type="image/png" sizes="57x57" href="/datadog4s/img/favicon57x57.png" /><link rel="icon" type="image/png" sizes="60x60" href="/datadog4s/img/favicon60x60.png" /><link rel="icon" type="image/png" sizes="64x64" href="/datadog4s/img/favicon64x64.png" /><link rel="icon" type="image/png" sizes="70x70" href="/datadog4s/img/favicon70x70.png" /><link rel="icon" type="image/png" sizes="72x72" href="/datadog4s/img/favicon72x72.png" /><link rel="icon" type="image/png" sizes="76x76" href="/datadog4s/img/favicon76x76.png" /><link rel="icon" type="image/png" sizes="96x96" href="/datadog4s/img/favicon96x96.png" /><link rel="icon" type="image/png" sizes="114x114" href="/datadog4s/img/favicon114x114.png" /><link rel="icon" type="image/png" sizes="120x120" href="/datadog4s/img/favicon120x120.png" /><link rel="icon" type="image/png" sizes="128x128" href="/datadog4s/img/favicon128x128.png" /><link rel="icon" type="image/png" sizes="144x144" href="/datadog4s/img/favicon144x144.png" /><link rel="icon" type="image/png" sizes="150x150" href="/datadog4s/img/favicon150x150.png" /><link rel="icon" type="image/png" sizes="152x152" href="/datadog4s/img/favicon152x152.png" /><link rel="icon" type="image/png" sizes="196x196" href="/datadog4s/img/favicon196x196.png" /><link rel="icon" type="image/png" sizes="310x310" href="/datadog4s/img/favicon310x310.png" /><link rel="icon" type="image/png" sizes="310x150" href="/datadog4s/img/favicon310x150.png" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" /><link rel="stylesheet" href="/datadog4s/highlight/styles/vs.css" /><link rel="stylesheet" href="/datadog4s/css/pattern-style.css" /></head><body class="docs"><div id="wrapper"><div id="sidebar-wrapper"><ul id="sidebar" class="sidebar-nav"><li class="sidebar-brand"><a href="/datadog4s/" class="brand"><div class="brand-wrapper"><span>datadog4s</span></div></a></li> <li><a href="/datadog4s/userguide.html" class=" active ">User guide</a></li></ul></div><div id="page-content-wrapper"><div class="nav"><div class="container-fluid"><div class="row"><div class="col-lg-12"><div class="action-menu pull-left clearfix"><a href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a></div><ul class="pull-right"><li class="search-nav hidden-xs hidden-sm"><div id="search-dropdown"><label><i class="fa fa-search"></i>Search</label><input id="search-bar" type="text" placeholder="Enter keywords here..." onclick="displayToggleSearch(event)" /><ul id="search-dropdown-content" class="dropdown dropdown-content"></ul></div></li><li id="gh-eyes-item" class="hidden-xs to-uppercase"><a href="https://github.com/avast/datadog4s" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i><span>Watchers<span id="eyes" class="label label-default">--</span></span></a></li><li id="gh-stars-item" class="hidden-xs to-uppercase"><a href="https://github.com/avast/datadog4s" target="_blank" rel="noopener noreferrer"><i class="fa fa-star-o"></i><span>Stars<span id="stars" class="label label-default">--</span></span></a></li><li><a href="#" onclick="shareSiteTwitter('datadog4s Great monitoring made easy');"><i class="fa fa-twitter"></i></a></li><li><a href="#" onclick="shareSiteFacebook('datadog4s Great monitoring made easy');"><i class="fa fa-facebook"></i></a></li></ul></div></div></div></div><div id="content" data-github-owner="avast" data-github-repo="datadog4s"><div class="content-wrapper"><section><h1 id="user-guide">User guide</h1>
+<h1 id="user-guide">User guide</h1>
 
 <ul>
   <li><a href="#user-guide">User guide</a>
@@ -29,18 +29,26 @@
 <h2 id="quick-start">Quick start</h2>
 
 <h3 id="installation">Installation</h3>
-<p>To start monitoring your code, first you need to add this library as a dependency to your project. This project is composed of multiple packages to make it easy for you to pick and choose what you require.</p>
 
-<p>You need to add <code class="highlighter-rouge">datadog4s-api</code> which contains classes defining our API. You also need to add its implementation. Currently, we only support metric delivery using StatsD in package <code class="highlighter-rouge">datadog4s</code> which already contains <code class="highlighter-rouge">api</code>. We are going to assume you are using <code class="highlighter-rouge">sbt</code>:</p>
+<p>To start monitoring your code, first you need to add this library as a dependency to your project. This project is
+composed of multiple packages to make it easy for you to pick and choose what you require.</p>
+
+<p>You need to add <code class="highlighter-rouge">datadog4s-api</code> which contains classes defining our API. You also need to add its implementation.
+Currently, we only support metric delivery using StatsD in package <code class="highlighter-rouge">datadog4s</code> which already contains <code class="highlighter-rouge">api</code>. We are
+going to assume you are using <code class="highlighter-rouge">sbt</code>:</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.avast.cloud"</span> <span class="o">%%</span> <span class="s">"datadog4s-api"</span> <span class="o">%</span> <span class="s">"0.12.1"</span>
 <span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.avast.cloud"</span> <span class="o">%%</span> <span class="s">"datadog4s-statsd"</span> <span class="o">%</span> <span class="s">"0.12.1"</span>
 </code></pre></div></div>
 
 <h3 id="creating-metric-factory">Creating metric factory</h3>
-<p>To start creating your metrics, first you need to create a <code class="highlighter-rouge">MetricFactory[F[_]]</code>. Currently, the only implementation is in <code class="highlighter-rouge">statsd</code> package. MetricFactory is purely functional, so it requires you to provide type constructor which implements <code class="highlighter-rouge">cats.effect.Sync</code>. For the simplicity, we will use <code class="highlighter-rouge">cats.effect.IO</code> in these examples.</p>
 
-<p>To create an instance, we need to provide it with configuration which contains a few basic fields, like address of the StatsD server, prefix etc. For more information see scaladoc of the config class.</p>
+<p>To start creating your metrics, first you need to create a <code class="highlighter-rouge">MetricFactory[F[_]]</code>. Currently, the only implementation is
+in <code class="highlighter-rouge">statsd</code> package. MetricFactory is purely functional, so it requires you to provide type constructor which
+implements <code class="highlighter-rouge">cats.effect.Sync</code>. For the simplicity, we will use <code class="highlighter-rouge">cats.effect.IO</code> in these examples.</p>
+
+<p>To create an instance, we need to provide it with configuration which contains a few basic fields, like address of the
+StatsD server, prefix etc. For more information see scaladoc of the config class.</p>
 
 <p>The instance is wrapped in <code class="highlighter-rouge">Resource</code> because of the underlying <code class="highlighter-rouge">StatsD</code> client.</p>
 
@@ -57,7 +65,9 @@
 </code></pre></div></div>
 
 <h3 id="creating-metrics">Creating metrics</h3>
-<p>Once you have a metrics factory, creating metrics is straight-forward. Note that all metric operations return side-effecting actions.</p>
+
+<p>Once you have a metrics factory, creating metrics is straight-forward. Note that all metric operations return
+side-effecting actions.</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">factoryResource</span><span class="o">.</span><span class="py">use</span> <span class="o">{</span> <span class="n">factory</span> <span class="k">=&gt;</span>
     <span class="k">val</span> <span class="nv">count</span><span class="k">:</span> <span class="kt">Count</span><span class="o">[</span><span class="kt">IO</span><span class="o">]</span> <span class="k">=</span> <span class="nv">factory</span><span class="o">.</span><span class="py">count</span><span class="o">(</span><span class="s">"hits"</span><span class="o">)</span>
@@ -72,19 +82,24 @@
 </code></pre></div></div>
 
 <h3 id="timers">Timers</h3>
-<p>In addition to basic datadog metrics, we provide a <code class="highlighter-rouge">Timer[F]</code> abstraction which has proved to be very useful is practice. Timers provide you with <code class="highlighter-rouge">.time[A](fa: F[A]): F[A]</code> method, which will measure how long it took to run provided <code class="highlighter-rouge">fa</code>. In addition, it tags the metric with <code class="highlighter-rouge">success:true</code> or <code class="highlighter-rouge">success:false</code> and <code class="highlighter-rouge">exception:&lt;&lt;throwable class name&gt;&gt;</code> in case the <code class="highlighter-rouge">fa</code> failed.</p>
+
+<p>In addition to basic datadog metrics, we provide a <code class="highlighter-rouge">Timer[F]</code> abstraction which has proved to be very useful is
+practice. Timers provide you with <code class="highlighter-rouge">.time[A](fa: F[A]): F[A]</code> method, which will measure how long it took to run
+provided <code class="highlighter-rouge">fa</code>. In addition, it tags the metric with <code class="highlighter-rouge">success:true</code> or <code class="highlighter-rouge">success:false</code>
+and <code class="highlighter-rouge">exception:&lt;&lt;throwable class name&gt;&gt;</code> in case the <code class="highlighter-rouge">fa</code> failed.</p>
 
 <h4 id="histogram-vs-distribution">Histogram vs Distribution</h4>
-<p>There are two versions of timers, one backed by <code class="highlighter-rouge">Histogram</code> and one backed by <code class="highlighter-rouge">Distribution</code>. You can read scaladoc for more details and links to datadog documentation.</p>
 
-<p>Long story short, <code class="highlighter-rouge">histogram</code> backed timers are aggregated per datadog agent, while the <code class="highlighter-rouge">distributions</code> are computed on datadog server. The implications are that <code class="highlighter-rouge">distribution</code> based timers, and it’s buckets (50th, 75th, 95th percentile etc) are more correct and in general it’s the implementation that we’d suggest to use.</p>
+<p>There are two versions of timers, one backed by <code class="highlighter-rouge">Histogram</code> and one backed by <code class="highlighter-rouge">Distribution</code>. You can read scaladoc for
+more details and links to datadog documentation.</p>
+
+<p>Long story short, <code class="highlighter-rouge">histogram</code> backed timers are aggregated per datadog agent, while the <code class="highlighter-rouge">distributions</code> are computed on
+datadog server. The implications are that <code class="highlighter-rouge">distribution</code> based timers, and it’s buckets (50th, 75th, 95th percentile
+etc) are more correct and in general it’s the implementation that we’d suggest to use.</p>
 
 <h4 id="example">Example</h4>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-
-
-<span class="nv">factoryResource</span><span class="o">.</span><span class="py">use</span> <span class="o">{</span> <span class="n">factory</span> <span class="k">=&gt;</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">factoryResource</span><span class="o">.</span><span class="py">use</span> <span class="o">{</span> <span class="n">factory</span> <span class="k">=&gt;</span>
     <span class="k">val</span> <span class="nv">timer</span> <span class="k">=</span> <span class="nv">factory</span><span class="o">.</span><span class="py">timer</span><span class="o">.</span><span class="py">distribution</span><span class="o">(</span><span class="s">"request-latency"</span><span class="o">)</span>
 
     <span class="nv">timer</span><span class="o">.</span><span class="py">time</span><span class="o">(</span><span class="nv">IO</span><span class="o">.</span><span class="py">delay</span><span class="o">(</span><span class="nf">println</span><span class="o">(</span><span class="s">"success"</span><span class="o">)))</span> <span class="c1">// tagged with success:true</span>
@@ -93,22 +108,30 @@
 </code></pre></div></div>
 
 <h3 id="tagging">Tagging</h3>
+
 <p>There are two ways to create a <code class="highlighter-rouge">Tag</code> instances. One way is using <code class="highlighter-rouge">of</code> method of <code class="highlighter-rouge">Tag</code> object, like so:</p>
+
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.avast.datadog4s.api.Tag</span>
 
 <span class="nv">Tag</span><span class="o">.</span><span class="py">of</span><span class="o">(</span><span class="s">"endpoint"</span><span class="o">,</span> <span class="s">"admin/login"</span><span class="o">)</span>
 <span class="c1">// res2: Tag = "endpoint:admin/login"</span>
 </code></pre></div></div>
-<p>This is simple and straight-forward, but in some cases it leaves your code with <code class="highlighter-rouge">Tag</code> keys scattered around and forces you to repeat it - making it prone to misspells etc. The better way is to use <code class="highlighter-rouge">Tagger</code>.</p>
+
+<p>This is simple and straight-forward, but in some cases it leaves your code with <code class="highlighter-rouge">Tag</code> keys scattered around and forces
+you to repeat it - making it prone to misspells etc. The better way is to use <code class="highlighter-rouge">Tagger</code>.</p>
 
 <h4 id="tagger">Tagger</h4>
-<p><code class="highlighter-rouge">Tagger[T]</code> is basically a factory interface for creating tags based on provided value of type <code class="highlighter-rouge">T</code> - as long as implicit <code class="highlighter-rouge">TagValue[T]</code> exists in scope. This instance is used for converting <code class="highlighter-rouge">T</code> into <code class="highlighter-rouge">String</code>. By using <code class="highlighter-rouge">Tagger</code>, you get a single value that you can use in multiple places in your code to create <code class="highlighter-rouge">Tag</code>s without repeating yourself.</p>
+
+<p><code class="highlighter-rouge">Tagger[T]</code> is basically a factory interface for creating tags based on provided value of type <code class="highlighter-rouge">T</code> - as long as
+implicit <code class="highlighter-rouge">TagValue[T]</code> exists in scope. This instance is used for converting <code class="highlighter-rouge">T</code> into <code class="highlighter-rouge">String</code>. By using <code class="highlighter-rouge">Tagger</code>, you
+get a single value that you can use in multiple places in your code to create <code class="highlighter-rouge">Tag</code>s without repeating yourself.</p>
 
 <p>Example:</p>
+
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.avast.datadog4s.api.tag.</span><span class="o">{</span><span class="nc">TagValue</span><span class="o">,</span> <span class="nc">Tagger</span><span class="o">}</span>
 
 <span class="k">val</span> <span class="nv">pathTagger</span><span class="k">:</span> <span class="kt">Tagger</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nv">Tagger</span><span class="o">.</span><span class="py">make</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"path"</span><span class="o">)</span>
-<span class="c1">// pathTagger: Tagger[String] = com.avast.datadog4s.api.tag.Tagger$$anon$1@6ecf4926</span>
+<span class="c1">// pathTagger: Tagger[String] = com.avast.datadog4s.api.tag.Tagger$$anon$1@46d37f58</span>
 <span class="nf">assert</span><span class="o">(</span><span class="nv">Tag</span><span class="o">.</span><span class="py">of</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"admin/login"</span><span class="o">)</span> <span class="o">==</span> <span class="nv">pathTagger</span><span class="o">.</span><span class="py">tag</span><span class="o">(</span><span class="s">"admin/login"</span><span class="o">))</span>
 
 <span class="c1">// tagger also supports taging using custom types using TagValue typeclass</span>
@@ -116,19 +139,22 @@
 <span class="k">case</span> <span class="k">class</span> <span class="nc">StatusCode</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>  
 
 <span class="k">implicit</span> <span class="k">val</span> <span class="nv">statusCodeTagValue</span><span class="k">:</span> <span class="kt">TagValue</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">]</span> <span class="k">=</span> <span class="nc">TagValue</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="py">contramap</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">](</span><span class="n">sc</span> <span class="k">=&gt;</span> <span class="nv">sc</span><span class="o">.</span><span class="py">value</span><span class="o">)</span>
-<span class="c1">// statusCodeTagValue: TagValue[StatusCode] = com.avast.datadog4s.api.tag.TagValue$$anonfun$contramap$2@7ebac8d3</span>
+<span class="c1">// statusCodeTagValue: TagValue[StatusCode] = com.avast.datadog4s.api.tag.TagValue$$anonfun$contramap$2@12201a4e</span>
 
 <span class="k">val</span> <span class="nv">statusCodeTagger</span><span class="k">:</span> <span class="kt">Tagger</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">]</span> <span class="k">=</span> <span class="nv">Tagger</span><span class="o">.</span><span class="py">make</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">](</span><span class="s">"statusCode"</span><span class="o">)</span>
-<span class="c1">// statusCodeTagger: Tagger[StatusCode] = com.avast.datadog4s.api.tag.Tagger$$anon$1@548cfe15</span>
+<span class="c1">// statusCodeTagger: Tagger[StatusCode] = com.avast.datadog4s.api.tag.Tagger$$anon$1@407636c0</span>
 
 <span class="nf">assert</span><span class="o">(</span><span class="nv">Tag</span><span class="o">.</span><span class="py">of</span><span class="o">(</span><span class="s">"statusCode"</span><span class="o">,</span> <span class="s">"200"</span><span class="o">)</span> <span class="o">==</span> <span class="nv">statusCodeTagger</span><span class="o">.</span><span class="py">tag</span><span class="o">(</span><span class="nc">StatusCode</span><span class="o">(</span><span class="mi">200</span><span class="o">)))</span>
 </code></pre></div></div>
 
 <h2 id="extensions">Extensions</h2>
+
 <p>Extensions are packages that monitor some functionality for you - without you having to do much.</p>
 
 <h3 id="http4s">Http4s</h3>
-<p>Http4s package (<code class="highlighter-rouge">datadog4s-http4s</code>) provides implementation of <a href="metrics-ops">MetricsOps</a> that is used by <a href="http4s">http4s</a> to report both client and server metrics.</p>
+
+<p>Http4s package (<code class="highlighter-rouge">datadog4s-http4s</code>) provides implementation of <a href="metrics-ops">MetricsOps</a> that is used
+by <a href="http4s">http4s</a> to report both client and server metrics.</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.avast.datadog4s.extension.http4s._</span>
 
@@ -143,9 +169,14 @@
 </code></pre></div></div>
 
 <h3 id="jvm-monitoring">Jvm monitoring</h3>
-<p>JVM monitoring package (<code class="highlighter-rouge">datadog4s-jvm</code>) collects a bunch of JVM metrics that we found useful over last 5 or so years running JVM apps in Avast. Those metrics can be found in <a href="https://github.com/avast/datadog4s/blob/master/code/jvm/src/main/scala/com/avast/datadog4s/extension/jvm/JvmReporter.scala">JvmReporter</a> and are hopefully self-explanatory. We tried to match reported metrics to <a href="https://docs.datadoghq.com/tracing/runtime_metrics/java/">datadog JVM runtime metrics</a></p>
 
-<p>Usage can not be simpler (unless you want to configure things like collection-frequency etc.). Simply add following to your initialization code. Resource is returned, because a fiber is started in the background and has to be terminated eventually.</p>
+<p>JVM monitoring package (<code class="highlighter-rouge">datadog4s-jvm</code>) collects a bunch of JVM metrics that we found useful over last 5 or so years
+running JVM apps in Avast. Those metrics can be found in <a href="https://github.com/avast/datadog4s/blob/master/code/jvm/src/main/scala/com/avast/datadog4s/extension/jvm/JvmReporter.scala">JvmReporter</a> and are hopefully
+self-explanatory. We tried to match reported metrics to <a href="https://docs.datadoghq.com/tracing/runtime_metrics/java/">datadog JVM runtime metrics</a></p>
+
+<p>Usage can not be simpler (unless you want to configure things like collection-frequency etc.). Simply add following to
+your initialization code. Resource is returned, because a fiber is started in the background and has to be terminated
+eventually.</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.avast.datadog4s.extension.jvm._</span>
 <span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext</span>
@@ -164,21 +195,3 @@
 <span class="o">}</span>
 </code></pre></div></div>
 
-</section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/datadog4s/highlight/highlight.pack.js"></script><script src="/datadog4s/lunr/lunr.js"></script><script>
-// For all code blocks, copy the language from the containing div
-// to the inner code tag (where hljs expects it to be)
-const langPrefix = 'language-';
-document.querySelectorAll(`div[class^='${langPrefix}']`).forEach(function(div) {
-  div.classList.forEach(function(cssClass) {
-    if (cssClass.startsWith(langPrefix)) {
-      const lang = cssClass.substring(langPrefix.length);
-      div.querySelectorAll('pre code').forEach(function(code) {
-        code.classList.add(lang);
-      });
-    }
-  });
-});
-
-hljs.configure({languages:['scala','java','bash']});
-hljs.initHighlightingOnLoad();
-      </script><script>console.info('\x57\x65\x62\x73\x69\x74\x65\x20\x62\x75\x69\x6c\x74\x20\x77\x69\x74\x68\x3a\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5f\x5f\x20\x20\x20\x20\x5f\x5f\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5f\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x5f\x20\x5f\x5f\x0a\x20\x20\x20\x5f\x5f\x5f\x5f\x5f\x2f\x20\x2f\x5f\x20\x20\x2f\x20\x2f\x5f\x20\x20\x20\x20\x20\x20\x5f\x5f\x5f\x5f\x20\x5f\x5f\x5f\x20\x20\x28\x5f\x29\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x5f\x20\x20\x5f\x5f\x5f\x5f\x5f\x28\x5f\x29\x20\x2f\x5f\x5f\x5f\x5f\x20\x20\x5f\x5f\x5f\x5f\x5f\x0a\x20\x20\x2f\x20\x5f\x5f\x5f\x2f\x20\x5f\x5f\x20\x5c\x2f\x20\x5f\x5f\x2f\x5f\x5f\x5f\x5f\x5f\x2f\x20\x5f\x5f\x20\x60\x5f\x5f\x20\x5c\x2f\x20\x2f\x20\x5f\x5f\x5f\x2f\x20\x5f\x5f\x5f\x2f\x20\x5f\x5f\x20\x5c\x2f\x20\x5f\x5f\x5f\x2f\x20\x2f\x20\x5f\x5f\x2f\x20\x5f\x20\x5c\x2f\x20\x5f\x5f\x5f\x2f\x0a\x20\x28\x5f\x5f\x20\x20\x29\x20\x2f\x5f\x2f\x20\x2f\x20\x2f\x5f\x2f\x5f\x5f\x5f\x5f\x5f\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x20\x2f\x5f\x5f\x2f\x20\x2f\x20\x20\x2f\x20\x2f\x5f\x2f\x20\x28\x5f\x5f\x20\x20\x29\x20\x2f\x20\x2f\x5f\x2f\x20\x20\x5f\x5f\x28\x5f\x5f\x20\x20\x29\x0a\x2f\x5f\x5f\x5f\x5f\x2f\x5f\x2e\x5f\x5f\x5f\x2f\x5c\x5f\x5f\x2f\x20\x20\x20\x20\x20\x2f\x5f\x2f\x20\x2f\x5f\x2f\x20\x2f\x5f\x2f\x5f\x2f\x5c\x5f\x5f\x5f\x2f\x5f\x2f\x20\x20\x20\x5c\x5f\x5f\x5f\x5f\x2f\x5f\x5f\x5f\x5f\x2f\x5f\x2f\x5c\x5f\x5f\x2f\x5c\x5f\x5f\x5f\x2f\x5f\x5f\x5f\x5f\x2f\x0a\x0a\x68\x74\x74\x70\x73\x3a\x2f\x2f\x34\x37\x64\x65\x67\x2e\x67\x69\x74\x68\x75\x62\x2e\x69\x6f\x2f\x73\x62\x74\x2d\x6d\x69\x63\x72\x6f\x73\x69\x74\x65\x73')</script><script src="/datadog4s/js/search.js"></script><script src="/datadog4s/js/main.js"></script></body></html>
