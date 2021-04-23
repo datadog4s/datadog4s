@@ -24,14 +24,14 @@ abstract class TimerImpl[F[_]: Sync](
       start <- clock.monotonic(TimeUnit.NANOSECONDS)
       a     <- F.recoverWith(value)(measureFailed(start))
       stop  <- clock.monotonic(TimeUnit.NANOSECONDS)
-      _     <- recordT(toDuration(stop - start), (tags :+ succeededTag): _*)
+      _     <- record(toDuration(stop - start), (tags :+ succeededTag): _*)
     } yield a
 
   private def measureFailed[A](startTime: Long, tags: Tag*): PartialFunction[Throwable, F[A]] = { case thr: Throwable =>
     val finalTags   = tags :+ exceptionTagger.tag(thr) :+ failedTag
     val computation = for {
       stop <- clock.monotonic(TimeUnit.NANOSECONDS)
-      _    <- recordT(toDuration(stop - startTime), finalTags: _*)
+      _    <- record(toDuration(stop - startTime), finalTags: _*)
     } yield ()
     computation >> F.raiseError[A](thr)
   }
