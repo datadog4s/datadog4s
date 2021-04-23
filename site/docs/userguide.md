@@ -82,6 +82,9 @@ practice. Timers provide you with `.time[A](fa: F[A]): F[A]` method, which will 
 provided `fa`. In addition, it tags the metric with `success:true` or `success:false`
 and `exception:<<throwable class name>>` in case the `fa` failed.
 
+In addition to `.time[A]` method it also allows for recording of raw values that represent elapsed time or even raw time
+data. You can see example of such calls below.
+
 #### Histogram vs Distribution
 
 There are two versions of timers, one backed by `Histogram` and one backed by `Distribution`. You can read scaladoc for
@@ -99,6 +102,19 @@ factoryResource.use { factory =>
 
     timer.time(IO.delay(println("success"))) // tagged with success:true
     timer.time(IO.raiseError(new NullPointerException("error"))) // tagged with success:false and exception:NullPointerException
+    
+    
+    // timer.record works for all types that implement `ElapsedTime` typeclass, out of the box we provide implementation
+    // for java.time.Duration and scala.concurrent.duration.FiniteDuration
+    
+    import java.time.Duration
+    timer.record(Duration.ofNanos(1000))
+    
+    import scala.concurrent.duration.FiniteDuration
+    import java.util.concurrent.TimeUnit
+    timer.record(FiniteDuration(1000, TimeUnit.MILLISECONDS))
+    
+    timer.recordTime(1000L, TimeUnit.MILLISECONDS)
 }
 ```
 
