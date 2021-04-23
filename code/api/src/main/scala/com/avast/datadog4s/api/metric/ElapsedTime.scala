@@ -8,6 +8,7 @@ import scala.concurrent.duration.FiniteDuration
  * Representation of Elapsed time
  */
 trait ElapsedTime[A] { self =>
+
   /**
    * Return amount of elapsed `timeUnit`s stored in `instance`. For example:
    * given `instance` that represents 24 hours, `amount(instance, TimeUnit.MINUTES)` should return 1440 (24*60)
