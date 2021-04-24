@@ -1,5 +1,6 @@
 ---
-layout: docs title:  "User guide"
+layout: docs 
+title:  "User guide"
 position: 1
 ---
 
