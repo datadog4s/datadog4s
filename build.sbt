@@ -35,9 +35,8 @@ lazy val global = project
   .settings(name := "datadog4s")
   .settings(commonSettings)
   .settings(scalaSettings)
-  // http4s is disabled until it migrates to cats-effect3
-  .aggregate(api, statsd, /*http4s,*/ jvm, site, common, playground)
-  .dependsOn(api, statsd, /*http4s,*/ jvm)
+  .aggregate(api, statsd, http4s, jvm, site, common, playground)
+  .dependsOn(api, statsd, http4s, jvm)
   .disablePlugins(MimaPlugin)
 
 lazy val api = project
