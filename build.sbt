@@ -46,7 +46,7 @@ lazy val api = project
     scalaSettings,
     commonSettings,
     publishSettings,
-    libraryDependencies += Dependencies.Cats.core.cross(CrossVersion.for3Use2_13)
+    libraryDependencies += Dependencies.Cats.core
   )
 
 lazy val common = project
@@ -56,7 +56,7 @@ lazy val common = project
     scalaSettings,
     commonSettings,
     publishSettings,
-    libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
+    libraryDependencies += Dependencies.Cats.effect,
     libraryDependencies += (Dependencies.Logging.logback % Test)
   )
   .dependsOn(api)
@@ -68,7 +68,7 @@ lazy val statsd = project
     scalaSettings,
     commonSettings,
     publishSettings,
-    libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
+    libraryDependencies += Dependencies.Cats.effect,
     libraryDependencies += Dependencies.Datadog.statsDClient,
     libraryDependencies += Dependencies.ScalaModules.collectionCompat
   )
@@ -81,8 +81,8 @@ lazy val http4s = project
     scalaSettings,
     commonSettings,
     publishSettings,
-    libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
-    libraryDependencies += Dependencies.Http4s.core.cross(CrossVersion.for3Use2_13)
+    libraryDependencies += Dependencies.Cats.effect,
+    libraryDependencies += Dependencies.Http4s.core
   )
   .dependsOn(api)
 
@@ -93,7 +93,7 @@ lazy val jvm        = project
     scalaSettings,
     commonSettings,
     publishSettings,
-    libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
+    libraryDependencies += Dependencies.Cats.effect,
     libraryDependencies += Dependencies.ScalaModules.collectionCompat
   )
   .dependsOn(api, common % "compile->compile;test->test")
