@@ -1,5 +1,6 @@
 ---
-layout: docs title:  "User guide"
+layout: docs 
+title:  "User guide"
 position: 1
 ---
 
@@ -85,6 +86,9 @@ and `exception:<<throwable class name>>` in case the `fa` failed.
 In addition to `.time[A]` method it also allows for recording of raw values that represent elapsed time or even raw time
 data. You can see example of such calls below.
 
+Optionally, when creating a `Timer`, you can also set the time units which will be used for reporting. By default, all
+timers create with `microsecond` granularity. You can provide your own time unit if you need more or less precision.
+
 #### Histogram vs Distribution
 
 There are two versions of timers, one backed by `Histogram` and one backed by `Distribution`. You can read scaladoc for
@@ -97,12 +101,16 @@ etc) are more correct and in general it's the implementation that we'd suggest t
 #### Example
 
 ```scala mdoc:silent
+import java.util.concurrent.TimeUnit
+
 factoryResource.use { factory =>
     val timer = factory.timer.distribution("request-latency")
-
+    
     timer.time(IO.delay(println("success"))) // tagged with success:true
     timer.time(IO.raiseError(new NullPointerException("error"))) // tagged with success:false and exception:NullPointerException
     
+    val nanoTimer = factory.timer.distribution("nano-timer", timeUnit = TimeUnit.NANOSECONDS)
+    nanoTimer.time(IO.delay(println("success"))) // metric will be recorded with 'nanoseconds' precision
     
     // timer.record works for all types that implement `ElapsedTime` typeclass, out of the box we provide implementation
     // for java.time.Duration and scala.concurrent.duration.FiniteDuration
@@ -111,7 +119,6 @@ factoryResource.use { factory =>
     timer.record(Duration.ofNanos(1000))
     
     import scala.concurrent.duration.FiniteDuration
-    import java.util.concurrent.TimeUnit
     timer.record(FiniteDuration(1000, TimeUnit.MILLISECONDS))
     
     timer.recordTime(1000L, TimeUnit.MILLISECONDS)
