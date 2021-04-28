@@ -123,7 +123,7 @@ lazy val site = (project in file("site"))
   )
   .settings(publish / skip := true)
   .settings(BuildSupport.micrositeSettings: _*)
-  .dependsOn(api, statsd, /*http4s,*/ jvm)
+  .dependsOn(api, statsd, http4s, jvm)
 
 addCommandAlias(
   "checkAll",
