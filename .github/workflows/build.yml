@@ -55,9 +55,9 @@ jobs:
         extraKey: scala-${{ matrix.scala }}
     - name: Compile & Test
       run: sbt checkAll
-#    - name: Run binary compatiblity check ## disabled to avoid issues with dotty build missing
-#      if: contains(github.ref, 'refs/tags/v') && !endsWith(github.ref, '.0')
-#      run: sbt +mimaReportBinaryIssues
+    - name: Run binary compatiblity check ## disabled to avoid issues with dotty build missing
+      if: contains(github.ref, 'refs/tags/v') && !endsWith(github.ref, '.0')
+      run: sbt +mimaReportBinaryIssues
     - name: Release
       env:
         PGP_SECRET: ${{ secrets.PGP_SECRET }}
