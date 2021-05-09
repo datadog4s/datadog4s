@@ -1,47 +1,23 @@
-<!DOCTYPE html><html><head><title>datadog4s: User guide</title><meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Tomas Herman" /><meta name="description" content="Great monitoring made easy" /><meta name="og:image" content="/datadog4s/img/poster.png" /><meta name="image" property="og:image" content="/datadog4s/img/poster.png" /><meta name="og:title" content="datadog4s: User guide" /><meta name="title" property="og:title" content="datadog4s: User guide" /><meta name="og:site_name" content="datadog4s" /><meta name="og:url" content="https://github.com/avast/datadog4s" /><meta name="og:type" content="website" /><meta name="og:description" content="Great monitoring made easy" /><link rel="icon" type="image/png" href="/datadog4s/img/favicon.png" /><meta name="twitter:title" content="datadog4s: User guide" /><meta name="twitter:image" content="https://avast.github.io/datadog4s/img/poster.png" /><meta name="twitter:description" content="Great monitoring made easy" /><meta name="twitter:card" content="summary_large_image" /><link rel="icon" type="image/png" sizes="16x16" href="/datadog4s/img/favicon16x16.png" /><link rel="icon" type="image/png" sizes="24x24" href="/datadog4s/img/favicon24x24.png" /><link rel="icon" type="image/png" sizes="32x32" href="/datadog4s/img/favicon32x32.png" /><link rel="icon" type="image/png" sizes="48x48" href="/datadog4s/img/favicon48x48.png" /><link rel="icon" type="image/png" sizes="57x57" href="/datadog4s/img/favicon57x57.png" /><link rel="icon" type="image/png" sizes="60x60" href="/datadog4s/img/favicon60x60.png" /><link rel="icon" type="image/png" sizes="64x64" href="/datadog4s/img/favicon64x64.png" /><link rel="icon" type="image/png" sizes="70x70" href="/datadog4s/img/favicon70x70.png" /><link rel="icon" type="image/png" sizes="72x72" href="/datadog4s/img/favicon72x72.png" /><link rel="icon" type="image/png" sizes="76x76" href="/datadog4s/img/favicon76x76.png" /><link rel="icon" type="image/png" sizes="96x96" href="/datadog4s/img/favicon96x96.png" /><link rel="icon" type="image/png" sizes="114x114" href="/datadog4s/img/favicon114x114.png" /><link rel="icon" type="image/png" sizes="120x120" href="/datadog4s/img/favicon120x120.png" /><link rel="icon" type="image/png" sizes="128x128" href="/datadog4s/img/favicon128x128.png" /><link rel="icon" type="image/png" sizes="144x144" href="/datadog4s/img/favicon144x144.png" /><link rel="icon" type="image/png" sizes="150x150" href="/datadog4s/img/favicon150x150.png" /><link rel="icon" type="image/png" sizes="152x152" href="/datadog4s/img/favicon152x152.png" /><link rel="icon" type="image/png" sizes="196x196" href="/datadog4s/img/favicon196x196.png" /><link rel="icon" type="image/png" sizes="310x310" href="/datadog4s/img/favicon310x310.png" /><link rel="icon" type="image/png" sizes="310x150" href="/datadog4s/img/favicon310x150.png" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" /><link rel="stylesheet" href="/datadog4s/highlight/styles/vs.css" /><link rel="stylesheet" href="/datadog4s/css/pattern-style.css" /></head><body class="docs"><div id="wrapper"><div id="sidebar-wrapper"><ul id="sidebar" class="sidebar-nav"><li class="sidebar-brand"><a href="/datadog4s/" class="brand"><div class="brand-wrapper"><span>datadog4s</span></div></a></li> <li><a href="/datadog4s/userguide.html" class=" active ">User guide</a></li></ul></div><div id="page-content-wrapper"><div class="nav"><div class="container-fluid"><div class="row"><div class="col-lg-12"><div class="action-menu pull-left clearfix"><a href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a></div><ul class="pull-right"><li class="search-nav hidden-xs hidden-sm"><div id="search-dropdown"><label><i class="fa fa-search"></i>Search</label><input id="search-bar" type="text" placeholder="Enter keywords here..." onclick="displayToggleSearch(event)" /><ul id="search-dropdown-content" class="dropdown dropdown-content"></ul></div></li><li id="gh-eyes-item" class="hidden-xs to-uppercase"><a href="https://github.com/avast/datadog4s" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i><span>Watchers<span id="eyes" class="label label-default">--</span></span></a></li><li id="gh-stars-item" class="hidden-xs to-uppercase"><a href="https://github.com/avast/datadog4s" target="_blank" rel="noopener noreferrer"><i class="fa fa-star-o"></i><span>Stars<span id="stars" class="label label-default">--</span></span></a></li><li><a href="#" onclick="shareSiteTwitter('datadog4s Great monitoring made easy');"><i class="fa fa-twitter"></i></a></li><li><a href="#" onclick="shareSiteFacebook('datadog4s Great monitoring made easy');"><i class="fa fa-facebook"></i></a></li></ul></div></div></div></div><div id="content" data-github-owner="avast" data-github-repo="datadog4s"><div class="content-wrapper"><section><h1 id="user-guide">User guide</h1>
+<!DOCTYPE html><html><head><title>datadog4s: User guide</title><meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Tomas Herman" /><meta name="description" content="Great monitoring made easy" /><meta name="og:image" content="/datadog4s/img/poster.png" /><meta name="image" property="og:image" content="/datadog4s/img/poster.png" /><meta name="og:title" content="datadog4s: User guide" /><meta name="title" property="og:title" content="datadog4s: User guide" /><meta name="og:site_name" content="datadog4s" /><meta name="og:url" content="https://github.com/avast/datadog4s" /><meta name="og:type" content="website" /><meta name="og:description" content="Great monitoring made easy" /><link rel="icon" type="image/png" href="/datadog4s/img/favicon.png" /><meta name="twitter:title" content="datadog4s: User guide" /><meta name="twitter:image" content="https://avast.github.io/datadog4s/img/poster.png" /><meta name="twitter:description" content="Great monitoring made easy" /><meta name="twitter:card" content="summary_large_image" /><link rel="icon" type="image/png" sizes="16x16" href="/datadog4s/img/favicon16x16.png" /><link rel="icon" type="image/png" sizes="24x24" href="/datadog4s/img/favicon24x24.png" /><link rel="icon" type="image/png" sizes="32x32" href="/datadog4s/img/favicon32x32.png" /><link rel="icon" type="image/png" sizes="48x48" href="/datadog4s/img/favicon48x48.png" /><link rel="icon" type="image/png" sizes="57x57" href="/datadog4s/img/favicon57x57.png" /><link rel="icon" type="image/png" sizes="60x60" href="/datadog4s/img/favicon60x60.png" /><link rel="icon" type="image/png" sizes="64x64" href="/datadog4s/img/favicon64x64.png" /><link rel="icon" type="image/png" sizes="70x70" href="/datadog4s/img/favicon70x70.png" /><link rel="icon" type="image/png" sizes="72x72" href="/datadog4s/img/favicon72x72.png" /><link rel="icon" type="image/png" sizes="76x76" href="/datadog4s/img/favicon76x76.png" /><link rel="icon" type="image/png" sizes="96x96" href="/datadog4s/img/favicon96x96.png" /><link rel="icon" type="image/png" sizes="114x114" href="/datadog4s/img/favicon114x114.png" /><link rel="icon" type="image/png" sizes="120x120" href="/datadog4s/img/favicon120x120.png" /><link rel="icon" type="image/png" sizes="128x128" href="/datadog4s/img/favicon128x128.png" /><link rel="icon" type="image/png" sizes="144x144" href="/datadog4s/img/favicon144x144.png" /><link rel="icon" type="image/png" sizes="150x150" href="/datadog4s/img/favicon150x150.png" /><link rel="icon" type="image/png" sizes="152x152" href="/datadog4s/img/favicon152x152.png" /><link rel="icon" type="image/png" sizes="196x196" href="/datadog4s/img/favicon196x196.png" /><link rel="icon" type="image/png" sizes="310x310" href="/datadog4s/img/favicon310x310.png" /><link rel="icon" type="image/png" sizes="310x150" href="/datadog4s/img/favicon310x150.png" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" /><link rel="stylesheet" href="/datadog4s/highlight/styles/vs.css" /><link rel="stylesheet" href="/datadog4s/css/pattern-style.css" /></head><body class="docs"><div id="wrapper"><div id="sidebar-wrapper"><ul id="sidebar" class="sidebar-nav"><li class="sidebar-brand"><a href="/datadog4s/" class="brand"><div class="brand-wrapper"><span>datadog4s</span></div></a></li> <li><a href="/datadog4s/install.html" class="">Install</a></li> <li><a href="/datadog4s/userguide.html" class=" active ">User guide</a></li></ul></div><div id="page-content-wrapper"><div class="nav"><div class="container-fluid"><div class="row"><div class="col-lg-12"><div class="action-menu pull-left clearfix"><a href="#menu-toggle" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></a></div><ul class="pull-right"><li class="search-nav hidden-xs hidden-sm"><div id="search-dropdown"><label><i class="fa fa-search"></i>Search</label><input id="search-bar" type="text" placeholder="Enter keywords here..." onclick="displayToggleSearch(event)" /><ul id="search-dropdown-content" class="dropdown dropdown-content"></ul></div></li><li id="gh-eyes-item" class="hidden-xs to-uppercase"><a href="https://github.com/avast/datadog4s" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i><span>Watchers<span id="eyes" class="label label-default">--</span></span></a></li><li id="gh-stars-item" class="hidden-xs to-uppercase"><a href="https://github.com/avast/datadog4s" target="_blank" rel="noopener noreferrer"><i class="fa fa-star-o"></i><span>Stars<span id="stars" class="label label-default">--</span></span></a></li><li><a href="#" onclick="shareSiteTwitter('datadog4s Great monitoring made easy');"><i class="fa fa-twitter"></i></a></li><li><a href="#" onclick="shareSiteFacebook('datadog4s Great monitoring made easy');"><i class="fa fa-facebook"></i></a></li></ul></div></div></div></div><div id="content" data-github-owner="avast" data-github-repo="datadog4s"><div class="content-wrapper"><section><h1 id="user-guide">User guide</h1>
 
 <ul>
-  <li><a href="#user-guide">User guide</a>
+  <li><a href="#creating-metric-factory">Creating metric factory</a></li>
+  <li><a href="#creating-metrics">Creating metrics</a></li>
+  <li><a href="#timers">Timers</a></li>
+  <li><a href="#tagging">Tagging</a>
     <ul>
-      <li><a href="#quick-start">Quick start</a>
-        <ul>
-          <li><a href="#installation">Installation</a></li>
-          <li><a href="#creating-metric-factory">Creating metric factory</a></li>
-          <li><a href="#creating-metrics">Creating metrics</a></li>
-          <li><a href="#timers">Timers</a></li>
-          <li><a href="#tagging">Tagging</a>
-            <ul>
-              <li><a href="#tagger">Tagger</a></li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li><a href="#extensions">Extensions</a>
-        <ul>
-          <li><a href="#http4s">Http4s</a></li>
-          <li><a href="#jvm-monitoring">Jvm monitoring</a></li>
-        </ul>
-      </li>
+      <li><a href="#tagger">Tagger</a></li>
+    </ul>
+  </li>
+  <li><a href="#extensions">Extensions</a>
+    <ul>
+      <li><a href="#http4s">Http4s</a></li>
+      <li><a href="#jvm-monitoring">Jvm monitoring</a></li>
     </ul>
   </li>
 </ul>
 
-<h2 id="quick-start">Quick start</h2>
-
-<h3 id="installation">Installation</h3>
-
-<p>To start monitoring your code, first you need to add this library as a dependency to your project. This project is
-composed of multiple packages to make it easy for you to pick and choose what you require.</p>
-
-<p>You need to add <code class="highlighter-rouge">datadog4s-api</code> which contains classes defining our API. You also need to add its implementation.
-Currently, we only support metric delivery using StatsD in package <code class="highlighter-rouge">datadog4s</code> which already contains <code class="highlighter-rouge">api</code>. We are
-going to assume you are using <code class="highlighter-rouge">sbt</code>:</p>
-
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.avast.cloud"</span> <span class="o">%%</span> <span class="s">"datadog4s-api"</span> <span class="o">%</span> <span class="s">"0.13.0"</span>
-<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.avast.cloud"</span> <span class="o">%%</span> <span class="s">"datadog4s-statsd"</span> <span class="o">%</span> <span class="s">"0.13.0"</span>
-</code></pre></div></div>
-
-<h3 id="creating-metric-factory">Creating metric factory</h3>
+<h2 id="creating-metric-factory">Creating metric factory</h2>
 
 <p>To start creating your metrics, first you need to create a <code class="highlighter-rouge">MetricFactory[F[_]]</code>. Currently, the only implementation is
 in <code class="highlighter-rouge">statsd</code> package. MetricFactory is purely functional, so it requires you to provide type constructor which
@@ -64,7 +40,7 @@ StatsD server, prefix etc. For more information see scaladoc of the config class
 <span class="k">val</span> <span class="nv">factoryResource</span><span class="k">:</span> <span class="kt">Resource</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">MetricFactory</span><span class="o">[</span><span class="kt">IO</span><span class="o">]]</span> <span class="k">=</span> <span class="nv">StatsDMetricFactory</span><span class="o">.</span><span class="py">make</span><span class="o">(</span><span class="n">config</span><span class="o">)</span>
 </code></pre></div></div>
 
-<h3 id="creating-metrics">Creating metrics</h3>
+<h2 id="creating-metrics">Creating metrics</h2>
 
 <p>Once you have a metrics factory, creating metrics is straight-forward. Note that all metric operations return
 side-effecting actions.</p>
@@ -81,7 +57,7 @@ side-effecting actions.</p>
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h3 id="timers">Timers</h3>
+<h2 id="timers">Timers</h2>
 
 <p>In addition to basic datadog metrics, we provide a <code class="highlighter-rouge">Timer[F]</code> abstraction which has proved to be very useful is
 practice. Timers provide you with <code class="highlighter-rouge">.time[A](fa: F[A]): F[A]</code> method, which will measure how long it took to run
@@ -94,7 +70,7 @@ data. You can see example of such calls below.</p>
 <p>Optionally, when creating a <code class="highlighter-rouge">Timer</code>, you can also set the time units which will be used for reporting. By default, all
 timers create with <code class="highlighter-rouge">microsecond</code> granularity. You can provide your own time unit if you need more or less precision.</p>
 
-<h4 id="histogram-vs-distribution">Histogram vs Distribution</h4>
+<h3 id="histogram-vs-distribution">Histogram vs Distribution</h3>
 
 <p>There are two versions of timers, one backed by <code class="highlighter-rouge">Histogram</code> and one backed by <code class="highlighter-rouge">Distribution</code>. You can read scaladoc for
 more details and links to datadog documentation.</p>
@@ -103,7 +79,7 @@ more details and links to datadog documentation.</p>
 datadog server. The implications are that <code class="highlighter-rouge">distribution</code> based timers, and it’s buckets (50th, 75th, 95th percentile
 etc) are more correct and in general it’s the implementation that we’d suggest to use.</p>
 
-<h4 id="example">Example</h4>
+<h3 id="example">Example</h3>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">java.util.concurrent.TimeUnit</span>
 
@@ -129,7 +105,7 @@ etc) are more correct and in general it’s the implementation that we’d sugge
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h3 id="tagging">Tagging</h3>
+<h2 id="tagging">Tagging</h2>
 
 <p>There are two ways to create a <code class="highlighter-rouge">Tag</code> instances. One way is using <code class="highlighter-rouge">of</code> method of <code class="highlighter-rouge">Tag</code> object, like so:</p>
 
@@ -142,7 +118,7 @@ etc) are more correct and in general it’s the implementation that we’d sugge
 <p>This is simple and straight-forward, but in some cases it leaves your code with <code class="highlighter-rouge">Tag</code> keys scattered around and forces
 you to repeat it - making it prone to misspells etc. The better way is to use <code class="highlighter-rouge">Tagger</code>.</p>
 
-<h4 id="tagger">Tagger</h4>
+<h3 id="tagger">Tagger</h3>
 
 <p><code class="highlighter-rouge">Tagger[T]</code> is basically a factory interface for creating tags based on provided value of type <code class="highlighter-rouge">T</code> - as long as
 implicit <code class="highlighter-rouge">TagValue[T]</code> exists in scope. This instance is used for converting <code class="highlighter-rouge">T</code> into <code class="highlighter-rouge">String</code>. By using <code class="highlighter-rouge">Tagger</code>, you
@@ -153,7 +129,7 @@ get a single value that you can use in multiple places in your code to create <c
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.avast.datadog4s.api.tag.</span><span class="o">{</span><span class="nc">TagValue</span><span class="o">,</span> <span class="nc">Tagger</span><span class="o">}</span>
 
 <span class="k">val</span> <span class="nv">pathTagger</span><span class="k">:</span> <span class="kt">Tagger</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nv">Tagger</span><span class="o">.</span><span class="py">make</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"path"</span><span class="o">)</span>
-<span class="c1">// pathTagger: Tagger[String] = com.avast.datadog4s.api.tag.Tagger$$anon$1@5b823232</span>
+<span class="c1">// pathTagger: Tagger[String] = com.avast.datadog4s.api.tag.Tagger$$anon$1@7428b0e1</span>
 <span class="nf">assert</span><span class="o">(</span><span class="nv">Tag</span><span class="o">.</span><span class="py">of</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"admin/login"</span><span class="o">)</span> <span class="o">==</span> <span class="nv">pathTagger</span><span class="o">.</span><span class="py">tag</span><span class="o">(</span><span class="s">"admin/login"</span><span class="o">))</span>
 
 <span class="c1">// tagger also supports taging using custom types using TagValue typeclass</span>
@@ -161,10 +137,10 @@ get a single value that you can use in multiple places in your code to create <c
 <span class="k">case</span> <span class="k">class</span> <span class="nc">StatusCode</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>  
 
 <span class="k">implicit</span> <span class="k">val</span> <span class="nv">statusCodeTagValue</span><span class="k">:</span> <span class="kt">TagValue</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">]</span> <span class="k">=</span> <span class="nc">TagValue</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="py">contramap</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">](</span><span class="n">sc</span> <span class="k">=&gt;</span> <span class="nv">sc</span><span class="o">.</span><span class="py">value</span><span class="o">)</span>
-<span class="c1">// statusCodeTagValue: TagValue[StatusCode] = com.avast.datadog4s.api.tag.TagValue$$anonfun$contramap$2@1d3d785e</span>
+<span class="c1">// statusCodeTagValue: TagValue[StatusCode] = com.avast.datadog4s.api.tag.TagValue$$anonfun$contramap$2@1c71dcb4</span>
 
 <span class="k">val</span> <span class="nv">statusCodeTagger</span><span class="k">:</span> <span class="kt">Tagger</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">]</span> <span class="k">=</span> <span class="nv">Tagger</span><span class="o">.</span><span class="py">make</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">](</span><span class="s">"statusCode"</span><span class="o">)</span>
-<span class="c1">// statusCodeTagger: Tagger[StatusCode] = com.avast.datadog4s.api.tag.Tagger$$anon$1@74cc7fe5</span>
+<span class="c1">// statusCodeTagger: Tagger[StatusCode] = com.avast.datadog4s.api.tag.Tagger$$anon$1@43eb4b72</span>
 
 <span class="nf">assert</span><span class="o">(</span><span class="nv">Tag</span><span class="o">.</span><span class="py">of</span><span class="o">(</span><span class="s">"statusCode"</span><span class="o">,</span> <span class="s">"200"</span><span class="o">)</span> <span class="o">==</span> <span class="nv">statusCodeTagger</span><span class="o">.</span><span class="py">tag</span><span class="o">(</span><span class="nc">StatusCode</span><span class="o">(</span><span class="mi">200</span><span class="o">)))</span>
 </code></pre></div></div>
