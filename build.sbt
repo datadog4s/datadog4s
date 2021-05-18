@@ -1,9 +1,11 @@
 import BuildSupport.ScalaVersions._
 
-// settings only for projects that are published
-lazy val publishSettings = Seq(
+lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet
 )
+
+// settings only for projects that are published
+lazy val publishSettings = Seq() ++ mimaSettings
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala213,
@@ -33,6 +35,7 @@ lazy val commonSettings = Seq(
 lazy val global = project
   .in(file("."))
   .settings(name := "datadog4s")
+  .settings(mimaSettings)
   .settings(commonSettings)
   .settings(scalaSettings)
   .aggregate(api, statsd, http4s, jvm, site, common, playground)
@@ -105,6 +108,7 @@ lazy val playground = project
     commonSettings,
     scalaSettings
   )
+  .disablePlugins(MimaPlugin)
   .dependsOn(statsd)
 
 lazy val site = (project in file("site"))
