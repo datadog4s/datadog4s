@@ -1,3 +1,5 @@
 options:
+  - title: Install
+    url: install.html
   - title: User guide
     url: userguide.html

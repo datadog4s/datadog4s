@@ -1,0 +1,47 @@
+---
+layout:   docs
+title:    "Install"
+position: 1
+---
+
+# Installation
+
+
+To start monitoring your code, first you need to add this library as a dependency to your project. This project is
+composed of multiple packages to make it easy for you to pick and choose what you require.
+
+**Available Packages:** 
+
+|                     dependency name                     |                       notes                       |
+| ------------------------------------------------------- | ------------------------------------------------- |
+| `"com.avast.cloud" %% "datadog4s" % "@VERSION@"`        | all-you-can-eat ... all the available packages    |
+| `"com.avast.cloud" %% "datadog4s-api" % "@VERSION@"`    | api classes                                       |
+| `"com.avast.cloud" %% "datadog4s-statsd" % "@VERSION@"` | statsd implementation of api classes              |
+| `"com.avast.cloud" %% "datadog4s-jvm" % "@VERSION@"`    | support for monitoring JVM itself                 |
+| `"com.avast.cloud" %% "datadog4s-http4s" % "@VERSION@"` | monitoring support for [http4s][http4s] framework |
+
+
+For the bare minimum, you need to add `datadog4s-api` which contains classes defining our API. You also need to add its implementation.
+Currently, we only support metric delivery using StatsD in package `datadog4s` which already contains `api`. We are
+going to assume you are using `sbt`.
+
+To explore how to use imported libraries, please [read on](userguide.html)
+
+## Note on compatibility
+
+Datadog4s is released for both cats-effect2 and scala 2.12, 2.13 and @SCALA_3_VERSION@. To choose the right version, see
+the compatibility matrix:
+
+### _cats-effect **3.x.x**_:
+
+| library                       | 2.12 version           | 2.13 version           | @SCALA_3_VERSION@ version |
+| ----------------------------- | ---------------------- | ---------------------- | ------------------------- |
+| recommended datadog4s version | `@CE3_LATEST_VERSION@` | `@CE3_LATEST_VERSION@` | `@CE3_LATEST_VERSION@`    |
+| http4s version                | `@HTTP4S_VERSION@`     | `@HTTP4S_VERSION@`     | `@HTTP4S_VERSION@`        |
+
+### _cats-effect **2.x.x**_:
+
+| library                       | 2.12 version           | 2.13 version           | @SCALA_3_VERSION@ version |
+| ----------------------------- | ---------------------- | ---------------------- | ------------------------- |
+| recommended datadog4s version | `@CE2_LATEST_VERSION@` | `@CE2_LATEST_VERSION@` | `@CE2_LATEST_VERSION@`    |
+| http4s version                | `@HTTP4S_CE2_VERSION@` | `@HTTP4S_CE2_VERSION@` | `@HTTP4S_CE2_VERSION@`    |

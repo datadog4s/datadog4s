@@ -1,40 +1,21 @@
 ---
 layout: docs 
 title:  "User guide"
-position: 1
+position: 2
 ---
 
 # User guide
 
-- [User guide](#user-guide)
-    - [Quick start](#quick-start)
-        - [Installation](#installation)
-        - [Creating metric factory](#creating-metric-factory)
-        - [Creating metrics](#creating-metrics)
-        - [Timers](#timers)
-        - [Tagging](#tagging)
-            - [Tagger](#tagger)
-    - [Extensions](#extensions)
-        - [Http4s](#http4s)
-        - [Jvm monitoring](#jvm-monitoring)
+- [Creating metric factory](#creating-metric-factory)
+- [Creating metrics](#creating-metrics)
+- [Timers](#timers)
+- [Tagging](#tagging)
+  - [Tagger](#tagger)
+- [Extensions](#extensions)
+  - [Http4s](#http4s)
+  - [Jvm monitoring](#jvm-monitoring)
 
-## Quick start
-
-### Installation
-
-To start monitoring your code, first you need to add this library as a dependency to your project. This project is
-composed of multiple packages to make it easy for you to pick and choose what you require.
-
-You need to add `datadog4s-api` which contains classes defining our API. You also need to add its implementation.
-Currently, we only support metric delivery using StatsD in package `datadog4s` which already contains `api`. We are
-going to assume you are using `sbt`:
-
-```scala
-libraryDependencies += "com.avast.cloud" %% "datadog4s-api" % "@VERSION@"
-libraryDependencies += "com.avast.cloud" %% "datadog4s-statsd" % "@VERSION@"
-```
-
-### Creating metric factory
+## Creating metric factory
 
 To start creating your metrics, first you need to create a `MetricFactory[F[_]]`. Currently, the only implementation is
 in `statsd` package. MetricFactory is purely functional, so it requires you to provide type constructor which
@@ -58,7 +39,7 @@ val config = StatsDMetricFactoryConfig(Some("my-app-name"), statsDServer)
 val factoryResource: Resource[IO, MetricFactory[IO]] = StatsDMetricFactory.make(config)
 ```
 
-### Creating metrics
+## Creating metrics
 
 Once you have a metrics factory, creating metrics is straight-forward. Note that all metric operations return
 side-effecting actions.
@@ -76,7 +57,7 @@ factoryResource.use { factory =>
 }
 ```
 
-### Timers
+## Timers
 
 In addition to basic datadog metrics, we provide a `Timer[F]` abstraction which has proved to be very useful is
 practice. Timers provide you with `.time[A](fa: F[A]): F[A]` method, which will measure how long it took to run
@@ -89,7 +70,7 @@ data. You can see example of such calls below.
 Optionally, when creating a `Timer`, you can also set the time units which will be used for reporting. By default, all
 timers create with `microsecond` granularity. You can provide your own time unit if you need more or less precision.
 
-#### Histogram vs Distribution
+### Histogram vs Distribution
 
 There are two versions of timers, one backed by `Histogram` and one backed by `Distribution`. You can read scaladoc for
 more details and links to datadog documentation.
@@ -98,7 +79,7 @@ Long story short, `histogram` backed timers are aggregated per datadog agent, wh
 datadog server. The implications are that `distribution` based timers, and it's buckets (50th, 75th, 95th percentile
 etc) are more correct and in general it's the implementation that we'd suggest to use.
 
-#### Example
+### Example
 
 ```scala mdoc:silent
 import java.util.concurrent.TimeUnit
@@ -125,7 +106,7 @@ factoryResource.use { factory =>
 }
 ```
 
-### Tagging
+## Tagging
 
 There are two ways to create a `Tag` instances. One way is using `of` method of `Tag` object, like so:
 
@@ -138,7 +119,7 @@ Tag.of("endpoint", "admin/login")
 This is simple and straight-forward, but in some cases it leaves your code with `Tag` keys scattered around and forces
 you to repeat it - making it prone to misspells etc. The better way is to use `Tagger`.
 
-#### Tagger
+### Tagger
 
 `Tagger[T]` is basically a factory interface for creating tags based on provided value of type `T` - as long as
 implicit `TagValue[T]` exists in scope. This instance is used for converting `T` into `String`. By using `Tagger`, you
