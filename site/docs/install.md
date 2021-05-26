@@ -29,8 +29,7 @@ To explore how to use imported libraries, please [read on](userguide.html)
 
 ## Note on compatibility
 
-Datadog4s is released for both cats-effect2 and scala 2.12, 2.13 and @SCALA_3_VERSION@. To choose the right version, see
-the compatibility matrix:
+To pick the right version of datadog4s for your circumstance, please see the compatibility tables for cats-effect2 and cats-effect3:
 
 ### _cats-effect **3.x.x**_:
 
