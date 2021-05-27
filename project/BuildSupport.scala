@@ -42,7 +42,7 @@ object BuildSupport {
       "CATS_VERSION"        -> Cats.core.revision,
       "CATS_EFFECT_VERSION" -> Cats.effect.revision,
       "HTTP4S_VERSION"      -> Http4s.core.revision,
-      "HTTP4S_CE2_VERSION"  -> "0.21.22",
+      "HTTP4S_CE2_VERSION"  -> "0.21.24",
       "SCALA_3_VERSION"     -> ScalaVersions.scala3
     ),
     mdocAutoDependency := false,
