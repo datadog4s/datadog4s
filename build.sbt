@@ -110,6 +110,7 @@ lazy val playground = project
   )
   .disablePlugins(MimaPlugin)
   .dependsOn(statsd)
+  .dependsOn(jvm)
 
 lazy val site = (project in file("site"))
   .settings(scalaSettings)
