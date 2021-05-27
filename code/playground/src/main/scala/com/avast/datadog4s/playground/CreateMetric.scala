@@ -7,6 +7,7 @@ import com.avast.datadog4s.api.MetricFactory
 import com.avast.datadog4s.api.metric.{ Distribution, Histogram }
 import com.avast.datadog4s.extension.jvm.JvmMonitoring
 import com.avast.datadog4s.{ StatsDMetricFactory, StatsDMetricFactoryConfig }
+import scala.collection.compat.immutable._
 
 import java.net.InetSocketAddress
 

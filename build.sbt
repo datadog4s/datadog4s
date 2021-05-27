@@ -106,7 +106,8 @@ lazy val playground = project
   .settings(
     name := "datadog4s-playground",
     commonSettings,
-    scalaSettings
+    scalaSettings,
+    libraryDependencies += Dependencies.ScalaModules.collectionCompat
   )
   .disablePlugins(MimaPlugin)
   .dependsOn(statsd)
