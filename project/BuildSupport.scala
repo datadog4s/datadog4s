@@ -34,7 +34,7 @@ object BuildSupport {
         else { previousStableVersion.value.getOrElse("latestVersion") }
 
       },
-      "CE2_LATEST_VERSION"  -> "0.12.1",
+      "CE2_LATEST_VERSION"  -> "0.13.1",
       "CE3_LATEST_VERSION"  -> {
         if (!isSnapshot.value) { version.value }
         else { previousStableVersion.value.getOrElse("latestVersion") }
