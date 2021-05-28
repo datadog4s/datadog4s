@@ -1,7 +1,6 @@
 package com.avast.datadog4s.extension.http4s
 
-import cats.effect.Sync
-import cats.effect.concurrent.Ref
+import cats.effect.{ Ref, Sync }
 import cats.syntax.functor._
 import com.avast.datadog4s.api.{ MetricFactory, Tag }
 import com.avast.datadog4s.extension.http4s.DatadogMetricsOps.ClassifierTags

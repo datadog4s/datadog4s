@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 import scala.jdk.CollectionConverters._
 
 class TimerImplTest extends munit.FunSuite {
-
+  import cats.effect.unsafe.implicits.global
   trait TestFixture {
     val aspect: String
     val sampleRate: Double

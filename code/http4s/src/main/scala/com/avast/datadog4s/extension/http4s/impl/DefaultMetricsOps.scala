@@ -1,8 +1,7 @@
 package com.avast.datadog4s.extension.http4s.impl
 
 import java.time.Duration
-import cats.effect.Sync
-import cats.effect.concurrent.Ref
+import cats.effect.{ Ref, Sync }
 import cats.syntax.flatMap._
 import com.avast.datadog4s.api.MetricFactory
 import com.avast.datadog4s.api.metric.Timer

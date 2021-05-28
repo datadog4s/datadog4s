@@ -5,6 +5,7 @@ import com.avast.datadog4s.noop.NoopMetricFactory
 
 class JvmReporterTest extends munit.FunSuite {
   val reporter = new JvmReporter[IO](new NoopMetricFactory[IO])
+  import cats.effect.unsafe.implicits.global
 
   test("JvmReporter should not throw any exceptions") {
     reporter.collect.unsafeRunSync()

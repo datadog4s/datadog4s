@@ -1,8 +1,8 @@
 import sbt._
 object Dependencies {
   object Cats {
+    val effect = "org.typelevel" %% "cats-effect" % "3.1.1"
     val core   = "org.typelevel" %% "cats-core"   % "2.6.1"
-    val effect = "org.typelevel" %% "cats-effect" % "2.5.1"
   }
 
   object Datadog {
@@ -10,7 +10,7 @@ object Dependencies {
   }
 
   object Http4s {
-    val core = "org.http4s" %% "http4s-core" % "0.21.24"
+    val core = "org.http4s" %% "http4s-core" % "0.23.0-M1"
   }
 
   object Testing {

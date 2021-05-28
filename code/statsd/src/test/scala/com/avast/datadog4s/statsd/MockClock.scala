@@ -1,22 +1,23 @@
 package com.avast.datadog4s.statsd
 
-import java.util.concurrent.TimeUnit
+import cats.Applicative
+import cats.effect.unsafe.IORuntime
+import cats.effect.{ Clock, IO, Ref }
 
-import cats.effect.concurrent.Ref
-import cats.effect.{ Clock, IO }
-import cats.implicits.catsSyntaxFlatMapOps
+import scala.concurrent.duration._
 
-class MockClock extends Clock[IO] {
-  val callCount = Ref.of[IO, Int](0).unsafeRunSync()
+class MockClock(implicit r: IORuntime) extends Clock[IO] {
+  val callCount: Ref[IO, Int] = Ref.of[IO, Int](0).unsafeRunSync()
 
-  override def realTime(unit: TimeUnit): IO[Long] = ???
+  override def realTime: IO[FiniteDuration] = ???
 
-  override def monotonic(unit: TimeUnit): IO[Long] =
+  override def monotonic: IO[FiniteDuration] =
     callCount.get.flatMap { count =>
       if (count == 0)
-        callCount.update(_ + 1) >> IO.pure(10L * 1000 * 1000)
+        callCount.update(_ + 1) >> IO.pure((10L * 1000 * 1000).nano)
       else
-        IO.pure(30L * 1000 * 1000)
+        IO.pure((30L * 1000 * 1000).nano)
     }
 
+  override def applicative: Applicative[IO] = Applicative[IO]
 }

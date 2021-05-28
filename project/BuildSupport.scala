@@ -32,11 +32,17 @@ object BuildSupport {
       "VERSION"             -> {
         if (!isSnapshot.value) { version.value }
         else { previousStableVersion.value.getOrElse("latestVersion") }
+
+      },
+      "CE2_LATEST_VERSION"  -> "0.12.1",
+      "CE3_LATEST_VERSION"  -> {
+        if (!isSnapshot.value) { version.value }
+        else { previousStableVersion.value.getOrElse("latestVersion") }
       },
       "CATS_VERSION"        -> Cats.core.revision,
       "CATS_EFFECT_VERSION" -> Cats.effect.revision,
-      "HTTP4S_212_VERSION"  -> Http4s.core.revision,
-      "HTTP4S_213_VERSION"  -> Http4s.core.revision,
+      "HTTP4S_VERSION"      -> Http4s.core.revision,
+      "HTTP4S_CE2_VERSION"  -> "0.21.24",
       "SCALA_3_VERSION"     -> ScalaVersions.scala3
     ),
     mdocAutoDependency := false,

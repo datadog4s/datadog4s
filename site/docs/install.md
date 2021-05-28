@@ -28,10 +28,19 @@ going to assume you are using `sbt`.
 To explore how to use imported libraries, please [read on](userguide.html)
 
 ## Note on compatibility
-Datadog4s is currently released for following combinations of scala/cats versions:
 
-|   library   |      2.12 version       |      2.13 version       | @SCALA_3_VERSION@ version |
-| ----------- | ----------------------- | ----------------------- | ------------------------- |
-| cats-core   | `@CATS_VERSION@`        | `@CATS_VERSION@`        | `@CATS_VERSION@`          |
-| cats-effect | `@CATS_EFFECT_VERSION@` | `@CATS_EFFECT_VERSION@` | `@CATS_EFFECT_VERSION@`   |
-| http4s      | `@HTTP4S_212_VERSION@`  | `@HTTP4S_213_VERSION@`  | `@HTTP4S_213_VERSION@`    |
+To pick the right version of datadog4s for your circumstance, please see the compatibility tables for cats-effect2 and cats-effect3:
+
+### _cats-effect **3.x.x**_:
+
+| library                       | 2.12 version           | 2.13 version           | @SCALA_3_VERSION@ version |
+| ----------------------------- | ---------------------- | ---------------------- | ------------------------- |
+| recommended datadog4s version | `@CE3_LATEST_VERSION@` | `@CE3_LATEST_VERSION@` | `@CE3_LATEST_VERSION@`    |
+| http4s version                | `@HTTP4S_VERSION@`     | `@HTTP4S_VERSION@`     | `@HTTP4S_VERSION@`        |
+
+### _cats-effect **2.x.x**_:
+
+| library                       | 2.12 version           | 2.13 version           | @SCALA_3_VERSION@ version |
+| ----------------------------- | ---------------------- | ---------------------- | ------------------------- |
+| recommended datadog4s version | `@CE2_LATEST_VERSION@` | `@CE2_LATEST_VERSION@` | `@CE2_LATEST_VERSION@`    |
+| http4s version                | `@HTTP4S_CE2_VERSION@` | `@HTTP4S_CE2_VERSION@` | `@HTTP4S_CE2_VERSION@`    |
