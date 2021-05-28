@@ -43,7 +43,10 @@ going to assume you are using <code class="highlighter-rouge">sbt</code>.</p>
 <p>To explore how to use imported libraries, please <a href="userguide.html">read on</a></p>
 
 <h2 id="note-on-compatibility">Note on compatibility</h2>
-<p>Datadog4s is currently released for following combinations of scala/cats versions:</p>
+
+<p>To pick the right version of datadog4s for your circumstance, please see the compatibility tables for cats-effect2 and cats-effect3:</p>
+
+<h3 id="cats-effect-3xx"><em>cats-effect <strong>3.x.x</strong></em>:</h3>
 
 <table>
   <thead>
@@ -56,19 +59,40 @@ going to assume you are using <code class="highlighter-rouge">sbt</code>.</p>
   </thead>
   <tbody>
     <tr>
-      <td>cats-core</td>
-      <td><code class="highlighter-rouge">2.6.1</code></td>
-      <td><code class="highlighter-rouge">2.6.1</code></td>
-      <td><code class="highlighter-rouge">2.6.1</code></td>
+      <td>recommended datadog4s version</td>
+      <td><code class="highlighter-rouge">0.13.1</code></td>
+      <td><code class="highlighter-rouge">0.13.1</code></td>
+      <td><code class="highlighter-rouge">0.13.1</code></td>
     </tr>
     <tr>
-      <td>cats-effect</td>
-      <td><code class="highlighter-rouge">2.5.1</code></td>
-      <td><code class="highlighter-rouge">2.5.1</code></td>
-      <td><code class="highlighter-rouge">2.5.1</code></td>
+      <td>http4s version</td>
+      <td><code class="highlighter-rouge">0.23.0-M1</code></td>
+      <td><code class="highlighter-rouge">0.23.0-M1</code></td>
+      <td><code class="highlighter-rouge">0.23.0-M1</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="cats-effect-2xx"><em>cats-effect <strong>2.x.x</strong></em>:</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>library</th>
+      <th>2.12 version</th>
+      <th>2.13 version</th>
+      <th>3.0.0 version</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>recommended datadog4s version</td>
+      <td><code class="highlighter-rouge">0.12.1</code></td>
+      <td><code class="highlighter-rouge">0.12.1</code></td>
+      <td><code class="highlighter-rouge">0.12.1</code></td>
     </tr>
     <tr>
-      <td>http4s</td>
+      <td>http4s version</td>
       <td><code class="highlighter-rouge">0.21.24</code></td>
       <td><code class="highlighter-rouge">0.21.24</code></td>
       <td><code class="highlighter-rouge">0.21.24</code></td>
