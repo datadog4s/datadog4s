@@ -13,22 +13,25 @@ import java.net.InetSocketAddress
 
 object CreateMetric extends IOApp {
   override def run(args: List[String]): IO[ExitCode] = {
-    val task = for {
+    val task                = for {
       factory <- StatsDMetricFactory
                    .make[IO](StatsDMetricFactoryConfig(Some("playground"), new InetSocketAddress("127.0.0.1", 8125)))
       _       <- JvmMonitoring.default(factory)
       result  <- Resource.eval(doRun(factory))
     } yield result
-    task.use(_ => IO.pure(())).race(IO.readLine.attempt.flatMap(_ => IO.pure(()))).map(_ => ExitCode.Success)
+    val userCancellableLoop = IO.race(task.use(_ => IO.unit), awaitUserInput)
+    userCancellableLoop.map(_ => ExitCode.Success)
   }
 
-  def doRun(factory: MetricFactory[IO]): IO[Unit] =
+  private def doRun(factory: MetricFactory[IO]): IO[Unit] =
     for {
       drawProgressBar <- initProgressBar
       dist             = factory.distribution.long("distribution1")
       hist             = factory.histogram.long("histogram1")
       _               <- loop(drawProgressBar, hist, dist)
     } yield ()
+
+  private def awaitUserInput: IO[Unit] = IO.readLine.attempt.flatMap(_ => IO.unit)
 
   private def initProgressBar: IO[IO[Unit]] = {
     val progressBar = Ref.of[IO, LazyList[Char]](LazyList.continually("⣾⣽⣻⢿⡿⣟⣯⣷".to(LazyList)).flatten)

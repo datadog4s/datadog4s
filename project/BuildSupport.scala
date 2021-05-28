@@ -53,5 +53,4 @@ object BuildSupport {
       ScalaUnidoc / siteSubdirName
     )
   )
-
 }
