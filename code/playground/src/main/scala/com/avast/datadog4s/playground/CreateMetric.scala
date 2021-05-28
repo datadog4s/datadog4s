@@ -31,7 +31,7 @@ object CreateMetric extends IOApp {
       _               <- loop(drawProgressBar, hist, dist)
     } yield ()
 
-  private def awaitUserInput: IO[Unit] = IO.readLine.attempt.flatMap(_ => IO.unit)
+  private def awaitUserInput: IO[Unit] = IO.readLine.attempt.void
 
   private def initProgressBar: IO[IO[Unit]] = {
     val progressBar = Ref.of[IO, LazyList[Char]](LazyList.continually("⣾⣽⣻⢿⡿⣟⣯⣷".to(LazyList)).flatten)
