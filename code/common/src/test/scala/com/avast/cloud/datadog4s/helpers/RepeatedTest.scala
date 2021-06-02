@@ -4,7 +4,7 @@ import cats.effect.{ Deferred, IO, Ref }
 import org.slf4j.LoggerFactory
 
 import java.time.Duration
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 import scala.language.postfixOps
 
 class RepeatedTest extends munit.FunSuite {
