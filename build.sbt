@@ -9,7 +9,16 @@ lazy val publishSettings = Seq() ++ mimaSettings
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala3,
-  scalacOptions := scalacOptions.value ++ Seq("-Xsource:3"), // we are not ready for scala3 syntax
+  scalacOptions := {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((3, _)) => scalacOptions.value ++ Seq("-source:future")
+      case Some((2, _)) => scalacOptions.value ++ Seq("-Xsource:3")
+      case other        =>
+        println(other)
+        println(version.value)
+        scalacOptions.value
+    }
+  },
   crossScalaVersions := supportedScalaVersions,
   libraryDependencies += (Dependencies.Testing.munit % Test),
   testFrameworks += new TestFramework("munit.Framework")
