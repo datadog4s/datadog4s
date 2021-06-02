@@ -8,8 +8,8 @@ lazy val mimaSettings = Seq(
 lazy val publishSettings = Seq() ++ mimaSettings
 
 lazy val scalaSettings = Seq(
-  scalaVersion := scala213,
-  scalacOptions := scalacOptions.value.filterNot(_ != "-source future"), // we are not ready for scala3 syntax
+  scalaVersion := scala3,
+  scalacOptions := scalacOptions.value ++ Seq("-Xsource:3"), // we are not ready for scala3 syntax
   crossScalaVersions := supportedScalaVersions,
   libraryDependencies += (Dependencies.Testing.munit % Test),
   testFrameworks += new TestFramework("munit.Framework")
