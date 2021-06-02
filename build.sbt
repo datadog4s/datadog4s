@@ -13,10 +13,7 @@ lazy val scalaSettings = Seq(
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((3, _)) => scalacOptions.value ++ Seq("-source:future")
       case Some((2, _)) => scalacOptions.value ++ Seq("-Xsource:3")
-      case other        =>
-        println(other)
-        println(version.value)
-        scalacOptions.value
+      case other        => scalacOptions.value
     }
   },
   crossScalaVersions := supportedScalaVersions,
