@@ -11,7 +11,8 @@ class DistributionLongImpl[F[_]: Sync](
   sampleRate: Double,
   defaultTags: Seq[Tag]
 ) extends Distribution[F, Long] {
-  private val F                                         = Sync[F]
+  private val F = Sync[F]
+
   override def record(value: Long, tags: Tag*): F[Unit] =
     F.delay {
       val finalTags = tags ++ defaultTags

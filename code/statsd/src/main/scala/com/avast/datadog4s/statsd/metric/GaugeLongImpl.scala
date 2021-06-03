@@ -13,7 +13,8 @@ class GaugeLongImpl[F[_]: Sync](
   sampleRate: Double,
   defaultTags: Seq[Tag]
 ) extends Gauge[F, Long] {
-  private val F                                      = Sync[F]
+  private val F = Sync[F]
+
   override def set(value: Long, tags: Tag*): F[Unit] =
     F.delay {
       val finalTags = tags ++ defaultTags

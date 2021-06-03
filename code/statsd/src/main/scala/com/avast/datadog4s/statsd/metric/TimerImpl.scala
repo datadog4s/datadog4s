@@ -12,11 +12,11 @@ import scala.concurrent.duration.FiniteDuration
 abstract class TimerImpl[F[_]: Sync](
   clock: Clock[F]
 ) extends Timer[F] {
-  private val F                                  = Sync[F]
   private val successTagger: Tagger[Boolean]     = Tagger.make("success")
   private val failedTag: Tag                     = successTagger.tag(false)
   private val succeededTag: Tag                  = successTagger.tag(true)
   private val exceptionTagger: Tagger[Throwable] = Tagger.make("exception")
+  private val F                                  = Sync[F]
 
   override def time[A](value: F[A], tags: Tag*): F[A] =
     for {
