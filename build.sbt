@@ -8,8 +8,14 @@ lazy val mimaSettings = Seq(
 lazy val publishSettings = Seq() ++ mimaSettings
 
 lazy val scalaSettings = Seq(
-  scalaVersion := scala213,
-  scalacOptions := scalacOptions.value.filterNot(_ != "-source future"), // we are not ready for scala3 syntax
+  scalaVersion := scala3,
+  scalacOptions := {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((3, _)) => scalacOptions.value ++ Seq("-source:future")
+      case Some((2, _)) => scalacOptions.value ++ Seq("-Xsource:3")
+      case other        => scalacOptions.value
+    }
+  },
   crossScalaVersions := supportedScalaVersions,
   libraryDependencies += (Dependencies.Testing.munit % Test),
   testFrameworks += new TestFramework("munit.Framework")
@@ -125,8 +131,8 @@ lazy val site = (project in file("site"))
     ScalaUnidocPlugin
   )
   .settings(
+    scalacOptions := scalacOptions.value.filterNot(_ == "-source:future"), //mdoc has problems with imports without this
     libraryDependencies += Dependencies.Mdoc.libMdoc
-      exclude ("org.scala-lang.modules", "scala-collection-compat_2.13") // we use 3.0.0 version of scala-collection-compat
   )
   .settings(publish / skip := true)
   .settings(BuildSupport.micrositeSettings: _*)

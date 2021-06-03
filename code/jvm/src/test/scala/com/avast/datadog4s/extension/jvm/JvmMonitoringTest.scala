@@ -5,7 +5,7 @@ import com.avast.cloud.datadog4s.inmemory.MockMetricsFactory
 import com.avast.datadog4s.extension.jvm.JvmMonitoring.Config
 
 import java.time.Duration
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 
 class JvmMonitoringTest extends munit.FunSuite {
   import cats.effect.unsafe.implicits.global

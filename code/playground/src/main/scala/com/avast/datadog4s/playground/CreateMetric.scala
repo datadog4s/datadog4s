@@ -7,7 +7,7 @@ import com.avast.datadog4s.api.MetricFactory
 import com.avast.datadog4s.api.metric.{ Distribution, Histogram }
 import com.avast.datadog4s.extension.jvm.JvmMonitoring
 import com.avast.datadog4s.{ StatsDMetricFactory, StatsDMetricFactoryConfig }
-import scala.collection.compat.immutable._
+import scala.collection.compat.immutable.*
 
 import java.net.InetSocketAddress
 
@@ -41,7 +41,7 @@ object CreateMetric extends IOApp {
   }
 
   def loop(drawProgressBar: IO[Unit], hist: Histogram[IO, Long], dist: Distribution[IO, Long]): IO[Unit] = {
-    import scala.concurrent.duration._
+    import scala.concurrent.duration.*
     Monad[IO].foreverM {
       for {
         l <- IO.delay(scala.util.Random.nextInt(100))

@@ -11,9 +11,11 @@ class DistributionDoubleImpl[F[_]: Sync](
   sampleRate: Double,
   defaultTags: Seq[Tag]
 ) extends Distribution[F, Double] {
-  private[this] val F                                     = Sync[F]
+  private val F = Sync[F]
+
   override def record(value: Double, tags: Tag*): F[Unit] =
     F.delay {
-      statsDClient.recordDistributionValue(aspect, value, sampleRate, (tags ++ defaultTags): _*)
+      val finalTags = tags ++ defaultTags
+      statsDClient.recordDistributionValue(aspect, value, sampleRate, finalTags *)
     }
 }

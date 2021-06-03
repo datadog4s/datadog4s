@@ -18,11 +18,12 @@ class HistogramTimer[F[_]: Sync](
 ) extends TimerImpl[F](clock) {
   override def record[T: ElapsedTime](t: T, tags: Tag*): F[Unit] =
     Sync[F].delay {
+      val finalTags = tags ++ defaultTags
       statsDClient.recordHistogramValue(
         aspect,
         ElapsedTime[T].amount(t, timeUnit),
         sampleRate,
-        (tags ++ defaultTags): _*
+        finalTags *
       )
     }
 

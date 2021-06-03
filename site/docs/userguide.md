@@ -28,10 +28,10 @@ The instance is wrapped in `Resource` because of the underlying `StatsD` client.
 
 ```scala mdoc:silent
 import java.net.InetSocketAddress
-import cats.effect._
-import com.avast.datadog4s.api._
-import com.avast.datadog4s.api.metric._
-import com.avast.datadog4s._
+import cats.effect.*
+import com.avast.datadog4s.api.*
+import com.avast.datadog4s.api.metric.*
+import com.avast.datadog4s.*
 
 val statsDServer = InetSocketAddress.createUnresolved("localhost", 8125)
 val config = StatsDMetricFactoryConfig(Some("my-app-name"), statsDServer)
@@ -177,10 +177,8 @@ your initialization code. Resource is returned, because a fiber is started in th
 eventually.
 
 ```scala mdoc:silent
-import com.avast.datadog4s.extension.jvm._
-import scala.concurrent.ExecutionContext
-
-implicit val ec = ExecutionContext.global // please don't use global EC in production
+import com.avast.datadog4s.extension.jvm.*
+import scala.concurrent.ExecutionContext.global // please don't use global EC in production
 
 val jvmMonitoring: Resource[IO, Unit] = factoryResource.flatMap {
   factory => JvmMonitoring.default[IO](factory)

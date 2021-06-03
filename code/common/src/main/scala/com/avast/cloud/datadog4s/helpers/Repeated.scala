@@ -2,12 +2,12 @@ package com.avast.cloud.datadog4s.helpers
 
 import java.time.Duration
 import cats.effect.{ Concurrent, Outcome, Resource, Temporal }
-import cats.syntax.applicativeError._
-import cats.syntax.flatMap._
-import cats.syntax.apply._
-import cats.syntax.applicative._
+import cats.syntax.applicativeError.*
+import cats.syntax.flatMap.*
+import cats.syntax.apply.*
+import cats.syntax.applicative.*
 
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 
 object Repeated {
 

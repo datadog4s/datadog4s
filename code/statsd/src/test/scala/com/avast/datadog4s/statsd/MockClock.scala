@@ -4,7 +4,7 @@ import cats.Applicative
 import cats.effect.unsafe.IORuntime
 import cats.effect.{ Clock, IO, Ref }
 
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 
 class MockClock(implicit r: IORuntime) extends Clock[IO] {
   val callCount: Ref[IO, Int] = Ref.of[IO, Int](0).unsafeRunSync()
