@@ -18,6 +18,6 @@ object StatsDClient {
     makeBuilder(statsDServer, queueSize).build()
   }
 
-  def makeResource[F[_]: Sync](statsDServer: InetSocketAddress, queueSize: Int): Resource[F, NonBlockingStatsDClient] =
+  def make[F[_]: Sync](statsDServer: InetSocketAddress, queueSize: Int): Resource[F, NonBlockingStatsDClient] =
     Resource.fromAutoCloseable(Sync[F].delay(makeBuilder(statsDServer, queueSize).build()))
 }

@@ -9,7 +9,7 @@ import java.net.InetSocketAddress
 object CreateMetric extends IOApp {
   override def run(args: List[String]): IO[ExitCode] =
     StatsDMetricFactory
-      .makeResource[IO](StatsDMetricFactoryConfig(Some("playground"), new InetSocketAddress("127.0.0.1", 8125)))
+      .make[IO](StatsDMetricFactoryConfig(Some("playground"), new InetSocketAddress("127.0.0.1", 8125)))
       .use { factory =>
         for {
           _   <- IO.unit

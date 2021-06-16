@@ -5,9 +5,9 @@ import com.avast.datadog4s.api.MetricFactory
 import com.avast.datadog4s.statsd.StatsDClient
 
 object StatsDMetricFactory {
-  def makeResource[F[_]: Sync](config: StatsDMetricFactoryConfig): Resource[F, MetricFactory[F]] =
+  def make[F[_]: Sync](config: StatsDMetricFactoryConfig): Resource[F, MetricFactory[F]] =
     StatsDClient
-      .makeResource(config.statsDServer, config.queueSize)
+      .make(config.statsDServer, config.queueSize)
       .map(new statsd.StatsDMetricFactory[F](_, config.basePrefix, config.sampleRate, config.defaultTags))
 
   def makeUnsafe[F[_]: Sync](config: StatsDMetricFactoryConfig): MetricFactory[F] = {
