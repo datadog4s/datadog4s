@@ -6,15 +6,18 @@ import cats.effect.{ Resource, Sync }
 import com.timgroup.statsd.{ NonBlockingStatsDClient, NonBlockingStatsDClientBuilder }
 
 object StatsDClient {
-  def make[F[_]: Sync](statsDServer: InetSocketAddress, queueSize: Int): Resource[F, NonBlockingStatsDClient] = {
-    val builder = new NonBlockingStatsDClientBuilder()
+  private def makeBuilder(statsDServer: InetSocketAddress, queueSize: Int): NonBlockingStatsDClientBuilder = {
+    new NonBlockingStatsDClientBuilder()
       .hostname(statsDServer.getHostName)
       .port(statsDServer.getPort)
       .queueSize(queueSize)
       .prefix("")
-    fromBuilder(builder)
   }
 
-  def fromBuilder[F[_]: Sync](builder: NonBlockingStatsDClientBuilder): Resource[F, NonBlockingStatsDClient] =
-    Resource.fromAutoCloseable(Sync[F].delay(builder.build()))
+  def makeUnsafe(statsDServer: InetSocketAddress, queueSize: Int): NonBlockingStatsDClient = {
+    makeBuilder(statsDServer, queueSize).build()
+  }
+
+  def makeResource[F[_]: Sync](statsDServer: InetSocketAddress, queueSize: Int): Resource[F, NonBlockingStatsDClient] =
+    Resource.fromAutoCloseable(Sync[F].delay(makeBuilder(statsDServer, queueSize).build()))
 }
