@@ -1,6 +1,6 @@
 package com.avast.datadog4s
 
-import cats.effect.{ Resource, Sync }
+import cats.effect.{Resource, Sync}
 import com.avast.datadog4s.api.MetricFactory
 import com.avast.datadog4s.statsd.StatsDClient
 
@@ -8,10 +8,11 @@ object StatsDMetricFactory {
   def make[F[_]: Sync](config: StatsDMetricFactoryConfig): Resource[F, MetricFactory[F]] =
     StatsDClient
       .make(config.statsDServer, config.queueSize)
-      .map(new statsd.StatsDMetricFactory[F](_, config.basePrefix, config.sampleRate, config.defaultTags))
+      .map(fromClient(_, config))
 
-  def makeUnsafe[F[_]: Sync](config: StatsDMetricFactoryConfig): MetricFactory[F] = {
-    val client = StatsDClient.makeUnsafe(config.statsDServer, config.queueSize)
+  def fromClient[F[_]: Sync](
+    client: com.timgroup.statsd.StatsDClient,
+    config: StatsDMetricFactoryConfig
+  ): MetricFactory[F] =
     new statsd.StatsDMetricFactory[F](client, config.basePrefix, config.sampleRate, config.defaultTags)
-  }
 }
