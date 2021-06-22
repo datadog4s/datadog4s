@@ -13,9 +13,12 @@ object StatsDClient {
       .queueSize(queueSize)
       .prefix("")
 
+  def fromBuilder[F[_]: Sync](builder: NonBlockingStatsDClientBuilder): Resource[F, NonBlockingStatsDClient] =
+    Resource.fromAutoCloseable(Sync[F].delay(builder.build()))
+
   def makeUnsafe(statsDServer: InetSocketAddress, queueSize: Int): NonBlockingStatsDClient =
     makeBuilder(statsDServer, queueSize).build()
 
   def make[F[_]: Sync](statsDServer: InetSocketAddress, queueSize: Int): Resource[F, NonBlockingStatsDClient] =
-    Resource.fromAutoCloseable(Sync[F].delay(makeBuilder(statsDServer, queueSize).build()))
+    fromBuilder(makeBuilder(statsDServer, queueSize))
 }
