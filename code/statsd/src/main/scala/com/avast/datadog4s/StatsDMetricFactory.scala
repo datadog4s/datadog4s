@@ -8,5 +8,11 @@ object StatsDMetricFactory {
   def make[F[_]: Sync](config: StatsDMetricFactoryConfig): Resource[F, MetricFactory[F]] =
     StatsDClient
       .make(config.statsDServer, config.queueSize)
-      .map(new statsd.StatsDMetricFactory[F](_, config.basePrefix, config.sampleRate, config.defaultTags))
+      .map(fromClient(_, config))
+
+  def fromClient[F[_]: Sync](
+    client: com.timgroup.statsd.StatsDClient,
+    config: StatsDMetricFactoryConfig
+  ): MetricFactory[F] =
+    new statsd.StatsDMetricFactory[F](client, config.basePrefix, config.sampleRate, config.defaultTags)
 }
