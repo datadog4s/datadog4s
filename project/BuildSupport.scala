@@ -1,4 +1,4 @@
-import Dependencies.{ Cats, Http4s }
+import Dependencies.{Cats, Http4s}
 import com.typesafe.sbt.site.SitePlugin.autoImport._
 import mdoc.MdocPlugin.autoImport._
 import microsites.MicrositesPlugin.autoImport._
@@ -29,13 +29,13 @@ object BuildSupport {
     micrositeTheme := "pattern",
     mdocIn := file("site") / "docs",
     mdocVariables := Map(
-      "VERSION"             -> {
+      "VERSION" -> {
         if (!isSnapshot.value) { version.value }
         else { previousStableVersion.value.getOrElse("latestVersion") }
 
       },
-      "CE2_LATEST_VERSION"  -> "0.13.2",
-      "CE3_LATEST_VERSION"  -> {
+      "CE2_LATEST_VERSION" -> "0.13.2",
+      "CE3_LATEST_VERSION" -> {
         if (!isSnapshot.value) { version.value }
         else { previousStableVersion.value.getOrElse("latestVersion") }
       },
