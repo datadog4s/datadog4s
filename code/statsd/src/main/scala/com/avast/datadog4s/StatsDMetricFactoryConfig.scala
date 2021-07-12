@@ -5,9 +5,9 @@ import java.net.InetSocketAddress
 import com.avast.datadog4s.api.Tag
 
 case class StatsDMetricFactoryConfig(
-  basePrefix: Option[String],
-  statsDServer: InetSocketAddress,
-  defaultTags: scala.collection.immutable.Seq[Tag] = Vector.empty,
-  sampleRate: Double = 1.0,
-  queueSize: Int = 10000
+    basePrefix: Option[String],
+    statsDServer: InetSocketAddress,
+    defaultTags: scala.collection.immutable.Seq[Tag] = Vector.empty,
+    sampleRate: Double = 1.0,
+    queueSize: Int = 10000
 )

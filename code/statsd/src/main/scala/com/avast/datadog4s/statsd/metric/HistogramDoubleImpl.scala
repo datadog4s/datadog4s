@@ -7,10 +7,10 @@ import com.timgroup.statsd.StatsDClient
 import scala.collection.immutable.Seq
 
 class HistogramDoubleImpl[F[_]: Sync](
-  statsDClient: StatsDClient,
-  aspect: String,
-  sampleRate: Double,
-  defaultTags: Seq[Tag]
+    statsDClient: StatsDClient,
+    aspect: String,
+    sampleRate: Double,
+    defaultTags: Seq[Tag]
 ) extends Histogram[F, Double] {
   private val F = Sync[F]
 

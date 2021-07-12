@@ -1,6 +1,6 @@
 package com.avast.cloud.datadog4s.inmemory
 
-import cats.effect.{ Ref, Sync }
+import cats.effect.{Ref, Sync}
 import cats.syntax.flatMap.*
 import cats.syntax.functor.*
 import com.avast.datadog4s.api.metric.*
