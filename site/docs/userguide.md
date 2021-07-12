@@ -153,8 +153,8 @@ Extensions are packages that monitor some functionality for you - without you ha
 Http4s package (`datadog4s-http4s`) provides implementation of [MetricsOps](metrics-ops) that is used
 by [http4s](http4s) to report both client and server metrics.
 
-```scala
-import com.avast.datadog4s.extension.http4s._
+```scala mdoc
+import com.avast.datadog4s.extension.http4s.*
 
 factoryResource.use { metricFactory =>
     // create metrics factory and use it as you please

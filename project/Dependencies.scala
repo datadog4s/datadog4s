@@ -15,7 +15,7 @@ object Dependencies {
 
   object Testing {
     val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.15.1"
-    val munit            = "org.scalameta" %% "munit"                   % "0.7.26"
+    val munit            = "org.scalameta" %% "munit"                   % "0.7.27"
   }
 
   object Logging {
@@ -29,7 +29,7 @@ object Dependencies {
   }
 
   object ScalaModules {
-    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.4.4"
+    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.5.0"
   }
 
 }
