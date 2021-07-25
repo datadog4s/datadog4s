@@ -13,7 +13,7 @@ class JvmMonitoringTest extends munit.FunSuite {
   val noopErrHandler: Throwable => IO[Unit] = (_: Throwable) => IO.unit
 
   test("JvmMonitoring should create all expected metrics and update them periodically") {
-    val testEffect      = MockMetricsFactory.make[IO].flatMap { inmemory =>
+    val testEffect = MockMetricsFactory.make[IO].flatMap { inmemory =>
       val runTest = JvmMonitoring
         .configured(inmemory, Config().copy(delay = Duration.ofMillis(100)), noopErrHandler)
         .use(_ => IO.never)
@@ -33,9 +33,8 @@ class JvmMonitoringTest extends munit.FunSuite {
     }
   }
 
-  /**
-   * Not always present and should be ignored
-   */
+  /** Not always present and should be ignored
+    */
   lazy val unreliableAspects: Set[String] = Set(
     "jvm.non_heap_memory.code_cache",
     "jvm.non_heap_memory.code_cache_committed",

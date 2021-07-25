@@ -1,18 +1,18 @@
 package com.avast.datadog4s.statsd
 
-import cats.effect.{ Clock, Sync }
+import cats.effect.{Clock, Sync}
 import com.avast.datadog4s.api.*
-import com.avast.datadog4s.api.metric.{ Distribution, Gauge, Histogram, Timer, UniqueSet }
+import com.avast.datadog4s.api.metric.{Distribution, Gauge, Histogram, Timer, UniqueSet}
 import com.avast.datadog4s.statsd.metric.*
-import com.avast.datadog4s.statsd.metric.timer.{ DistributionTimer, HistogramTimer }
+import com.avast.datadog4s.statsd.metric.timer.{DistributionTimer, HistogramTimer}
 
 import java.util.concurrent.TimeUnit
 
 class StatsDMetricFactory[F[_]: Sync](
-  statsDClient: com.timgroup.statsd.StatsDClient,
-  prefix: Option[String],
-  defaultSampleRate: Double,
-  defaultTags: collection.immutable.Seq[Tag]
+    statsDClient: com.timgroup.statsd.StatsDClient,
+    prefix: Option[String],
+    defaultSampleRate: Double,
+    defaultTags: collection.immutable.Seq[Tag]
 ) extends MetricFactory[F] {
 
   private val clock: Clock[F] = Clock[F]
@@ -65,9 +65,9 @@ class StatsDMetricFactory[F[_]: Sync](
 
   override val timer: TimerFactory[F] = new TimerFactory[F] {
     override def histogram(
-      aspect: String,
-      sampleRate: Option[Double] = None,
-      timeUnit: TimeUnit = TimeUnit.MILLISECONDS
+        aspect: String,
+        sampleRate: Option[Double] = None,
+        timeUnit: TimeUnit = TimeUnit.MILLISECONDS
     ): Timer[F] = new HistogramTimer[F](
       clock,
       statsDClient,
@@ -78,9 +78,9 @@ class StatsDMetricFactory[F[_]: Sync](
     )
 
     override def distribution(
-      aspect: String,
-      sampleRate: Option[Double] = None,
-      timeUnit: TimeUnit = TimeUnit.MILLISECONDS
+        aspect: String,
+        sampleRate: Option[Double] = None,
+        timeUnit: TimeUnit = TimeUnit.MILLISECONDS
     ): Timer[F] = new DistributionTimer[F](
       clock,
       statsDClient,

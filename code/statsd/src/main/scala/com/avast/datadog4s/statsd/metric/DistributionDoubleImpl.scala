@@ -6,10 +6,10 @@ import com.avast.datadog4s.api.metric.Distribution
 import com.timgroup.statsd.StatsDClient
 
 class DistributionDoubleImpl[F[_]: Sync](
-  statsDClient: StatsDClient,
-  aspect: String,
-  sampleRate: Double,
-  defaultTags: Seq[Tag]
+    statsDClient: StatsDClient,
+    aspect: String,
+    sampleRate: Double,
+    defaultTags: Seq[Tag]
 ) extends Distribution[F, Double] {
   private val F = Sync[F]
 

@@ -8,10 +8,10 @@ import com.timgroup.statsd.StatsDClient
 import scala.collection.immutable.Seq
 
 class GaugeLongImpl[F[_]: Sync](
-  statsDClient: StatsDClient,
-  aspect: String,
-  sampleRate: Double,
-  defaultTags: Seq[Tag]
+    statsDClient: StatsDClient,
+    aspect: String,
+    sampleRate: Double,
+    defaultTags: Seq[Tag]
 ) extends Gauge[F, Long] {
   private val F = Sync[F]
 
