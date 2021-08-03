@@ -29,10 +29,10 @@ StatsD server, prefix etc. For more information see scaladoc of the config class
 <p>The instance is wrapped in <code class="highlighter-rouge">Resource</code> because of the underlying <code class="highlighter-rouge">StatsD</code> client.</p>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">java.net.InetSocketAddress</span>
-<span class="k">import</span> <span class="nn">cats.effect._</span>
-<span class="k">import</span> <span class="nn">com.avast.datadog4s.api._</span>
-<span class="k">import</span> <span class="nn">com.avast.datadog4s.api.metric._</span>
-<span class="k">import</span> <span class="nn">com.avast.datadog4s._</span>
+<span class="k">import</span> <span class="nn">cats.effect.</span><span class="o">*</span>
+<span class="k">import</span> <span class="nn">com.avast.datadog4s.api.</span><span class="o">*</span>
+<span class="k">import</span> <span class="nn">com.avast.datadog4s.api.metric.</span><span class="o">*</span>
+<span class="k">import</span> <span class="nn">com.avast.datadog4s.</span><span class="o">*</span>
 
 <span class="k">val</span> <span class="nv">statsDServer</span> <span class="k">=</span> <span class="nv">InetSocketAddress</span><span class="o">.</span><span class="py">createUnresolved</span><span class="o">(</span><span class="s">"localhost"</span><span class="o">,</span> <span class="mi">8125</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">config</span> <span class="k">=</span> <span class="nc">StatsDMetricFactoryConfig</span><span class="o">(</span><span class="nc">Some</span><span class="o">(</span><span class="s">"my-app-name"</span><span class="o">),</span> <span class="n">statsDServer</span><span class="o">)</span>
@@ -112,7 +112,7 @@ etc) are more correct and in general it’s the implementation that we’d sugge
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.avast.datadog4s.api.Tag</span>
 
 <span class="nv">Tag</span><span class="o">.</span><span class="py">of</span><span class="o">(</span><span class="s">"endpoint"</span><span class="o">,</span> <span class="s">"admin/login"</span><span class="o">)</span>
-<span class="c1">// res2: Tag = "endpoint:admin/login"</span>
+<span class="c1">// res2: String = "endpoint:admin/login"</span>
 </code></pre></div></div>
 
 <p>This is simple and straight-forward, but in some cases it leaves your code with <code class="highlighter-rouge">Tag</code> keys scattered around and forces
@@ -129,7 +129,7 @@ get a single value that you can use in multiple places in your code to create <c
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.avast.datadog4s.api.tag.</span><span class="o">{</span><span class="nc">TagValue</span><span class="o">,</span> <span class="nc">Tagger</span><span class="o">}</span>
 
 <span class="k">val</span> <span class="nv">pathTagger</span><span class="k">:</span> <span class="kt">Tagger</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nv">Tagger</span><span class="o">.</span><span class="py">make</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"path"</span><span class="o">)</span>
-<span class="c1">// pathTagger: Tagger[String] = com.avast.datadog4s.api.tag.Tagger$$anon$1@95c3edd</span>
+<span class="c1">// pathTagger: Tagger[String] = com.avast.datadog4s.api.tag.Tagger$$anon$1@3ce591c9</span>
 <span class="nf">assert</span><span class="o">(</span><span class="nv">Tag</span><span class="o">.</span><span class="py">of</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"admin/login"</span><span class="o">)</span> <span class="o">==</span> <span class="nv">pathTagger</span><span class="o">.</span><span class="py">tag</span><span class="o">(</span><span class="s">"admin/login"</span><span class="o">))</span>
 
 <span class="c1">// tagger also supports taging using custom types using TagValue typeclass</span>
@@ -137,10 +137,10 @@ get a single value that you can use in multiple places in your code to create <c
 <span class="k">case</span> <span class="k">class</span> <span class="nc">StatusCode</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>  
 
 <span class="k">implicit</span> <span class="k">val</span> <span class="nv">statusCodeTagValue</span><span class="k">:</span> <span class="kt">TagValue</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">]</span> <span class="k">=</span> <span class="nc">TagValue</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="py">contramap</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">](</span><span class="n">sc</span> <span class="k">=&gt;</span> <span class="nv">sc</span><span class="o">.</span><span class="py">value</span><span class="o">)</span>
-<span class="c1">// statusCodeTagValue: TagValue[StatusCode] = com.avast.datadog4s.api.tag.TagValue$$anonfun$contramap$2@6ce07941</span>
+<span class="c1">// statusCodeTagValue: TagValue[StatusCode] = com.avast.datadog4s.api.tag.TagValue$$Lambda$7657/472194434@4fb278c8</span>
 
 <span class="k">val</span> <span class="nv">statusCodeTagger</span><span class="k">:</span> <span class="kt">Tagger</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">]</span> <span class="k">=</span> <span class="nv">Tagger</span><span class="o">.</span><span class="py">make</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">](</span><span class="s">"statusCode"</span><span class="o">)</span>
-<span class="c1">// statusCodeTagger: Tagger[StatusCode] = com.avast.datadog4s.api.tag.Tagger$$anon$1@1e47e195</span>
+<span class="c1">// statusCodeTagger: Tagger[StatusCode] = com.avast.datadog4s.api.tag.Tagger$$anon$1@76f15ffc</span>
 
 <span class="nf">assert</span><span class="o">(</span><span class="nv">Tag</span><span class="o">.</span><span class="py">of</span><span class="o">(</span><span class="s">"statusCode"</span><span class="o">,</span> <span class="s">"200"</span><span class="o">)</span> <span class="o">==</span> <span class="nv">statusCodeTagger</span><span class="o">.</span><span class="py">tag</span><span class="o">(</span><span class="nc">StatusCode</span><span class="o">(</span><span class="mi">200</span><span class="o">)))</span>
 </code></pre></div></div>
@@ -154,7 +154,7 @@ get a single value that you can use in multiple places in your code to create <c
 <p>Http4s package (<code class="highlighter-rouge">datadog4s-http4s</code>) provides implementation of <a href="metrics-ops">MetricsOps</a> that is used
 by <a href="http4s">http4s</a> to report both client and server metrics.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.avast.datadog4s.extension.http4s._</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.avast.datadog4s.extension.http4s.</span><span class="o">*</span>
 
 <span class="nv">factoryResource</span><span class="o">.</span><span class="py">use</span> <span class="o">{</span> <span class="n">metricFactory</span> <span class="k">=&gt;</span>
     <span class="c1">// create metrics factory and use it as you please</span>
@@ -164,6 +164,9 @@ by <a href="http4s">http4s</a> to report both client and server metrics.</p>
       <span class="nv">IO</span><span class="o">.</span><span class="py">unit</span>
     <span class="o">}</span>
 <span class="o">}</span>
+<span class="c1">// res5: IO[Unit] = Uncancelable(</span>
+<span class="c1">//   cats.effect.IO$$$Lambda$7653/1804431108@1bff854e</span>
+<span class="c1">// )</span>
 </code></pre></div></div>
 
 <h3 id="jvm-monitoring">Jvm monitoring</h3>
@@ -176,12 +179,8 @@ self-explanatory. We tried to match reported metrics to <a href="https://docs.da
 your initialization code. Resource is returned, because a fiber is started in the background and has to be terminated
 eventually.</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.avast.datadog4s.extension.jvm._</span>
-<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext</span>
-
-<span class="k">implicit</span> <span class="k">val</span> <span class="nv">ec</span> <span class="k">=</span> <span class="nv">ExecutionContext</span><span class="o">.</span><span class="py">global</span> <span class="c1">// please don't use global EC in production</span>
-<span class="k">implicit</span> <span class="k">val</span> <span class="nv">contextShift</span> <span class="k">=</span> <span class="nv">IO</span><span class="o">.</span><span class="py">contextShift</span><span class="o">(</span><span class="n">ec</span><span class="o">)</span>
-<span class="k">implicit</span> <span class="k">val</span> <span class="nv">timer</span> <span class="k">=</span> <span class="nv">IO</span><span class="o">.</span><span class="py">timer</span><span class="o">(</span><span class="n">ec</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.avast.datadog4s.extension.jvm.</span><span class="o">*</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.ExecutionContext.global</span> <span class="c1">// please don't use global EC in production</span>
 
 <span class="k">val</span> <span class="nv">jvmMonitoring</span><span class="k">:</span> <span class="kt">Resource</span><span class="o">[</span><span class="kt">IO</span>, <span class="kt">Unit</span><span class="o">]</span> <span class="k">=</span> <span class="nv">factoryResource</span><span class="o">.</span><span class="py">flatMap</span> <span class="o">{</span>
   <span class="n">factory</span> <span class="k">=&gt;</span> <span class="nv">JvmMonitoring</span><span class="o">.</span><span class="py">default</span><span class="o">[</span><span class="kt">IO</span><span class="o">](</span><span class="n">factory</span><span class="o">)</span>
