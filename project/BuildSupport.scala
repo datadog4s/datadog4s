@@ -34,7 +34,7 @@ object BuildSupport {
         else { previousStableVersion.value.getOrElse("latestVersion") }
 
       },
-      "CE2_LATEST_VERSION" -> "0.13.2",
+      "CE2_LATEST_VERSION" -> "0.14.0",
       "CE3_LATEST_VERSION" -> {
         if (!isSnapshot.value) { version.value }
         else { previousStableVersion.value.getOrElse("latestVersion") }
@@ -42,7 +42,7 @@ object BuildSupport {
       "CATS_VERSION"        -> Cats.core.revision,
       "CATS_EFFECT_VERSION" -> Cats.effect.revision,
       "HTTP4S_VERSION"      -> Http4s.core.revision,
-      "HTTP4S_CE2_VERSION"  -> "0.21.24",
+      "HTTP4S_CE2_VERSION"  -> "0.22.1",
       "SCALA_3_VERSION"     -> ScalaVersions.scala3
     ),
     mdocAutoDependency := false,
