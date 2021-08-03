@@ -14,23 +14,23 @@ composed of multiple packages to make it easy for you to pick and choose what yo
   </thead>
   <tbody>
     <tr>
-      <td><code class="highlighter-rouge">"com.avast.cloud" %% "datadog4s" % "0.31.0"</code></td>
+      <td><code class="highlighter-rouge">"com.avast.cloud" %% "datadog4s" % "0.14.0"</code></td>
       <td>all-you-can-eat … all the available packages</td>
     </tr>
     <tr>
-      <td><code class="highlighter-rouge">"com.avast.cloud" %% "datadog4s-api" % "0.31.0"</code></td>
+      <td><code class="highlighter-rouge">"com.avast.cloud" %% "datadog4s-api" % "0.14.0"</code></td>
       <td>api classes</td>
     </tr>
     <tr>
-      <td><code class="highlighter-rouge">"com.avast.cloud" %% "datadog4s-statsd" % "0.31.0"</code></td>
+      <td><code class="highlighter-rouge">"com.avast.cloud" %% "datadog4s-statsd" % "0.14.0"</code></td>
       <td>statsd implementation of api classes</td>
     </tr>
     <tr>
-      <td><code class="highlighter-rouge">"com.avast.cloud" %% "datadog4s-jvm" % "0.31.0"</code></td>
+      <td><code class="highlighter-rouge">"com.avast.cloud" %% "datadog4s-jvm" % "0.14.0"</code></td>
       <td>support for monitoring JVM itself</td>
     </tr>
     <tr>
-      <td><code class="highlighter-rouge">"com.avast.cloud" %% "datadog4s-http4s" % "0.31.0"</code></td>
+      <td><code class="highlighter-rouge">"com.avast.cloud" %% "datadog4s-http4s" % "0.14.0"</code></td>
       <td>monitoring support for [http4s][http4s] framework</td>
     </tr>
   </tbody>
@@ -43,10 +43,7 @@ going to assume you are using <code class="highlighter-rouge">sbt</code>.</p>
 <p>To explore how to use imported libraries, please <a href="userguide.html">read on</a></p>
 
 <h2 id="note-on-compatibility">Note on compatibility</h2>
-
-<p>To pick the right version of datadog4s for your circumstance, please see the compatibility tables for cats-effect2 and cats-effect3:</p>
-
-<h3 id="cats-effect-3xx"><em>cats-effect <strong>3.x.x</strong></em>:</h3>
+<p>Datadog4s is currently released for following combinations of scala/cats versions:</p>
 
 <table>
   <thead>
@@ -54,45 +51,24 @@ going to assume you are using <code class="highlighter-rouge">sbt</code>.</p>
       <th>library</th>
       <th>2.12 version</th>
       <th>2.13 version</th>
-      <th>3.0.1 version</th>
+      <th>3.0.0 version</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>recommended datadog4s version</td>
-      <td><code class="highlighter-rouge">0.31.0</code></td>
-      <td><code class="highlighter-rouge">0.31.0</code></td>
-      <td><code class="highlighter-rouge">0.31.0</code></td>
+      <td>cats-core</td>
+      <td><code class="highlighter-rouge">2.6.1</code></td>
+      <td><code class="highlighter-rouge">2.6.1</code></td>
+      <td><code class="highlighter-rouge">2.6.1</code></td>
     </tr>
     <tr>
-      <td>http4s version</td>
-      <td><code class="highlighter-rouge">0.23.0</code></td>
-      <td><code class="highlighter-rouge">0.23.0</code></td>
-      <td><code class="highlighter-rouge">0.23.0</code></td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="cats-effect-2xx"><em>cats-effect <strong>2.x.x</strong></em>:</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>library</th>
-      <th>2.12 version</th>
-      <th>2.13 version</th>
-      <th>3.0.1 version</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>recommended datadog4s version</td>
-      <td><code class="highlighter-rouge">0.14.0</code></td>
-      <td><code class="highlighter-rouge">0.14.0</code></td>
-      <td><code class="highlighter-rouge">0.14.0</code></td>
+      <td>cats-effect</td>
+      <td><code class="highlighter-rouge">2.5.1</code></td>
+      <td><code class="highlighter-rouge">2.5.1</code></td>
+      <td><code class="highlighter-rouge">2.5.1</code></td>
     </tr>
     <tr>
-      <td>http4s version</td>
+      <td>http4s</td>
       <td><code class="highlighter-rouge">0.22.1</code></td>
       <td><code class="highlighter-rouge">0.22.1</code></td>
       <td><code class="highlighter-rouge">0.22.1</code></td>
