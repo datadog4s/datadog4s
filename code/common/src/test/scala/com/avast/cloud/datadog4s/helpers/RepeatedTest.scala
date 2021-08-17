@@ -80,7 +80,7 @@ class RepeatedTest extends munit.FunSuite {
       process.use(_ => killSignal.get) *> ref.get
     }
 
-    val result = test.flatten.timeout(500 milli).attempt.unsafeRunSync().fold(throw _, identity)
+    val result = test.flatten.timeout(1000 milli).attempt.unsafeRunSync().fold(throw _, identity)
 
     logger.info(s"test finished with $result")
     assert(result.succ == 0)
