@@ -12,19 +12,22 @@ final case class MetricsOpsBuilder[F[_]: Sync] private (
     classifierTags: ClassifierTags
 ) {
 
-  /** Force MetricOps to use [[com.avast.datadog4s.api.TimerFactory.distribution TimerFactory.distribution]] for timing http4s requests.
-    * For the implications please see [[com.avast.datadog4s.api.TimerFactory.distribution TimerFactory.distribution]] scaladoc.
+  /** Force MetricOps to use [[com.avast.datadog4s.api.TimerFactory.distribution TimerFactory.distribution]] for timing
+    * http4s requests. For the implications please see
+    * [[com.avast.datadog4s.api.TimerFactory.distribution TimerFactory.distribution]] scaladoc.
     */
   def useDistributionBasedTimers(): MetricsOpsBuilder[F] =
     copy(distributionBasedTimers = true)
 
-  /** Force MetricOps to use [[com.avast.datadog4s.api.TimerFactory.histogram TimerFactory.histogram]] for timing http4s requests.
-    * For the implications please see [[com.avast.datadog4s.api.TimerFactory.histogram TimerFactory.histogram]] scaladoc.
+  /** Force MetricOps to use [[com.avast.datadog4s.api.TimerFactory.histogram TimerFactory.histogram]] for timing http4s
+    * requests. For the implications please see
+    * [[com.avast.datadog4s.api.TimerFactory.histogram TimerFactory.histogram]] scaladoc.
     */
   def useHistogramBasedTimers(): MetricsOpsBuilder[F] =
     copy(distributionBasedTimers = false)
 
-  /** Function for computing tags based on provided classifier. By default uses [[MetricsOpsBuilder.defaultClassifierTags]]
+  /** Function for computing tags based on provided classifier. By default uses
+    * [[MetricsOpsBuilder.defaultClassifierTags]]
     */
   def setClassifierTags(newClassifierTags: ClassifierTags): MetricsOpsBuilder[F] =
     copy(classifierTags = newClassifierTags)
