@@ -8,8 +8,8 @@ import scala.concurrent.duration.FiniteDuration
   */
 trait ElapsedTime[A] { self =>
 
-  /** Return amount of elapsed `timeUnit`s stored in `instance`. For example:
-    * given `instance` that represents 24 hours, `amount(instance, TimeUnit.MINUTES)` should return 1440 (24*60)
+  /** Return amount of elapsed `timeUnit`s stored in `instance`. For example: given `instance` that represents 24 hours,
+    * `amount(instance, TimeUnit.MINUTES)` should return 1440 (24*60)
     */
   def amount(instance: A, timeUnit: TimeUnit): Long
   def contraMap[B](f: B => A): ElapsedTime[B] = (b: B, timeUnit: TimeUnit) => self.amount(f(b), timeUnit)

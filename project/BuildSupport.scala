@@ -16,18 +16,18 @@ object BuildSupport {
   }
 
   lazy val micrositeSettings = Seq(
-    micrositeName := "datadog4s",
-    micrositeDescription := "Great monitoring made easy",
-    micrositeAuthor := "Tomas Herman",
-    micrositeGithubOwner := "avast",
-    micrositeGithubRepo := "datadog4s",
-    micrositeUrl := "https://avast.github.io",
+    micrositeName             := "datadog4s",
+    micrositeDescription      := "Great monitoring made easy",
+    micrositeAuthor           := "Tomas Herman",
+    micrositeGithubOwner      := "avast",
+    micrositeGithubRepo       := "datadog4s",
+    micrositeUrl              := "https://avast.github.io",
     micrositeDocumentationUrl := "api/latest/com/avast/datadog4s/",
-    micrositeBaseUrl := "/datadog4s",
-    micrositeFooterText := None,
-    micrositeGitterChannel := false,
-    micrositeTheme := "pattern",
-    mdocIn := file("site") / "docs",
+    micrositeBaseUrl          := "/datadog4s",
+    micrositeFooterText       := None,
+    micrositeGitterChannel    := false,
+    micrositeTheme            := "pattern",
+    mdocIn                    := file("site") / "docs",
     mdocVariables := Map(
       "VERSION" -> {
         if (!isSnapshot.value) { version.value }
@@ -45,8 +45,8 @@ object BuildSupport {
       "HTTP4S_CE2_VERSION"  -> "0.22.1",
       "SCALA_3_VERSION"     -> ScalaVersions.scala3
     ),
-    mdocAutoDependency := false,
-    micrositeDataDirectory := file("site"),
+    mdocAutoDependency           := false,
+    micrositeDataDirectory       := file("site"),
     ScalaUnidoc / siteSubdirName := "api/latest",
     addMappingsToSiteDir(
       ScalaUnidoc / packageDoc / mappings,
