@@ -20,12 +20,12 @@ class MockMetricsFactory[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record
     new HistogramFactory[F] {
       override def long(aspect: String, sampleRate: Option[Double]): Histogram[F, Long] =
         new Histogram[F, Long] {
-          override def record(value: Long, tags: Tag*): F[Unit] = updateState(aspect, value, tags *)
+          override def record(value: Long, tags: Tag*): F[Unit] = updateState(aspect, value, tags*)
         }
 
       override def double(aspect: String, sampleRate: Option[Double]): Histogram[F, Double] =
         new Histogram[F, Double] {
-          override def record(value: Double, tags: Tag*): F[Unit] = updateState(aspect, value, tags *)
+          override def record(value: Double, tags: Tag*): F[Unit] = updateState(aspect, value, tags*)
         }
     }
 
@@ -33,60 +33,60 @@ class MockMetricsFactory[F[_]: Sync](val state: Ref[F, Map[String, Vector[Record
     new GaugeFactory[F] {
       override def long(aspect: String, sampleRate: Option[Double]): Gauge[F, Long] =
         new Gauge[F, Long] {
-          override def set(value: Long, tags: Tag*): F[Unit] = updateState(aspect, value, tags *)
+          override def set(value: Long, tags: Tag*): F[Unit] = updateState(aspect, value, tags*)
 
         }
 
       override def double(aspect: String, sampleRate: Option[Double]): Gauge[F, Double] =
         new Gauge[F, Double] {
-          override def set(value: Double, tags: Tag*): F[Unit] = updateState(aspect, value, tags *)
+          override def set(value: Double, tags: Tag*): F[Unit] = updateState(aspect, value, tags*)
         }
     }
 
   override def timer(aspect: String, sampleRate: Option[Double]): Timer[F] =
     new Timer[F] {
-      override def time[A](f: F[A], tags: Tag*): F[A] = f.flatMap(a => updateState(aspect, a, tags *).as(a))
+      override def time[A](f: F[A], tags: Tag*): F[A] = f.flatMap(a => updateState(aspect, a, tags*).as(a))
 
       override def record[T: ElapsedTime](duration: T, tags: Tag*): F[Unit] =
-        updateState[Long](aspect, ElapsedTime[T].amount(duration, TimeUnit.MILLISECONDS), tags *)
+        updateState[Long](aspect, ElapsedTime[T].amount(duration, TimeUnit.MILLISECONDS), tags*)
     }
 
   override def count(aspect: String, sampleRate: Option[Double]): Count[F] =
     new Count[F] {
-      override def modify(delta: Int, tags: Tag*): F[Unit] = updateState(aspect, delta, tags *)
+      override def modify(delta: Int, tags: Tag*): F[Unit] = updateState(aspect, delta, tags*)
     }
 
   override def uniqueSet(aspect: String): UniqueSet[F] =
     new UniqueSet[F] {
-      override def record(value: String, tags: Tag*): F[Unit] = updateState(aspect, value, tags *)
+      override def record(value: String, tags: Tag*): F[Unit] = updateState(aspect, value, tags*)
     }
 
   override def distribution: DistributionFactory[F] =
     new DistributionFactory[F] {
       override def long(aspect: String, sampleRate: Option[Double]): Distribution[F, Long] =
         new Distribution[F, Long] {
-          override def record(value: Long, tags: Tag*): F[Unit] = updateState(aspect, value, tags *)
+          override def record(value: Long, tags: Tag*): F[Unit] = updateState(aspect, value, tags*)
         }
 
       override def double(aspect: String, sampleRate: Option[Double]): Distribution[F, Double] =
         new Distribution[F, Double] {
-          override def record(value: Double, tags: Tag*): F[Unit] = updateState(aspect, value, tags *)
+          override def record(value: Double, tags: Tag*): F[Unit] = updateState(aspect, value, tags*)
         }
     }
 
   override def timer: TimerFactory[F] = new TimerFactory[F] {
     override def histogram(aspect: String, sampleRate: Option[Double], timeUnit: TimeUnit): Timer[F] = new Timer[F] {
-      override def time[A](f: F[A], tags: Tag*): F[A] = f.flatMap(a => updateState(aspect, a, tags *).as(a))
+      override def time[A](f: F[A], tags: Tag*): F[A] = f.flatMap(a => updateState(aspect, a, tags*).as(a))
 
       override def record[T: ElapsedTime](duration: T, tags: Tag*): F[Unit] =
-        updateState[Long](aspect, ElapsedTime[T].amount(duration, timeUnit), tags *)
+        updateState[Long](aspect, ElapsedTime[T].amount(duration, timeUnit), tags*)
     }
 
     override def distribution(aspect: String, sampleRate: Option[Double], timeUnit: TimeUnit): Timer[F] = new Timer[F] {
-      override def time[A](f: F[A], tags: Tag*): F[A] = f.flatMap(a => updateState(aspect, a, tags *).as(a))
+      override def time[A](f: F[A], tags: Tag*): F[A] = f.flatMap(a => updateState(aspect, a, tags*).as(a))
 
       override def record[T: ElapsedTime](duration: T, tags: Tag*): F[Unit] =
-        updateState[Long](aspect, ElapsedTime[T].amount(duration, timeUnit), tags *)
+        updateState[Long](aspect, ElapsedTime[T].amount(duration, timeUnit), tags*)
     }
 
   }

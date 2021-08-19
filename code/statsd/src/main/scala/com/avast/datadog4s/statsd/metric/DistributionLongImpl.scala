@@ -16,6 +16,6 @@ class DistributionLongImpl[F[_]: Sync](
   override def record(value: Long, tags: Tag*): F[Unit] =
     F.delay {
       val finalTags = tags ++ defaultTags
-      statsDClient.recordDistributionValue(aspect, value, sampleRate, finalTags *)
+      statsDClient.recordDistributionValue(aspect, value, sampleRate, finalTags*)
     }
 }

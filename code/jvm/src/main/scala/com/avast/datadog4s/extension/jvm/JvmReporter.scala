@@ -68,7 +68,7 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   private val gcBeans     = ManagementFactory.getGarbageCollectorMXBeans.asScala.toVector
 
   private def wrapUnsafe[T](gauge: Gauge[F, T], tags: Tag*)(f: => T): F[Unit] =
-    F.delay(f).flatMap(gauge.set(_, tags *))
+    F.delay(f).flatMap(gauge.set(_, tags*))
 
   private val gc: Vector[F[Unit]] =
     gcBeans.map { bean =>

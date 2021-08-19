@@ -12,6 +12,6 @@ class CountImpl[F[_]: Sync](statsDClient: StatsDClient, prefix: String, sampleRa
 
   override def modify(delta: Int, tags: Tag*): F[Unit] = F.delay {
     val finalTags = tags ++ defaultTags
-    statsDClient.count(prefix, delta.toLong, sampleRate, finalTags *)
+    statsDClient.count(prefix, delta.toLong, sampleRate, finalTags*)
   }
 }
