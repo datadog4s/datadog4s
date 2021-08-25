@@ -39,7 +39,7 @@ private[http4s] class DefaultMetricsOps[F[_]](
       val nextActiveConnections = activeConnections.updated(classifier, next)
       val action = activeRequests.set(
         next.toLong,
-        classifier.toList.flatMap(classifierTags) *
+        classifier.toList.flatMap(classifierTags)*
       )
       (nextActiveConnections, action)
     }.flatten
@@ -51,7 +51,7 @@ private[http4s] class DefaultMetricsOps[F[_]](
     headersTime
       .record(
         Duration.ofNanos(elapsed),
-        finalTags *
+        finalTags*
       )
   }
 
@@ -61,7 +61,7 @@ private[http4s] class DefaultMetricsOps[F[_]](
     val tags = methodTagger.tag(method) ::
       statusBucketTagger.tag(s"${status.code / 100}xx") ::
       statusCodeTagger.tag(status) :: classifier.toList.flatMap(classifierTags)
-    requestCount.inc(tags *) >> requestLatency.record(Duration.ofNanos(elapsed), tags *)
+    requestCount.inc(tags*) >> requestLatency.record(Duration.ofNanos(elapsed), tags*)
   }
 
   private val abnormalCount   = metricFactory.count("abnormal_count")
@@ -73,7 +73,7 @@ private[http4s] class DefaultMetricsOps[F[_]](
   ): F[Unit] = {
     val terminationTpe = terminationTypeTagger.tag(terminationType)
     val tags           = terminationTpe :: classifier.toList.flatMap(classifierTags)
-    abnormalCount.inc(tags *) >> abnormalLatency.record(Duration.ofNanos(elapsed), tags *)
+    abnormalCount.inc(tags*) >> abnormalLatency.record(Duration.ofNanos(elapsed), tags*)
   }
 
   private def makeTimer(aspect: String): Timer[F] =

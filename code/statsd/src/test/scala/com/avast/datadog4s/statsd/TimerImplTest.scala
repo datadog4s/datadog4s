@@ -27,7 +27,7 @@ class TimerImplTest extends munit.FunSuite {
 
         val statsD: JMockStatsDClient = MockStatsDClient()
         val clock: Clock[IO]          = new MockClock
-        val timer                     = new HistogramTimer[IO](clock, statsD, aspect, sampleRate, Vector.empty, TimeUnit.MILLISECONDS)
+        val timer = new HistogramTimer[IO](clock, statsD, aspect, sampleRate, Vector.empty, TimeUnit.MILLISECONDS)
       }
     },
     _ => ()

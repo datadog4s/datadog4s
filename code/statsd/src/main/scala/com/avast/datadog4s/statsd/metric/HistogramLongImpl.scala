@@ -17,6 +17,6 @@ class HistogramLongImpl[F[_]: Sync](
   override def record(value: Long, tags: Tag*): F[Unit] =
     F.delay {
       val finalTags = tags ++ defaultTags
-      statsDClient.recordHistogramValue(aspect, value, sampleRate, finalTags *)
+      statsDClient.recordHistogramValue(aspect, value, sampleRate, finalTags*)
     }
 }

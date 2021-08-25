@@ -17,6 +17,6 @@ class HistogramDoubleImpl[F[_]: Sync](
   override def record(value: Double, tags: Tag*): F[Unit] =
     F.delay {
       val finalTags = tags ++ defaultTags
-      statsDClient.recordHistogramValue(aspect, value, sampleRate, finalTags *)
+      statsDClient.recordHistogramValue(aspect, value, sampleRate, finalTags*)
     }
 }

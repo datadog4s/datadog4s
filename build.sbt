@@ -16,17 +16,17 @@ lazy val scalaSettings = Seq(
       case other        => scalacOptions.value
     }
   },
-  crossScalaVersions := supportedScalaVersions,
+  crossScalaVersions                                := supportedScalaVersions,
   libraryDependencies += (Dependencies.Testing.munit % Test),
   testFrameworks += new TestFramework("munit.Framework")
 )
 
 lazy val commonSettings = Seq(
   sonatypeProfileName := "com.avast",
-  organization := "com.avast.cloud",
-  homepage := Some(url("https://github.com/avast/datadog4s")),
-  licenses := List("MIT" -> url(s"https://github.com/avast/datadog4s/blob/${version.value}/LICENSE")),
-  description := "Library for datadog app monitoring",
+  organization        := "com.avast.cloud",
+  homepage            := Some(url("https://github.com/avast/datadog4s")),
+  licenses            := List("MIT" -> url(s"https://github.com/avast/datadog4s/blob/${version.value}/LICENSE")),
+  description         := "Library for datadog app monitoring",
   developers := List(
     Developer(
       "tomasherman",

@@ -68,7 +68,7 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   private val gcBeans     = ManagementFactory.getGarbageCollectorMXBeans.asScala.toVector
 
   private def wrapUnsafe[T](gauge: Gauge[F, T], tags: Tag*)(f: => T): F[Unit] =
-    F.delay(f).flatMap(gauge.set(_, tags *))
+    F.delay(f).flatMap(gauge.set(_, tags*))
 
   private val gc: Vector[F[Unit]] =
     gcBeans.map { bean =>
@@ -158,8 +158,8 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
 
   protected[jvm] val getBuffersIO: F[Vector[Unit]] = Traverse[Vector].sequence(buffers)
   protected[jvm] val getGcIO: F[Vector[Unit]]      = Traverse[Vector].sequence(gc)
-  protected[jvm] val getCpuLoadIO: F[Unit]         = protect(osBean)(bean => wrapUnsafe(cpuLoad)(bean.getProcessCpuLoad))
-  protected[jvm] val getCpuTimeIO: F[Unit]         = protect(osBean)(bean => wrapUnsafe(cpuTime)(bean.getProcessCpuTime))
+  protected[jvm] val getCpuLoadIO: F[Unit] = protect(osBean)(bean => wrapUnsafe(cpuLoad)(bean.getProcessCpuLoad))
+  protected[jvm] val getCpuTimeIO: F[Unit] = protect(osBean)(bean => wrapUnsafe(cpuTime)(bean.getProcessCpuTime))
   protected[jvm] val getOpenFDsCountIO: F[Unit] =
     protect(unixBean)(bean => wrapUnsafe(openFds)(bean.getOpenFileDescriptorCount))
   protected[jvm] val getHeapUsedIO: F[Unit]      = wrapUnsafe(heapUsed)(memoryBean.getHeapMemoryUsage.getUsed)

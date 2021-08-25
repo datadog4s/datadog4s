@@ -23,7 +23,7 @@ class HistogramTimer[F[_]: Sync](
         aspect,
         ElapsedTime[T].amount(t, timeUnit),
         sampleRate,
-        finalTags *
+        finalTags*
       )
     }
 

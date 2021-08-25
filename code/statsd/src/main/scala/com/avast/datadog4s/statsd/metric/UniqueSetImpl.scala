@@ -13,6 +13,6 @@ class UniqueSetImpl[F[_]: Sync](statsDClient: StatsDClient, aspect: String, defa
   override def record(value: String, tags: Tag*): F[Unit] =
     F.delay {
       val finalTags = tags ++ defaultTags
-      statsDClient.recordSetValue(aspect, value, finalTags *)
+      statsDClient.recordSetValue(aspect, value, finalTags*)
     }
 }

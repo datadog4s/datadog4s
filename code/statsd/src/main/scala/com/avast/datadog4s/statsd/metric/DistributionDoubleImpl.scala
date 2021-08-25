@@ -16,6 +16,6 @@ class DistributionDoubleImpl[F[_]: Sync](
   override def record(value: Double, tags: Tag*): F[Unit] =
     F.delay {
       val finalTags = tags ++ defaultTags
-      statsDClient.recordDistributionValue(aspect, value, sampleRate, finalTags *)
+      statsDClient.recordDistributionValue(aspect, value, sampleRate, finalTags*)
     }
 }
