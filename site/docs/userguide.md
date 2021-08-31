@@ -1,6 +1,5 @@
 ---
-layout: docs 
-title:  "User guide"
+layout: docs title:  "User guide"
 position: 2
 ---
 
@@ -10,10 +9,10 @@ position: 2
 - [Creating metrics](#creating-metrics)
 - [Timers](#timers)
 - [Tagging](#tagging)
-  - [Tagger](#tagger)
+    - [Tagger](#tagger)
 - [Extensions](#extensions)
-  - [Http4s](#http4s)
-  - [Jvm monitoring](#jvm-monitoring)
+    - [Http4s](#http4s)
+    - [Jvm monitoring](#jvm-monitoring)
 
 ## Creating metric factory
 
@@ -189,6 +188,12 @@ jvmMonitoring.use { _ =>
     IO.unit
 }
 ```
+
+#### Note on Java compatibility:
+
+Starting with Java 16, applications that use our jvm monitoring need to
+add `--add-opens=java.management/sun.management=ALL-UNNAMED` as JVM parameter when starting the application. This is
+because JVM monitoring uses internal java APIs to obtain certain metrics.
 
 [jvm-reporter-class]: https://github.com/avast/datadog4s/blob/master/code/jvm/src/main/scala/com/avast/datadog4s/extension/jvm/JvmReporter.scala
 
