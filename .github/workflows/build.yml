@@ -30,7 +30,7 @@ jobs:
       with:
         extraKey: scala-${{ matrix.scala }}
     - name: "Drop .sbtopts" # Drop .sbtopts which contains args unsupported by jdk 1.8
-      if: ${{ matrix.java }} == '8'
+      if: ${{ matrix.java == '8' }}
       run: rm .sbtopts
     - name: Compile & Test
       run: sbt checkAll
@@ -57,7 +57,7 @@ jobs:
       with:
         extraKey: scala-${{ matrix.scala }}
     - name: "Drop .sbtopts" # Drop .sbtopts which contains args unsupported by jdk 1.8
-      if: ${{ matrix.java }} == '8'
+      if: ${{ matrix.java == '8' }}
       run: rm .sbtopts
     - name: Compile & Test
       run: sbt checkAll
