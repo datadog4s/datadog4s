@@ -29,7 +29,7 @@ jobs:
     - uses: coursier/cache-action@v5
       with:
         extraKey: scala-${{ matrix.scala }}
-    - name: "Drop sbt opts" # Drop .sbtopts which contains args unsupported by jdk 1.8
+    - name: "Drop .sbtopts" # Drop .sbtopts which contains args unsupported by jdk 1.8
       if: ${{ matrix.java }} == '8gi'
       run: rm .sbtopts
     - name: Compile & Test
@@ -56,6 +56,9 @@ jobs:
     - uses: coursier/cache-action@v5
       with:
         extraKey: scala-${{ matrix.scala }}
+    - name: "Drop .sbtopts" # Drop .sbtopts which contains args unsupported by jdk 1.8
+      if: ${{ matrix.java }} == '8gi'
+      run: rm .sbtopts
     - name: Compile & Test
       run: sbt checkAll
     - name: Run binary compatiblity check ## disabled to avoid issues with dotty build missing
