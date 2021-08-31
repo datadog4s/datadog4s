@@ -133,7 +133,6 @@ lazy val site = (project in file("site"))
     ScalaUnidocPlugin
   )
   .settings(
-    //scalacOptions := scalacOptions.value.filterNot(_ == "-source:future"), //mdoc has problems with imports without this
     libraryDependencies += Dependencies.Mdoc.libMdoc
   )
   .settings(publish / skip := true)
