@@ -1,5 +1,7 @@
 import BuildSupport.ScalaVersions._
 
+ThisBuild / versionScheme := Some("early-semver")
+
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet
 )
