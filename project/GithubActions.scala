@@ -6,7 +6,11 @@ object GithubActions {
   val javaVersions: Seq[String]       = Seq("8", "11", "13", "16").map(v => s"adopt@1.$v")
 
   val dropSbtOpts: WorkflowStep.Run =
-    WorkflowStep.Run(List("rm .sbtopts"), id = Some("Drop SBT opts"), cond = Some("${{ matrix.java == 'adopt@1.8' }}"))
+    WorkflowStep.Run(
+      List("rm .sbtopts"),
+      name = Some("Drop SBT opts"),
+      cond = Some("${{ matrix.java == 'adopt@1.8' }}")
+    )
 
   def preBuild: Seq[WorkflowStep] = Seq(dropSbtOpts)
 
