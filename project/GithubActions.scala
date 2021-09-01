@@ -3,7 +3,7 @@ import sbtghactions.{UseRef, WorkflowStep}
 object GithubActions {
 
   val envGHToken: Map[String, String] = Map[String, String]("GITHUB_TOKEN" -> "${{ secrets.GITHUB_TOKEN }}")
-  val javaVersions: Seq[String]       = Seq("8", "11", "13", "16")
+  val javaVersions: Seq[String]       = Seq("8", "11", "13", "16").map(v => s"adopt@1.$v")
 
   def postPublish: Seq[WorkflowStep] = ReleaseDrafter.releaseDrafter +: Microsite.microsite
 
