@@ -19,3 +19,5 @@ addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.0.0")
 addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.20")
 
 addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.9.30")
+
+addSbtPlugin("com.codecommit" % "sbt-github-actions" % "0.13.0")
