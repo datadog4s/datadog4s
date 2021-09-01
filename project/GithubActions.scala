@@ -5,6 +5,11 @@ object GithubActions {
   val envGHToken: Map[String, String] = Map[String, String]("GITHUB_TOKEN" -> "${{ secrets.GITHUB_TOKEN }}")
   val javaVersions: Seq[String]       = Seq("8", "11", "13", "16").map(v => s"adopt@1.$v")
 
+  val dropSbtOpts: WorkflowStep.Run =
+    WorkflowStep.Run(List("rm .sbtopts"), id = Some("Drop SBT opts"), cond = Some("${{ matrix.java == 'adopt@1.8' }}"))
+
+  def preBuild: Seq[WorkflowStep] = Seq(dropSbtOpts)
+
   def postPublish: Seq[WorkflowStep] = ReleaseDrafter.releaseDrafter +: Microsite.microsite
 
   object ReleaseDrafter {
@@ -44,7 +49,7 @@ object GithubActions {
       )
     )
 
-    private val setupRuby: WorkflowStep     =
+    private val setupRuby: WorkflowStep =
       WorkflowStep.Use(UseRef.Public("actions", "setup-ruby", "v1"), env = Map("ruby-version" -> "2.6"))
     private val installJekyll: WorkflowStep = WorkflowStep.Run(
       List(

@@ -4,10 +4,12 @@ ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
 ThisBuild / githubWorkflowPublishTargetBranches :=
   Seq(RefPredicate.StartsWith(Ref.Tag("v")))
 
-ThisBuild / githubWorkflowPublish := Seq(WorkflowStep.Sbt(List("ci-release")))
-ThisBuild / githubWorkflowJavaVersions := GithubActions.javaVersions
+ThisBuild / githubWorkflowPublish          := Seq(WorkflowStep.Sbt(List("ci-release")))
+ThisBuild / githubWorkflowJavaVersions     := GithubActions.javaVersions
 ThisBuild / githubWorkflowPublishPostamble := GithubActions.postPublish
-ThisBuild / crossScalaVersions := supportedScalaVersions
+ThisBuild / githubWorkflowBuildPreamble    := GithubActions.preBuild
+ThisBuild / githubWorkflowPublishPreamble  := GithubActions.preBuild
+ThisBuild / crossScalaVersions             := supportedScalaVersions
 ThisBuild / githubWorkflowEnv := Map("JAVA_OPTS" -> "-Dsbt.boot.lock=false", "JVM_OPTS" -> "-Dsbt.boot.lock=false")
 ThisBuild / githubWorkflowPublishTargetBranches := Seq(RefPredicate.StartsWith(Ref.Branch("")))
 
@@ -15,8 +17,8 @@ ThisBuild / githubWorkflowPublish := Seq(
   WorkflowStep.Sbt(
     List("ci-release"),
     env = Map(
-      "PGP_PASSPHRASE" -> "${{ secrets.PGP_PASSPHRASE }}",
-      "PGP_SECRET" -> "${{ secrets.PGP_SECRET }}",
+      "PGP_PASSPHRASE"    -> "${{ secrets.PGP_PASSPHRASE }}",
+      "PGP_SECRET"        -> "${{ secrets.PGP_SECRET }}",
       "SONATYPE_PASSWORD" -> "${{ secrets.SONATYPE_PASSWORD }}",
       "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}"
     )
