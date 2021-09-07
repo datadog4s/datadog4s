@@ -20,7 +20,7 @@ lazy val scalaSettings = Seq(
   },
   crossScalaVersions                                := supportedScalaVersions,
   libraryDependencies += (Dependencies.Testing.munit % Test),
-  testFrameworks += new TestFramework("munit.Framework"),
+  testFrameworks += new TestFramework("munit.Framework")
 )
 
 lazy val commonSettings = Seq(
