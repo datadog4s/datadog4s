@@ -24,7 +24,7 @@ lazy val scalaSettings = Seq(
 
   // temporarily disable external API mappings until https://github.com/sbt/sbt/issues/6652 is resolved
   Compile / doc / autoAPIMappings := false,
-  Compile / doc / apiMappings := Map.empty
+  Compile / doc / apiMappings     := Map.empty
 )
 
 lazy val commonSettings = Seq(
