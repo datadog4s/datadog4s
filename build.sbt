@@ -20,7 +20,8 @@ lazy val scalaSettings = Seq(
   },
   crossScalaVersions                                := supportedScalaVersions,
   libraryDependencies += (Dependencies.Testing.munit % Test),
-  testFrameworks += new TestFramework("munit.Framework")
+  testFrameworks += new TestFramework("munit.Framework"),
+  Compile / doc / apiMappings := Map.empty // temporarily disable external API mappings until https://github.com/sbt/sbt/issues/6652 is resolved
 )
 
 lazy val commonSettings = Seq(
