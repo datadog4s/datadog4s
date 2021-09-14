@@ -1,6 +1,29 @@
 import BuildSupport.ScalaVersions._
 
-ThisBuild / versionScheme := Some("early-semver")
+ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
+ThisBuild / githubWorkflowPublishTargetBranches :=
+  Seq(RefPredicate.StartsWith(Ref.Tag("v")))
+
+ThisBuild / githubWorkflowPublish          := Seq(WorkflowStep.Sbt(List("ci-release")))
+ThisBuild / githubWorkflowJavaVersions     := GithubActions.javaVersions
+ThisBuild / githubWorkflowPublishPostamble := GithubActions.postPublish
+ThisBuild / githubWorkflowBuildPreamble    := GithubActions.preBuild
+ThisBuild / githubWorkflowPublishPreamble  := GithubActions.preBuild
+ThisBuild / crossScalaVersions             := supportedScalaVersions
+ThisBuild / githubWorkflowEnv := Map("JAVA_OPTS" -> "-Dsbt.boot.lock=false", "JVM_OPTS" -> "-Dsbt.boot.lock=false")
+ThisBuild / githubWorkflowPublishTargetBranches := Seq(RefPredicate.StartsWith(Ref.Branch("")))
+
+ThisBuild / githubWorkflowPublish := Seq(
+  WorkflowStep.Sbt(
+    List("ci-release"),
+    env = Map(
+      "PGP_PASSPHRASE"    -> "${{ secrets.PGP_PASSPHRASE }}",
+      "PGP_SECRET"        -> "${{ secrets.PGP_SECRET }}",
+      "SONATYPE_PASSWORD" -> "${{ secrets.SONATYPE_PASSWORD }}",
+      "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}"
+    )
+  )
+)
 
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet
