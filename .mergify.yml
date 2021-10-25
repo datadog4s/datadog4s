@@ -11,9 +11,10 @@ pull_request_rules:
     conditions:
       - base=master
       - author=scala-steward
-      - status-success=build (1.8.0, 2.12.10)
-      - status-success=build (11.0.x, 2.12.10)
-      - status-success=build (13.0.x, 2.12.10)
+      - status-success=build (8, 2.12.10)
+      - status-success=build (11, 2.12.10)
+      - status-success=build (13, 2.12.10)
+      - status-success=build (16, 2.12.10)
       - body~=labels:.*semver-patch.*    
     actions:
       review:
@@ -23,9 +24,10 @@ pull_request_rules:
       - base=master
       - "#changes-requested-reviews-by=0"
       - "#approved-reviews-by>=1"
-      - status-success=build (1.8.0, 2.12.10)
-      - status-success=build (11.0.x, 2.12.10)
-      - status-success=build (13.0.x, 2.12.10)
+      - status-success=build (8, 2.12.10)
+      - status-success=build (11, 2.12.10)
+      - status-success=build (13, 2.12.10)
+      - status-success=build (16, 2.12.10)
     actions:
       merge:
         method: squash

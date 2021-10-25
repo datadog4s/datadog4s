@@ -9,7 +9,7 @@ import sbtdynver.DynVerPlugin.autoImport._
 
 object BuildSupport {
   object ScalaVersions {
-    lazy val scala212               = "2.12.14"
+    lazy val scala212               = "2.12.15"
     lazy val scala213               = "2.13.6"
     lazy val scala3lowest           = "3.0.1"
     lazy val scala3latest           = "3.1.0"
