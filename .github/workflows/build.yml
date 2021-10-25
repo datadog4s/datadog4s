@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        java: ['8','11', '13', '16']
+        java: ['8','11', '13', '16', '17']
         scala: ['2.12.10']
     steps:
     - name: Debug info
