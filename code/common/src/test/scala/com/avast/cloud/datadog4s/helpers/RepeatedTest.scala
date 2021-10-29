@@ -37,7 +37,7 @@ class RepeatedTest extends munit.FunSuite {
     } yield output
 
     val value = (IO.delay(logger.info("starting test")) *> test)
-      .timeout(1 minute) //failsafe in case it all runs forever
+      .timeout(1 minute) // failsafe in case it all runs forever
       .attempt
       .unsafeRunSync()
 
