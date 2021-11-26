@@ -16,7 +16,7 @@ pull_request_rules:
       - status-success=build (13, 2.12.10)
       - status-success=build (16, 2.12.10)
       - status-success=build (17, 2.12.10)
-      - body~=labels:.*semver-patch.*
+      - body~=labels:.*semver-spec-patch.*
     actions:
       review:
         type: APPROVE
