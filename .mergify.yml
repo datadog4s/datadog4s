@@ -31,8 +31,8 @@ pull_request_rules:
       - status-success=build (16, 2.12.10)
       - status-success=build (17, 2.12.10)
     actions:
-      merge:
-        method: queue
-        strict: true
+      queue:
+        method: merge
+        name: default
       delete_head_branch:
         force: true
