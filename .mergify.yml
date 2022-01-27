@@ -32,7 +32,7 @@ pull_request_rules:
       - status-success=build (17, 2.12.10)
     actions:
       merge:
-        method: squash
+        method: queue
         strict: true
       delete_head_branch:
         force: true
