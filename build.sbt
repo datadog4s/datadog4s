@@ -10,7 +10,7 @@ lazy val mimaSettings = Seq(
 lazy val publishSettings = Seq() ++ mimaSettings
 
 lazy val scalaSettings = Seq(
-  scalaVersion := scala3latest,
+  scalaVersion := scala3,
   scalacOptions := {
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((3, _)) => scalacOptions.value ++ Seq("-source:future")

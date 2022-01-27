@@ -11,9 +11,8 @@ object BuildSupport {
   object ScalaVersions {
     lazy val scala212               = "2.12.15"
     lazy val scala213               = "2.13.8"
-    lazy val scala3lowest           = "3.0.1"
-    lazy val scala3latest           = "3.1.0"
-    lazy val supportedScalaVersions = List(scala212, scala213, scala3lowest, scala3latest)
+    lazy val scala3                 = "3.1.1"
+    lazy val supportedScalaVersions = List(scala212, scala213, scala3)
   }
 
   lazy val micrositeSettings = Seq(
@@ -44,7 +43,7 @@ object BuildSupport {
       "CATS_EFFECT_VERSION" -> Cats.effect.revision,
       "HTTP4S_VERSION"      -> Http4s.core.revision,
       "HTTP4S_CE2_VERSION"  -> "0.22.1",
-      "SCALA_3_VERSION"     -> ScalaVersions.scala3lowest
+      "SCALA_3_VERSION"     -> ScalaVersions.scala3
     ),
     mdocAutoDependency           := false,
     micrositeDataDirectory       := file("site"),
