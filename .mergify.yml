@@ -1,3 +1,12 @@
+queue_rules:
+  - name: default
+    conditions:
+      - status-success=build (8, 2.12.10)
+      - status-success=build (11, 2.12.10)
+      - status-success=build (13, 2.12.10)
+      - status-success=build (16, 2.12.10)
+      - status-success=build (17, 2.12.10)
+
 pull_request_rules:
   - name: assign and label scala-steward's PRs
     conditions:
@@ -31,8 +40,8 @@ pull_request_rules:
       - status-success=build (16, 2.12.10)
       - status-success=build (17, 2.12.10)
     actions:
-      merge:
-        method: squash
-        strict: true
+      queue:
+        method: merge
+        name: default
       delete_head_branch:
         force: true
