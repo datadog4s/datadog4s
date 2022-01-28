@@ -102,7 +102,7 @@ valresult:Object=blocking[Object](queue.take())
 resultmatch{
 caseec:ExitCode=>
 IOApp.this.runtime.shutdown.apply()
-if(ec.==(ExitCode.Success))if(NonDaemonThreadLogger.isEnabled())newNonDaemonThreadLogger().start()else()elseif(isForked)System.exit(ec.code)else()
+if(ec.==(ExitCode.Success))if(isForked.&&(NonDaemonThreadLogger.isEnabled()))newNonDaemonThreadLogger().start()else()elseif(isForked)System.exit(ec.code)else()
 casee:CancellationException=>
 if(isForked)System.exit(1)elsethrowe
 caseNonFatal(t)=>
