@@ -129,7 +129,7 @@ get a single value that you can use in multiple places in your code to create <c
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.avast.datadog4s.api.tag.</span><span class="o">{</span><span class="nc">TagValue</span><span class="o">,</span> <span class="nc">Tagger</span><span class="o">}</span>
 
 <span class="k">val</span> <span class="nv">pathTagger</span><span class="k">:</span> <span class="kt">Tagger</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nv">Tagger</span><span class="o">.</span><span class="py">make</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"path"</span><span class="o">)</span>
-<span class="c1">// pathTagger: Tagger[String] = com.avast.datadog4s.api.tag.Tagger$$anon$1@2a071686</span>
+<span class="c1">// pathTagger: Tagger[String] = com.avast.datadog4s.api.tag.Tagger$$anon$1@37859cd7</span>
 <span class="nf">assert</span><span class="o">(</span><span class="nv">Tag</span><span class="o">.</span><span class="py">of</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"admin/login"</span><span class="o">)</span> <span class="o">==</span> <span class="nv">pathTagger</span><span class="o">.</span><span class="py">tag</span><span class="o">(</span><span class="s">"admin/login"</span><span class="o">))</span>
 
 <span class="c1">// tagger also supports taging using custom types using TagValue typeclass</span>
@@ -137,10 +137,10 @@ get a single value that you can use in multiple places in your code to create <c
 <span class="k">case</span> <span class="k">class</span> <span class="nc">StatusCode</span><span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>  
 
 <span class="k">implicit</span> <span class="k">val</span> <span class="nv">statusCodeTagValue</span><span class="k">:</span> <span class="kt">TagValue</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">]</span> <span class="k">=</span> <span class="nc">TagValue</span><span class="o">[</span><span class="kt">Int</span><span class="o">].</span><span class="py">contramap</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">](</span><span class="n">sc</span> <span class="k">=&gt;</span> <span class="nv">sc</span><span class="o">.</span><span class="py">value</span><span class="o">)</span>
-<span class="c1">// statusCodeTagValue: TagValue[StatusCode] = com.avast.datadog4s.api.tag.TagValue$$Lambda$7838/0x0000000102342c40@59a09112</span>
+<span class="c1">// statusCodeTagValue: TagValue[StatusCode] = com.avast.datadog4s.api.tag.TagValue$$Lambda$7840/0x0000000102341840@7848605</span>
 
 <span class="k">val</span> <span class="nv">statusCodeTagger</span><span class="k">:</span> <span class="kt">Tagger</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">]</span> <span class="k">=</span> <span class="nv">Tagger</span><span class="o">.</span><span class="py">make</span><span class="o">[</span><span class="kt">StatusCode</span><span class="o">](</span><span class="s">"statusCode"</span><span class="o">)</span>
-<span class="c1">// statusCodeTagger: Tagger[StatusCode] = com.avast.datadog4s.api.tag.Tagger$$anon$1@d0ce116</span>
+<span class="c1">// statusCodeTagger: Tagger[StatusCode] = com.avast.datadog4s.api.tag.Tagger$$anon$1@4a683d3</span>
 
 <span class="nf">assert</span><span class="o">(</span><span class="nv">Tag</span><span class="o">.</span><span class="py">of</span><span class="o">(</span><span class="s">"statusCode"</span><span class="o">,</span> <span class="s">"200"</span><span class="o">)</span> <span class="o">==</span> <span class="nv">statusCodeTagger</span><span class="o">.</span><span class="py">tag</span><span class="o">(</span><span class="nc">StatusCode</span><span class="o">(</span><span class="mi">200</span><span class="o">)))</span>
 </code></pre></div></div>
@@ -165,7 +165,7 @@ by <a href="http4s">http4s</a> to report both client and server metrics.</p>
     <span class="o">}</span>
 <span class="o">}</span>
 <span class="c1">// res5: IO[Unit] = Uncancelable(</span>
-<span class="c1">//   cats.effect.IO$$$Lambda$7834/0x0000000102340840@4ab546ae,</span>
+<span class="c1">//   cats.effect.IO$$$Lambda$7836/0x0000000102332840@7793bb1,</span>
 <span class="c1">//   cats.effect.tracing.TracingEvent$StackTrace</span>
 <span class="c1">// )</span>
 </code></pre></div></div>
