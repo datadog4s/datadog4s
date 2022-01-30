@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        java: ['1.8.0', '11.0.x', '13.0.x']
+        java: ['8','11', '13', '16', '17']
         scala: ['2.12.10']
     steps:
     - name: Debug info
@@ -29,6 +29,9 @@ jobs:
     - uses: coursier/cache-action@v5
       with:
         extraKey: scala-${{ matrix.scala }}
+    - name: "Drop .sbtopts" # Drop .sbtopts which contains args unsupported by jdk 1.8
+      if: ${{ matrix.java == '8' }}
+      run: rm .sbtopts
     - name: Compile & Test
       run: sbt checkAll
 #    - name: Codecov report
@@ -46,18 +49,25 @@ jobs:
       run: echo ref:${{github.ref}}
     - uses: actions/checkout@v2
     - run: git fetch --tags -f --unshallow
-    - name: Set up JDK 1.8
+    - name: Set up JDK
       uses: actions/setup-java@v1
       with:
-        java-version: '1.8.0'
+        java-version: '11'
     - uses: coursier/cache-action@v5
       with:
         extraKey: scala-${{ matrix.scala }}
     - name: Compile & Test
       run: sbt checkAll
-    - name: Run binary compatiblity check ## disabled to avoid issues with dotty build missing
+    - name: Run binary compatiblity check
       if: contains(github.ref, 'refs/tags/v') && !endsWith(github.ref, '.0')
       run: sbt mimaReportBinaryIssues
+    - name: Git check dirty state
+      run: |
+        if [[ $(git diff --stat) != '' ]]; then
+          echo 'dirty'
+          git status
+          exit 0
+        fi
     - name: Release
       env:
         PGP_SECRET: ${{ secrets.PGP_SECRET }}
