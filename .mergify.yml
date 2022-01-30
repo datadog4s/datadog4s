@@ -18,7 +18,7 @@ pull_request_rules:
         add: [dependency-update]
   - name: Approve scala-steward patches
     conditions:
-      - base=master
+      - base~=master|series/cats-effect2
       - author=scala-steward
       - status-success=build (8, 2.12.10)
       - status-success=build (11, 2.12.10)
@@ -31,7 +31,7 @@ pull_request_rules:
         type: APPROVE
   - name: automatic merge on CI success and review
     conditions:
-      - base=master
+      - base~=master|series/cats-effect2
       - "#changes-requested-reviews-by=0"
       - "#approved-reviews-by>=1"
       - status-success=build (8, 2.12.10)
