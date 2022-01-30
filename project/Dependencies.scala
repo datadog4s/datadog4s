@@ -15,7 +15,7 @@ object Dependencies {
 
   object Testing {
     val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.15.1"
-    val munit            = "org.scalameta" %% "munit"                   % "0.7.26"
+    val munit            = "org.scalameta" %% "munit"                   % "0.7.29"
   }
 
   object Logging {
@@ -23,7 +23,7 @@ object Dependencies {
   }
 
   object Mdoc {
-    val libMdoc = "org.scalameta" %% "mdoc" % "2.2.21" excludeAll (ExclusionRule(
+    val libMdoc = "org.scalameta" %% "mdoc" % "2.2.24" excludeAll (ExclusionRule(
       organization = "org.slf4j"
     ))
   }
