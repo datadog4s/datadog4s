@@ -2,8 +2,8 @@ package com.avast.cloud.datadog4s.helpers
 
 import java.time.Duration
 
-import cats.effect.concurrent.{ Deferred, Ref }
-import cats.effect.{ ContextShift, IO, Timer }
+import cats.effect.concurrent.{Deferred, Ref}
+import cats.effect.{ContextShift, IO, Timer}
 import cats.syntax.flatMap._
 import org.slf4j.LoggerFactory
 
@@ -43,7 +43,7 @@ class RepeatedTest extends munit.FunSuite {
     } yield output
 
     val value = (IO.delay(logger.info("starting test")) *> test)
-      .timeout(1 minute) //failsafe in case it all runs forever
+      .timeout(1 minute) // failsafe in case it all runs forever
       .attempt
       .unsafeRunSync()
 
@@ -52,7 +52,7 @@ class RepeatedTest extends munit.FunSuite {
   }
 
   test("repeated test should handle errors using provided handler") {
-    val test  = for {
+    val test = for {
       ref        <- Ref.of[IO, ErrorState](ErrorState.empty)
       killSignal <- Deferred[IO, Unit]
     } yield {
@@ -98,7 +98,7 @@ class RepeatedTest extends munit.FunSuite {
     def incFail: ErrorState = this.copy(failure = failure + 1)
     def incSucc: ErrorState = this.copy(succ = succ + 1)
   }
-  object ErrorState                              {
+  object ErrorState {
     def empty: ErrorState = ErrorState(0, 0)
   }
 

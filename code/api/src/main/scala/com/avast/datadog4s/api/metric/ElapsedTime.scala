@@ -4,15 +4,13 @@ import java.time.Duration
 import java.util.concurrent.TimeUnit
 import scala.concurrent.duration.FiniteDuration
 
-/**
- * Representation of Elapsed time
- */
+/** Representation of Elapsed time
+  */
 trait ElapsedTime[A] { self =>
 
-  /**
-   * Return amount of elapsed `timeUnit`s stored in `instance`. For example:
-   * given `instance` that represents 24 hours, `amount(instance, TimeUnit.MINUTES)` should return 1440 (24*60)
-   */
+  /** Return amount of elapsed `timeUnit`s stored in `instance`. For example: given `instance` that represents 24 hours,
+    * `amount(instance, TimeUnit.MINUTES)` should return 1440 (24*60)
+    */
   def amount(instance: A, timeUnit: TimeUnit): Long
   def contraMap[B](f: B => A): ElapsedTime[B] = (b: B, timeUnit: TimeUnit) => self.amount(f(b), timeUnit)
 }
@@ -20,7 +18,7 @@ trait ElapsedTime[A] { self =>
 object ElapsedTime {
   def apply[A: ElapsedTime]: ElapsedTime[A] = implicitly[ElapsedTime[A]]
 
-  implicit val durationInstance: ElapsedTime[Duration]             = (a: Duration, timeUnit: TimeUnit) =>
+  implicit val durationInstance: ElapsedTime[Duration] = (a: Duration, timeUnit: TimeUnit) =>
     timeUnit match {
       case TimeUnit.NANOSECONDS  => a.toNanos
       case TimeUnit.MICROSECONDS => a.toNanos / 1000

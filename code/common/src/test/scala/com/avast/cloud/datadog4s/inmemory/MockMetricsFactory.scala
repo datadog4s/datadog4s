@@ -5,7 +5,7 @@ import cats.effect.concurrent.Ref
 import cats.syntax.flatMap._
 import cats.syntax.functor._
 import com.avast.datadog4s.api.metric._
-import com.avast.datadog4s.api.{ DistributionFactory, GaugeFactory, HistogramFactory, MetricFactory, Tag, TimerFactory }
+import com.avast.datadog4s.api.{DistributionFactory, GaugeFactory, HistogramFactory, MetricFactory, Tag, TimerFactory}
 
 import java.util.concurrent.TimeUnit
 

@@ -2,8 +2,8 @@ package com.avast.datadog4s.statsd
 
 import java.net.InetSocketAddress
 
-import cats.effect.{ Resource, Sync }
-import com.timgroup.statsd.{ NonBlockingStatsDClient, NonBlockingStatsDClientBuilder }
+import cats.effect.{Resource, Sync}
+import com.timgroup.statsd.{NonBlockingStatsDClient, NonBlockingStatsDClientBuilder}
 
 object StatsDClient {
   private def makeBuilder(statsDServer: InetSocketAddress, queueSize: Int): NonBlockingStatsDClientBuilder =

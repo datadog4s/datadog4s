@@ -1,6 +1,6 @@
 package com.avast.datadog4s.statsd
 
-import cats.effect.{ Clock, IO }
+import cats.effect.{Clock, IO}
 import com.avast.datadog4s.api.Tag
 import com.avast.datadog4s.statsd.metric.TimerImpl
 import com.avast.datadog4s.statsd.metric.timer.HistogramTimer
@@ -27,7 +27,7 @@ class TimerImplTest extends munit.FunSuite {
 
         val statsD: JMockStatsDClient = MockStatsDClient()
         val clock: Clock[IO]          = new MockClock
-        val timer                     = new HistogramTimer[IO](clock, statsD, aspect, sampleRate, Vector.empty, TimeUnit.MILLISECONDS)
+        val timer = new HistogramTimer[IO](clock, statsD, aspect, sampleRate, Vector.empty, TimeUnit.MILLISECONDS)
       }
     },
     _ => ()
