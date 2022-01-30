@@ -1,11 +1,11 @@
 package com.avast.datadog4s.statsd
 
 import cats.effect.{Clock, Sync}
-import com.avast.datadog4s.api._
+import com.avast.datadog4s.api.*
 import com.avast.datadog4s.api.metric.{Distribution, Gauge, Histogram, Timer, UniqueSet}
-import com.avast.datadog4s.statsd.metric._
+import com.avast.datadog4s.statsd.metric.*
 import com.avast.datadog4s.statsd.metric.timer.{DistributionTimer, HistogramTimer}
-import com.timgroup.statsd.{StatsDClient => JStatsDClient}
+import com.timgroup.statsd.StatsDClient as JStatsDClient
 
 import java.util.concurrent.TimeUnit
 
@@ -16,7 +16,7 @@ class StatsDMetricFactory[F[_]: Sync](
     defaultTags: collection.immutable.Seq[Tag]
 ) extends MetricFactory[F] {
 
-  private[this] val clock = Clock.create[F]
+  private val clock = Clock.create[F]
 
   private def extendPrefix(ext: String): String = prefix.map(v => s"$v.$ext").getOrElse(ext)
 

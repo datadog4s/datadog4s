@@ -1,5 +1,7 @@
 import BuildSupport.ScalaVersions._
 
+ThisBuild / versionScheme := Some("early-semver")
+
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet
 )
@@ -8,7 +10,14 @@ lazy val mimaSettings = Seq(
 lazy val publishSettings = Seq() ++ mimaSettings
 
 lazy val scalaSettings = Seq(
-  scalaVersion                                      := scala213,
+  scalaVersion := scala3,
+  scalacOptions := {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((3, _)) => scalacOptions.value ++ Seq("-source:future")
+      case Some((2, _)) => scalacOptions.value ++ Seq("-Xsource:3")
+      case other        => scalacOptions.value
+    }
+  },
   crossScalaVersions                                := supportedScalaVersions,
   libraryDependencies += (Dependencies.Testing.munit % Test),
   testFrameworks += new TestFramework("munit.Framework")
@@ -49,7 +58,7 @@ lazy val api = project
     scalaSettings,
     commonSettings,
     publishSettings,
-    libraryDependencies += Dependencies.Cats.core.cross(CrossVersion.for3Use2_13)
+    libraryDependencies += Dependencies.Cats.core
   )
 
 lazy val common = project
@@ -59,7 +68,7 @@ lazy val common = project
     scalaSettings,
     commonSettings,
     publishSettings,
-    libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
+    libraryDependencies += Dependencies.Cats.effect,
     libraryDependencies += (Dependencies.Logging.logback % Test)
   )
   .dependsOn(api)
@@ -71,7 +80,7 @@ lazy val statsd = project
     scalaSettings,
     commonSettings,
     publishSettings,
-    libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
+    libraryDependencies += Dependencies.Cats.effect,
     libraryDependencies += Dependencies.Datadog.statsDClient,
     libraryDependencies += Dependencies.ScalaModules.collectionCompat
   )
@@ -84,8 +93,8 @@ lazy val http4s = project
     scalaSettings,
     commonSettings,
     publishSettings,
-    libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
-    libraryDependencies += Dependencies.Http4s.core.cross(CrossVersion.for3Use2_13)
+    libraryDependencies += Dependencies.Cats.effect,
+    libraryDependencies += Dependencies.Http4s.core
   )
   .dependsOn(api)
 
@@ -96,7 +105,7 @@ lazy val jvm = project
     scalaSettings,
     commonSettings,
     publishSettings,
-    libraryDependencies += Dependencies.Cats.effect.cross(CrossVersion.for3Use2_13),
+    libraryDependencies += Dependencies.Cats.effect,
     libraryDependencies += Dependencies.ScalaModules.collectionCompat
   )
   .dependsOn(api, common % "compile->compile;test->test")
@@ -106,10 +115,12 @@ lazy val playground = project
   .settings(
     name := "datadog4s-playground",
     commonSettings,
-    scalaSettings
+    scalaSettings,
+    libraryDependencies += Dependencies.ScalaModules.collectionCompat
   )
   .disablePlugins(MimaPlugin)
   .dependsOn(statsd)
+  .dependsOn(jvm)
 
 lazy val site = (project in file("site"))
   .settings(scalaSettings)
@@ -123,7 +134,6 @@ lazy val site = (project in file("site"))
   )
   .settings(
     libraryDependencies += Dependencies.Mdoc.libMdoc
-      exclude ("org.scala-lang.modules", "scala-collection-compat_2.13") // we use 3.0.0 version of scala-collection-compat
   )
   .settings(publish / skip := true)
   .settings(BuildSupport.micrositeSettings: _*)

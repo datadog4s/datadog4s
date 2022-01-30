@@ -5,9 +5,9 @@ import java.time.Duration
 import cats.effect.{ContextShift, IO, Timer}
 import com.avast.cloud.datadog4s.inmemory.MockMetricsFactory
 import com.avast.datadog4s.extension.jvm.JvmMonitoring.Config
-import cats.syntax.flatMap._
+import cats.syntax.flatMap.*
 import scala.concurrent.ExecutionContext
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 
 class JvmMonitoringTest extends munit.FunSuite {
   private val ec: ExecutionContext            = scala.concurrent.ExecutionContext.Implicits.global

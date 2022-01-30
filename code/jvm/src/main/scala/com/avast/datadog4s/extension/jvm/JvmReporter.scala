@@ -4,13 +4,13 @@ import java.lang.management.ManagementFactory
 
 import cats.Traverse
 import cats.effect.Sync
-import cats.syntax.flatMap._
+import cats.syntax.flatMap.*
 import com.avast.datadog4s.api.metric.Gauge
 import com.avast.datadog4s.api.{MetricFactory, Tag}
-import com.sun.management._
+import com.sun.management.*
 import sun.management.ManagementFactoryHelper
 
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   private val F = Sync[F]
@@ -68,7 +68,7 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
   private val gcBeans     = ManagementFactory.getGarbageCollectorMXBeans.asScala.toVector
 
   private def wrapUnsafe[T](gauge: Gauge[F, T], tags: Tag*)(f: => T): F[Unit] =
-    F.delay(f).flatMap(gauge.set(_, tags: _*))
+    F.delay(f).flatMap(gauge.set(_, tags*))
 
   private val gc: Vector[F[Unit]] =
     gcBeans.map { bean =>

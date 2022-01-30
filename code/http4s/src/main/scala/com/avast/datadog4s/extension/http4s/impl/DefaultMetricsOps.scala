@@ -3,12 +3,12 @@ package com.avast.datadog4s.extension.http4s.impl
 import java.time.Duration
 import cats.effect.Sync
 import cats.effect.concurrent.Ref
-import cats.syntax.flatMap._
+import cats.syntax.flatMap.*
 import com.avast.datadog4s.api.MetricFactory
 import com.avast.datadog4s.api.metric.Timer
 import com.avast.datadog4s.api.tag.Tagger
 import com.avast.datadog4s.extension.http4s.DatadogMetricsOps.ClassifierTags
-import com.avast.datadog4s.extension.http4s._
+import com.avast.datadog4s.extension.http4s.*
 import org.http4s.metrics.{MetricsOps, TerminationType}
 import org.http4s.{Method, Status}
 
@@ -20,11 +20,11 @@ private[http4s] class DefaultMetricsOps[F[_]](
 )(implicit
     F: Sync[F]
 ) extends MetricsOps[F] {
-  private[this] val methodTagger          = Tagger.make[Method]("method")
-  private[this] val terminationTypeTagger = Tagger.make[TerminationType]("termination_type")
-  private[this] val statusCodeTagger      = Tagger.make[Status]("status_code")
-  private[this] val statusBucketTagger    = Tagger.make[String]("status_bucket")
-  private[this] val activeRequests        = metricFactory.gauge.long("active_requests")
+  private val methodTagger          = Tagger.make[Method]("method")
+  private val terminationTypeTagger = Tagger.make[TerminationType]("termination_type")
+  private val statusCodeTagger      = Tagger.make[Status]("status_code")
+  private val statusBucketTagger    = Tagger.make[String]("status_bucket")
+  private val activeRequests        = metricFactory.gauge.long("active_requests")
 
   override def increaseActiveRequests(classifier: Option[String]): F[Unit] =
     modifyActiveRequests(classifier, 0, 1)
@@ -40,31 +40,31 @@ private[http4s] class DefaultMetricsOps[F[_]](
       val nextActiveConnections = activeConnections.updated(classifier, next)
       val action = activeRequests.set(
         next.toLong,
-        classifier.toList.flatMap(classifierTags): _*
+        classifier.toList.flatMap(classifierTags)*
       )
       (nextActiveConnections, action)
     }.flatten
 
-  private[this] val headersTime = makeTimer("headers_time")
+  private val headersTime = makeTimer("headers_time")
 
   override def recordHeadersTime(method: Method, elapsed: Long, classifier: Option[String]): F[Unit] =
     headersTime
       .record(
         Duration.ofNanos(elapsed),
-        methodTagger.tag(method) :: classifier.toList.flatMap(classifierTags): _*
+        (methodTagger.tag(method) :: classifier.toList.flatMap(classifierTags))*
       )
 
-  private[this] val requestCount   = metricFactory.count("requests_count")
-  private[this] val requestLatency = makeTimer("requests_latency")
+  private val requestCount   = metricFactory.count("requests_count")
+  private val requestLatency = makeTimer("requests_latency")
   override def recordTotalTime(method: Method, status: Status, elapsed: Long, classifier: Option[String]): F[Unit] = {
     val tags = methodTagger.tag(method) ::
       statusBucketTagger.tag(s"${status.code / 100}xx") ::
       statusCodeTagger.tag(status) :: classifier.toList.flatMap(classifierTags)
-    requestCount.inc(tags: _*) >> requestLatency.record(Duration.ofNanos(elapsed), tags: _*)
+    requestCount.inc(tags*) >> requestLatency.record(Duration.ofNanos(elapsed), tags*)
   }
 
-  private[this] val abnormalCount   = metricFactory.count("abnormal_count")
-  private[this] val abnormalLatency = makeTimer("abnormal_latency")
+  private val abnormalCount   = metricFactory.count("abnormal_count")
+  private val abnormalLatency = makeTimer("abnormal_latency")
   override def recordAbnormalTermination(
       elapsed: Long,
       terminationType: TerminationType,
@@ -72,7 +72,7 @@ private[http4s] class DefaultMetricsOps[F[_]](
   ): F[Unit] = {
     val terminationTpe = terminationTypeTagger.tag(terminationType)
     val tags           = terminationTpe :: classifier.toList.flatMap(classifierTags)
-    abnormalCount.inc(tags: _*) >> abnormalLatency.record(Duration.ofNanos(elapsed), tags: _*)
+    abnormalCount.inc(tags*) >> abnormalLatency.record(Duration.ofNanos(elapsed), tags*)
   }
 
   private def makeTimer(aspect: String): Timer[F] =

@@ -1,11 +1,11 @@
 import Dependencies.{Cats, Http4s}
-import com.typesafe.sbt.site.SitePlugin.autoImport._
-import mdoc.MdocPlugin.autoImport._
-import microsites.MicrositesPlugin.autoImport._
-import sbt.Keys._
-import sbt._
-import sbtunidoc.ScalaUnidocPlugin.autoImport._
-import sbtdynver.DynVerPlugin.autoImport._
+import com.typesafe.sbt.site.SitePlugin.autoImport.*
+import mdoc.MdocPlugin.autoImport.*
+import microsites.MicrositesPlugin.autoImport.*
+import sbt.Keys.*
+import sbt.*
+import sbtunidoc.ScalaUnidocPlugin.autoImport.*
+import sbtdynver.DynVerPlugin.autoImport.*
 
 object BuildSupport {
   object ScalaVersions {
