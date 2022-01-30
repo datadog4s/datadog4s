@@ -1,12 +1,12 @@
 import sbt._
 object Dependencies {
   object Cats {
-    val core   = "org.typelevel" %% "cats-core"   % "2.6.1"
+    val core   = "org.typelevel" %% "cats-core"   % "2.7.0"
     val effect = "org.typelevel" %% "cats-effect" % "2.5.4"
   }
 
   object Datadog {
-    val statsDClient = "com.datadoghq" % "java-dogstatsd-client" % "2.13.0"
+    val statsDClient = "com.datadoghq" % "java-dogstatsd-client" % "4.0.0"
   }
 
   object Http4s {
@@ -23,13 +23,13 @@ object Dependencies {
   }
 
   object Mdoc {
-    val libMdoc = "org.scalameta" %% "mdoc" % "2.2.24" excludeAll (ExclusionRule(
+    val libMdoc = "org.scalameta" %% "mdoc" % "2.3.0" excludeAll (ExclusionRule(
       organization = "org.slf4j"
     ))
   }
 
   object ScalaModules {
-    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.4.4"
+    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.6.0"
   }
 
 }

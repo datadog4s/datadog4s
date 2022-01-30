@@ -4,13 +4,13 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.6")
 
 addSbtPlugin("ch.epfl.scala" % "sbt-bloop" % "1.4.12")
 
-addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.2.24")
+addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.3.0")
 
-addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.9.2")
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.0.1")
 
 addSbtPlugin("com.47deg" % "sbt-microsites" % "1.3.4")
 
-addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.3")
+addSbtPlugin("com.github.sbt" % "sbt-unidoc" % "0.5.0")
 
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.0.0")
 
