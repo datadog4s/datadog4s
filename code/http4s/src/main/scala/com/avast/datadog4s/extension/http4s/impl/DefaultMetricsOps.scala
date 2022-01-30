@@ -9,16 +9,16 @@ import com.avast.datadog4s.api.metric.Timer
 import com.avast.datadog4s.api.tag.Tagger
 import com.avast.datadog4s.extension.http4s.DatadogMetricsOps.ClassifierTags
 import com.avast.datadog4s.extension.http4s._
-import org.http4s.metrics.{ MetricsOps, TerminationType }
-import org.http4s.{ Method, Status }
+import org.http4s.metrics.{MetricsOps, TerminationType}
+import org.http4s.{Method, Status}
 
 private[http4s] class DefaultMetricsOps[F[_]](
-  metricFactory: MetricFactory[F],
-  classifierTags: ClassifierTags,
-  activeConnectionsRef: Ref[F, ActiveConnections],
-  distributionBasedTimers: Boolean
+    metricFactory: MetricFactory[F],
+    classifierTags: ClassifierTags,
+    activeConnectionsRef: Ref[F, ActiveConnections],
+    distributionBasedTimers: Boolean
 )(implicit
-  F: Sync[F]
+    F: Sync[F]
 ) extends MetricsOps[F] {
   private[this] val methodTagger          = Tagger.make[Method]("method")
   private[this] val terminationTypeTagger = Tagger.make[TerminationType]("termination_type")
@@ -38,7 +38,7 @@ private[http4s] class DefaultMetricsOps[F[_]](
       val current               = activeConnections.getOrElse(classifier, default)
       val next                  = current + delta
       val nextActiveConnections = activeConnections.updated(classifier, next)
-      val action                = activeRequests.set(
+      val action = activeRequests.set(
         next.toLong,
         classifier.toList.flatMap(classifierTags): _*
       )
@@ -66,9 +66,9 @@ private[http4s] class DefaultMetricsOps[F[_]](
   private[this] val abnormalCount   = metricFactory.count("abnormal_count")
   private[this] val abnormalLatency = makeTimer("abnormal_latency")
   override def recordAbnormalTermination(
-    elapsed: Long,
-    terminationType: TerminationType,
-    classifier: Option[String]
+      elapsed: Long,
+      terminationType: TerminationType,
+      classifier: Option[String]
   ): F[Unit] = {
     val terminationTpe = terminationTypeTagger.tag(terminationType)
     val tags           = terminationTpe :: classifier.toList.flatMap(classifierTags)

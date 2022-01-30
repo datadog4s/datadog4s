@@ -1,6 +1,6 @@
 package com.avast.datadog4s.statsd.metric
 
-import cats.effect.{ Clock, Sync }
+import cats.effect.{Clock, Sync}
 import cats.syntax.flatMap._
 import cats.syntax.functor._
 import com.avast.datadog4s.api.Tag
@@ -11,7 +11,7 @@ import java.time.Duration
 import java.util.concurrent.TimeUnit
 
 abstract class TimerImpl[F[_]: Sync](
-  clock: Clock[F]
+    clock: Clock[F]
 ) extends Timer[F] {
   private[this] val F                                  = Sync[F]
   private[this] val successTagger: Tagger[Boolean]     = Tagger.make("success")
@@ -28,7 +28,7 @@ abstract class TimerImpl[F[_]: Sync](
     } yield a
 
   private def measureFailed[A](startTime: Long, tags: Tag*): PartialFunction[Throwable, F[A]] = { case thr: Throwable =>
-    val finalTags   = tags :+ exceptionTagger.tag(thr) :+ failedTag
+    val finalTags = tags :+ exceptionTagger.tag(thr) :+ failedTag
     val computation = for {
       stop <- clock.monotonic(TimeUnit.NANOSECONDS)
       _    <- record(toDuration(stop - startTime), finalTags: _*)

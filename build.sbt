@@ -8,18 +8,18 @@ lazy val mimaSettings = Seq(
 lazy val publishSettings = Seq() ++ mimaSettings
 
 lazy val scalaSettings = Seq(
-  scalaVersion := scala213,
-  crossScalaVersions := supportedScalaVersions,
+  scalaVersion                                      := scala213,
+  crossScalaVersions                                := supportedScalaVersions,
   libraryDependencies += (Dependencies.Testing.munit % Test),
   testFrameworks += new TestFramework("munit.Framework")
 )
 
 lazy val commonSettings = Seq(
   sonatypeProfileName := "com.avast",
-  organization := "com.avast.cloud",
-  homepage := Some(url("https://github.com/avast/datadog4s")),
-  licenses := List("MIT" -> url(s"https://github.com/avast/datadog4s/blob/${version.value}/LICENSE")),
-  description := "Library for datadog app monitoring",
+  organization        := "com.avast.cloud",
+  homepage            := Some(url("https://github.com/avast/datadog4s")),
+  licenses            := List("MIT" -> url(s"https://github.com/avast/datadog4s/blob/${version.value}/LICENSE")),
+  description         := "Library for datadog app monitoring",
   developers := List(
     Developer(
       "tomasherman",
@@ -89,7 +89,7 @@ lazy val http4s = project
   )
   .dependsOn(api)
 
-lazy val jvm        = project
+lazy val jvm = project
   .in(file("code/jvm"))
   .settings(
     name := "datadog4s-jvm",
@@ -131,7 +131,7 @@ lazy val site = (project in file("site"))
 
 addCommandAlias(
   "checkAll",
-  //" scalafmtSbtCheck; scalafmtCheckAll; coverage; +test; coverageReport; doc; site/makeMdoc"
+  // " scalafmtSbtCheck; scalafmtCheckAll; coverage; +test; coverageReport; doc; site/makeMdoc"
   "scalafmtSbtCheck; scalafmtCheckAll; +test; doc; site/makeMdoc"
 )
 

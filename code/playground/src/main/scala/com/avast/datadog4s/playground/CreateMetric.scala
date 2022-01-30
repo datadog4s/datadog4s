@@ -1,8 +1,8 @@
 package com.avast.datadog4s.playground
 
-import cats.effect.{ ExitCode, IO, IOApp }
-import com.avast.datadog4s.api.metric.{ Distribution, Histogram }
-import com.avast.datadog4s.{ StatsDMetricFactory, StatsDMetricFactoryConfig }
+import cats.effect.{ExitCode, IO, IOApp}
+import com.avast.datadog4s.api.metric.{Distribution, Histogram}
+import com.avast.datadog4s.{StatsDMetricFactory, StatsDMetricFactoryConfig}
 
 import java.net.InetSocketAddress
 
@@ -12,10 +12,10 @@ object CreateMetric extends IOApp {
       .make[IO](StatsDMetricFactoryConfig(Some("playground"), new InetSocketAddress("127.0.0.1", 8125)))
       .use { factory =>
         for {
-          _   <- IO.unit
+          _ <- IO.unit
           dist = factory.distribution.long("distribution1")
           hist = factory.histogram.long("histogram1")
-          _   <- loop(hist, dist)
+          _ <- loop(hist, dist)
         } yield ExitCode.Success
       }
   def loop(hist: Histogram[IO, Long], dist: Distribution[IO, Long]): IO[Unit] = {
