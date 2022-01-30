@@ -1,4 +1,4 @@
-import sbt._
+import sbt.*
 object Dependencies {
   object Cats {
     val core   = "org.typelevel" %% "cats-core"   % "2.7.0"

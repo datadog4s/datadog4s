@@ -4,11 +4,11 @@ import java.time.Duration
 
 import cats.effect.concurrent.{Deferred, Ref}
 import cats.effect.{ContextShift, IO, Timer}
-import cats.syntax.flatMap._
+import cats.syntax.flatMap.*
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.ExecutionContext
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 import scala.language.postfixOps
 
 class RepeatedTest extends munit.FunSuite {

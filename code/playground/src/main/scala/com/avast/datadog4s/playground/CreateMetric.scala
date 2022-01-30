@@ -20,7 +20,7 @@ object CreateMetric extends IOApp {
       }
   def loop(hist: Histogram[IO, Long], dist: Distribution[IO, Long]): IO[Unit] = {
     val l = scala.util.Random.nextInt(100)
-    import scala.concurrent.duration._
+    import scala.concurrent.duration.*
     val p = for {
       _ <- hist.record(l.toLong)
       _ <- dist.record(l.toLong)

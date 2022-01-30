@@ -6,7 +6,7 @@ import com.avast.datadog4s.statsd.metric.TimerImpl
 import com.avast.datadog4s.statsd.metric.timer.HistogramTimer
 
 import java.util.concurrent.TimeUnit
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 class TimerImplTest extends munit.FunSuite {
 

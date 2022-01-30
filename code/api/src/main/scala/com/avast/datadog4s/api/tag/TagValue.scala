@@ -17,7 +17,7 @@ object TagValue {
   implicit val doubleTagValue: TagValue[Double]            = TagValue[String].contramap(_.toString)
   implicit val floatTagValue: TagValue[Float]              = TagValue[String].contramap(_.toString)
   implicit val booleanTagValue: TagValue[Boolean]          = TagValue[String].contramap(_.toString)
-  implicit val classTagValue: TagValue[java.lang.Class[_]] = TagValue[String].contramap(_.getName)
-  implicit val exceptionTagValue: TagValue[Exception]      = TagValue[Class[_]].contramap(_.getClass)
-  implicit val throwableTagValue: TagValue[Throwable]      = TagValue[Class[_]].contramap(_.getClass)
+  implicit val classTagValue: TagValue[java.lang.Class[?]] = TagValue[String].contramap(_.getName)
+  implicit val exceptionTagValue: TagValue[Exception]      = TagValue[Class[?]].contramap(_.getClass)
+  implicit val throwableTagValue: TagValue[Throwable]      = TagValue[Class[?]].contramap(_.getClass)
 }

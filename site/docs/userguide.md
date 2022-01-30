@@ -28,10 +28,10 @@ The instance is wrapped in `Resource` because of the underlying `StatsD` client.
 
 ```scala mdoc:silent
 import java.net.InetSocketAddress
-import cats.effect._
-import com.avast.datadog4s.api._
-import com.avast.datadog4s.api.metric._
-import com.avast.datadog4s._
+import cats.effect.*
+import com.avast.datadog4s.api.*
+import com.avast.datadog4s.api.metric.*
+import com.avast.datadog4s.*
 
 val statsDServer = InetSocketAddress.createUnresolved("localhost", 8125)
 val config = StatsDMetricFactoryConfig(Some("my-app-name"), statsDServer)
@@ -154,7 +154,7 @@ Http4s package (`datadog4s-http4s`) provides implementation of [MetricsOps](metr
 by [http4s](http4s) to report both client and server metrics.
 
 ```scala mdoc:silent
-import com.avast.datadog4s.extension.http4s._
+import com.avast.datadog4s.extension.http4s.*
 
 factoryResource.use { metricFactory =>
     // create metrics factory and use it as you please
@@ -177,12 +177,12 @@ your initialization code. Resource is returned, because a fiber is started in th
 eventually.
 
 ```scala mdoc:silent
-import com.avast.datadog4s.extension.jvm._
+import com.avast.datadog4s.extension.jvm.*
 import scala.concurrent.ExecutionContext
 
-implicit val ec = ExecutionContext.global // please don't use global EC in production
-implicit val contextShift = IO.contextShift(ec)
-implicit val timer = IO.timer(ec)
+implicit val ec: ExecutionContext = ExecutionContext.global // please don't use global EC in production
+implicit val contextShift: ContextShift[IO] = IO.contextShift(ec)
+implicit val timer: cats.effect.Timer[IO] = IO.timer(ec)
 
 val jvmMonitoring: Resource[IO, Unit] = factoryResource.flatMap {
   factory => JvmMonitoring.default[IO](factory)

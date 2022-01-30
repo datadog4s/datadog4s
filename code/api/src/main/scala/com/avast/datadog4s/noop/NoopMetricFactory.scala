@@ -1,9 +1,9 @@
 package com.avast.datadog4s.noop
 
 import cats.Applicative
-import com.avast.datadog4s.api._
-import com.avast.datadog4s.api.metric._
-import com.avast.datadog4s.noop.metric._
+import com.avast.datadog4s.api.*
+import com.avast.datadog4s.api.metric.*
+import com.avast.datadog4s.noop.metric.*
 
 import java.util.concurrent.TimeUnit
 
