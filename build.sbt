@@ -1,4 +1,6 @@
-import BuildSupport.ScalaVersions.*
+import BuildSupport.ScalaVersions._
+
+ThisBuild / versionScheme := Some("early-semver")
 
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet
@@ -134,7 +136,7 @@ lazy val site = (project in file("site"))
     libraryDependencies += Dependencies.Mdoc.libMdoc
   )
   .settings(publish / skip := true)
-  .settings(BuildSupport.micrositeSettings*)
+  .settings(BuildSupport.micrositeSettings: _*)
   .dependsOn(api, statsd, http4s, jvm)
 
 addCommandAlias(
