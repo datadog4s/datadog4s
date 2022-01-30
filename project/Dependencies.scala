@@ -6,7 +6,7 @@ object Dependencies {
   }
 
   object Datadog {
-    val statsDClient = "com.datadoghq" % "java-dogstatsd-client" % "2.13.0"
+    val statsDClient = "com.datadoghq" % "java-dogstatsd-client" % "4.0.0"
   }
 
   object Http4s {
@@ -29,7 +29,7 @@ object Dependencies {
   }
 
   object ScalaModules {
-    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.4.4"
+    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.6.0"
   }
 
 }
