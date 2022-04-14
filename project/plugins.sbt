@@ -16,6 +16,6 @@ addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.0.2")
 
 //addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.1")
 
-addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.2.2")
+addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.2.3")
 
 addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.10.0")
