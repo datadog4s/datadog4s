@@ -1,0 +1,5 @@
+image: .gitpod.Dockerfile
+vscode:
+  extensions:
+    - scala-lang.scala@0.5.5
+    - scalameta.metals@1.16.0
