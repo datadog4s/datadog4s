@@ -2,17 +2,18 @@ package com.avast.datadog4s.extension.jvm
 
 import java.time.Duration
 
-import cats.effect.{ContextShift, IO, Timer}
+import cats.effect.IO
 import com.avast.cloud.datadog4s.inmemory.MockMetricsFactory
 import com.avast.datadog4s.extension.jvm.JvmMonitoring.Config
 import cats.syntax.flatMap.*
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.*
+import cats.effect.Temporal
 
 class JvmMonitoringTest extends munit.FunSuite {
   private val ec: ExecutionContext            = scala.concurrent.ExecutionContext.Implicits.global
   implicit val contextShift: ContextShift[IO] = cats.effect.IO.contextShift(ec)
-  implicit val timer: Timer[IO]               = IO.timer(ec)
+  implicit val timer: Temporal[IO]               = IO.timer(ec)
 
   val noopErrHandler: Throwable => IO[Unit] = (_: Throwable) => IO.unit
 
