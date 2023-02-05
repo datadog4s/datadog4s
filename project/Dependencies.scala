@@ -1,7 +1,7 @@
 import sbt._
 object Dependencies {
   object Cats {
-    val effect = "org.typelevel" %% "cats-effect" % "3.3.14"
+    val effect = "org.typelevel" %% "cats-effect" % "3.4.6"
     val core   = "org.typelevel" %% "cats-core"   % "2.9.0"
   }
 
@@ -30,7 +30,7 @@ object Dependencies {
   }
 
   object ScalaModules {
-    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.8.1"
+    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.9.0"
   }
 
 }
