@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        java: ['8','11', '13', '16', '17']
+        java: ['11', '13', '16', '17']
         scala: ['2.12.10']
     steps:
     - name: Debug info
@@ -29,9 +29,6 @@ jobs:
     - uses: coursier/cache-action@v5
       with:
         extraKey: scala-${{ matrix.scala }}
-    - name: "Drop .sbtopts" # Drop .sbtopts which contains args unsupported by jdk 1.8
-      if: ${{ matrix.java == '8' }}
-      run: rm .sbtopts
     - name: Compile & Test
       run: sbt checkAll
 #    - name: Codecov report
