@@ -11,8 +11,8 @@ class JvmReporterTest extends munit.FunSuite {
   }
 
   test("JvmReporter should not throw exception when accessing individual metrics") {
-    reporter.getBuffersIO.unsafeRunSync()
-    reporter.getGcIO.unsafeRunSync()
+    reporter.getBuffersIO.void.unsafeRunSync()
+    reporter.getGcIO.void.unsafeRunSync()
     reporter.getCpuLoadIO.unsafeRunSync()
     reporter.getCpuTimeIO.unsafeRunSync()
     reporter.getOpenFDsCountIO.unsafeRunSync()
@@ -24,8 +24,8 @@ class JvmReporterTest extends munit.FunSuite {
     reporter.getUptimeIO.unsafeRunSync()
     reporter.getThreadsTotalIO.unsafeRunSync()
     reporter.getThreadsDaemonIO.unsafeRunSync()
-    reporter.getThreadsStartedIO.unsafeRunSync()
-    reporter.getClassesIO.unsafeRunSync()
+    reporter.getThreadsStartedIO.void.unsafeRunSync()
+    reporter.getClassesIO.void.unsafeRunSync()
   }
 
 }
