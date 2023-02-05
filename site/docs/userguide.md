@@ -178,7 +178,6 @@ eventually.
 
 ```scala mdoc:silent
 import com.avast.datadog4s.extension.jvm.*
-import scala.concurrent.ExecutionContext.global // please don't use global EC in production
 
 val jvmMonitoring: Resource[IO, Unit] = factoryResource.flatMap {
   factory => JvmMonitoring.default[IO](factory)
