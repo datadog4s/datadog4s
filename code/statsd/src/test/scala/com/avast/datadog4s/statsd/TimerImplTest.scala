@@ -48,7 +48,7 @@ class TimerImplTest extends munit.FunSuite {
   fixture.test("time F[A] should report failure with label failure:true and exception name") { f =>
     val res = f.timer.time(IO.raiseError(new NoSuchElementException("fail")))
 
-    intercept[NoSuchElementException](res.unsafeRunSync())
+    val _ = intercept[NoSuchElementException](res.unsafeRunSync())
     assertEquals(
       f.statsD.getHistory.get().asScala.toVector,
       Vector(
