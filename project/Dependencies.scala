@@ -6,7 +6,7 @@ object Dependencies {
   }
 
   object Datadog {
-    val statsDClient = "com.datadoghq" % "java-dogstatsd-client" % "4.1.0"
+    val statsDClient = "com.datadoghq" % "java-dogstatsd-client" % "4.2.0"
   }
 
   object Http4s {
@@ -19,7 +19,7 @@ object Dependencies {
   }
 
   object Logging {
-    val logback = "ch.qos.logback" % "logback-classic" % "1.2.11"
+    val logback = "ch.qos.logback" % "logback-classic" % "1.4.5"
   }
 
   object Mdoc {

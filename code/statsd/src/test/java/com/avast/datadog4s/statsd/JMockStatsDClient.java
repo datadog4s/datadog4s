@@ -54,6 +54,16 @@ public class JMockStatsDClient implements StatsDClient {
    }
 
    @Override
+   public void countWithTimestamp(String aspect, long value, long timestamp, String... tags) {
+      
+   }
+
+   @Override
+   public void countWithTimestamp(String aspect, double value, long timestamp, String... tags) {
+
+   }
+
+   @Override
    public void incrementCounter(String aspect, String... tags) {
 
    }
@@ -130,6 +140,16 @@ public class JMockStatsDClient implements StatsDClient {
 
    @Override
    public void gauge(String aspect, long value, double sampleRate, String... tags) {
+
+   }
+
+   @Override
+   public void gaugeWithTimestamp(String aspect, double value, long timestamp, String... tags) {
+
+   }
+
+   @Override
+   public void gaugeWithTimestamp(String aspect, long value, long timestamp, String... tags) {
 
    }
 
