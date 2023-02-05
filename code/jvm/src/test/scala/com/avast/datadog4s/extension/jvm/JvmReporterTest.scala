@@ -8,12 +8,12 @@ class JvmReporterTest extends munit.FunSuite {
   import cats.effect.unsafe.implicits.global
 
   test("JvmReporter should not throw any exceptions") {
-    reporter.collect.unsafeRunSync()
+    val _ = reporter.collect.unsafeRunSync()
   }
 
   test("JvmReporter should not throw exception when accessing individual metrics") {
-    reporter.getBuffersIO.unsafeRunSync()
-    reporter.getGcIO.unsafeRunSync()
+    reporter.getBuffersIO.void.unsafeRunSync()
+    reporter.getGcIO.void.unsafeRunSync()
     reporter.getCpuLoadIO.unsafeRunSync()
     reporter.getCpuTimeIO.unsafeRunSync()
     reporter.getOpenFDsCountIO.unsafeRunSync()
@@ -26,7 +26,7 @@ class JvmReporterTest extends munit.FunSuite {
     reporter.getThreadsTotalIO.unsafeRunSync()
     reporter.getThreadsDaemonIO.unsafeRunSync()
     reporter.getThreadsStartedIO.unsafeRunSync()
-    reporter.getClassesIO.unsafeRunSync()
+    reporter.getClassesIO.void.unsafeRunSync()
   }
 
 }
