@@ -82,7 +82,7 @@ jobs:
         key: ${{ runner.os }}-gems
         restore-keys: |
           ${{ runner.os }}-gems
-    - uses: actions/setup-ruby@v1
+    - uses: ruby/setup-ruby@v1
       with:
         ruby-version: '2.6'
     - name: Install jekyll
