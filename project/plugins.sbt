@@ -8,7 +8,7 @@ addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.3.7")
 
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.2")
 
-addSbtPlugin("com.47deg" % "sbt-microsites" % "1.4.2")
+addSbtPlugin("com.47deg" % "sbt-microsites" % "1.4.3")
 
 addSbtPlugin("com.github.sbt" % "sbt-unidoc" % "0.5.0")
 
