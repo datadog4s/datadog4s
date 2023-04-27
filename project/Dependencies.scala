@@ -30,7 +30,7 @@ object Dependencies {
   }
 
   object ScalaModules {
-    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.9.0"
+    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.10.0"
   }
 
 }
