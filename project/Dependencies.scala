@@ -19,7 +19,7 @@ object Dependencies {
   }
 
   object Logging {
-    val logback = "ch.qos.logback" % "logback-classic" % "1.4.7"
+    val logback = "ch.qos.logback" % "logback-classic" % "1.4.8"
   }
 
   object Mdoc {
@@ -29,7 +29,7 @@ object Dependencies {
   }
 
   object ScalaModules {
-    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.9.0"
+    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.11.0"
   }
 
 }
