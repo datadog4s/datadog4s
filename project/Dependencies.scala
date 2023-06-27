@@ -1,7 +1,7 @@
 import sbt._
 object Dependencies {
   object Cats {
-    val effect = "org.typelevel" %% "cats-effect" % "3.4.11"
+    val effect = "org.typelevel" %% "cats-effect" % "3.5.0"
     val core   = "org.typelevel" %% "cats-core"   % "2.9.0"
   }
 
@@ -19,7 +19,7 @@ object Dependencies {
   }
 
   object Logging {
-    val logback = "ch.qos.logback" % "logback-classic" % "1.4.7"
+    val logback = "ch.qos.logback" % "logback-classic" % "1.4.8"
   }
 
   object Mdoc {
@@ -30,7 +30,7 @@ object Dependencies {
   }
 
   object ScalaModules {
-    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.9.0"
+    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.11.0"
   }
 
 }
