@@ -6,6 +6,7 @@ import cats.syntax.flatMap.*
 import com.avast.datadog4s.api.MetricFactory
 import com.avast.datadog4s.api.metric.Timer
 import com.avast.datadog4s.api.tag.Tagger
+import com.avast.datadog4s.api.Tag
 import com.avast.datadog4s.extension.http4s.DatadogMetricsOps.ClassifierTags
 import com.avast.datadog4s.extension.http4s.*
 import org.http4s.metrics.{MetricsOps, TerminationType}
@@ -15,10 +16,29 @@ private[http4s] class DefaultMetricsOps[F[_]](
     metricFactory: MetricFactory[F],
     classifierTags: ClassifierTags,
     activeConnectionsRef: Ref[F, ActiveConnections],
-    distributionBasedTimers: Boolean
+    distributionBasedTimers: Boolean,
+    distributionBasedCounters: Boolean
 )(implicit
     F: Sync[F]
 ) extends MetricsOps[F] {
+
+  private[http4s] sealed trait GenericCounter {
+    def inc(tags: Tag*): F[Unit]
+  }
+
+  private[http4s] object GenericCounter {
+    final class CountWrapper(aspect: String) extends GenericCounter {
+      private val counter = metricFactory.count(aspect)
+
+      override def inc(tags: Tag*): F[Unit] = counter.inc(tags*)
+    }
+    final class DistributionCounter(aspect: String) extends GenericCounter {
+      private val counter = metricFactory.distribution.long(aspect)
+
+      override def inc(tags: Tag*): F[Unit] = counter.record(1L, tags*)
+    }
+  }
+
   private val methodTagger          = Tagger.make[Method]("method")
   private val terminationTypeTagger = Tagger.make[TerminationType]("termination_type")
   private val statusCodeTagger      = Tagger.make[Status]("status_code")
@@ -55,7 +75,7 @@ private[http4s] class DefaultMetricsOps[F[_]](
       )
   }
 
-  private val requestCount   = metricFactory.count("requests_count")
+  private val requestCount   = makeCounter("requests_count")
   private val requestLatency = makeTimer("requests_latency")
   override def recordTotalTime(method: Method, status: Status, elapsed: Long, classifier: Option[String]): F[Unit] = {
     val tags = methodTagger.tag(method) ::
@@ -64,7 +84,7 @@ private[http4s] class DefaultMetricsOps[F[_]](
     requestCount.inc(tags*) >> requestLatency.record(Duration.ofNanos(elapsed), tags*)
   }
 
-  private val abnormalCount   = metricFactory.count("abnormal_count")
+  private val abnormalCount   = makeCounter("abnormal_count")
   private val abnormalLatency = makeTimer("abnormal_latency")
   override def recordAbnormalTermination(
       elapsed: Long,
@@ -81,5 +101,12 @@ private[http4s] class DefaultMetricsOps[F[_]](
       metricFactory.timer.distribution(aspect)
     } else {
       metricFactory.timer.histogram(aspect)
+    }
+
+  private def makeCounter(aspect: String): GenericCounter =
+    if (distributionBasedCounters) {
+      new GenericCounter.DistributionCounter(aspect)
+    } else {
+      new GenericCounter.CountWrapper(aspect)
     }
 }
