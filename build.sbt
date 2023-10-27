@@ -13,9 +13,10 @@ lazy val scalaSettings = Seq(
   scalaVersion := scala3,
   scalacOptions := {
     CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((3, _)) => scalacOptions.value ++ Seq("-source:future")
-      case Some((2, _)) => scalacOptions.value ++ Seq("-Xsource:3")
-      case other        => scalacOptions.value
+      case Some((3, _))  => scalacOptions.value ++ Seq("-source:future")
+      case Some((2, 13)) => scalacOptions.value ++ Seq("-Xsource:3")
+      case Some((2, 12)) => scalacOptions.value ++ Seq("-Xsource:3", "-Wconf:cat=unused-nowarn:s")
+      case other         => scalacOptions.value
     }
   },
   crossScalaVersions                                := supportedScalaVersions,

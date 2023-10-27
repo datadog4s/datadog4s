@@ -2,7 +2,7 @@ package com.avast.datadog4s.statsd
 
 import cats.effect.{Clock, Sync}
 import com.avast.datadog4s.api.*
-import com.avast.datadog4s.api.metric.{Distribution, Gauge, Histogram, Timer, UniqueSet}
+import com.avast.datadog4s.api.metric.{Count, Distribution, Gauge, Histogram, Timer, UniqueSet}
 import com.avast.datadog4s.statsd.metric.*
 import com.avast.datadog4s.statsd.metric.timer.{DistributionTimer, HistogramTimer}
 import com.timgroup.statsd.StatsDClient as JStatsDClient
@@ -93,7 +93,7 @@ class StatsDMetricFactory[F[_]: Sync](
 
   }
 
-  override def timer(aspect: String, sampleRate: Option[Double] = None) =
+  override def timer(aspect: String, sampleRate: Option[Double] = None): Timer[F] =
     new HistogramTimer[F](
       clock,
       statsDClient,
@@ -103,7 +103,7 @@ class StatsDMetricFactory[F[_]: Sync](
       TimeUnit.MILLISECONDS
     )
 
-  override def count(aspect: String, sampleRate: Option[Double] = None) =
+  override def count(aspect: String, sampleRate: Option[Double] = None): Count[F] =
     new CountImpl[F](statsDClient, extendPrefix(aspect), sampleRate.getOrElse(defaultSampleRate), defaultTags)
 
   override def uniqueSet(aspect: String): UniqueSet[F] =
