@@ -2,7 +2,7 @@ import sbt._
 object Dependencies {
   object Cats {
     val effect = "org.typelevel" %% "cats-effect" % "3.5.2"
-    val core   = "org.typelevel" %% "cats-core"   % "2.9.0"
+    val core   = "org.typelevel" %% "cats-core"   % "2.10.0"
   }
 
   object Datadog {
@@ -23,7 +23,7 @@ object Dependencies {
   }
 
   object Mdoc {
-    val libMdoc = "org.scalameta" %% "mdoc" % "2.3.8" excludeAll (
+    val libMdoc = "org.scalameta" %% "mdoc" % "2.4.0" excludeAll (
       ExclusionRule(organization = "org.slf4j"),
       ExclusionRule(organization = "org.scala-lang.modules", name = "scala-collection-compat_2.13")
     )
