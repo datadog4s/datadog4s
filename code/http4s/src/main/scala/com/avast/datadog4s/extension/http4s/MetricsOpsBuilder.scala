@@ -6,7 +6,9 @@ import com.avast.datadog4s.extension.http4s.DatadogMetricsOps.ClassifierTags
 import com.avast.datadog4s.extension.http4s.impl.{ActiveConnections, DefaultMetricsOps}
 import org.http4s.metrics.MetricsOps
 
-final case class MetricsOpsBuilder[F[_]: Sync] private (
+import scala.annotation.nowarn
+
+@nowarn final case class MetricsOpsBuilder[F[_]: Sync] private (
     metricFactory: MetricFactory[F],
     distributionBasedTimers: Boolean,
     distributionBasedCounters: Boolean,
