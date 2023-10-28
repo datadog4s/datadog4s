@@ -6,7 +6,6 @@ import cats.syntax.flatMap.*
 import com.avast.datadog4s.api.MetricFactory
 import com.avast.datadog4s.api.metric.Timer
 import com.avast.datadog4s.api.tag.Tagger
-import com.avast.datadog4s.api.Tag
 import com.avast.datadog4s.extension.http4s.DatadogMetricsOps.ClassifierTags
 import com.avast.datadog4s.extension.http4s.*
 import org.http4s.metrics.{MetricsOps, TerminationType}
