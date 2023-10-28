@@ -30,14 +30,15 @@ import scala.annotation.nowarn
     copy(distributionBasedTimers = false)
 
   /** Force MetricOps to use [[com.avast.datadog4s.api.DistributionFactory DistributionFactory]] for counting http4s
-    * requests. For the implications please see
-    * [[com.avast.datadog4s.api.TimerFactory.distribution TimerFactory.distribution]] scaladoc.
+    * requests. This is useful in serverless models like AWS Lambda to aggregate all counter values. For more info see
+    * [[https://docs.datadoghq.com/serverless/custom_metrics/#understanding-distribution-metrics Datadog documentation]].
     */
   def useDistributionBasedCounters(): MetricsOpsBuilder[F] =
     copy(distributionBasedCounters = true)
 
-  /** Force MetricOps to use [[com.avast.datadog4s.api.metric.Count Count]] for counting http4s requests. For the
-    * implications please see [[com.avast.datadog4s.api.TimerFactory.histogram TimerFactory.histogram]] scaladoc.
+  /** Force MetricOps to use [[com.avast.datadog4s.api.metric.Count Count]] for counting http4s requests. This is
+    * sufficient for requests on servers where the host is automatically added as a tag. For more info see
+    * [[https://docs.datadoghq.com/serverless/custom_metrics/#understanding-distribution-metrics Datadog documentation]].
     */
   def useHistogramBasedCounters(): MetricsOpsBuilder[F] =
     copy(distributionBasedCounters = false)

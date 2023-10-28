@@ -22,23 +22,6 @@ private[http4s] class DefaultMetricsOps[F[_]](
     F: Sync[F]
 ) extends MetricsOps[F] {
 
-  private[http4s] sealed trait GenericCounter {
-    def inc(tags: Tag*): F[Unit]
-  }
-
-  private[http4s] object GenericCounter {
-    final class CountWrapper(aspect: String) extends GenericCounter {
-      private val counter = metricFactory.count(aspect)
-
-      override def inc(tags: Tag*): F[Unit] = counter.inc(tags*)
-    }
-    final class DistributionCounter(aspect: String) extends GenericCounter {
-      private val counter = metricFactory.distribution.long(aspect)
-
-      override def inc(tags: Tag*): F[Unit] = counter.record(1L, tags*)
-    }
-  }
-
   private val methodTagger          = Tagger.make[Method]("method")
   private val terminationTypeTagger = Tagger.make[TerminationType]("termination_type")
   private val statusCodeTagger      = Tagger.make[Status]("status_code")
@@ -103,10 +86,10 @@ private[http4s] class DefaultMetricsOps[F[_]](
       metricFactory.timer.histogram(aspect)
     }
 
-  private def makeCounter(aspect: String): GenericCounter =
+  private def makeCounter(aspect: String): GenericCounter[F] =
     if (distributionBasedCounters) {
-      new GenericCounter.DistributionCounter(aspect)
+      new GenericCounter.DistributionCounter(metricFactory, aspect)
     } else {
-      new GenericCounter.CountWrapper(aspect)
+      new GenericCounter.CountWrapper(metricFactory, aspect)
     }
 }
