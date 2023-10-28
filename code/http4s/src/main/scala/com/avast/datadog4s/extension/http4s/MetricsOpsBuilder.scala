@@ -13,6 +13,7 @@ import scala.annotation.nowarn
 @nowarn final case class MetricsOpsBuilder[F[_]: Sync] private (
     metricFactory: MetricFactory[F],
     distributionBasedTimers: Boolean,
+    distributionBasedCounters: Boolean,
     classifierTags: ClassifierTags
 ) {
 
@@ -30,6 +31,20 @@ import scala.annotation.nowarn
   def useHistogramBasedTimers(): MetricsOpsBuilder[F] =
     copy(distributionBasedTimers = false)
 
+  /** Force MetricOps to use [[com.avast.datadog4s.api.DistributionFactory DistributionFactory]] for counting http4s
+    * requests. This is useful in serverless models like AWS Lambda to aggregate all counter values. For more info see
+    * [[https://docs.datadoghq.com/serverless/custom_metrics/#understanding-distribution-metrics Datadog documentation]].
+    */
+  def useDistributionBasedCounters(): MetricsOpsBuilder[F] =
+    copy(distributionBasedCounters = true)
+
+  /** Force MetricOps to use [[com.avast.datadog4s.api.metric.Count Count]] for counting http4s requests. This is
+    * sufficient for requests on servers where the host is automatically added as a tag. For more info see
+    * [[https://docs.datadoghq.com/serverless/custom_metrics/#understanding-distribution-metrics Datadog documentation]].
+    */
+  def useHistogramBasedCounters(): MetricsOpsBuilder[F] =
+    copy(distributionBasedCounters = false)
+
   /** Function for computing tags based on provided classifier. By default uses
     * [[MetricsOpsBuilder.defaultClassifierTags]]
     */
@@ -39,12 +54,19 @@ import scala.annotation.nowarn
   def build(): F[MetricsOps[F]] =
     Ref
       .of[F, ActiveConnections](Map.empty)
-      .map(new DefaultMetricsOps[F](metricFactory, classifierTags, _, distributionBasedTimers))
+      .map(
+        new DefaultMetricsOps[F](metricFactory, classifierTags, _, distributionBasedTimers, distributionBasedCounters)
+      )
 }
 
 object MetricsOpsBuilder {
   val defaultClassifierTags: ClassifierTags = classifier => List(Tag.of("classifier", classifier))
 
   def withDefaults[F[_]: Sync](metricFactory: MetricFactory[F]): MetricsOpsBuilder[F] =
-    new MetricsOpsBuilder[F](metricFactory, distributionBasedTimers = false, classifierTags = defaultClassifierTags)
+    new MetricsOpsBuilder[F](
+      metricFactory,
+      distributionBasedTimers = false,
+      distributionBasedCounters = false,
+      classifierTags = defaultClassifierTags
+    )
 }
