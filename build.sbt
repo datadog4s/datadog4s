@@ -19,7 +19,7 @@ lazy val scalaSettings = Seq(
       case other         => scalacOptions.value
     }
   },
-  crossScalaVersions                                := supportedScalaVersions,
+  crossScalaVersions := supportedScalaVersions,
   libraryDependencies += (Dependencies.Testing.munit % Test),
   testFrameworks += new TestFramework("munit.Framework")
 )
