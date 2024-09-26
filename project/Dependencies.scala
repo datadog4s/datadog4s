@@ -10,12 +10,12 @@ object Dependencies {
   }
 
   object Http4s {
-    val core = "org.http4s" %% "http4s-core" % "0.23.27"
+    val core = "org.http4s" %% "http4s-core" % "0.23.28"
   }
 
   object Testing {
     val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.15.1"
-    val munit            = "org.scalameta" %% "munit"                   % "0.7.29"
+    val munit            = "org.scalameta" %% "munit"                   % "1.0.2"
   }
 
   object Logging {
@@ -23,7 +23,7 @@ object Dependencies {
   }
 
   object Mdoc {
-    val libMdoc = "org.scalameta" %% "mdoc" % "2.5.3" excludeAll (
+    val libMdoc = "org.scalameta" %% "mdoc" % "2.6.1" excludeAll (
       ExclusionRule(organization = "org.slf4j"),
       ExclusionRule(organization = "org.scala-lang.modules", name = "scala-collection-compat_2.13")
     )
