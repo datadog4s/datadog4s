@@ -1,7 +1,7 @@
 import sbt.*
 object Dependencies {
   object Cats {
-    val core   = "org.typelevel" %% "cats-core"   % "2.10.0"
+    val core   = "org.typelevel" %% "cats-core"   % "2.12.0"
     val effect = "org.typelevel" %% "cats-effect" % "2.5.5"
   }
 
@@ -15,21 +15,21 @@ object Dependencies {
 
   object Testing {
     val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.15.1"
-    val munit            = "org.scalameta" %% "munit"                   % "0.7.29"
+    val munit            = "org.scalameta" %% "munit"                   % "1.0.2"
   }
 
   object Logging {
-    val logback = "ch.qos.logback" % "logback-classic" % "1.4.14"
+    val logback = "ch.qos.logback" % "logback-classic" % "1.5.8"
   }
 
   object Mdoc {
-    val libMdoc = "org.scalameta" %% "mdoc" % "2.5.2" excludeAll (ExclusionRule(
+    val libMdoc = "org.scalameta" %% "mdoc" % "2.6.1" excludeAll (ExclusionRule(
       organization = "org.slf4j"
     ))
   }
 
   object ScalaModules {
-    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.11.0"
+    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.12.0"
   }
 
 }
