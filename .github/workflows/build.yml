@@ -87,11 +87,10 @@ jobs:
           ${{ runner.os }}-gems
     - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '2.6'
+        ruby-version: '3.3'
     - name: Install jekyll
       run: |
         export GEM_HOME=$PWD/vendor/bundle
-        gem update --system
         gem install jekyll -v 4.0.0
     - name: Publish microsite
       env:
