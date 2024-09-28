@@ -2,6 +2,7 @@ import BuildSupport.ScalaVersions._
 import xerial.sbt.Sonatype.sonatypeCentralHost
 
 ThisBuild / sonatypeCredentialHost := sonatypeCentralHost
+sonatypeRepository     := "https://s01.oss.sonatype.org/service/local"
 ThisBuild / versionScheme          := Some("early-semver")
 
 lazy val mimaSettings = Seq(
@@ -27,16 +28,16 @@ lazy val scalaSettings = Seq(
 )
 
 lazy val commonSettings = Seq(
-  sonatypeProfileName := "com.avast",
-  organization        := "com.avast.cloud",
-  homepage            := Some(url("https://github.com/avast/datadog4s")),
-  licenses            := List("MIT" -> url(s"https://github.com/avast/datadog4s/blob/${version.value}/LICENSE")),
+  sonatypeProfileName := "io.github.datadog4s",
+  organization        := "io.github.datadog4s",
+  homepage            := Some(url("https://github.com/datadoh4s/datadog4s")),
+  licenses            := List("MIT" -> url(s"https://github.com/datadog4s/datadog4s/blob/${version.value}/LICENSE")),
   description         := "Library for datadog app monitoring",
   developers := List(
     Developer(
       "tomasherman",
       "Tomas Herman",
-      "hermant@avast.com",
+      "tomas.herman@gmail.com",
       url("https://tomasherman.cz")
     )
   ),
