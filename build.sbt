@@ -2,11 +2,11 @@ import BuildSupport.ScalaVersions._
 import xerial.sbt.Sonatype.sonatypeCentralHost
 
 ThisBuild / sonatypeCredentialHost := sonatypeCentralHost
-sonatypeRepository                 := "https://s01.oss.sonatype.org/service/local"
 ThisBuild / versionScheme          := Some("early-semver")
 
 lazy val mimaSettings = Seq(
-  mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet
+  mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet,
+  sonatypeRepository    := "https://s01.oss.sonatype.org/service/local"
 )
 
 // settings only for projects that are published
