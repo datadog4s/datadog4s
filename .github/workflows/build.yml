@@ -26,6 +26,7 @@ jobs:
     - name: Set up JDK ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
+        distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - uses: coursier/cache-action@v6
       with:
@@ -50,6 +51,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
+        distribution: 'temurin'
         java-version: '11'
     - uses: coursier/cache-action@v6
       with:
