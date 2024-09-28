@@ -91,7 +91,7 @@ jobs:
     - name: Install jekyll
       run: |
         export GEM_HOME=$PWD/vendor/bundle
-        gem install jekyll -v 4.0.0
+        gem install jekyll -v 4.3.4
     - name: Publish microsite
       env:
         DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
