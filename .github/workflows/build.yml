@@ -58,9 +58,9 @@ jobs:
         extraKey: scala-${{ matrix.scala }}
     - name: Compile & Test
       run: sbt checkAll
-#    - name: Run binary compatiblity check
-#      if: contains(github.ref, 'refs/tags/v') && !endsWith(github.ref, '.0')
-#      run: sbt mimaReportBinaryIssues
+    - name: Run binary compatiblity check
+      if: contains(github.ref, 'refs/tags/v') && !endsWith(github.ref, '.0')
+      run: sbt mimaReportBinaryIssues
     - name: Git check dirty state
       run: |
         if [[ $(git diff --stat) != '' ]]; then
@@ -76,7 +76,7 @@ jobs:
         SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSPHRASE }}
       run: sbt ci-release
     - name: Release Drafter
-      uses: release-drafter/release-drafter@v5.6.1
+      uses: release-drafter/release-drafter@v6
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - uses: actions/cache@v4
