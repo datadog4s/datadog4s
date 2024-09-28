@@ -6,10 +6,11 @@ sonatypeRepository                 := "https://s01.oss.sonatype.org/service/loca
 
 inThisBuild(
   List(
-    organization := "io.github.datadog4s",
-    homepage     := Some(url("https://github.com/datadoh4s/datadog4s")),
-    licenses     := List("MIT" -> url(s"https://github.com/datadog4s/datadog4s/blob/${version.value}/LICENSE")),
-    description  := "Library for datadog app monitoring",
+    sonatypeProfileName := "io.github.datadog4s",
+    organization        := "io.github.datadog4s",
+    homepage            := Some(url("https://github.com/datadoh4s/datadog4s")),
+    licenses            := List("MIT" -> url(s"https://github.com/datadog4s/datadog4s/blob/${version.value}/LICENSE")),
+    description         := "Library for datadog app monitoring",
     developers := List(
       Developer(
         "tomasherman",
