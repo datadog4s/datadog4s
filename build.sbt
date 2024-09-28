@@ -5,12 +5,13 @@ ThisBuild / sonatypeCredentialHost := sonatypeCentralHost
 ThisBuild / versionScheme          := Some("early-semver")
 
 lazy val mimaSettings = Seq(
-  mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet,
-  sonatypeRepository    := "https://s01.oss.sonatype.org/service/local"
+  mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet
 )
 
 // settings only for projects that are published
-lazy val publishSettings = Seq() ++ mimaSettings
+lazy val publishSettings = Seq(
+  sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
+) ++ mimaSettings
 
 lazy val scalaSettings = Seq(
   scalaVersion := scala3,
