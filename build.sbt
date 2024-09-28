@@ -2,7 +2,7 @@ import BuildSupport.ScalaVersions._
 import xerial.sbt.Sonatype.sonatypeCentralHost
 
 ThisBuild / sonatypeCredentialHost := sonatypeCentralHost
-ThisBuild / versionScheme := Some("early-semver")
+ThisBuild / versionScheme          := Some("early-semver")
 
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet
