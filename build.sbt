@@ -1,7 +1,8 @@
 import BuildSupport.ScalaVersions._
+import xerial.sbt.Sonatype.sonatypeCentralHost
 
-sonatypeCredentialHost := "s01.oss.sonatype.org"
-sonatypeRepository     := "https://s01.oss.sonatype.org/service/local"
+ThisBuild / sonatypeCredentialHost := sonatypeCentralHost
+sonatypeRepository                 := "https://s01.oss.sonatype.org/service/local"
 
 inThisBuild(
   List(
