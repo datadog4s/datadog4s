@@ -68,13 +68,13 @@ jobs:
           git status
           exit 0
         fi
-    - name: Release
-      env:
-        PGP_SECRET: ${{ secrets.PGP_SECRET }}
-        PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
-        SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-        SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSPHRASE }}
-      run: sbt ci-release
+#    - name: Release
+#      env:
+#        PGP_SECRET: ${{ secrets.PGP_SECRET }}
+#        PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+#        SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+#        SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSPHRASE }}
+#      run: sbt ci-release
     - name: Release Drafter
       uses: release-drafter/release-drafter@v6
       env:
