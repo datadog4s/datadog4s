@@ -1,28 +1,9 @@
 import BuildSupport.ScalaVersions._
 import xerial.sbt.Sonatype.sonatypeCentralHost
 
+ThisBuild / versionScheme          := Some("early-semver")
 ThisBuild / sonatypeCredentialHost := sonatypeCentralHost
 sonatypeRepository                 := "https://s01.oss.sonatype.org/service/local"
-
-inThisBuild(
-  List(
-    sonatypeProfileName := "io.github.datadog4s",
-    organization        := "io.github.datadog4s",
-    homepage            := Some(url("https://github.com/datadoh4s/datadog4s")),
-    licenses            := List("MIT" -> url(s"https://github.com/datadog4s/datadog4s/blob/${version.value}/LICENSE")),
-    description         := "Library for datadog app monitoring",
-    developers := List(
-      Developer(
-        "tomasherman",
-        "Tomas Herman",
-        "tomas.herman@gmail.com",
-        url("https://tomasherman.cz")
-      )
-    )
-  )
-)
-
-ThisBuild / versionScheme := Some("early-semver")
 
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet
@@ -47,6 +28,19 @@ lazy val scalaSettings = Seq(
 )
 
 lazy val commonSettings = Seq(
+  sonatypeProfileName := "io.github.datadog4s",
+  organization        := "io.github.datadog4s",
+  homepage            := Some(url("https://github.com/datadoh4s/datadog4s")),
+  licenses            := List("MIT" -> url(s"https://github.com/datadog4s/datadog4s/blob/${version.value}/LICENSE")),
+  description         := "Library for datadog app monitoring",
+  developers := List(
+    Developer(
+      "tomasherman",
+      "Tomas Herman",
+      "tomas.herman@gmail.com",
+      url("https://tomasherman.cz")
+    )
+  ),
   Test / publishArtifact := false,
   testOptions += Tests.Argument(TestFrameworks.JUnit)
 )
