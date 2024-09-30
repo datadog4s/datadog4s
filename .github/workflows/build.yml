@@ -101,7 +101,7 @@ jobs:
         export PATH="$PWD/vendor/bundle/bin:$PATH"
         export GEM_HOME=$PWD/vendor/bundle
         eval "$(ssh-agent -s)"
-        ssh-add - <<< "${DEPLOY_KEY}" <<< ${DEPLOY_KEY_PASSPHRASE}
+        ssh-add - <<< "${DEPLOY_KEY}"
         git config --global user.email "datadog4s-bot@github.com"
         git config --global user.name "Release bot"
         sbt site/publishMicrosite
