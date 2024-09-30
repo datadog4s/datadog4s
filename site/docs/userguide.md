@@ -31,7 +31,7 @@ import java.net.InetSocketAddress
 import cats.effect.*
 import io.github.datadog4s.api.*
 import io.github.datadog4s.api.metric.*
-import com.avast.datadog4s.*
+import io.github.datadog4s.*
 
 val statsDServer = InetSocketAddress.createUnresolved("localhost", 8125)
 val config = StatsDMetricFactoryConfig(Some("my-app-name"), statsDServer)
@@ -177,7 +177,7 @@ your initialization code. Resource is returned, because a fiber is started in th
 eventually.
 
 ```scala mdoc:silent
-import com.avast.datadog4s.extension.jvm.*
+import io.github.datadog4s.extension.jvm.*
 
 val jvmMonitoring: Resource[IO, Unit] = factoryResource.flatMap {
   factory => JvmMonitoring.default[IO](factory)
