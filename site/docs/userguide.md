@@ -195,7 +195,7 @@ Starting with Java 16, applications that use our jvm monitoring need to
 add `--add-opens=java.management/sun.management=ALL-UNNAMED` as JVM parameter when starting the application. This is
 because JVM monitoring uses internal java APIs to obtain certain metrics.
 
-[jvm-reporter-class]: https://github.com/avast/datadog4s/blob/master/code/jvm/src/main/scala/com/avast/datadog4s/extension/jvm/JvmReporter.scala
+[jvm-reporter-class]: https://github.com/datadog4s/datadog4s/blob/master/code/jvm/src/main/scala/io/github/datadog4s/datadog4s/extension/jvm/JvmReporter.scala
 
 [metrics-ops]: https://http4s.org/v0.21/api/org/http4s/metrics/metricsops
 

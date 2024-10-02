@@ -9,7 +9,7 @@ In addition to basic monitoring utilities, we also provide a bunch of plug-and-p
 -   Http4s monitoring
 
 ## Installation
-For installation instructions, please see [install guide](https://avast.github.io/datadog4s/install.html)
+For installation instructions, please see [install guide](https://datadog4s.github.io/datadog4s/install.html)
 
 ## User Guide
-For user guide, please see our [guide](https://avast.github.io/datadog4s/userguide.html)
+For user guide, please see our [guide](https://datadog4s.github.io/datadog4s/userguide.html)
