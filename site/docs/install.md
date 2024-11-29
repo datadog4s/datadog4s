@@ -12,13 +12,13 @@ composed of multiple packages to make it easy for you to pick and choose what yo
 
 **Available Packages:** 
 
-|                     dependency name                     |                       notes                       |
-| ------------------------------------------------------- | ------------------------------------------------- |
-| `"com.avast.cloud" %% "datadog4s" % "@VERSION@"`        | all-you-can-eat ... all the available packages    |
-| `"com.avast.cloud" %% "datadog4s-api" % "@VERSION@"`    | api classes                                       |
-| `"com.avast.cloud" %% "datadog4s-statsd" % "@VERSION@"` | statsd implementation of api classes              |
-| `"com.avast.cloud" %% "datadog4s-jvm" % "@VERSION@"`    | support for monitoring JVM itself                 |
-| `"com.avast.cloud" %% "datadog4s-http4s" % "@VERSION@"` | monitoring support for [http4s][http4s] framework |
+| dependency name                                             |                       notes                       |
+|-------------------------------------------------------------| ------------------------------------------------- |
+| `"io.github.datadog4s" %% "datadog4s" % "@VERSION@"`        | all-you-can-eat ... all the available packages    |
+| `"io.github.datadog4s" %% "datadog4s-api" % "@VERSION@"`    | api classes                                       |
+| `"io.github.datadog4s" %% "datadog4s-statsd" % "@VERSION@"` | statsd implementation of api classes              |
+| `"io.github.datadog4s" %% "datadog4s-jvm" % "@VERSION@"`    | support for monitoring JVM itself                 |
+| `"io.github.datadog4s" %% "datadog4s-http4s" % "@VERSION@"` | monitoring support for [http4s][http4s] framework |
 
 
 For the bare minimum, you need to add `datadog4s-api` which contains classes defining our API. You also need to add its implementation.
