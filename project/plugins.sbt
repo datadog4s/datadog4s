@@ -4,7 +4,7 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.2")
 
 addSbtPlugin("ch.epfl.scala" % "sbt-bloop" % "2.0.5")
 
-addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.6.1")
+addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.6.2")
 
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.4")
 
