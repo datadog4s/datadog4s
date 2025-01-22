@@ -27,7 +27,6 @@ pull_request_rules:
     conditions:
       - base~=master|series/cats-effect2
       - "#changes-requested-reviews-by=0"
-      - "#approved-reviews-by>=1"
       - status-success=build (11, 2.12.10)
       - status-success=build (17, 2.12.10)
     actions:
