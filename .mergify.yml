@@ -33,7 +33,6 @@ pull_request_rules:
     actions:
       merge:
         method: squash
-        name: default
       delete_head_branch:
         force: true
   - name: automatic update for PR marked as “dependency-update“
