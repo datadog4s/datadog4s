@@ -15,7 +15,7 @@ object Dependencies {
 
   object Testing {
     val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.15.1"
-    val munit            = "org.scalameta" %% "munit"                   % "1.0.4"
+    val munit            = "org.scalameta" %% "munit"                   % "1.1.0"
   }
 
   object Logging {
