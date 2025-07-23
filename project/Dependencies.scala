@@ -1,7 +1,7 @@
 import sbt._
 object Dependencies {
   object Cats {
-    val effect = "org.typelevel" %% "cats-effect" % "2.5.5"
+    val effect = "org.typelevel" %% "cats-effect" % "3.6.3"
     val core   = "org.typelevel" %% "cats-core"   % "2.12.0"
   }
 
