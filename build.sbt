@@ -73,7 +73,8 @@ lazy val common = project
     commonSettings,
     publishSettings,
     libraryDependencies += Dependencies.Cats.effect,
-    libraryDependencies += (Dependencies.Logging.logback % Test)
+    libraryDependencies += (Dependencies.Logging.logback % Test),
+    libraryDependencies += Dependencies.Annotations.scalacCompatAnnotation
   )
   .dependsOn(api)
 
@@ -110,7 +111,8 @@ lazy val jvm = project
     commonSettings,
     publishSettings,
     libraryDependencies += Dependencies.Cats.effect,
-    libraryDependencies += Dependencies.ScalaModules.collectionCompat
+    libraryDependencies += Dependencies.ScalaModules.collectionCompat,
+    libraryDependencies += Dependencies.Annotations.scalacCompatAnnotation
   )
   .dependsOn(api, common % "compile->compile;test->test")
 
