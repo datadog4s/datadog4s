@@ -97,7 +97,7 @@ node4 -> node1;
          <div class="documentableElement-expander">
           <div class="header monospace mono-medium">
            <div class="signature">
-            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="CreateMetric$.html#loop-85e" t="n" class="documentableName ">loop</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">drawProgressBar</span>: <a href="https://typelevel.org/cats-effect/api/3.x/cats/effect/IO.html" t="t">IO</a>[<a href="https://www.scala-lang.org/api/2.13.14/scala/Unit.html" t="t">Unit</a>], <span t="k"></span><span data-unresolved-link="" t="n">hist</span>: <a href="https://javadoc.io/page/io.github.datadog4s/datadog4s-api/0.33.0+108-c8a0ffad-SNAPSHOT/com/avast/datadog4s/api/metric/Histogram.html" t="t">Histogram</a>[<a href="https://typelevel.org/cats-effect/api/3.x/cats/effect/IO.html" t="t">IO</a>, <a href="https://www.scala-lang.org/api/2.13.14/scala/Long.html" t="t">Long</a>], <span t="k"></span><span data-unresolved-link="" t="n">dist</span>: <a href="https://javadoc.io/page/io.github.datadog4s/datadog4s-api/0.33.0+108-c8a0ffad-SNAPSHOT/com/avast/datadog4s/api/metric/Distribution.html" t="t">Distribution</a>[<a href="https://typelevel.org/cats-effect/api/3.x/cats/effect/IO.html" t="t">IO</a>, <a href="https://www.scala-lang.org/api/2.13.14/scala/Long.html" t="t">Long</a>]): <a href="https://typelevel.org/cats-effect/api/3.x/cats/effect/IO.html" t="t">IO</a>[<a href="https://www.scala-lang.org/api/2.13.14/scala/Unit.html" t="t">Unit</a>]
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="CreateMetric$.html#loop-85e" t="n" class="documentableName ">loop</a>(<span t="k"></span><span t="k"></span><span data-unresolved-link="" t="n">drawProgressBar</span>: <a href="https://typelevel.org/cats-effect/api/3.x/cats/effect/IO.html" t="t">IO</a>[<a href="https://www.scala-lang.org/api/2.13.14/scala/Unit.html" t="t">Unit</a>], <span t="k"></span><span data-unresolved-link="" t="n">hist</span>: <a href="https://javadoc.io/page/io.github.datadog4s/datadog4s-api/0.33.0+109-4fdde49e-SNAPSHOT/com/avast/datadog4s/api/metric/Histogram.html" t="t">Histogram</a>[<a href="https://typelevel.org/cats-effect/api/3.x/cats/effect/IO.html" t="t">IO</a>, <a href="https://www.scala-lang.org/api/2.13.14/scala/Long.html" t="t">Long</a>], <span t="k"></span><span data-unresolved-link="" t="n">dist</span>: <a href="https://javadoc.io/page/io.github.datadog4s/datadog4s-api/0.33.0+109-4fdde49e-SNAPSHOT/com/avast/datadog4s/api/metric/Distribution.html" t="t">Distribution</a>[<a href="https://typelevel.org/cats-effect/api/3.x/cats/effect/IO.html" t="t">IO</a>, <a href="https://www.scala-lang.org/api/2.13.14/scala/Long.html" t="t">Long</a>]): <a href="https://typelevel.org/cats-effect/api/3.x/cats/effect/IO.html" t="t">IO</a>[<a href="https://www.scala-lang.org/api/2.13.14/scala/Unit.html" t="t">Unit</a>]
            </div>
           </div>
          </div>
@@ -189,6 +189,41 @@ node4 -> node1;
               </dt>
               <dd class="body-medium">
                <a href="https://typelevel.org/cats-effect/api/3.x/cats/effect/IOApp.html#main(args:Array[String]):Unit">IOApp</a>
+              </dd>
+             </dl>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="documentableElement" id="warnOnNonMainThreadDetected-0" data-f-inherited="IOApp">
+         <div class="documentableElement-expander">
+          <button class="icon-button ar show-content"></button>
+          <div class="header monospace mono-medium">
+           <div class="signature">
+            <span class="modifiers"></span><span class="kind"><span t="k">def </span></span><a href="CreateMetric$.html#warnOnNonMainThreadDetected-0" t="n" class="documentableName ">warnOnNonMainThreadDetected</a>: <a href="https://www.scala-lang.org/api/2.13.14/scala/Boolean.html" t="t">Boolean</a>
+           </div>
+          </div>
+         </div>
+         <div class="docs">
+          <span class="modifiers"></span>
+          <div>
+           <div class="originInfo"></div>
+           <div class="memberDocumentation">
+            <div class="documentableBrief doc">
+             <p>Defines what to do when IOApp detects that <code>main</code> is being invoked on a <code>Thread</code> which isn't the main process thread. This condition can happen when we are running inside of an <code>sbt run</code> with <code>fork := false</code></p>
+            </div>
+            <div class="cover">
+             <div class="doc">
+              <p>Defines what to do when IOApp detects that <code>main</code> is being invoked on a <code>Thread</code> which isn't the main process thread. This condition can happen when we are running inside of an <code>sbt run</code> with <code>fork := false</code></p>
+             </div>
+             <h2 class="h200">Attributes</h2>
+             <dl class="attributes attributes-small">
+              <dt class="body-small">
+               Inherited from:
+              </dt>
+              <dd class="body-medium">
+               <a href="https://typelevel.org/cats-effect/api/3.x/cats/effect/IOApp.html#warnOnNonMainThreadDetected:Boolean">IOApp</a>
               </dd>
              </dl>
             </div>
