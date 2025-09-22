@@ -32,4 +32,7 @@ object Dependencies {
     val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.12.0"
   }
 
+  object Annotations {
+    val scalacCompatAnnotation = "org.typelevel" %% "scalac-compat-annotation" % "0.1.4"
+  }
 }
