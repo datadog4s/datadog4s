@@ -1,7 +1,6 @@
 package com.avast.datadog4s.extension.jvm
 
-import cats.effect.kernel.Temporal
-import cats.effect.{Resource, Sync}
+import cats.effect.{ConcurrentEffect, Resource, Sync, Timer}
 import com.avast.cloud.datadog4s.helpers.Repeated
 import com.avast.datadog4s.api.MetricFactory
 import org.typelevel.scalaccompat.annotation.nowarn3
@@ -17,11 +16,11 @@ object JvmMonitoring {
   )
 
   @nowarn3 // Context bounds in curlies are incompatible with scala 2.12
-  def default[F[_]: Sync: Temporal](factory: MetricFactory[F]): Resource[F, Unit] =
+  def default[F[_]: ConcurrentEffect: Timer](factory: MetricFactory[F]): Resource[F, Unit] =
     configured(factory, Config(), defaultErrorHandler)
 
   @nowarn3 // Context bounds in curlies are incompatible with scala 2.12
-  def configured[F[_]: Sync: Temporal](
+  def configured[F[_]: ConcurrentEffect: Timer](
       factory: MetricFactory[F],
       config: Config,
       errorHandler: ErrorHandler[F]
