@@ -110,7 +110,8 @@ lazy val jvm = project
     commonSettings,
     publishSettings,
     libraryDependencies += Dependencies.Cats.effect,
-    libraryDependencies += Dependencies.ScalaModules.collectionCompat
+    libraryDependencies += Dependencies.ScalaModules.collectionCompat,
+    libraryDependencies += "org.typelevel" %% "scalac-compat-annotation" % "0.1.4"
   )
   .dependsOn(api, common % "compile->compile;test->test")
 
