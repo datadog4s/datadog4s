@@ -28,7 +28,7 @@ object BuildSupport {
     micrositeGitterChannel    := false,
     micrositeTheme            := "pattern",
     mdocIn                    := file("site") / "docs",
-    mdocVariables := Map(
+    mdocVariables             := Map(
       "VERSION" -> {
         if (!isSnapshot.value) { version.value }
         else { previousStableVersion.value.getOrElse("latestVersion") }
