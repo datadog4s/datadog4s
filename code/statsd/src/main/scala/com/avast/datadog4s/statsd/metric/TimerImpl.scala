@@ -28,7 +28,7 @@ abstract class TimerImpl[F[_]: Sync](
     } yield a
 
   private def measureFailed[A](startTime: Long, tags: Tag*): PartialFunction[Throwable, F[A]] = { case thr: Throwable =>
-    val finalTags = tags :+ exceptionTagger.tag(thr) :+ failedTag
+    val finalTags   = tags :+ exceptionTagger.tag(thr) :+ failedTag
     val computation = for {
       stop <- clock.monotonic(TimeUnit.NANOSECONDS)
       _    <- record(toDuration(stop - startTime), finalTags*)

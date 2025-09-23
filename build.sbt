@@ -13,7 +13,7 @@ lazy val mimaSettings = Seq(
 lazy val publishSettings = Seq() ++ mimaSettings
 
 lazy val scalaSettings = Seq(
-  scalaVersion := scala3,
+  scalaVersion  := scala3,
   scalacOptions := {
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((3, _))  => scalacOptions.value ++ Seq("-source:future")
@@ -33,7 +33,7 @@ lazy val commonSettings = Seq(
   homepage            := Some(url("https://github.com/datadoh4s/datadog4s")),
   licenses            := List("MIT" -> url(s"https://github.com/datadog4s/datadog4s/blob/${version.value}/LICENSE")),
   description         := "Library for datadog app monitoring",
-  developers := List(
+  developers          := List(
     Developer(
       "tomasherman",
       "Tomas Herman",
