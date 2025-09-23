@@ -158,8 +158,8 @@ class JvmReporter[F[_]: Sync](metricsFactory: MetricFactory[F]) {
 
   protected[jvm] val getBuffersIO: F[Vector[Unit]] = Traverse[Vector].sequence(buffers)
   protected[jvm] val getGcIO: F[Vector[Unit]]      = Traverse[Vector].sequence(gc)
-  protected[jvm] val getCpuLoadIO: F[Unit] = protect(osBean)(bean => wrapUnsafe(cpuLoad)(bean.getProcessCpuLoad))
-  protected[jvm] val getCpuTimeIO: F[Unit] = protect(osBean)(bean => wrapUnsafe(cpuTime)(bean.getProcessCpuTime))
+  protected[jvm] val getCpuLoadIO: F[Unit]      = protect(osBean)(bean => wrapUnsafe(cpuLoad)(bean.getProcessCpuLoad))
+  protected[jvm] val getCpuTimeIO: F[Unit]      = protect(osBean)(bean => wrapUnsafe(cpuTime)(bean.getProcessCpuTime))
   protected[jvm] val getOpenFDsCountIO: F[Unit] =
     protect(unixBean)(bean => wrapUnsafe(openFds)(bean.getOpenFileDescriptorCount))
   protected[jvm] val getHeapUsedIO: F[Unit]      = wrapUnsafe(heapUsed)(memoryBean.getHeapMemoryUsage.getUsed)
