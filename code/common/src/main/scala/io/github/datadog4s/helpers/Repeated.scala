@@ -7,6 +7,7 @@ import cats.syntax.applicativeError.*
 import cats.syntax.flatMap.*
 import cats.syntax.apply.*
 import cats.syntax.applicative.*
+import org.typelevel.scalaccompat.annotation.nowarn3
 
 import scala.concurrent.duration.*
 
@@ -23,6 +24,7 @@ object Repeated {
     * @param task
     *   effect that will be run periodically
     */
+  @nowarn3 // Context bounds in curlies are incompatible with scala 2.12
   def run[F[_]: Concurrent: Timer](
       delay: Duration,
       iterationTimeout: Duration,

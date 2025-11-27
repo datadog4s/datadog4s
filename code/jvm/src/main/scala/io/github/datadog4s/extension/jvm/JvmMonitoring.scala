@@ -1,10 +1,11 @@
 package io.github.datadog4s.extension.jvm
 
-import java.time.Duration
-
-import cats.effect.{ConcurrentEffect, Resource, Sync, Timer}
+import cats.effect.{Resource, Sync}
 import io.github.datadog4s.api.MetricFactory
 import io.github.datadog4s.helpers.Repeated
+import org.typelevel.scalaccompat.annotation.nowarn3
+
+import java.time.Duration
 
 object JvmMonitoring {
   type ErrorHandler[F[_]] = Throwable => F[Unit]
@@ -14,9 +15,11 @@ object JvmMonitoring {
       timeout: Duration = Duration.ofSeconds(10)
   )
 
+  @nowarn3 // Context bounds in curlies are incompatible with scala 2.12
   def default[F[_]: ConcurrentEffect: Timer](factory: MetricFactory[F]): Resource[F, Unit] =
     configured(factory, Config(), defaultErrorHandler)
 
+  @nowarn3 // Context bounds in curlies are incompatible with scala 2.12
   def configured[F[_]: ConcurrentEffect: Timer](
       factory: MetricFactory[F],
       config: Config,

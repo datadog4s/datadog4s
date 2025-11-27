@@ -10,8 +10,8 @@ import sbtdynver.DynVerPlugin.autoImport._
 object BuildSupport {
   object ScalaVersions {
     lazy val scala212               = "2.12.20"
-    lazy val scala213               = "2.13.15"
-    lazy val scala3                 = "3.5.1"
+    lazy val scala213               = "2.13.18"
+    lazy val scala3                 = "3.6.1"
     lazy val supportedScalaVersions = List(scala212, scala213, scala3)
   }
 
@@ -28,7 +28,7 @@ object BuildSupport {
     micrositeGitterChannel    := false,
     micrositeTheme            := "pattern",
     mdocIn                    := file("site") / "docs",
-    mdocVariables := Map(
+    mdocVariables             := Map(
       "VERSION" -> {
         if (!isSnapshot.value) { version.value }
         else { previousStableVersion.value.getOrElse("latestVersion") }
