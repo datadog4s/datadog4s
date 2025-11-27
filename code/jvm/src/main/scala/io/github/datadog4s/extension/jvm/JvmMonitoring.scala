@@ -1,6 +1,6 @@
 package io.github.datadog4s.extension.jvm
 
-import cats.effect.{Resource, Sync}
+import cats.effect.{ConcurrentEffect, Resource, Sync, Timer}
 import io.github.datadog4s.api.MetricFactory
 import io.github.datadog4s.helpers.Repeated
 import org.typelevel.scalaccompat.annotation.nowarn3
