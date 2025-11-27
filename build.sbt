@@ -1,9 +1,6 @@
 import BuildSupport.ScalaVersions._
-import xerial.sbt.Sonatype.sonatypeCentralHost
 
 ThisBuild / versionScheme          := Some("early-semver")
-ThisBuild / sonatypeCredentialHost := sonatypeCentralHost
-sonatypeRepository                 := "https://s01.oss.sonatype.org/service/local"
 
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet
@@ -28,7 +25,6 @@ lazy val scalaSettings = Seq(
 )
 
 lazy val commonSettings = Seq(
-  sonatypeProfileName := "io.github.datadog4s",
   organization        := "io.github.datadog4s",
   homepage            := Some(url("https://github.com/datadoh4s/datadog4s")),
   licenses            := List("MIT" -> url(s"https://github.com/datadog4s/datadog4s/blob/${version.value}/LICENSE")),
