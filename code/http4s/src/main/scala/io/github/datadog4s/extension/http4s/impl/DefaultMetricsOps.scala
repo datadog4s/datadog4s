@@ -39,7 +39,7 @@ private[http4s] class DefaultMetricsOps[F[_]](
       val current               = activeConnections.getOrElse(classifier, default)
       val next                  = current + delta
       val nextActiveConnections = activeConnections.updated(classifier, next)
-      val action = activeRequests.set(
+      val action                = activeRequests.set(
         next.toLong,
         classifier.toList.flatMap(classifierTags)*
       )
