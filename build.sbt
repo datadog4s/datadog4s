@@ -1,6 +1,6 @@
 import BuildSupport.ScalaVersions._
 
-ThisBuild / versionScheme          := Some("early-semver")
+ThisBuild / versionScheme := Some("early-semver")
 
 lazy val mimaSettings = Seq(
   mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% name.value % _).toSet
@@ -25,11 +25,11 @@ lazy val scalaSettings = Seq(
 )
 
 lazy val commonSettings = Seq(
-  organization        := "io.github.datadog4s",
-  homepage            := Some(url("https://github.com/datadoh4s/datadog4s")),
-  licenses            := List("MIT" -> url(s"https://github.com/datadog4s/datadog4s/blob/${version.value}/LICENSE")),
-  description         := "Library for datadog app monitoring",
-  developers          := List(
+  organization := "io.github.datadog4s",
+  homepage     := Some(url("https://github.com/datadoh4s/datadog4s")),
+  licenses     := List("MIT" -> url(s"https://github.com/datadog4s/datadog4s/blob/${version.value}/LICENSE")),
+  description  := "Library for datadog app monitoring",
+  developers   := List(
     Developer(
       "tomasherman",
       "Tomas Herman",
