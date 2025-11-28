@@ -3,3 +3,5 @@ options:
     url: install.html
   - title: User guide
     url: userguide.html
+  - title: Migration to io.github
+    url: migration-to-io.github.html
