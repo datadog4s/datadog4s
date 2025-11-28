@@ -41,6 +41,9 @@ jobs:
 #      with:
 #        token: ${{secrets.CODECOV_TOKEN}}     
   publish:
+    permissions:
+      contents: write
+      pull-requests: write
     timeout-minutes: 30
     #if: github.ref == 'refs/heads/master' || contains(github.ref, 'refs/tags/v' )
     needs: [build]
