@@ -152,7 +152,7 @@ assert(Tag.of("statusCode", "200") == statusCodeTagger.tag(StatusCode(200)))
 <p>Http4s package (<code class="language-plaintext highlighter-rouge">datadog4s-http4s</code>) provides implementation of <a href="metrics-ops">MetricsOps</a> that is used
 by <a href="http4s">http4s</a> to report both client and server metrics.</p>
 
-<p>```scala mdoc:silent
+<p>```scala mdoc
 import io.github.datadog4s.extension.http4s.*</p>
 
 <p>factoryResource.use { metricFactory =&gt;
@@ -176,11 +176,6 @@ eventually.
 
 ```scala mdoc:silent
 import io.github.datadog4s.extension.jvm.*
-import scala.concurrent.ExecutionContext
-
-implicit val ec: ExecutionContext = ExecutionContext.global // please don't use global EC in production
-implicit val contextShift: ContextShift[IO] = IO.contextShift(ec)
-implicit val timer: cats.effect.Timer[IO] = IO.timer(ec)
 
 val jvmMonitoring: Resource[IO, Unit] = factoryResource.flatMap {
   factory =&gt; JvmMonitoring.default[IO](factory)
@@ -191,6 +186,12 @@ jvmMonitoring.use { _ =&gt;
     IO.unit
 }
 </code></pre></div></div>
+
+<h4 id="note-on-java-compatibility">Note on Java compatibility:</h4>
+
+<p>Starting with Java 16, applications that use our jvm monitoring need to
+add <code class="language-plaintext highlighter-rouge">--add-opens=java.management/sun.management=ALL-UNNAMED</code> as JVM parameter when starting the application. This is
+because JVM monitoring uses internal java APIs to obtain certain metrics.</p>
 
 </section></div></div></div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/datadog4s/highlight/highlight.pack.js"></script><script src="/datadog4s/lunr/lunr.js"></script><script>
 // For all code blocks, copy the language from the containing div
