@@ -36,6 +36,11 @@ function prepareIdxAndDocMap() {
       "title": "Install",
       "url": "/datadog4s/install.html",
       "content": "Installation To start monitoring your code, first you need to add this library as a dependency to your project. This project is composed of multiple packages to make it easy for you to pick and choose what you require. Available Packages: dependency name notes \"io.github.datadog4s\" %% \"datadog4s\" % \"0.33.0\" all-you-can-eat … all the available packages \"io.github.datadog4s\" %% \"datadog4s-api\" % \"0.33.0\" api classes \"io.github.datadog4s\" %% \"datadog4s-statsd\" % \"0.33.0\" statsd implementation of api classes \"io.github.datadog4s\" %% \"datadog4s-jvm\" % \"0.33.0\" support for monitoring JVM itself \"io.github.datadog4s\" %% \"datadog4s-http4s\" % \"0.33.0\" monitoring support for [http4s][http4s] framework For the bare minimum, you need to add datadog4s-api which contains classes defining our API. You also need to add its implementation. Currently, we only support metric delivery using StatsD in package datadog4s which already contains api. We are going to assume you are using sbt. To explore how to use imported libraries, please read on Note on compatibility To pick the right version of datadog4s for your circumstance, please see the compatibility tables for cats-effect2 and cats-effect3: cats-effect 3.x.x: library 2.12 version 2.13 version 3.6.1 version recommended datadog4s version 0.33.0 0.33.0 0.33.0 http4s version 0.23.33 0.23.33 0.23.33 cats-effect 2.x.x: library 2.12 version 2.13 version 3.6.1 version recommended datadog4s version 0.14.0 0.14.0 0.14.0 http4s version 0.22.1 0.22.1 0.22.1"
+    } ,    
+    {
+      "title": "Migration to io.github",
+      "url": "/datadog4s/migration-to-io.github.html",
+      "content": "Migration to io.github Starting November 2025, datadog4s now lives under new group id. It is now using io.github.datadog4s. The goal was to decouple from Avast Software and to ensure continuity of the project. All the classes now also live under io.github.datadog4s namespace. Please, update your imports and build files accordingly."
     } ,        
     {
       "title": "User guide",
