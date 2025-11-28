@@ -52,11 +52,11 @@
 -   Fixed publishing of root project
 
 ## 0.3.1
--   fixed bug introduced in 0.3.0 with metric `jvm.cpu.time` not being collected properly ([issue #75](https://github.com/avast/datadog4s/issues/75))
+-   fixed bug introduced in 0.3.0 with metric `jvm.cpu.time` not being collected properly ([issue #75](https://github.com/datadog4s/datadog4s/issues/75))
 
 ## 0.3.0
--   **breaking**: metric `jvm.nonheap.commited` renamed to `jvm.nonheap.committed` ([issue #70](https://github.com/avast/datadog4s/issues/70))
--   Fixed [issue #69](https://github.com/avast/datadog4s/issues/69) (windows jdk compatibility) by disabling metrics not obtainable on windows
+-   **breaking**: metric `jvm.nonheap.commited` renamed to `jvm.nonheap.committed` ([issue #70](https://github.com/datadog4s/datadog4s/issues/70))
+-   Fixed [issue #69](https://github.com/datadog4s/datadog4s/issues/69) (windows jdk compatibility) by disabling metrics not obtainable on windows
 
 ## 0.2.5
 ### Version updates
