@@ -1,18 +1,20 @@
 import BuildSupport.ScalaVersions._
 
-inThisBuild(List(
-  organization := "io.github.datadog4s",
-  homepage     := Some(url("https://github.com/datadoh4s/datadog4s")),
-  licenses     := List("MIT" -> url(s"https://github.com/datadog4s/datadog4s/blob/${version.value}/LICENSE")),
-  developers   := List(
-    Developer(
-      "tomasherman",
-      "Tomas Herman",
-      "tomas.herman@gmail.com",
-      url("https://tomasherman.cz")
+inThisBuild(
+  List(
+    organization := "io.github.datadog4s",
+    homepage     := Some(url("https://github.com/datadoh4s/datadog4s")),
+    licenses     := List("MIT" -> url(s"https://github.com/datadog4s/datadog4s/blob/${version.value}/LICENSE")),
+    developers   := List(
+      Developer(
+        "tomasherman",
+        "Tomas Herman",
+        "tomas.herman@gmail.com",
+        url("https://tomasherman.cz")
+      )
     )
   )
-))
+)
 
 ThisBuild / versionScheme := Some("early-semver")
 
@@ -39,7 +41,7 @@ lazy val scalaSettings = Seq(
 )
 
 lazy val commonSettings = Seq(
-  description  := "Library for datadog app monitoring",
+  description            := "Library for datadog app monitoring",
   Test / publishArtifact := false,
   testOptions += Tests.Argument(TestFrameworks.JUnit)
 )
