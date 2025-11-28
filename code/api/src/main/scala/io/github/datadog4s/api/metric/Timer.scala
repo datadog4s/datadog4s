@@ -18,8 +18,8 @@ trait Timer[F[_]] {
   def recordTime(elapsed: Long, timeUnit: TimeUnit, tags: Tag*): F[Unit] =
     record[Duration](Duration.ofNanos(timeUnit.toNanos(elapsed)), tags*)
 
-  /** Record a value that implements [[ElapsedTime]] type class. By default we provide instance for
-    * [[java.time.Duration]] and [[scala.concurrent.duration.FiniteDuration]].
+  /** Record a value that implements [[io.github.datadog4s.api.metric.ElapsedTime]] type class. By default we provide
+    * instance for [[java.time.Duration]] and [[scala.concurrent.duration.FiniteDuration]].
     *
     * @param value
     *   Representation of duration that should be recorded
