@@ -10,7 +10,7 @@ addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.4")
 
 addSbtPlugin("com.47deg" % "sbt-microsites" % "1.4.4")
 
-addSbtPlugin("com.github.sbt" % "sbt-unidoc" % "0.6.0")
+addSbtPlugin("com.github.sbt" % "sbt-unidoc" % "0.6.1")
 
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.0.2")
 
