@@ -11,7 +11,7 @@ object BuildSupport {
   object ScalaVersions {
     lazy val scala212               = "2.12.21"
     lazy val scala213               = "2.13.18"
-    lazy val scala3                 = "3.6.1"
+    lazy val scala3                 = "3.7.3"
     lazy val supportedScalaVersions = List(scala212, scala213, scala3)
   }
 
