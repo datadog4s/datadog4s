@@ -19,7 +19,7 @@ object Dependencies {
   }
 
   object Logging {
-    val logback = "ch.qos.logback" % "logback-classic" % "1.5.25"
+    val logback = "ch.qos.logback" % "logback-classic" % "1.5.26"
   }
 
   object Mdoc {
