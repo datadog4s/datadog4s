@@ -2,7 +2,7 @@ addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.11.2")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.5")
 
-addSbtPlugin("ch.epfl.scala" % "sbt-bloop" % "2.0.18")
+addSbtPlugin("ch.epfl.scala" % "sbt-bloop" % "2.0.19")
 
 addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.6.2")
 
