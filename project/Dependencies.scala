@@ -10,16 +10,16 @@ object Dependencies {
   }
 
   object Http4s {
-    val core = "org.http4s" %% "http4s-core" % "0.23.33"
+    val core = "org.http4s" %% "http4s-core" % "0.23.34"
   }
 
   object Testing {
     val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.15.1"
-    val munit            = "org.scalameta" %% "munit"                   % "1.2.1"
+    val munit            = "org.scalameta" %% "munit"                   % "1.2.4"
   }
 
   object Logging {
-    val logback = "ch.qos.logback" % "logback-classic" % "1.5.21"
+    val logback = "ch.qos.logback" % "logback-classic" % "1.5.32"
   }
 
   object Mdoc {
