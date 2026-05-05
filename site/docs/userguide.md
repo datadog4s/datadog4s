@@ -29,9 +29,9 @@ The instance is wrapped in `Resource` because of the underlying `StatsD` client.
 ```scala mdoc:silent
 import java.net.InetSocketAddress
 import cats.effect.*
-import com.avast.datadog4s.api.*
-import com.avast.datadog4s.api.metric.*
-import com.avast.datadog4s.*
+import io.github.datadog4s.api.*
+import io.github.datadog4s.api.metric.*
+import io.github.datadog4s.*
 
 val statsDServer = InetSocketAddress.createUnresolved("localhost", 8125)
 val config = StatsDMetricFactoryConfig(Some("my-app-name"), statsDServer)
@@ -111,7 +111,7 @@ factoryResource.use { factory =>
 There are two ways to create a `Tag` instances. One way is using `of` method of `Tag` object, like so:
 
 ```scala mdoc
-import com.avast.datadog4s.api.Tag
+import io.github.datadog4s.api.Tag
 
 Tag.of("endpoint", "admin/login")
 ```
@@ -128,14 +128,14 @@ get a single value that you can use in multiple places in your code to create `T
 Example:
 
 ```scala mdoc
-import com.avast.datadog4s.api.tag.{TagValue, Tagger}
+import io.github.datadog4s.api.tag.{TagValue, Tagger}
 
 val pathTagger: Tagger[String] = Tagger.make[String]("path")
 assert(Tag.of("path", "admin/login") == pathTagger.tag("admin/login"))
 
 // tagger also supports taging using custom types using TagValue typeclass
 
-case class StatusCode(value: Int) 
+case class StatusCode(value: Int)
 
 implicit val statusCodeTagValue: TagValue[StatusCode] = TagValue[Int].contramap[StatusCode](sc => sc.value)
 
@@ -154,15 +154,15 @@ Http4s package (`datadog4s-http4s`) provides implementation of [MetricsOps](metr
 by [http4s](http4s) to report both client and server metrics.
 
 ```scala mdoc:silent
-import com.avast.datadog4s.extension.http4s.*
+import io.github.datadog4s.extension.http4s.*
 
 factoryResource.use { metricFactory =>
-    // create metrics factory and use it as you please
-    DatadogMetricsOps.builder[IO](metricFactory).build().flatMap { metricOps =>
-      // setup http4s Metrics middleware here
-      val _ = metricOps
-      IO.unit
-    }
+  // create metrics factory and use it as you please
+  DatadogMetricsOps.builder[IO](metricFactory).build().flatMap { metricOps =>
+    // setup http4s Metrics middleware here
+    val _ = metricOps
+    IO.unit
+  }
 }
 ```
 
@@ -177,7 +177,7 @@ your initialization code. Resource is returned, because a fiber is started in th
 eventually.
 
 ```scala mdoc:silent
-import com.avast.datadog4s.extension.jvm.*
+import io.github.datadog4s.extension.jvm.*
 import scala.concurrent.ExecutionContext
 
 implicit val ec: ExecutionContext = ExecutionContext.global // please don't use global EC in production

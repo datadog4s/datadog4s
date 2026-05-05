@@ -41,6 +41,9 @@ jobs:
 #      with:
 #        token: ${{secrets.CODECOV_TOKEN}}     
   publish:
+    permissions:
+      contents: write
+      pull-requests: write
     timeout-minutes: 30
     if: github.ref == 'refs/heads/master' || contains(github.ref, 'refs/tags/v' )
     needs: [build]
@@ -56,7 +59,7 @@ jobs:
         distribution: 'temurin'
         java-version: '11'
     - name: Setup sbt launcher
-      uses: sbt/setup-sbt@v1    
+      uses: sbt/setup-sbt@v1
     - uses: coursier/cache-action@v6
       with:
         extraKey: scala-${{ matrix.scala }}
