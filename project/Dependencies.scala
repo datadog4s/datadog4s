@@ -1,7 +1,7 @@
 import sbt._
 object Dependencies {
   object Cats {
-    val effect = "org.typelevel" %% "cats-effect" % "3.6.3"
+    val effect = "org.typelevel" %% "cats-effect" % "3.7.0"
     val core   = "org.typelevel" %% "cats-core"   % "2.13.0"
   }
 
@@ -15,7 +15,7 @@ object Dependencies {
 
   object Testing {
     val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.15.1"
-    val munit            = "org.scalameta" %% "munit"                   % "1.2.4"
+    val munit            = "org.scalameta" %% "munit"                   % "1.3.0"
   }
 
   object Logging {
