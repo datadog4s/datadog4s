@@ -25,7 +25,7 @@ private[http4s] class DefaultMetricsOps[F[_]](
   private val terminationTypeTagger = Tagger.make[TerminationType]("termination_type")
   private val statusCodeTagger      = Tagger.make[Status]("status_code")
   private val statusBucketTagger    = Tagger.make[String]("status_bucket")
-  private val activeRequests        = metricFactory.gauge.long("active_requests")
+  private val activeRequests        = metricFactory.distribution.long("active_requests")
 
   override def increaseActiveRequests(classifier: Option[String]): F[Unit] =
     modifyActiveRequests(classifier, 0, 1)
@@ -39,7 +39,7 @@ private[http4s] class DefaultMetricsOps[F[_]](
       val current               = activeConnections.getOrElse(classifier, default)
       val next                  = current + delta
       val nextActiveConnections = activeConnections.updated(classifier, next)
-      val action                = activeRequests.set(
+      val action                = activeRequests.record(
         next.toLong,
         classifier.toList.flatMap(classifierTags)*
       )
