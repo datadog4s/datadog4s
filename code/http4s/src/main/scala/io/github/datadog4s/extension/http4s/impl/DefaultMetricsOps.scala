@@ -22,10 +22,10 @@ private[http4s] class DefaultMetricsOps[F[_]](
     F: Sync[F]
 ) extends MetricsOps[F] {
 
-  private val methodTagger          = Tagger.make[Method]("method")
-  private val terminationTypeTagger = Tagger.make[TerminationType]("termination_type")
-  private val statusCodeTagger      = Tagger.make[Status]("status_code")
-  private val statusBucketTagger    = Tagger.make[String]("status_bucket")
+  private val methodTagger                                      = Tagger.make[Method]("method")
+  private val terminationTypeTagger                             = Tagger.make[TerminationType]("termination_type")
+  private val statusCodeTagger                                  = Tagger.make[Status]("status_code")
+  private val statusBucketTagger                                = Tagger.make[String]("status_bucket")
   private val recordActiveRequests: (Long, Seq[Tag]) => F[Unit] =
     if (distributionBasedActiveRequests) {
       val dist = metricFactory.distribution.long("active_requests")

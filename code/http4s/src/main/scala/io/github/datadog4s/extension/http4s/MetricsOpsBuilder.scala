@@ -50,12 +50,13 @@ import scala.annotation.nowarn
     * 10s) are visible in Datadog.
     *
     * '''Breaking change for existing dashboards''': switching metric type will break existing dashboards and monitors
-    * querying active_requests as a gauge — update those queries to use the `max` aggregation after enabling this option.
+    * querying active_requests as a gauge — update those queries to use the `max` aggregation after enabling this
+    * option.
     *
     * '''Idle-period gaps''': unlike a gauge (which the StatsD agent re-emits every flush even when unchanged), a
-    * distribution only emits data when a request arrives or completes. During flush intervals with zero active requests,
-    * no data point is sent and Datadog will show a gap. Monitors configured to alert on "no data" may fire spuriously
-    * on idle or low-traffic services.
+    * distribution only emits data when a request arrives or completes. During flush intervals with zero active
+    * requests, no data point is sent and Datadog will show a gap. Monitors configured to alert on "no data" may fire
+    * spuriously on idle or low-traffic services.
     */
   def useDistributionBasedActiveRequests(): MetricsOpsBuilder[F] =
     copy(distributionBasedActiveRequests = true)
