@@ -13,6 +13,7 @@ import scala.annotation.nowarn
     metricFactory: MetricFactory[F],
     distributionBasedTimers: Boolean,
     distributionBasedCounters: Boolean,
+    distributionBasedActiveRequests: Boolean,
     classifierTags: ClassifierTags
 ) {
 
@@ -44,6 +45,20 @@ import scala.annotation.nowarn
   def useHistogramBasedCounters(): MetricsOpsBuilder[F] =
     copy(distributionBasedCounters = false)
 
+  /** Force MetricOps to use [[io.github.datadog4s.api.DistributionFactory DistributionFactory]] for tracking
+    * active_requests. This preserves intra-flush peaks so spikes that resolve within the StatsD flush interval
+    * (default 10s) are visible in Datadog. Note that switching metric type will break existing dashboards and monitors
+    * querying active_requests as a gauge — update those queries to use the `max` aggregation after enabling this option.
+    */
+  def useDistributionBasedActiveRequests(): MetricsOpsBuilder[F] =
+    copy(distributionBasedActiveRequests = true)
+
+  /** Force MetricOps to use a gauge for tracking active_requests. Only the last value in each StatsD flush interval is
+    * sent to Datadog, so intra-flush peaks may be lost. This is the default.
+    */
+  def useGaugeBasedActiveRequests(): MetricsOpsBuilder[F] =
+    copy(distributionBasedActiveRequests = false)
+
   /** Function for computing tags based on provided classifier. By default uses
     * [[MetricsOpsBuilder.defaultClassifierTags]]
     */
@@ -54,7 +69,7 @@ import scala.annotation.nowarn
     Ref
       .of[F, ActiveConnections](Map.empty)
       .map(
-        new DefaultMetricsOps[F](metricFactory, classifierTags, _, distributionBasedTimers, distributionBasedCounters)
+        new DefaultMetricsOps[F](metricFactory, classifierTags, _, distributionBasedTimers, distributionBasedCounters, distributionBasedActiveRequests)
       )
 }
 
@@ -66,6 +81,7 @@ object MetricsOpsBuilder {
       metricFactory,
       distributionBasedTimers = false,
       distributionBasedCounters = false,
+      distributionBasedActiveRequests = false,
       classifierTags = defaultClassifierTags
     )
 }
