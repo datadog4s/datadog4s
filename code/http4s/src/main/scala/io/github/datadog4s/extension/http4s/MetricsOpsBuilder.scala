@@ -13,7 +13,7 @@ import scala.annotation.nowarn
     metricFactory: MetricFactory[F],
     distributionBasedTimers: Boolean,
     distributionBasedCounters: Boolean,
-    distributionBasedActiveRequests: Boolean,
+    distributionBasedActiveRequests: Boolean = false,
     classifierTags: ClassifierTags
 ) {
 
@@ -46,9 +46,16 @@ import scala.annotation.nowarn
     copy(distributionBasedCounters = false)
 
   /** Force MetricOps to use [[io.github.datadog4s.api.DistributionFactory DistributionFactory]] for tracking
-    * active_requests. This preserves intra-flush peaks so spikes that resolve within the StatsD flush interval
-    * (default 10s) are visible in Datadog. Note that switching metric type will break existing dashboards and monitors
+    * active_requests. This preserves intra-flush peaks so spikes that resolve within the StatsD flush interval (default
+    * 10s) are visible in Datadog.
+    *
+    * '''Breaking change for existing dashboards''': switching metric type will break existing dashboards and monitors
     * querying active_requests as a gauge — update those queries to use the `max` aggregation after enabling this option.
+    *
+    * '''Idle-period gaps''': unlike a gauge (which the StatsD agent re-emits every flush even when unchanged), a
+    * distribution only emits data when a request arrives or completes. During flush intervals with zero active requests,
+    * no data point is sent and Datadog will show a gap. Monitors configured to alert on "no data" may fire spuriously
+    * on idle or low-traffic services.
     */
   def useDistributionBasedActiveRequests(): MetricsOpsBuilder[F] =
     copy(distributionBasedActiveRequests = true)
@@ -69,7 +76,14 @@ import scala.annotation.nowarn
     Ref
       .of[F, ActiveConnections](Map.empty)
       .map(
-        new DefaultMetricsOps[F](metricFactory, classifierTags, _, distributionBasedTimers, distributionBasedCounters, distributionBasedActiveRequests)
+        new DefaultMetricsOps[F](
+          metricFactory,
+          classifierTags,
+          _,
+          distributionBasedTimers,
+          distributionBasedCounters,
+          distributionBasedActiveRequests
+        )
       )
 }
 
