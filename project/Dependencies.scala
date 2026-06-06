@@ -15,11 +15,11 @@ object Dependencies {
 
   object Testing {
     val mockitoScalatest = "org.mockito"   %% "mockito-scala-scalatest" % "1.15.1"
-    val munit            = "org.scalameta" %% "munit"                   % "1.3.1"
+    val munit            = "org.scalameta" %% "munit"                   % "1.3.2"
   }
 
   object Logging {
-    val logback = "ch.qos.logback" % "logback-classic" % "1.5.33"
+    val logback = "ch.qos.logback" % "logback-classic" % "1.5.34"
   }
 
   object Mdoc {
