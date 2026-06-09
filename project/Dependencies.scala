@@ -6,7 +6,7 @@ object Dependencies {
   }
 
   object Datadog {
-    val statsDClient = "com.datadoghq" % "java-dogstatsd-client" % "4.4.3"
+    val statsDClient = "com.datadoghq" % "java-dogstatsd-client" % "4.4.5"
   }
 
   object Http4s {
