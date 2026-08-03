@@ -34,7 +34,7 @@ object Dependencies {
   }
 
   object Annotations {
-    val scalacCompatAnnotation = "org.typelevel" %% "scalac-compat-annotation" % "0.1.4"
+    val scalacCompatAnnotation = "org.typelevel" %% "scalac-compat-annotation" % "0.1.5"
   }
 
 }
