@@ -129,6 +129,52 @@ lazy val playground = project
   .dependsOn(statsd)
   .dependsOn(jvm)
 
+// Scalafix rule that rewrites the pre-migration `com.avast[.cloud].datadog4s` packages to
+// `io.github.datadog4s`. Consumed by Scala Steward via a `github:` reference; not published.
+lazy val scalafixRules = project
+  .in(file("scalafix/rules"))
+  .settings(
+    name                                   := "datadog4s-scalafix",
+    scalaVersion                           := scala213,
+    libraryDependencies += "ch.epfl.scala" %% "scalafix-core" % _root_.scalafix.sbt.BuildInfo.scalafixVersion,
+    publish / skip                         := true
+  )
+  .disablePlugins(MimaPlugin)
+
+lazy val scalafixInput = project
+  .in(file("scalafix/input"))
+  .settings(
+    scalaVersion      := scala213,
+    semanticdbEnabled := true,
+    publish / skip    := true
+  )
+  .disablePlugins(MimaPlugin)
+
+lazy val scalafixOutput = project
+  .in(file("scalafix/output"))
+  .settings(
+    scalaVersion   := scala213,
+    publish / skip := true
+  )
+  .disablePlugins(MimaPlugin)
+
+lazy val scalafixTests = project
+  .in(file("scalafix/tests"))
+  .settings(
+    scalaVersion   := scala213,
+    publish / skip := true,
+    libraryDependencies += "ch.epfl.scala" %% "scalafix-testkit" % _root_.scalafix.sbt.BuildInfo.scalafixVersion % Test cross CrossVersion.full,
+    libraryDependencies += Dependencies.Testing.scalatest % Test,
+    scalafixTestkitOutputSourceDirectories               := (scalafixOutput / Compile / sourceDirectories).value,
+    scalafixTestkitInputSourceDirectories                := (scalafixInput / Compile / sourceDirectories).value,
+    scalafixTestkitInputClasspath                        := (scalafixInput / Compile / fullClasspath).value,
+    scalafixTestkitInputScalacOptions                    := (scalafixInput / Compile / scalacOptions).value,
+    scalafixTestkitInputScalaVersion                     := (scalafixInput / Compile / scalaVersion).value
+  )
+  .dependsOn(scalafixInput, scalafixRules)
+  .enablePlugins(ScalafixTestkitPlugin)
+  .disablePlugins(MimaPlugin)
+
 lazy val site = (project in file("site"))
   .settings(scalaSettings)
   .settings(commonSettings)
