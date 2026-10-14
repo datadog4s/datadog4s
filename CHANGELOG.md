@@ -1,4 +1,12 @@
 # Changelog
+## Unreleased
+-   **http4s**: Added `useDistributionBasedActiveRequests()` option to `MetricsOpsBuilder`. The `active_requests` gauge
+    uses last-value-wins StatsD flushing, which drops intra-flush peaks and can hide concurrency limit breaches.
+    Enabling this option switches `active_requests` to a distribution metric so max/avg/p99 are preserved across the
+    flush interval.
+    **Note**: switching metric type breaks existing Datadog dashboards and monitors querying `active_requests` as a
+    gauge — update those queries to use the `max` aggregation after enabling this option.
+
 ## 0.7.3 and going forward
 *Going forward, changes will be tracked in release notes*
 
