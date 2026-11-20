@@ -3,7 +3,7 @@ package io.github.datadog4s.extension.http4s.impl
 import java.time.Duration
 import cats.effect.{Ref, Sync}
 import cats.syntax.flatMap.*
-import io.github.datadog4s.api.MetricFactory
+import io.github.datadog4s.api.{MetricFactory, Tag}
 import io.github.datadog4s.extension.http4s.DatadogMetricsOps.ClassifierTags
 import io.github.datadog4s.extension.http4s.*
 import io.github.datadog4s.api.metric.Timer
@@ -16,16 +16,24 @@ private[http4s] class DefaultMetricsOps[F[_]](
     classifierTags: ClassifierTags,
     activeConnectionsRef: Ref[F, ActiveConnections],
     distributionBasedTimers: Boolean,
-    distributionBasedCounters: Boolean
+    distributionBasedCounters: Boolean,
+    distributionBasedActiveRequests: Boolean
 )(implicit
     F: Sync[F]
 ) extends MetricsOps[F] {
 
-  private val methodTagger          = Tagger.make[Method]("method")
-  private val terminationTypeTagger = Tagger.make[TerminationType]("termination_type")
-  private val statusCodeTagger      = Tagger.make[Status]("status_code")
-  private val statusBucketTagger    = Tagger.make[String]("status_bucket")
-  private val activeRequests        = metricFactory.gauge.long("active_requests")
+  private val methodTagger                                      = Tagger.make[Method]("method")
+  private val terminationTypeTagger                             = Tagger.make[TerminationType]("termination_type")
+  private val statusCodeTagger                                  = Tagger.make[Status]("status_code")
+  private val statusBucketTagger                                = Tagger.make[String]("status_bucket")
+  private val recordActiveRequests: (Long, Seq[Tag]) => F[Unit] =
+    if (distributionBasedActiveRequests) {
+      val dist = metricFactory.distribution.long("active_requests")
+      (v, tags) => dist.record(v, tags*)
+    } else {
+      val gauge = metricFactory.gauge.long("active_requests")
+      (v, tags) => gauge.set(v, tags*)
+    }
 
   override def increaseActiveRequests(classifier: Option[String]): F[Unit] =
     modifyActiveRequests(classifier, 0, 1)
@@ -39,10 +47,7 @@ private[http4s] class DefaultMetricsOps[F[_]](
       val current               = activeConnections.getOrElse(classifier, default)
       val next                  = current + delta
       val nextActiveConnections = activeConnections.updated(classifier, next)
-      val action                = activeRequests.set(
-        next.toLong,
-        classifier.toList.flatMap(classifierTags)*
-      )
+      val action                = recordActiveRequests(next.toLong, classifier.toList.flatMap(classifierTags))
       (nextActiveConnections, action)
     }.flatten
 
